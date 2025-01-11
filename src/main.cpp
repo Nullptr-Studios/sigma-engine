@@ -5,18 +5,20 @@
 #include "Scene.hpp"
 #include "TestScene.hpp"
 
-//Test XML include
+// Test XML include
+#include "Audio/AudioEngine.hpp"
 #include "rapidxml/rapidxml.hpp"
 
 int main() {
 
   FNFE::GameManager* gameManager = new FNFE::GameManager("shitty engine", 800, 600);
-  AESysShowConsole();
   FNFE::Scene* scene = new FNFE::Scene("scene1", 1);
+
+  gameManager->GameInit();
 
   gameManager->LoadScene(scene);
 
-  FNFE::Scene* scene2 = new TestScene("scene2", 2);
+  FNFE::Scene *scene2 = new TestScene("scene2", 2);
 
   //scene is being deleted inside this LoadScene
   gameManager->LoadScene(scene2);
@@ -25,7 +27,6 @@ int main() {
   {
     gameManager->Run();
   }
-  AESysExit();
 
   return 0;
 }

@@ -7,11 +7,15 @@
  */
 
 #pragma once
+#include <memory>
 
+
+namespace FNFE {
+class AudioEngine;
+}
 namespace FNFE {
 
 class Scene;
-
 
 class GameManager
 {
@@ -25,6 +29,8 @@ public:
    */
   GameManager(const char* title, int width, int height);
   ~GameManager();
+
+  void GameInit();
 
   /**
    * @brief Main engine loop
@@ -40,6 +46,12 @@ public:
 
 
 private:
+
+  const char* m_title;
+  int m_width;
+  int m_height;
+
+  std::unique_ptr<AudioEngine> audioEngine;
 
   Scene* currentScene = nullptr;
 };

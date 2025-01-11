@@ -8,28 +8,35 @@
 
 #include "GameManager.hpp"
 
-#include <aecore/AEAudio.h>
 #include <aecore/AEDebug.h>
 #include <aecore/AEGameStateMgr.h>
 #include <aecore/AESystem.h>
 #include <iostream>
 
+#include "Audio/AudioEngine.hpp"
 #include "Scene.hpp"
 
 namespace FNFE {
 
 GameManager::GameManager(const char *title, int width, int height)
 {
-  // Initialize alpha engine
-  AEDbgAssertFunction(AESysInit(title, width, height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
-
-  AEDbgAssertFunction(AEAudioInitialize(), "GameManager.cpp", __LINE__, "AEAudioInitialize() failed!");
-
-  std::cout << "[GameManager] AE initialized!" << std::endl;
-
+  this->m_title = title;
+  this->m_width = width;
+  this->m_height = height;
 }
 
 GameManager::~GameManager() {}
+
+void GameManager::GameInit()
+{
+  // Initialize alpha engine
+  AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
+
+  //not working
+  /*audioEngine = std::make_unique<AudioEngine>();
+  audioEngine->Init();*/
+
+}
 
 
 void GameManager::Run()
@@ -42,6 +49,7 @@ void GameManager::Run()
     currentScene->Draw();
     //@TODO: Implement Factory in order to tick the objects
   }
+  //audioEngine->Update();
   AESysFrameEnd();
 }
 
