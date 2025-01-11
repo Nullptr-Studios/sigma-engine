@@ -5,6 +5,9 @@
 #include "Scene.hpp"
 #include "TestScene.hpp"
 
+//Test XML include
+#include "rapidxml/rapidxml.hpp"
+
 int main() {
 
   FNFE::GameManager* gameManager = new FNFE::GameManager("shitty engine", 800, 600);
