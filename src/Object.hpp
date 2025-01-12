@@ -9,7 +9,11 @@
 #pragma once
 #include <aecore/AEVec2.h>
 #include <aecore/AEVec3.h>
+#include <map>
+#include <memory>
 #include <string>
+
+#include "Core.hpp"
 
 namespace FNFE {
 
@@ -18,6 +22,8 @@ struct Transform {
   AEVec2 scale = {};
   float rotation = 0.0f;
 };
+
+// At least give me credit for copying this from my engine -x
 
 class Object {
 protected:
@@ -41,7 +47,7 @@ public:
   virtual void Destroy() {}
 
 
-  uint32_t GetId() const { return m_id; }
+  id_t GetId() const { return m_id; }
   std::string GetName() const { return m_name; }
 
   void SetName(const std::string& name) { m_name = name; }
@@ -49,13 +55,14 @@ public:
   bool IsPersistent() const { return m_persistent; }
 
 private:
-
-  uint32_t m_id = 0;
-  std::string m_name = "Base Object";
+  id_t m_id = -1;
+  std::string m_name = "Object";
 
   bool m_active = true;
   bool m_persistent = false;
 
 };
+
+typedef std::map<id_t, std::shared_ptr<Object>> ObjectMap;
 
 } // FNFE
