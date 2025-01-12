@@ -1,0 +1,164 @@
+\doxysection{AEMtx33.\+h}
+\hypertarget{_a_e_mtx33_8h_source}{}\label{_a_e_mtx33_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEMtx33.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEMtx33.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Project\ Name\ \ \ \ \ :\ \ \ Alpha\ Engine}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ File\ Name\ \ \ \ \ \ \ \ :\ \ \ AEMtx33.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Author\ \ \ \ \ \ \ \ \ \ \ :\ \ \ Sun\ Tjen\ Fam}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Creation\ Date\ \ \ \ :\ \ \ 2008/01/31}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Purpose\ \ \ \ \ \ \ \ \ \ :\ \ \ header\ file\ for\ the\ 3x3\ matrix\ library}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ History\ \ \ \ \ \ \ \ \ \ :}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ -\/\ 2008/01/31\ \ \ \ \ :\ \ \ -\/\ initial\ implementation}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ AE\_MTX33\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ AE\_MTX33\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ Defines}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ AEMtx33RowCol(pMtx,\ row,\ col)\ (pMtx)-\/>m[(row)][(col)]}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Struct/Class\ definitions}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#pragma\ warning(disable\ :\ 4201)}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ matrix\ is\ stored\ in\ row\ major\ (rows\ are\ stored\ consecutively\ in\ memory)}}
+\DoxyCodeLine{00024\ \textcolor{keyword}{struct\ }AEMtx33}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{union}}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m[3][3];}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ v[9];}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m11,\ m12,\ m13,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m21,\ m22,\ m23,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m31,\ m32,\ m33;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00036\ \ \ \ \ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ AEMtx33():\ Default\ Constructor\ -\/\ Sets\ the\ matrix\ to\ identity.}}
+\DoxyCodeLine{00040\ \ \ \ \ AEMtx33();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{//\ AEMtx33():\ Custom\ Constructor\ -\/\ Sets\ the\ elements\ as\ the\ one\ specified.}}
+\DoxyCodeLine{00044\ \ \ \ \ AEMtx33(\textcolor{keywordtype}{float}\ a11,\ \textcolor{keywordtype}{float}\ a12,\ \textcolor{keywordtype}{float}\ a13,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ a21,\ \textcolor{keywordtype}{float}\ a22,\ \textcolor{keywordtype}{float}\ a23,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ a31,\ \textcolor{keywordtype}{float}\ a32,\ \textcolor{keywordtype}{float}\ a33);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ SetIdentity()\ -\/\ Set\ this\ matrix\ to\ identity}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ SetIdentity();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ Transpose\ -\/\ return\ the\ transpose\ version\ of\ the\ matrix}}
+\DoxyCodeLine{00054\ \ \ \ \ AEMtx33\ Transpose()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{//\ TransposeThis\ -\/\ Sets\ this\ matrix\ as\ its\ transpose.}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ TransposeThis();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Concat\ -\/\ Concatenate\ this\ matrix\ with\ 'rhs'\ such\ that\ result\ =\ this\ *\ rhs}}
+\DoxyCodeLine{00062\ \ \ \ \ AEMtx33\ Concat(\textcolor{keyword}{const}\ AEMtx33\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ operator\ *\ (AEMtx33)\ -\/\ Same\ as\ above\ but\ in\ operator\ form.}}
+\DoxyCodeLine{00066\ \ \ \ \ AEMtx33\ operator*(\textcolor{keyword}{const}\ AEMtx33\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ operator\ *=(AEMtx33)\ -\/\ Concatenates\ this\ with\ 'rhs'\ as\ above\ and\ stores}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{//\ the\ result\ in\ this\ matrix.\ Returns\ this\ matrix}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{const}\ AEMtx33\ \&\ operator*=(\textcolor{keyword}{const}\ AEMtx33\ \&\ rhs);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ MultVec\ -\/\ Matrix\ to\ 2D\ Vector\ multiplication\ such\ that\ result\ =\ this\ *\ rhs}}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ MultVec(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ \&\ vec)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{//\ operator\ *\ -\/\ Matrix\ to\ 2D\ Vector\ multiplication\ such\ that\ result\ =\ this\ *\ rhs}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ same\ as\ above\ but\ in\ operator\ form.}}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ operator*(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ \&\ vec)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ MultVecDir\ -\/\ Multiplies\ the\ vector\ by\ the\ matrix\ such\ that\ only\ the}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{comment}{//\ upper-\/left\ 2x2\ matrix\ is\ considered\ (we\ assume\ we\ are\ multiplying\ a}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{comment}{//\ 2D\ vector\ and\ not\ a\ point.}}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ MultVecDir(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ \&\ vec)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{//\ Static\ Interface}}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{comment}{//\ AEMtx33::Identity\ -\/\ Returns\ a\ matrix\ as\ the\ identity}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{static}\ AEMtx33\ Identity();}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ AEMtx33\ IDENTITY;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//\ AEMtx33::Translate\ -\/\ Returns\ a\ translation\ matrix\ by\ a\ vector\ (x,y)}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{static}\ AEMtx33\ Translate(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{comment}{//\ AEMtx33::Scale\ -\/\ Returns\ a\ scaling\ matrix\ by\ a\ factor\ (sx,\ sy)}}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{static}\ AEMtx33\ Scale(\textcolor{keywordtype}{float}\ sx,\ \textcolor{keywordtype}{float}\ sy);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{comment}{//\ AEMtx33::RotDeg\ -\/\ Returns\ a\ CCW\ rotation\ matrix\ by\ an\ angle\ specified}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{comment}{//\ in\ degrees.}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{static}\ AEMtx33\ RotDeg(\textcolor{keywordtype}{float}\ angle\_deg);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{comment}{//\ AEMtx33::RotRad\ -\/\ Returns\ a\ CCW\ rotation\ matrix\ by\ an\ angle\ specified}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{comment}{//\ in\ radians}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{static}\ AEMtx33\ RotRad(\textcolor{keywordtype}{float}\ angle\_rad);}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keywordtype}{void}\ AEMtx33Identity(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keywordtype}{void}\ \ AEMtx33Transpose(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00122\ \textcolor{keywordtype}{float}\ AEMtx33Inverse(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00123\ \textcolor{keywordtype}{void}\ \ AEMtx33InvTranspose(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keywordtype}{void}\ \ AEMtx33Concat(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx0,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx1);}
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{float}\ AEMtx33Determinant(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{keywordtype}{void}\ AEMtx33SetCol(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{unsigned}\ col,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec);}
+\DoxyCodeLine{00131\ \textcolor{keywordtype}{void}\ AEMtx33SetRow(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{unsigned}\ row,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec);}
+\DoxyCodeLine{00132\ \textcolor{keywordtype}{void}\ AEMtx33GetCol(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \textcolor{keywordtype}{unsigned}\ col,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{void}\ AEMtx33GetRow(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \textcolor{keywordtype}{unsigned}\ row,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{void}\ AEMtx33Trans(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00138\ \textcolor{keywordtype}{void}\ AEMtx33TransApply(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{keywordtype}{void}\ AEMtx33Scale(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{void}\ AEMtx33ScaleApply(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keywordtype}{void}\ AEMtx33Rot(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00144\ \textcolor{keywordtype}{void}\ AEMtx33RotDeg(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00145\ \textcolor{keywordtype}{void}\ AEMtx33RotApply(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00146\ \textcolor{keywordtype}{void}\ AEMtx33RotDegApply(\mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00147\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{void}\ AEMtx33MultVec(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec);}
+\DoxyCodeLine{00150\ \textcolor{keywordtype}{void}\ AEMtx33MultVecArray(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec,\ \textcolor{keywordtype}{unsigned}\ count);}
+\DoxyCodeLine{00151\ \textcolor{keywordtype}{void}\ AEMtx33MultVecSR(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec);}
+\DoxyCodeLine{00152\ \textcolor{keywordtype}{void}\ AEMtx33MultVecArraySR(\mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pResult,\ \mbox{\hyperlink{struct_a_e_mtx33}{AEMtx33}}\ *\ pMtx,\ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ *\ pVec,\ \textcolor{keywordtype}{unsigned}\ count);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#pragma\ warning(default\ :\ 4201)}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MTX\_H}}
+
+\end{DoxyCode}

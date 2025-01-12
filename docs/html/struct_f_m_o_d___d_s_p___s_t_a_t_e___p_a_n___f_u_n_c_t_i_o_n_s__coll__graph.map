@@ -1,0 +1,12 @@
+<map id="FMOD_DSP_STATE_PAN_FUNCTIONS" name="FMOD_DSP_STATE_PAN_FUNCTIONS">
+<area shape="rect" id="Node000001" title=" " alt="" coords="169,5,346,48"/>
+<area shape="rect" id="Node000003" href="$struct_f_m_o_d___d_s_p___s_t_a_t_e___f_u_n_c_t_i_o_n_s.html" title=" " alt="" coords="32,147,262,173"/>
+<area shape="poly" id="edge6_Node000003_Node000001" title=" " alt="" coords="232,62,159,148,155,145,228,58"/>
+<area shape="rect" id="Node000002" href="$struct_f_m_o_d___d_s_p___s_t_a_t_e.html" title=" " alt="" coords="152,352,296,379"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,342,302,326,318,291,325,253,324,214,317,174,293,102,267,50,272,47,298,100,322,173,329,213,330,254,323,293,306,330,290,346"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="137,351,123,342,111,330,101,310,97,288,98,265,103,243,119,202,136,172,141,175,124,205,108,244,103,266,102,287,106,308,115,326,126,338,140,347"/>
+<area shape="rect" id="Node000004" href="$struct_f_m_o_d___d_s_p___s_t_a_t_e___d_f_t___f_u_n_c_t_i_o_n_s.html" title=" " alt="" coords="5,459,182,501"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="200,391,119,460,116,456,197,387"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="186,180,213,202,235,231,243,264,243,298,231,352,226,351,238,298,238,265,230,233,209,205,183,184"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="84,444,78,400,75,346,79,288,91,231,109,198,131,172,135,176,114,201,96,233,84,289,81,346,84,399,89,443"/>
+</map>

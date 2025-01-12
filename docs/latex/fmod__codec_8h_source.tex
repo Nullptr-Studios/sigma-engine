@@ -1,0 +1,142 @@
+\doxysection{fmod\+\_\+codec.\+h}
+\hypertarget{fmod__codec_8h_source}{}\label{fmod__codec_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_codec.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_codec.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ FMOD\ Core\ API\ -\/\ Codec\ development\ header\ file.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ Copyright\ (c),\ Firelight\ Technologies\ Pty,\ Ltd.\ 2004-\/2024.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ Use\ this\ header\ if\ you\ are\ wanting\ to\ develop\ your\ own\ file\ format\ plugin\ to\ use\ with\ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ FMOD's\ codec\ system.\ \ With\ this\ header\ you\ can\ make\ your\ own\ fileformat\ plugin\ that\ FMOD\ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ can\ register\ and\ use.\ \ See\ the\ documentation\ and\ examples\ on\ how\ to\ make\ a\ working\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ plugin.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ For\ more\ detail\ visit:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ https://fmod.com/docs/2.02/api/core-\/api.html\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ \_FMOD\_CODEC\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ \_FMOD\_CODEC\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ \ Codec\ types}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ \ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}};}
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___w_a_v_e_f_o_r_m_a_t}{FMOD\_CODEC\_WAVEFORMAT}}\ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___w_a_v_e_f_o_r_m_a_t}{FMOD\_CODEC\_WAVEFORMAT}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ \ \ Codec\ constants}}
+\DoxyCodeLine{00024\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_PLUGIN\_VERSION\ 1}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ FMOD\_CODEC\_SEEK\_METHOD;}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_SEEK\_METHOD\_SET\ \ \ \ \ \ 0}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_SEEK\_METHOD\_CURRENT\ \ 1}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_SEEK\_METHOD\_END\ \ \ \ \ \ 2}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ \ Codec\ callbacks}}
+\DoxyCodeLine{00034\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_OPEN\_CALLBACK)\ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ FMOD\_MODE\ usermode,\ \mbox{\hyperlink{struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o}{FMOD\_CREATESOUNDEXINFO}}\ *userexinfo);}
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_CLOSE\_CALLBACK)\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state);}
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_READ\_CALLBACK)\ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{void}\ *buffer,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ samples\_in,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *samples\_out);}
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_GETLENGTH\_CALLBACK)\ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *length,\ FMOD\_TIMEUNIT\ lengthtype);}
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_SETPOSITION\_CALLBACK)\ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{int}\ subsound,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position,\ FMOD\_TIMEUNIT\ postype);}
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_GETPOSITION\_CALLBACK)\ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *position,\ FMOD\_TIMEUNIT\ postype);}
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_SOUNDCREATE\_CALLBACK)\ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{int}\ subsound,\ FMOD\_SOUND\ *sound);}
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_GETWAVEFORMAT\_CALLBACK)(\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___w_a_v_e_f_o_r_m_a_t}{FMOD\_CODEC\_WAVEFORMAT}}\ *waveformat);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ \ Codec\ functions}}
+\DoxyCodeLine{00046\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_METADATA\_FUNC)\ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ FMOD\_TAGTYPE\ tagtype,\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{void}\ *data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ datalen,\ FMOD\_TAGDATATYPE\ datatype,\ \textcolor{keywordtype}{int}\ unique);}
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *\ \ \ \ \ \ (F\_CALLBACK\ *FMOD\_CODEC\_ALLOC\_FUNC)\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ align,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ line);}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ void\ \ \ \ \ \ \ \ (F\_CALLBACK\ *FMOD\_CODEC\_FREE\_FUNC)\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *ptr,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ line);}
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ void\ \ \ \ \ \ \ \ (F\_CALLBACK\ *FMOD\_CODEC\_LOG\_FUNC)\ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_DEBUG\_FLAGS\ level,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ line,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *function,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *string,\ ...);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_FILE\_READ\_FUNC)\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{void}\ *buffer,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sizebytes,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *bytesread);}
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_FILE\_SEEK\_FUNC)\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ pos,\ FMOD\_CODEC\_SEEK\_METHOD\ method);}
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_FILE\_TELL\_FUNC)\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALLBACK\ *FMOD\_CODEC\_FILE\_SIZE\_FUNC)\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}\ *codec\_state,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *size);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ \ \ \ Codec\ structures}}
+\DoxyCodeLine{00059\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_CODEC\_DESCRIPTION}}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ apiversion;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *name;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ version;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ defaultasstream;}
+\DoxyCodeLine{00066\ \ \ \ \ FMOD\_TIMEUNIT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ timeunits;}
+\DoxyCodeLine{00067\ \ \ \ \ FMOD\_CODEC\_OPEN\_CALLBACK\ \ \ \ \ \ \ \ \ \ open;}
+\DoxyCodeLine{00068\ \ \ \ \ FMOD\_CODEC\_CLOSE\_CALLBACK\ \ \ \ \ \ \ \ \ close;}
+\DoxyCodeLine{00069\ \ \ \ \ FMOD\_CODEC\_READ\_CALLBACK\ \ \ \ \ \ \ \ \ \ read;}
+\DoxyCodeLine{00070\ \ \ \ \ FMOD\_CODEC\_GETLENGTH\_CALLBACK\ \ \ \ \ getlength;}
+\DoxyCodeLine{00071\ \ \ \ \ FMOD\_CODEC\_SETPOSITION\_CALLBACK\ \ \ setposition;}
+\DoxyCodeLine{00072\ \ \ \ \ FMOD\_CODEC\_GETPOSITION\_CALLBACK\ \ \ getposition;}
+\DoxyCodeLine{00073\ \ \ \ \ FMOD\_CODEC\_SOUNDCREATE\_CALLBACK\ \ \ soundcreate;}
+\DoxyCodeLine{00074\ \ \ \ \ FMOD\_CODEC\_GETWAVEFORMAT\_CALLBACK\ getwaveformat;}
+\DoxyCodeLine{00075\ \}\ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_CODEC\_DESCRIPTION}};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___w_a_v_e_f_o_r_m_a_t}{FMOD\_CODEC\_WAVEFORMAT}}}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \ \ \ \ \ \ \ name;}
+\DoxyCodeLine{00080\ \ \ \ \ FMOD\_SOUND\_FORMAT\ \ format;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ channels;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ frequency;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ lengthbytes;}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ lengthpcm;}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ pcmblocksize;}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loopstart;}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loopend;}
+\DoxyCodeLine{00088\ \ \ \ \ FMOD\_MODE\ \ \ \ \ \ \ \ \ \ mode;}
+\DoxyCodeLine{00089\ \ \ \ \ FMOD\_CHANNELMASK\ \ \ channelmask;}
+\DoxyCodeLine{00090\ \ \ \ \ FMOD\_CHANNELORDER\ \ channelorder;}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ \ \ \ peakvolume;}
+\DoxyCodeLine{00092\ \};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e___f_u_n_c_t_i_o_n_s}{FMOD\_CODEC\_STATE\_FUNCTIONS}}}
+\DoxyCodeLine{00095\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ FMOD\_CODEC\_METADATA\_FUNC\ \ \ \ \ metadata;}
+\DoxyCodeLine{00097\ \ \ \ \ FMOD\_CODEC\_ALLOC\_FUNC\ \ \ \ \ \ \ \ alloc;}
+\DoxyCodeLine{00098\ \ \ \ \ FMOD\_CODEC\_FREE\_FUNC\ \ \ \ \ \ \ \ \ free;}
+\DoxyCodeLine{00099\ \ \ \ \ FMOD\_CODEC\_LOG\_FUNC\ \ \ \ \ \ \ \ \ \ log;}
+\DoxyCodeLine{00100\ \ \ \ \ FMOD\_CODEC\_FILE\_READ\_FUNC\ \ \ \ read;}
+\DoxyCodeLine{00101\ \ \ \ \ FMOD\_CODEC\_FILE\_SEEK\_FUNC\ \ \ \ seek;}
+\DoxyCodeLine{00102\ \ \ \ \ FMOD\_CODEC\_FILE\_TELL\_FUNC\ \ \ \ tell;}
+\DoxyCodeLine{00103\ \ \ \ \ FMOD\_CODEC\_FILE\_SIZE\_FUNC\ \ \ \ size;}
+\DoxyCodeLine{00104\ \}\ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e___f_u_n_c_t_i_o_n_s}{FMOD\_CODEC\_STATE\_FUNCTIONS}};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e}{FMOD\_CODEC\_STATE}}}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *plugindata;}
+\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___w_a_v_e_f_o_r_m_a_t}{FMOD\_CODEC\_WAVEFORMAT}}\ \ \ \ \ \ \ *waveformat;}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___s_t_a_t_e___f_u_n_c_t_i_o_n_s}{FMOD\_CODEC\_STATE\_FUNCTIONS}}\ \ *functions;}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ numsubsounds;}
+\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00115\ \textcolor{comment}{\ \ \ \ Codec\ macros}}
+\DoxyCodeLine{00116\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_METADATA(\_state,\ \_tagtype,\ \_name,\ \_data,\ \_datalen,\ \_datatype,\ \_unique)\ \(\backslash\)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>metadata(\_state,\ \_tagtype,\ \_name,\ \_data,\ \_datalen,\ \_datatype,\ \_unique)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_ALLOC(\_state,\ \_size,\ \_align)\ \(\backslash\)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>alloc(\_size,\ \_align,\ \_\_FILE\_\_,\ \_\_LINE\_\_)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_FREE(\_state,\ \_ptr)\ \(\backslash\)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>free(\_ptr,\ \_\_FILE\_\_,\ \_\_LINE\_\_)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_LOG(\_state,\ \_level,\ \_location,\ \_format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>log(\_level,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_location,\ \_format,\ \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_FILE\_READ(\_state,\ \_buffer,\ \_sizebytes,\ \_bytesread)\ \(\backslash\)}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>read(\_state,\ \_buffer,\ \_sizebytes,\ \_bytesread)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_FILE\_SEEK(\_state,\ \_pos,\ \_method)\ \(\backslash\)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>seek(\_state,\ \_pos,\ \_method)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_FILE\_TELL(\_state,\ \_pos)\ \(\backslash\)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>tell(\_state,\ \_pos)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ FMOD\_CODEC\_FILE\_SIZE(\_state,\ \_size)\ \(\backslash\)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\ \ \ \ (\_state)-\/>functions-\/>size(\_state,\ \_size)}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ }
+
+\end{DoxyCode}

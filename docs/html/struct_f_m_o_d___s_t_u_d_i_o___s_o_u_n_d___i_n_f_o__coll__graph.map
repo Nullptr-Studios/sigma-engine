@@ -1,0 +1,10 @@
+<map id="FMOD_STUDIO_SOUND_INFO" name="FMOD_STUDIO_SOUND_INFO">
+<area shape="rect" id="Node000001" title=" " alt="" coords="138,203,351,229"/>
+<area shape="rect" id="Node000002" href="$struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o.html" title=" " alt="" coords="134,112,354,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,154,247,202,242,202,242,154"/>
+<area shape="rect" id="Node000003" href="$struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o.html" title=" " alt="" coords="5,5,190,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,44,128,66,148,86,170,99,194,109,192,114,167,104,145,90,124,69,108,47"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="207,10,216,19,208,27,191,30,189,25,206,22,211,19,203,14"/>
+<area shape="rect" id="Node000004" href="$struct_f_m_o_d___g_u_i_d.html" title=" " alt="" coords="270,5,371,32"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="305,46,255,113,251,110,300,43"/>
+</map>

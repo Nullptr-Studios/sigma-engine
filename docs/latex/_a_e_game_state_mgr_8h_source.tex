@@ -1,0 +1,67 @@
+\doxysection{AEGame\+State\+Mgr.\+h}
+\hypertarget{_a_e_game_state_mgr_8h_source}{}\label{_a_e_game_state_mgr_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEGameStateMgr.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEGameStateMgr.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Project\ Name\ \ \ \ \ :\ \ \ Alpha\ Engine}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ File\ Name\ \ \ \ \ \ \ \ :\ \ \ AEGameStateMgr.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Author\ \ \ \ \ \ \ \ \ \ \ :\ \ \ Sun\ Tjen\ Fam}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Creation\ Date\ \ \ \ :\ \ \ 2007/10/26}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Purpose\ \ \ \ \ \ \ \ \ \ :\ \ \ header\ file\ for\ the\ game\ state\ manager}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ History\ \ \ \ \ \ \ \ \ \ :}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ -\/\ 2007/10/26\ \ \ \ \ :\ \ \ -\/\ initial\ implementation}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ AE\_GAME\_STATE\_MGR\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ AE\_GAME\_STATE\_MGR\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}AEEngine.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ defines\ and\ enums}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ AE\_GS\_RESTART\ 0xFFFFFFFE}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ AE\_GS\_QUIT\ \ \ \ 0xFFFFFFFF}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ Getters/Setters}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{unsigned}\ AEGetGameStateInit();}
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{unsigned}\ AEGetGameStateCurr();}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{void}\ \ \ \ \ AESetGameStateCurr(\textcolor{keywordtype}{unsigned}\ state);}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{unsigned}\ AEGetGameStatePrev();}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{void}\ \ \ \ \ AESetGameStatePrev(\textcolor{keywordtype}{unsigned}\ state);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{unsigned}\ AEGetGameStateNext();}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{void}\ \ \ \ \ AESetGameStateNext(\textcolor{keywordtype}{unsigned}\ state);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Function\ pointer\ type\ definition\ for\ game\ state\ internal\ functions}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ void\ (*AEGameStateFP)();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Function\ prototypes}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ invoke\ current\ state\ actions}}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentLoad();}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentInit();}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentUpdate();}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentDraw();}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentFree();}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{void}\ AEGameStateMgrCurrentUnload();}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ function\ to\ add\ new\ game\ state\ to\ the\ manager}}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ AEGameStateMgrAdd(\textcolor{keywordtype}{unsigned}\ gameStateIdx,\ \textcolor{keywordtype}{void}\ (*pLoad)(),\ \textcolor{keywordtype}{void}\ (*pInit)(),\ \textcolor{keywordtype}{void}\ (*pUpdate)(),\ \textcolor{keywordtype}{void}\ (*pDraw)(),\ \textcolor{keywordtype}{void}\ (*pFree)(),\ \textcolor{keywordtype}{void}\ (*pUnload)());}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ call\ this\ at\ the\ beginning\ and\ AFTER\ all\ game\ states\ are\ added\ to\ the\ manager}}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{void}\ AEGameStateMgrInit(\textcolor{keywordtype}{unsigned}\ gameStateInit);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ update\ is\ used\ to\ set\ the\ function\ pointers}}
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{void}\ AEGameStateMgrUpdate();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ AE\_GAME\_STATE\_MGR\_H}}
+
+\end{DoxyCode}

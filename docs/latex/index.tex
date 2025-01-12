@@ -1,0 +1,44 @@
+\chapter{Fight Night Finale Engine}
+\hypertarget{index}{}\label{index}\index{Fight Night Finale Engine@{Fight Night Finale Engine}}
+\label{index_md__d_1_2_git_2fight-night-finale-engine_2_r_e_a_d_m_e}%
+\Hypertarget{index_md__d_1_2_git_2fight-night-finale-engine_2_r_e_a_d_m_e}%
+
+
+GAM150 project engine\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Coding conventions}{Coding conventions}}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsection{\texorpdfstring{Naming conventions}{Naming conventions}}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Namespaces use {\ttfamily snake\+\_\+case}
+\item Classes and Functions use {\ttfamily Pascal\+Case}
+\item Variables use {\ttfamily camel\+Case}
+\begin{DoxyItemize}
+\item Private and Protected variables must be prefixed with {\ttfamily m\+\_\+variable\+Name}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsection{\texorpdfstring{Code style}{Code style}}\label{index_autotoc_md3}
+
+\begin{DoxyItemize}
+\item NO TABS, 2 spaces
+\item Soft line limit of 120 characters
+\item Hard line limit of 150 characters
+\item Use {\ttfamily \#pragma region} to group functions inside source files if there are a lot of functions
+\item Favour longer classes
+\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysubsection{\texorpdfstring{Documentation}{Documentation}}\label{index_autotoc_md4}
+EVERY public namespace, class, function and variable should be documented. Private members aren\textquotesingle{}t necessary but highly recomended for complex functions. Doxygen prefix {\ttfamily @} is prefered over {\ttfamily \textbackslash{}}. A good documentation must have a {\ttfamily @brief} explanation and a more detailed one. Comments explaining code should end with a sufix indicating who wrote the comment. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{-\/x\ -\/>\ Xein}
+\DoxyCodeLine{-\/m\ -\/>\ Dario}
+\DoxyCodeLine{-\/d\ -\/>\ Dante}
+\DoxyCodeLine{-\/a\ -\/>\ Alexey}
+
+\end{DoxyCode}
+ For code that needs to be reviewed or for notes that are EXTREMELLY important use TODO for easy tracking. Completed tasks should be deleted after. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{//\ TODO:\ your\ note\ here}
+
+\end{DoxyCode}
+ Header files must have a header comment that looks like this\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+
+\end{DoxyCode}
+ 

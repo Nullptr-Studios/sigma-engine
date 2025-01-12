@@ -1,0 +1,5 @@
+<map id="FNFE::Scene::GetID" name="FNFE::Scene::GetID">
+<area shape="rect" id="Node000001" title="Get the ID of this scene." alt="" coords="211,13,355,40"/>
+<area shape="rect" id="Node000002" href="$class_f_n_f_e_1_1_game_manager.html#ad39dd703d3c31b73b1fcc76eada0b27e" title="Loads a scene and unloads the currently loaded scene." alt="" coords="5,5,163,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,29,163,29,163,24,195,24"/>
+</map>

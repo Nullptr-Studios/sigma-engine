@@ -1,0 +1,583 @@
+\doxysection{fmod\+\_\+dsp\+\_\+effects.\+h}
+\hypertarget{fmod__dsp__effects_8h_source}{}\label{fmod__dsp__effects_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_dsp\_effects.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_dsp\_effects.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ =============================================================================================================\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ FMOD\ Core\ API\ -\/\ Built-\/in\ effects\ header\ file.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ Copyright\ (c),\ Firelight\ Technologies\ Pty,\ Ltd.\ 2004-\/2024.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ In\ this\ header\ you\ can\ find\ parameter\ structures\ for\ FMOD\ system\ registered\ DSP\ effects\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ and\ generators.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ For\ more\ detail\ visit:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ https://fmod.com/docs/2.02/api/core-\/api-\/common-\/dsp-\/effects.html\#fmod\_dsp\_type\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ =============================================================================================================\ */}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ \_FMOD\_DSP\_EFFECTS\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ \_FMOD\_DSP\_EFFECTS\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ FMOD\_DSP\_TYPE\_UNKNOWN,}
+\DoxyCodeLine{00018\ \ \ \ \ FMOD\_DSP\_TYPE\_MIXER,}
+\DoxyCodeLine{00019\ \ \ \ \ FMOD\_DSP\_TYPE\_OSCILLATOR,}
+\DoxyCodeLine{00020\ \ \ \ \ FMOD\_DSP\_TYPE\_LOWPASS,}
+\DoxyCodeLine{00021\ \ \ \ \ FMOD\_DSP\_TYPE\_ITLOWPASS,}
+\DoxyCodeLine{00022\ \ \ \ \ FMOD\_DSP\_TYPE\_HIGHPASS,}
+\DoxyCodeLine{00023\ \ \ \ \ FMOD\_DSP\_TYPE\_ECHO,}
+\DoxyCodeLine{00024\ \ \ \ \ FMOD\_DSP\_TYPE\_FADER,}
+\DoxyCodeLine{00025\ \ \ \ \ FMOD\_DSP\_TYPE\_FLANGE,}
+\DoxyCodeLine{00026\ \ \ \ \ FMOD\_DSP\_TYPE\_DISTORTION,}
+\DoxyCodeLine{00027\ \ \ \ \ FMOD\_DSP\_TYPE\_NORMALIZE,}
+\DoxyCodeLine{00028\ \ \ \ \ FMOD\_DSP\_TYPE\_LIMITER,}
+\DoxyCodeLine{00029\ \ \ \ \ FMOD\_DSP\_TYPE\_PARAMEQ,}
+\DoxyCodeLine{00030\ \ \ \ \ FMOD\_DSP\_TYPE\_PITCHSHIFT,}
+\DoxyCodeLine{00031\ \ \ \ \ FMOD\_DSP\_TYPE\_CHORUS,}
+\DoxyCodeLine{00032\ \ \ \ \ FMOD\_DSP\_TYPE\_VSTPLUGIN,}
+\DoxyCodeLine{00033\ \ \ \ \ FMOD\_DSP\_TYPE\_WINAMPPLUGIN,}
+\DoxyCodeLine{00034\ \ \ \ \ FMOD\_DSP\_TYPE\_ITECHO,}
+\DoxyCodeLine{00035\ \ \ \ \ FMOD\_DSP\_TYPE\_COMPRESSOR,}
+\DoxyCodeLine{00036\ \ \ \ \ FMOD\_DSP\_TYPE\_SFXREVERB,}
+\DoxyCodeLine{00037\ \ \ \ \ FMOD\_DSP\_TYPE\_LOWPASS\_SIMPLE,}
+\DoxyCodeLine{00038\ \ \ \ \ FMOD\_DSP\_TYPE\_DELAY,}
+\DoxyCodeLine{00039\ \ \ \ \ FMOD\_DSP\_TYPE\_TREMOLO,}
+\DoxyCodeLine{00040\ \ \ \ \ FMOD\_DSP\_TYPE\_LADSPAPLUGIN,}
+\DoxyCodeLine{00041\ \ \ \ \ FMOD\_DSP\_TYPE\_SEND,}
+\DoxyCodeLine{00042\ \ \ \ \ FMOD\_DSP\_TYPE\_RETURN,}
+\DoxyCodeLine{00043\ \ \ \ \ FMOD\_DSP\_TYPE\_HIGHPASS\_SIMPLE,}
+\DoxyCodeLine{00044\ \ \ \ \ FMOD\_DSP\_TYPE\_PAN,}
+\DoxyCodeLine{00045\ \ \ \ \ FMOD\_DSP\_TYPE\_THREE\_EQ,}
+\DoxyCodeLine{00046\ \ \ \ \ FMOD\_DSP\_TYPE\_FFT,}
+\DoxyCodeLine{00047\ \ \ \ \ FMOD\_DSP\_TYPE\_LOUDNESS\_METER,}
+\DoxyCodeLine{00048\ \ \ \ \ FMOD\_DSP\_TYPE\_ENVELOPEFOLLOWER,}
+\DoxyCodeLine{00049\ \ \ \ \ FMOD\_DSP\_TYPE\_CONVOLUTIONREVERB,}
+\DoxyCodeLine{00050\ \ \ \ \ FMOD\_DSP\_TYPE\_CHANNELMIX,}
+\DoxyCodeLine{00051\ \ \ \ \ FMOD\_DSP\_TYPE\_TRANSCEIVER,}
+\DoxyCodeLine{00052\ \ \ \ \ FMOD\_DSP\_TYPE\_OBJECTPAN,}
+\DoxyCodeLine{00053\ \ \ \ \ FMOD\_DSP\_TYPE\_MULTIBAND\_EQ,}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ FMOD\_DSP\_TYPE\_MAX,}
+\DoxyCodeLine{00056\ \ \ \ \ FMOD\_DSP\_TYPE\_FORCEINT\ =\ 65536\ \ \ \ \textcolor{comment}{/*\ Makes\ sure\ this\ enum\ is\ signed\ 32bit.\ */}}
+\DoxyCodeLine{00057\ \}\ FMOD\_DSP\_TYPE;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00060\ \textcolor{comment}{\ \ \ \ ===================================================================================================}}
+\DoxyCodeLine{00061\ \textcolor{comment}{}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ \ \ \ FMOD\ built\ in\ effect\ parameters.\ \ }}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ \ \ \ Use\ DSP::setParameter\ with\ these\ enums\ for\ the\ 'index'\ parameter.}}
+\DoxyCodeLine{00064\ \textcolor{comment}{}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ \ \ \ ===================================================================================================}}
+\DoxyCodeLine{00066\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00069\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ FMOD\_DSP\_OSCILLATOR\_TYPE,}
+\DoxyCodeLine{00071\ \ \ \ \ FMOD\_DSP\_OSCILLATOR\_RATE}
+\DoxyCodeLine{00072\ \}\ FMOD\_DSP\_OSCILLATOR;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ FMOD\_DSP\_LOWPASS\_CUTOFF,}
+\DoxyCodeLine{00078\ \ \ \ \ FMOD\_DSP\_LOWPASS\_RESONANCE}
+\DoxyCodeLine{00079\ \}\ FMOD\_DSP\_LOWPASS;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00083\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ FMOD\_DSP\_ITLOWPASS\_CUTOFF,}
+\DoxyCodeLine{00085\ \ \ \ \ FMOD\_DSP\_ITLOWPASS\_RESONANCE}
+\DoxyCodeLine{00086\ \}\ FMOD\_DSP\_ITLOWPASS;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ FMOD\_DSP\_HIGHPASS\_CUTOFF,}
+\DoxyCodeLine{00092\ \ \ \ \ FMOD\_DSP\_HIGHPASS\_RESONANCE}
+\DoxyCodeLine{00093\ \}\ FMOD\_DSP\_HIGHPASS;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00097\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ FMOD\_DSP\_ECHO\_DELAY,}
+\DoxyCodeLine{00099\ \ \ \ \ FMOD\_DSP\_ECHO\_FEEDBACK,}
+\DoxyCodeLine{00100\ \ \ \ \ FMOD\_DSP\_ECHO\_DRYLEVEL,}
+\DoxyCodeLine{00101\ \ \ \ \ FMOD\_DSP\_ECHO\_WETLEVEL}
+\DoxyCodeLine{00102\ \}\ FMOD\_DSP\_ECHO;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSP\_FADER}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ FMOD\_DSP\_FADER\_GAIN,}
+\DoxyCodeLine{00108\ \ \ \ \ FMOD\_DSP\_FADER\_OVERALL\_GAIN,}
+\DoxyCodeLine{00109\ \}\ FMOD\_DSP\_FADER;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00113\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ FMOD\_DSP\_FLANGE\_MIX,}
+\DoxyCodeLine{00115\ \ \ \ \ FMOD\_DSP\_FLANGE\_DEPTH,}
+\DoxyCodeLine{00116\ \ \ \ \ FMOD\_DSP\_FLANGE\_RATE}
+\DoxyCodeLine{00117\ \}\ FMOD\_DSP\_FLANGE;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00121\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ FMOD\_DSP\_DISTORTION\_LEVEL}
+\DoxyCodeLine{00123\ \}\ FMOD\_DSP\_DISTORTION;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00127\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ FMOD\_DSP\_NORMALIZE\_FADETIME,}
+\DoxyCodeLine{00129\ \ \ \ \ FMOD\_DSP\_NORMALIZE\_THRESHOLD,}
+\DoxyCodeLine{00130\ \ \ \ \ FMOD\_DSP\_NORMALIZE\_MAXAMP}
+\DoxyCodeLine{00131\ \}\ FMOD\_DSP\_NORMALIZE;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00135\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ FMOD\_DSP\_LIMITER\_RELEASETIME,}
+\DoxyCodeLine{00137\ \ \ \ \ FMOD\_DSP\_LIMITER\_CEILING,}
+\DoxyCodeLine{00138\ \ \ \ \ FMOD\_DSP\_LIMITER\_MAXIMIZERGAIN,}
+\DoxyCodeLine{00139\ \ \ \ \ FMOD\_DSP\_LIMITER\_MODE,}
+\DoxyCodeLine{00140\ \}\ FMOD\_DSP\_LIMITER;}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00144\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ FMOD\_DSP\_PARAMEQ\_CENTER,}
+\DoxyCodeLine{00146\ \ \ \ \ FMOD\_DSP\_PARAMEQ\_BANDWIDTH,}
+\DoxyCodeLine{00147\ \ \ \ \ FMOD\_DSP\_PARAMEQ\_GAIN}
+\DoxyCodeLine{00148\ \}\ FMOD\_DSP\_PARAMEQ;}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSP\_MULTIBAND\_EQ}
+\DoxyCodeLine{00152\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_A\_FILTER,}
+\DoxyCodeLine{00154\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_A\_FREQUENCY,}
+\DoxyCodeLine{00155\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_A\_Q,}
+\DoxyCodeLine{00156\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_A\_GAIN,}
+\DoxyCodeLine{00157\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_B\_FILTER,}
+\DoxyCodeLine{00158\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_B\_FREQUENCY,}
+\DoxyCodeLine{00159\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_B\_Q,}
+\DoxyCodeLine{00160\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_B\_GAIN,}
+\DoxyCodeLine{00161\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_C\_FILTER,}
+\DoxyCodeLine{00162\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_C\_FREQUENCY,}
+\DoxyCodeLine{00163\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_C\_Q,}
+\DoxyCodeLine{00164\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_C\_GAIN,}
+\DoxyCodeLine{00165\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_D\_FILTER,}
+\DoxyCodeLine{00166\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_D\_FREQUENCY,}
+\DoxyCodeLine{00167\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_D\_Q,}
+\DoxyCodeLine{00168\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_D\_GAIN,}
+\DoxyCodeLine{00169\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_E\_FILTER,}
+\DoxyCodeLine{00170\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_E\_FREQUENCY,}
+\DoxyCodeLine{00171\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_E\_Q,}
+\DoxyCodeLine{00172\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_E\_GAIN,}
+\DoxyCodeLine{00173\ \}\ FMOD\_DSP\_MULTIBAND\_EQ;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_TYPE}
+\DoxyCodeLine{00177\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_DISABLED,}
+\DoxyCodeLine{00179\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_LOWPASS\_12DB,}
+\DoxyCodeLine{00180\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_LOWPASS\_24DB,}
+\DoxyCodeLine{00181\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_LOWPASS\_48DB,}
+\DoxyCodeLine{00182\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_HIGHPASS\_12DB,}
+\DoxyCodeLine{00183\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_HIGHPASS\_24DB,}
+\DoxyCodeLine{00184\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_HIGHPASS\_48DB,}
+\DoxyCodeLine{00185\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_LOWSHELF,}
+\DoxyCodeLine{00186\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_HIGHSHELF,}
+\DoxyCodeLine{00187\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_PEAKING,}
+\DoxyCodeLine{00188\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_BANDPASS,}
+\DoxyCodeLine{00189\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_NOTCH,}
+\DoxyCodeLine{00190\ \ \ \ \ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_ALLPASS,}
+\DoxyCodeLine{00191\ \}\ FMOD\_DSP\_MULTIBAND\_EQ\_FILTER\_TYPE;}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00195\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ FMOD\_DSP\_PITCHSHIFT\_PITCH,}
+\DoxyCodeLine{00197\ \ \ \ \ FMOD\_DSP\_PITCHSHIFT\_FFTSIZE,}
+\DoxyCodeLine{00198\ \ \ \ \ FMOD\_DSP\_PITCHSHIFT\_OVERLAP,}
+\DoxyCodeLine{00199\ \ \ \ \ FMOD\_DSP\_PITCHSHIFT\_MAXCHANNELS}
+\DoxyCodeLine{00200\ \}\ FMOD\_DSP\_PITCHSHIFT;}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00204\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ FMOD\_DSP\_CHORUS\_MIX,}
+\DoxyCodeLine{00206\ \ \ \ \ FMOD\_DSP\_CHORUS\_RATE,}
+\DoxyCodeLine{00207\ \ \ \ \ FMOD\_DSP\_CHORUS\_DEPTH,}
+\DoxyCodeLine{00208\ \}\ FMOD\_DSP\_CHORUS;}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00212\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ FMOD\_DSP\_ITECHO\_WETDRYMIX,}
+\DoxyCodeLine{00214\ \ \ \ \ FMOD\_DSP\_ITECHO\_FEEDBACK,}
+\DoxyCodeLine{00215\ \ \ \ \ FMOD\_DSP\_ITECHO\_LEFTDELAY,}
+\DoxyCodeLine{00216\ \ \ \ \ FMOD\_DSP\_ITECHO\_RIGHTDELAY,}
+\DoxyCodeLine{00217\ \ \ \ \ FMOD\_DSP\_ITECHO\_PANDELAY}
+\DoxyCodeLine{00218\ \}\ FMOD\_DSP\_ITECHO;}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00221\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_THRESHOLD,\ }
+\DoxyCodeLine{00223\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_RATIO,\ }
+\DoxyCodeLine{00224\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_ATTACK,}
+\DoxyCodeLine{00225\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_RELEASE,}
+\DoxyCodeLine{00226\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_GAINMAKEUP,}
+\DoxyCodeLine{00227\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_USESIDECHAIN,}
+\DoxyCodeLine{00228\ \ \ \ \ FMOD\_DSP\_COMPRESSOR\_LINKED}
+\DoxyCodeLine{00229\ \}\ FMOD\_DSP\_COMPRESSOR;}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00232\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_DECAYTIME,}
+\DoxyCodeLine{00234\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_EARLYDELAY,}
+\DoxyCodeLine{00235\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_LATEDELAY,}
+\DoxyCodeLine{00236\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_HFREFERENCE,}
+\DoxyCodeLine{00237\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_HFDECAYRATIO,}
+\DoxyCodeLine{00238\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_DIFFUSION,}
+\DoxyCodeLine{00239\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_DENSITY,}
+\DoxyCodeLine{00240\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_LOWSHELFFREQUENCY,}
+\DoxyCodeLine{00241\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_LOWSHELFGAIN,}
+\DoxyCodeLine{00242\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_HIGHCUT,}
+\DoxyCodeLine{00243\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_EARLYLATEMIX,}
+\DoxyCodeLine{00244\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_WETLEVEL,}
+\DoxyCodeLine{00245\ \ \ \ \ FMOD\_DSP\_SFXREVERB\_DRYLEVEL}
+\DoxyCodeLine{00246\ \}\ FMOD\_DSP\_SFXREVERB;}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00249\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ FMOD\_DSP\_LOWPASS\_SIMPLE\_CUTOFF}
+\DoxyCodeLine{00251\ \}\ FMOD\_DSP\_LOWPASS\_SIMPLE;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00255\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ FMOD\_DSP\_DELAY\_CH0,}
+\DoxyCodeLine{00257\ \ \ \ \ FMOD\_DSP\_DELAY\_CH1,}
+\DoxyCodeLine{00258\ \ \ \ \ FMOD\_DSP\_DELAY\_CH2,}
+\DoxyCodeLine{00259\ \ \ \ \ FMOD\_DSP\_DELAY\_CH3,}
+\DoxyCodeLine{00260\ \ \ \ \ FMOD\_DSP\_DELAY\_CH4,}
+\DoxyCodeLine{00261\ \ \ \ \ FMOD\_DSP\_DELAY\_CH5,}
+\DoxyCodeLine{00262\ \ \ \ \ FMOD\_DSP\_DELAY\_CH6,}
+\DoxyCodeLine{00263\ \ \ \ \ FMOD\_DSP\_DELAY\_CH7,}
+\DoxyCodeLine{00264\ \ \ \ \ FMOD\_DSP\_DELAY\_CH8,}
+\DoxyCodeLine{00265\ \ \ \ \ FMOD\_DSP\_DELAY\_CH9,}
+\DoxyCodeLine{00266\ \ \ \ \ FMOD\_DSP\_DELAY\_CH10,}
+\DoxyCodeLine{00267\ \ \ \ \ FMOD\_DSP\_DELAY\_CH11,}
+\DoxyCodeLine{00268\ \ \ \ \ FMOD\_DSP\_DELAY\_CH12,}
+\DoxyCodeLine{00269\ \ \ \ \ FMOD\_DSP\_DELAY\_CH13,}
+\DoxyCodeLine{00270\ \ \ \ \ FMOD\_DSP\_DELAY\_CH14,}
+\DoxyCodeLine{00271\ \ \ \ \ FMOD\_DSP\_DELAY\_CH15,}
+\DoxyCodeLine{00272\ \ \ \ \ FMOD\_DSP\_DELAY\_MAXDELAY}
+\DoxyCodeLine{00273\ \}\ FMOD\_DSP\_DELAY;}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00277\ \{}
+\DoxyCodeLine{00278\ \ \ \ \ FMOD\_DSP\_TREMOLO\_FREQUENCY,}
+\DoxyCodeLine{00279\ \ \ \ \ FMOD\_DSP\_TREMOLO\_DEPTH,}
+\DoxyCodeLine{00280\ \ \ \ \ FMOD\_DSP\_TREMOLO\_SHAPE,}
+\DoxyCodeLine{00281\ \ \ \ \ FMOD\_DSP\_TREMOLO\_SKEW,}
+\DoxyCodeLine{00282\ \ \ \ \ FMOD\_DSP\_TREMOLO\_DUTY,}
+\DoxyCodeLine{00283\ \ \ \ \ FMOD\_DSP\_TREMOLO\_SQUARE,}
+\DoxyCodeLine{00284\ \ \ \ \ FMOD\_DSP\_TREMOLO\_PHASE,}
+\DoxyCodeLine{00285\ \ \ \ \ FMOD\_DSP\_TREMOLO\_SPREAD}
+\DoxyCodeLine{00286\ \}\ FMOD\_DSP\_TREMOLO;}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00290\ \{}
+\DoxyCodeLine{00291\ \ \ \ \ FMOD\_DSP\_SEND\_RETURNID,}
+\DoxyCodeLine{00292\ \ \ \ \ FMOD\_DSP\_SEND\_LEVEL,}
+\DoxyCodeLine{00293\ \}\ FMOD\_DSP\_SEND;}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00297\ \{}
+\DoxyCodeLine{00298\ \ \ \ \ FMOD\_DSP\_RETURN\_ID,}
+\DoxyCodeLine{00299\ \ \ \ \ FMOD\_DSP\_RETURN\_INPUT\_SPEAKER\_MODE}
+\DoxyCodeLine{00300\ \}\ FMOD\_DSP\_RETURN;}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00304\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ FMOD\_DSP\_HIGHPASS\_SIMPLE\_CUTOFF}
+\DoxyCodeLine{00306\ \}\ FMOD\_DSP\_HIGHPASS\_SIMPLE;}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00310\ \{}
+\DoxyCodeLine{00311\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_MODE\_DISTRIBUTED,}
+\DoxyCodeLine{00312\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_MODE\_DISCRETE}
+\DoxyCodeLine{00313\ \}\ FMOD\_DSP\_PAN\_2D\_STEREO\_MODE\_TYPE;}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00317\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ FMOD\_DSP\_PAN\_MODE\_MONO,}
+\DoxyCodeLine{00319\ \ \ \ \ FMOD\_DSP\_PAN\_MODE\_STEREO,}
+\DoxyCodeLine{00320\ \ \ \ \ FMOD\_DSP\_PAN\_MODE\_SURROUND}
+\DoxyCodeLine{00321\ \}\ FMOD\_DSP\_PAN\_MODE\_TYPE;}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00325\ \{}
+\DoxyCodeLine{00326\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_LINEARSQUARED,}
+\DoxyCodeLine{00327\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_LINEAR,}
+\DoxyCodeLine{00328\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_INVERSE,}
+\DoxyCodeLine{00329\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_INVERSETAPERED,}
+\DoxyCodeLine{00330\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_CUSTOM}
+\DoxyCodeLine{00331\ \}\ FMOD\_DSP\_PAN\_3D\_ROLLOFF\_TYPE;}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00335\ \{}
+\DoxyCodeLine{00336\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_EXTENT\_MODE\_AUTO,}
+\DoxyCodeLine{00337\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_EXTENT\_MODE\_USER,}
+\DoxyCodeLine{00338\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_EXTENT\_MODE\_OFF}
+\DoxyCodeLine{00339\ \}\ FMOD\_DSP\_PAN\_3D\_EXTENT\_MODE\_TYPE;}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00343\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ FMOD\_DSP\_PAN\_MODE,}
+\DoxyCodeLine{00345\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_POSITION,}
+\DoxyCodeLine{00346\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_DIRECTION,}
+\DoxyCodeLine{00347\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_EXTENT,}
+\DoxyCodeLine{00348\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_ROTATION,}
+\DoxyCodeLine{00349\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_LFE\_LEVEL,}
+\DoxyCodeLine{00350\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_MODE,}
+\DoxyCodeLine{00351\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_SEPARATION,}
+\DoxyCodeLine{00352\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_STEREO\_AXIS,}
+\DoxyCodeLine{00353\ \ \ \ \ FMOD\_DSP\_PAN\_ENABLED\_SPEAKERS,}
+\DoxyCodeLine{00354\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_POSITION,}
+\DoxyCodeLine{00355\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_ROLLOFF,}
+\DoxyCodeLine{00356\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_MIN\_DISTANCE,}
+\DoxyCodeLine{00357\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_MAX\_DISTANCE,}
+\DoxyCodeLine{00358\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_EXTENT\_MODE,}
+\DoxyCodeLine{00359\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_SOUND\_SIZE,}
+\DoxyCodeLine{00360\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_MIN\_EXTENT,}
+\DoxyCodeLine{00361\ \ \ \ \ FMOD\_DSP\_PAN\_3D\_PAN\_BLEND,}
+\DoxyCodeLine{00362\ \ \ \ \ FMOD\_DSP\_PAN\_LFE\_UPMIX\_ENABLED,}
+\DoxyCodeLine{00363\ \ \ \ \ FMOD\_DSP\_PAN\_OVERALL\_GAIN,}
+\DoxyCodeLine{00364\ \ \ \ \ FMOD\_DSP\_PAN\_SURROUND\_SPEAKER\_MODE,}
+\DoxyCodeLine{00365\ \ \ \ \ FMOD\_DSP\_PAN\_2D\_HEIGHT\_BLEND,}
+\DoxyCodeLine{00366\ \ \ \ \ FMOD\_DSP\_PAN\_ATTENUATION\_RANGE,}
+\DoxyCodeLine{00367\ \ \ \ \ FMOD\_DSP\_PAN\_OVERRIDE\_RANGE}
+\DoxyCodeLine{00368\ \}\ FMOD\_DSP\_PAN;}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00372\ \{}
+\DoxyCodeLine{00373\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_CROSSOVERSLOPE\_12DB,}
+\DoxyCodeLine{00374\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_CROSSOVERSLOPE\_24DB,}
+\DoxyCodeLine{00375\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_CROSSOVERSLOPE\_48DB}
+\DoxyCodeLine{00376\ \}\ FMOD\_DSP\_THREE\_EQ\_CROSSOVERSLOPE\_TYPE;}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00380\ \{}
+\DoxyCodeLine{00381\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_LOWGAIN,}
+\DoxyCodeLine{00382\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_MIDGAIN,}
+\DoxyCodeLine{00383\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_HIGHGAIN,}
+\DoxyCodeLine{00384\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_LOWCROSSOVER,}
+\DoxyCodeLine{00385\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_HIGHCROSSOVER,}
+\DoxyCodeLine{00386\ \ \ \ \ FMOD\_DSP\_THREE\_EQ\_CROSSOVERSLOPE}
+\DoxyCodeLine{00387\ \}\ FMOD\_DSP\_THREE\_EQ;}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00391\ \{}
+\DoxyCodeLine{00392\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_RECT,}
+\DoxyCodeLine{00393\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_TRIANGLE,}
+\DoxyCodeLine{00394\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_HAMMING,}
+\DoxyCodeLine{00395\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_HANNING,}
+\DoxyCodeLine{00396\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_BLACKMAN,}
+\DoxyCodeLine{00397\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOW\_BLACKMANHARRIS}
+\DoxyCodeLine{00398\ \}\ FMOD\_DSP\_FFT\_WINDOW;}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00402\ \{}
+\DoxyCodeLine{00403\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOWSIZE,}
+\DoxyCodeLine{00404\ \ \ \ \ FMOD\_DSP\_FFT\_WINDOWTYPE,}
+\DoxyCodeLine{00405\ \ \ \ \ FMOD\_DSP\_FFT\_SPECTRUMDATA,}
+\DoxyCodeLine{00406\ \ \ \ \ FMOD\_DSP\_FFT\_DOMINANT\_FREQ}
+\DoxyCodeLine{00407\ \}\ FMOD\_DSP\_FFT;}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\#define\ FMOD\_DSP\_LOUDNESS\_METER\_HISTOGRAM\_SAMPLES\ 66}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00412\ \{}
+\DoxyCodeLine{00413\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE,}
+\DoxyCodeLine{00414\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_WEIGHTING,}
+\DoxyCodeLine{00415\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_INFO}
+\DoxyCodeLine{00416\ \}\ FMOD\_DSP\_LOUDNESS\_METER;}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00420\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_RESET\_INTEGRATED\ =\ -\/3,}
+\DoxyCodeLine{00422\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_RESET\_MAXPEAK\ =\ -\/2,}
+\DoxyCodeLine{00423\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_RESET\_ALL\ =\ -\/1,}
+\DoxyCodeLine{00424\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_PAUSED\ =\ 0,}
+\DoxyCodeLine{00425\ \ \ \ \ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_ANALYZING\ =\ 1}
+\DoxyCodeLine{00426\ \}\ FMOD\_DSP\_LOUDNESS\_METER\_STATE\_TYPE;}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___d_s_p___l_o_u_d_n_e_s_s___m_e_t_e_r___i_n_f_o___t_y_p_e}{FMOD\_DSP\_LOUDNESS\_METER\_INFO\_TYPE}}}
+\DoxyCodeLine{00429\ \{}
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keywordtype}{float}\ momentaryloudness;}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordtype}{float}\ shorttermloudness;}
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keywordtype}{float}\ integratedloudness;}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordtype}{float}\ loudness10thpercentile;}
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keywordtype}{float}\ loudness95thpercentile;}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordtype}{float}\ loudnesshistogram[FMOD\_DSP\_LOUDNESS\_METER\_HISTOGRAM\_SAMPLES];}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordtype}{float}\ maxtruepeak;}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{float}\ maxmomentaryloudness;}
+\DoxyCodeLine{00438\ \}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___l_o_u_d_n_e_s_s___m_e_t_e_r___i_n_f_o___t_y_p_e}{FMOD\_DSP\_LOUDNESS\_METER\_INFO\_TYPE}};}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___d_s_p___l_o_u_d_n_e_s_s___m_e_t_e_r___w_e_i_g_h_t_i_n_g___t_y_p_e}{FMOD\_DSP\_LOUDNESS\_METER\_WEIGHTING\_TYPE}}}
+\DoxyCodeLine{00441\ \{}
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{keywordtype}{float}\ channelweight[32];}
+\DoxyCodeLine{00443\ \}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___l_o_u_d_n_e_s_s___m_e_t_e_r___w_e_i_g_h_t_i_n_g___t_y_p_e}{FMOD\_DSP\_LOUDNESS\_METER\_WEIGHTING\_TYPE}};}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00447\ \{}
+\DoxyCodeLine{00448\ \ \ \ \ FMOD\_DSP\_ENVELOPEFOLLOWER\_ATTACK,}
+\DoxyCodeLine{00449\ \ \ \ \ FMOD\_DSP\_ENVELOPEFOLLOWER\_RELEASE,}
+\DoxyCodeLine{00450\ \ \ \ \ FMOD\_DSP\_ENVELOPEFOLLOWER\_ENVELOPE,}
+\DoxyCodeLine{00451\ \ \ \ \ FMOD\_DSP\_ENVELOPEFOLLOWER\_USESIDECHAIN}
+\DoxyCodeLine{00452\ \}\ FMOD\_DSP\_ENVELOPEFOLLOWER;}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00455\ \{}
+\DoxyCodeLine{00456\ \ \ \ \ FMOD\_DSP\_CONVOLUTION\_REVERB\_PARAM\_IR,}
+\DoxyCodeLine{00457\ \ \ \ \ FMOD\_DSP\_CONVOLUTION\_REVERB\_PARAM\_WET,}
+\DoxyCodeLine{00458\ \ \ \ \ FMOD\_DSP\_CONVOLUTION\_REVERB\_PARAM\_DRY,}
+\DoxyCodeLine{00459\ \ \ \ \ FMOD\_DSP\_CONVOLUTION\_REVERB\_PARAM\_LINKED}
+\DoxyCodeLine{00460\ \}\ FMOD\_DSP\_CONVOLUTION\_REVERB;}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00463\ \{}
+\DoxyCodeLine{00464\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_DEFAULT,}
+\DoxyCodeLine{00465\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALLMONO,}
+\DoxyCodeLine{00466\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALLSTEREO,}
+\DoxyCodeLine{00467\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALLQUAD,}
+\DoxyCodeLine{00468\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALL5POINT1,}
+\DoxyCodeLine{00469\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALL7POINT1,}
+\DoxyCodeLine{00470\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALLLFE,}
+\DoxyCodeLine{00471\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_ALL7POINT1POINT4}
+\DoxyCodeLine{00472\ \}\ FMOD\_DSP\_CHANNELMIX\_OUTPUT;}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00475\ \{}
+\DoxyCodeLine{00476\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUTGROUPING,}
+\DoxyCodeLine{00477\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH0,}
+\DoxyCodeLine{00478\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH1,}
+\DoxyCodeLine{00479\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH2,}
+\DoxyCodeLine{00480\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH3,}
+\DoxyCodeLine{00481\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH4,}
+\DoxyCodeLine{00482\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH5,}
+\DoxyCodeLine{00483\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH6,}
+\DoxyCodeLine{00484\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH7,}
+\DoxyCodeLine{00485\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH8,}
+\DoxyCodeLine{00486\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH9,}
+\DoxyCodeLine{00487\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH10,}
+\DoxyCodeLine{00488\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH11,}
+\DoxyCodeLine{00489\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH12,}
+\DoxyCodeLine{00490\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH13,}
+\DoxyCodeLine{00491\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH14,}
+\DoxyCodeLine{00492\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH15,}
+\DoxyCodeLine{00493\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH16,}
+\DoxyCodeLine{00494\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH17,}
+\DoxyCodeLine{00495\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH18,}
+\DoxyCodeLine{00496\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH19,}
+\DoxyCodeLine{00497\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH20,}
+\DoxyCodeLine{00498\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH21,}
+\DoxyCodeLine{00499\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH22,}
+\DoxyCodeLine{00500\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH23,}
+\DoxyCodeLine{00501\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH24,}
+\DoxyCodeLine{00502\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH25,}
+\DoxyCodeLine{00503\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH26,}
+\DoxyCodeLine{00504\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH27,}
+\DoxyCodeLine{00505\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH28,}
+\DoxyCodeLine{00506\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH29,}
+\DoxyCodeLine{00507\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH30,}
+\DoxyCodeLine{00508\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_GAIN\_CH31,}
+\DoxyCodeLine{00509\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH0,}
+\DoxyCodeLine{00510\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH1,}
+\DoxyCodeLine{00511\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH2,}
+\DoxyCodeLine{00512\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH3,}
+\DoxyCodeLine{00513\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH4,}
+\DoxyCodeLine{00514\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH5,}
+\DoxyCodeLine{00515\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH6,}
+\DoxyCodeLine{00516\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH7,}
+\DoxyCodeLine{00517\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH8,}
+\DoxyCodeLine{00518\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH9,}
+\DoxyCodeLine{00519\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH10,}
+\DoxyCodeLine{00520\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH11,}
+\DoxyCodeLine{00521\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH12,}
+\DoxyCodeLine{00522\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH13,}
+\DoxyCodeLine{00523\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH14,}
+\DoxyCodeLine{00524\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH15,}
+\DoxyCodeLine{00525\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH16,}
+\DoxyCodeLine{00526\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH17,}
+\DoxyCodeLine{00527\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH18,}
+\DoxyCodeLine{00528\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH19,}
+\DoxyCodeLine{00529\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH20,}
+\DoxyCodeLine{00530\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH21,}
+\DoxyCodeLine{00531\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH22,}
+\DoxyCodeLine{00532\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH23,}
+\DoxyCodeLine{00533\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH24,}
+\DoxyCodeLine{00534\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH25,}
+\DoxyCodeLine{00535\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH26,}
+\DoxyCodeLine{00536\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH27,}
+\DoxyCodeLine{00537\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH28,}
+\DoxyCodeLine{00538\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH29,}
+\DoxyCodeLine{00539\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH30,}
+\DoxyCodeLine{00540\ \ \ \ \ FMOD\_DSP\_CHANNELMIX\_OUTPUT\_CH31}
+\DoxyCodeLine{00541\ \}\ FMOD\_DSP\_CHANNELMIX;}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00544\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_SPEAKERMODE\_AUTO\ =\ -\/1,}
+\DoxyCodeLine{00546\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_SPEAKERMODE\_MONO\ =\ 0,}
+\DoxyCodeLine{00547\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_SPEAKERMODE\_STEREO,}
+\DoxyCodeLine{00548\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_SPEAKERMODE\_SURROUND,}
+\DoxyCodeLine{00549\ \}\ FMOD\_DSP\_TRANSCEIVER\_SPEAKERMODE;}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ }
+\DoxyCodeLine{00552\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00553\ \{}
+\DoxyCodeLine{00554\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_TRANSMIT,}
+\DoxyCodeLine{00555\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_GAIN,}
+\DoxyCodeLine{00556\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_CHANNEL,}
+\DoxyCodeLine{00557\ \ \ \ \ FMOD\_DSP\_TRANSCEIVER\_TRANSMITSPEAKERMODE}
+\DoxyCodeLine{00558\ \}\ FMOD\_DSP\_TRANSCEIVER;}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00562\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_POSITION,}
+\DoxyCodeLine{00564\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_ROLLOFF,}
+\DoxyCodeLine{00565\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_MIN\_DISTANCE,}
+\DoxyCodeLine{00566\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_MAX\_DISTANCE,}
+\DoxyCodeLine{00567\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_EXTENT\_MODE,}
+\DoxyCodeLine{00568\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_SOUND\_SIZE,}
+\DoxyCodeLine{00569\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_3D\_MIN\_EXTENT,}
+\DoxyCodeLine{00570\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_OVERALL\_GAIN,}
+\DoxyCodeLine{00571\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_OUTPUTGAIN,}
+\DoxyCodeLine{00572\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_ATTENUATION\_RANGE,}
+\DoxyCodeLine{00573\ \ \ \ \ FMOD\_DSP\_OBJECTPAN\_OVERRIDE\_RANGE}
+\DoxyCodeLine{00574\ \}\ FMOD\_DSP\_OBJECTPAN;}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00577\ }
+
+\end{DoxyCode}

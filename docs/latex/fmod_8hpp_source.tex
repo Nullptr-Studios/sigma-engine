@@ -1,0 +1,613 @@
+\doxysection{fmod.\+hpp}
+\hypertarget{fmod_8hpp_source}{}\label{fmod_8hpp_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod.hpp@{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ FMOD\ Core\ API\ -\/\ C++\ header\ file.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ Copyright\ (c),\ Firelight\ Technologies\ Pty,\ Ltd.\ 2004-\/2024.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ Use\ this\ header\ in\ conjunction\ with\ fmod\_common.h\ (which\ contains\ all\ the\ constants\ /\ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ callbacks)\ to\ develop\ using\ the\ C++\ language.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ For\ more\ detail\ visit:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ https://fmod.com/docs/2.02/api/core-\/api.html\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_FMOD\_HPP}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_FMOD\_HPP}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}fmod\_common.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}fmod.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ \ FMOD\ Namespace}}
+\DoxyCodeLine{00019\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }FMOD}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}};}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_channel_control}{ChannelControl}};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_channel}{Channel}};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_sound_group}{SoundGroup}};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_geometry}{Geometry}};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_f_m_o_d_1_1_reverb3_d}{Reverb3D}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ FMOD\ global\ system\ functions\ (optional).}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ Memory\_Initialize\ \ \ \ (\textcolor{keywordtype}{void}\ *poolmem,\ \textcolor{keywordtype}{int}\ poollen,\ FMOD\_MEMORY\_ALLOC\_CALLBACK\ useralloc,\ FMOD\_MEMORY\_REALLOC\_CALLBACK\ userrealloc,\ FMOD\_MEMORY\_FREE\_CALLBACK\ userfree,\ FMOD\_MEMORY\_TYPE\ memtypeflags\ =\ FMOD\_MEMORY\_ALL)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_Memory\_Initialize(poolmem,\ poollen,\ useralloc,\ userrealloc,\ userfree,\ memtypeflags);\ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ Memory\_GetStats\ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *currentalloced,\ \textcolor{keywordtype}{int}\ *maxalloced,\ \textcolor{keywordtype}{bool}\ blocking\ =\ \textcolor{keyword}{true})\ \{\ \textcolor{keywordflow}{return}\ FMOD\_Memory\_GetStats(currentalloced,\ maxalloced,\ blocking);\ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ Debug\_Initialize\ \ \ \ \ (FMOD\_DEBUG\_FLAGS\ flags,\ FMOD\_DEBUG\_MODE\ mode\ =\ FMOD\_DEBUG\_MODE\_TTY,\ FMOD\_DEBUG\_CALLBACK\ callback\ =\ 0,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename\ =\ 0)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_Debug\_Initialize(flags,\ mode,\ callback,\ filename);\ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ File\_SetDiskBusy\ \ \ \ \ (\textcolor{keywordtype}{int}\ busy)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_File\_SetDiskBusy(busy);\ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ File\_GetDiskBusy\ \ \ \ \ (\textcolor{keywordtype}{int}\ *busy)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_File\_GetDiskBusy(busy);\ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ Thread\_SetAttributes\ (FMOD\_THREAD\_TYPE\ type,\ FMOD\_THREAD\_AFFINITY\ affinity\ =\ FMOD\_THREAD\_AFFINITY\_GROUP\_DEFAULT,\ FMOD\_THREAD\_PRIORITY\ priority\ =\ FMOD\_THREAD\_PRIORITY\_DEFAULT,\ FMOD\_THREAD\_STACK\_SIZE\ stacksize\ =\ FMOD\_THREAD\_STACK\_SIZE\_DEFAULT)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_Thread\_SetAttributes(type,\ affinity,\ priority,\ stacksize);\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ \ \ \ \ FMOD\ System\ factory\ functions.}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{inline}\ FMOD\_RESULT\ System\_Create\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}}\ **system,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ headerversion\ =\ FMOD\_VERSION)\ \{\ \textcolor{keywordflow}{return}\ FMOD\_System\_Create((FMOD\_SYSTEM\ **)system,\ headerversion);\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ \ \ \ \ \ \ 'System'\ API}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{class\ }System}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ System\ class.\ \ System\_Create\ must\ be\ used.}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ System();}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ System(\textcolor{keyword}{const}\ System\ \&);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Setup\ functions.}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setOutput\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_OUTPUTTYPE\ output);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutput\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_OUTPUTTYPE\ *output);}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumDrivers\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numdrivers);}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDriverInfo\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *guid,\ \textcolor{keywordtype}{int}\ *systemrate,\ FMOD\_SPEAKERMODE\ *speakermode,\ \textcolor{keywordtype}{int}\ *speakermodechannels);}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setDriver\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ driver);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDriver\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *driver);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setSoftwareChannels\ \ \ \ \ (\textcolor{keywordtype}{int}\ numsoftwarechannels);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSoftwareChannels\ \ \ \ \ (\textcolor{keywordtype}{int}\ *numsoftwarechannels);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setSoftwareFormat\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ samplerate,\ FMOD\_SPEAKERMODE\ speakermode,\ \textcolor{keywordtype}{int}\ numrawspeakers);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSoftwareFormat\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *samplerate,\ FMOD\_SPEAKERMODE\ *speakermode,\ \textcolor{keywordtype}{int}\ *numrawspeakers);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setDSPBufferSize\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ bufferlength,\ \textcolor{keywordtype}{int}\ numbuffers);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSPBufferSize\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *bufferlength,\ \textcolor{keywordtype}{int}\ *numbuffers);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setFileSystem\ \ \ \ \ \ \ \ \ \ \ (FMOD\_FILE\_OPEN\_CALLBACK\ useropen,\ FMOD\_FILE\_CLOSE\_CALLBACK\ userclose,\ FMOD\_FILE\_READ\_CALLBACK\ userread,\ FMOD\_FILE\_SEEK\_CALLBACK\ userseek,\ FMOD\_FILE\_ASYNCREAD\_CALLBACK\ userasyncread,\ FMOD\_FILE\_ASYNCCANCEL\_CALLBACK\ userasynccancel,\ \textcolor{keywordtype}{int}\ blockalign);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ attachFileSystem\ \ \ \ \ \ \ \ (FMOD\_FILE\_OPEN\_CALLBACK\ useropen,\ FMOD\_FILE\_CLOSE\_CALLBACK\ userclose,\ FMOD\_FILE\_READ\_CALLBACK\ userread,\ FMOD\_FILE\_SEEK\_CALLBACK\ userseek);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setAdvancedSettings\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_ADVANCEDSETTINGS}}\ *settings);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getAdvancedSettings\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_ADVANCEDSETTINGS}}\ *settings);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setCallback\ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_SYSTEM\_CALLBACK\ callback,\ FMOD\_SYSTEM\_CALLBACK\_TYPE\ callbackmask\ =\ FMOD\_SYSTEM\_CALLBACK\_ALL);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Plug-\/in\ support.}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPluginPath\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ loadPlugin\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ priority\ =\ 0);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ unloadPlugin\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumNestedPlugins\ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNestedPlugin\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *nestedhandle);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumPlugins\ \ \ \ \ \ \ \ \ \ \ (FMOD\_PLUGINTYPE\ plugintype,\ \textcolor{keywordtype}{int}\ *numplugins);}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPluginHandle\ \ \ \ \ \ \ \ \ (FMOD\_PLUGINTYPE\ plugintype,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPluginInfo\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle,\ FMOD\_PLUGINTYPE\ *plugintype,\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *version);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setOutputByPlugin\ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutputByPlugin\ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createDSPByPlugin\ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **dsp);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSPInfoByPlugin\ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ handle,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_DSP\_DESCRIPTION}}\ **description);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ registerCodec\ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_o_d_e_c___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_CODEC\_DESCRIPTION}}\ *description,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ priority\ =\ 0);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ registerDSP\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_DSP\_DESCRIPTION}}\ *description,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ registerOutput\ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___o_u_t_p_u_t___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_OUTPUT\_DESCRIPTION}}\ *description,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *handle);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Init/Close.}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ init\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ maxchannels,\ FMOD\_INITFLAGS\ flags,\ \textcolor{keywordtype}{void}\ *extradriverdata);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ close\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ General\ post-\/init\ system\ functions.}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ update\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ IMPORTANT!\ CALL\ THIS\ ONCE\ PER\ FRAME!\ */}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setSpeakerPosition\ \ \ \ \ \ (FMOD\_SPEAKER\ speaker,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{bool}\ active);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSpeakerPosition\ \ \ \ \ \ (FMOD\_SPEAKER\ speaker,\ \textcolor{keywordtype}{float}\ *x,\ \textcolor{keywordtype}{float}\ *y,\ \textcolor{keywordtype}{bool}\ *active);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setStreamBufferSize\ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ filebuffersize,\ FMOD\_TIMEUNIT\ filebuffersizetype);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getStreamBufferSize\ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *filebuffersize,\ FMOD\_TIMEUNIT\ *filebuffersizetype);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DSettings\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ dopplerscale,\ \textcolor{keywordtype}{float}\ distancefactor,\ \textcolor{keywordtype}{float}\ rolloffscale);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DSettings\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *dopplerscale,\ \textcolor{keywordtype}{float}\ *distancefactor,\ \textcolor{keywordtype}{float}\ *rolloffscale);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DNumListeners\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ numlisteners);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DNumListeners\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numlisteners);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DListenerAttributes\ (\textcolor{keywordtype}{int}\ listener,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *pos,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vel,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *forward,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *up);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DListenerAttributes\ (\textcolor{keywordtype}{int}\ listener,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *pos,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vel,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *forward,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *up);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DRolloffCallback\ \ \ \ (FMOD\_3D\_ROLLOFF\_CALLBACK\ callback);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ mixerSuspend\ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ mixerResume\ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDefaultMixMatrix\ \ \ \ \ (FMOD\_SPEAKERMODE\ sourcespeakermode,\ FMOD\_SPEAKERMODE\ targetspeakermode,\ \textcolor{keywordtype}{float}\ *matrix,\ \textcolor{keywordtype}{int}\ matrixhop);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSpeakerModeChannels\ \ (FMOD\_SPEAKERMODE\ mode,\ \textcolor{keywordtype}{int}\ *channels);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ System\ information\ functions.}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getVersion\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *version);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutputHandle\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **handle);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getChannelsPlaying\ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *channels,\ \textcolor{keywordtype}{int}\ *realchannels\ =\ 0);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getCPUUsage\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___c_p_u___u_s_a_g_e}{FMOD\_CPU\_USAGE}}\ *usage);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getFileUsage\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *sampleBytesRead,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *streamBytesRead,\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *otherBytesRead);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sound/DSP/Channel/FX\ creation\ and\ retrieval.}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createSound\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name\_or\_data,\ FMOD\_MODE\ mode,\ \mbox{\hyperlink{struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o}{FMOD\_CREATESOUNDEXINFO}}\ *exinfo,\ \mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ **sound);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createStream\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name\_or\_data,\ FMOD\_MODE\ mode,\ \mbox{\hyperlink{struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o}{FMOD\_CREATESOUNDEXINFO}}\ *exinfo,\ \mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ **sound);}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_DSP\_DESCRIPTION}}\ *description,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **dsp);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createDSPByType\ \ \ \ \ \ \ \ \ (FMOD\_DSP\_TYPE\ type,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **dsp);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createChannelGroup\ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ **channelgroup);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createSoundGroup\ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \mbox{\hyperlink{class_f_m_o_d_1_1_sound_group}{SoundGroup}}\ **soundgroup);}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createReverb3D\ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_reverb3_d}{Reverb3D}}\ **reverb);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ playSound\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ *sound,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ *channelgroup,\ \textcolor{keywordtype}{bool}\ paused,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel}{Channel}}\ **channel);}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ playDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ *dsp,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ *channelgroup,\ \textcolor{keywordtype}{bool}\ paused,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel}{Channel}}\ **channel);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getChannel\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ channelid,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel}{Channel}}\ **channel);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSPInfoByType\ \ \ \ \ \ \ \ (FMOD\_DSP\_TYPE\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_DSP\_DESCRIPTION}}\ **description);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMasterChannelGroup\ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ **channelgroup);}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMasterSoundGroup\ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_sound_group}{SoundGroup}}\ **soundgroup);}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Routing\ to\ ports.}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ attachChannelGroupToPort\ \ \ (FMOD\_PORT\_TYPE\ portType,\ FMOD\_PORT\_INDEX\ portIndex,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ *channelgroup,\ \textcolor{keywordtype}{bool}\ passThru\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ detachChannelGroupFromPort\ (\mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ *channelgroup);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reverb\ API.}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setReverbProperties\ \ \ \ \ (\textcolor{keywordtype}{int}\ instance,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}}\ *prop);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getReverbProperties\ \ \ \ \ (\textcolor{keywordtype}{int}\ instance,\ \mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}}\ *prop);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ System\ level\ DSP\ functionality.}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ lockDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ unlockDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Recording\ API.}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getRecordNumDrivers\ \ \ \ \ (\textcolor{keywordtype}{int}\ *numdrivers,\ \textcolor{keywordtype}{int}\ *numconnected);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getRecordDriverInfo\ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *guid,\ \textcolor{keywordtype}{int}\ *systemrate,\ FMOD\_SPEAKERMODE\ *speakermode,\ \textcolor{keywordtype}{int}\ *speakermodechannels,\ FMOD\_DRIVER\_STATE\ *state);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getRecordPosition\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *position);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ recordStart\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ *sound,\ \textcolor{keywordtype}{bool}\ loop);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ recordStop\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ isRecording\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{bool}\ *recording);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Geometry\ API.}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ createGeometry\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ maxpolygons,\ \textcolor{keywordtype}{int}\ maxvertices,\ \mbox{\hyperlink{class_f_m_o_d_1_1_geometry}{Geometry}}\ **geometry);}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setGeometrySettings\ \ \ \ \ (\textcolor{keywordtype}{float}\ maxworldsize);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getGeometrySettings\ \ \ \ \ (\textcolor{keywordtype}{float}\ *maxworldsize);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ loadGeometry\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *data,\ \textcolor{keywordtype}{int}\ datasize,\ \mbox{\hyperlink{class_f_m_o_d_1_1_geometry}{Geometry}}\ **geometry);}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getGeometryOcclusion\ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *listener,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *source,\ \textcolor{keywordtype}{float}\ *direct,\ \textcolor{keywordtype}{float}\ *reverb);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Network\ functions.}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setNetworkProxy\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *proxy);}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNetworkProxy\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *proxy,\ \textcolor{keywordtype}{int}\ proxylen);}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setNetworkTimeout\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ timeout);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNetworkTimeout\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *timeout);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00181\ \ \ \ \ \};}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00184\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'Sound'\ API}}
+\DoxyCodeLine{00185\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{class\ }Sound}
+\DoxyCodeLine{00187\ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ Sound\ class.\ \ Appropriate\ Sound\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ Sound();}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ Sound(\textcolor{keyword}{const}\ Sound\ \&);}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSystemObject\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}}\ **system);}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Standard\ sound\ manipulation\ functions.}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ lock\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ length,\ \textcolor{keywordtype}{void}\ **ptr1,\ \textcolor{keywordtype}{void}\ **ptr2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *len1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *len2);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ unlock\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *ptr1,\ \textcolor{keywordtype}{void}\ *ptr2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ len1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ len2);}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setDefaults\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ frequency,\ \textcolor{keywordtype}{int}\ priority);}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDefaults\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *frequency,\ \textcolor{keywordtype}{int}\ *priority);}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DMinMaxDistance\ \ \ \ (\textcolor{keywordtype}{float}\ min,\ \textcolor{keywordtype}{float}\ max);}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DMinMaxDistance\ \ \ \ (\textcolor{keywordtype}{float}\ *min,\ \textcolor{keywordtype}{float}\ *max);}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DConeSettings\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ insideconeangle,\ \textcolor{keywordtype}{float}\ outsideconeangle,\ \textcolor{keywordtype}{float}\ outsidevolume);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DConeSettings\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *insideconeangle,\ \textcolor{keywordtype}{float}\ *outsideconeangle,\ \textcolor{keywordtype}{float}\ *outsidevolume);}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DCustomRolloff\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *points,\ \textcolor{keywordtype}{int}\ numpoints);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DCustomRolloff\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ **points,\ \textcolor{keywordtype}{int}\ *numpoints);}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSubSound\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ Sound\ **subsound);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSubSoundParent\ \ \ \ \ \ (Sound\ **parentsound);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getName\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen);}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLength\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *length,\ FMOD\_TIMEUNIT\ lengthtype);}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getFormat\ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_SOUND\_TYPE\ *type,\ FMOD\_SOUND\_FORMAT\ *format,\ \textcolor{keywordtype}{int}\ *channels,\ \textcolor{keywordtype}{int}\ *bits);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumSubSounds\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numsubsounds);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumTags\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numtags,\ \textcolor{keywordtype}{int}\ *numtagsupdated);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getTag\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___t_a_g}{FMOD\_TAG}}\ *tag);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOpenState\ \ \ \ \ \ \ \ \ \ \ (FMOD\_OPENSTATE\ *openstate,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *percentbuffered,\ \textcolor{keywordtype}{bool}\ *starving,\ \textcolor{keywordtype}{bool}\ *diskbusy);}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ readData\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *buffer,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ length,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *read);}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ seekData\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ pcm);}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setSoundGroup\ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_sound_group}{SoundGroup}}\ *soundgroup);}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSoundGroup\ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_sound_group}{SoundGroup}}\ **soundgroup);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Synchronization\ point\ API.\ \ These\ points\ can\ come\ from\ markers\ embedded\ in\ wav\ files,\ and\ can\ also\ generate\ channel\ callbacks.}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumSyncPoints\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numsyncpoints);}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSyncPoint\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ FMOD\_SYNCPOINT\ **point);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSyncPointInfo\ \ \ \ \ \ \ (FMOD\_SYNCPOINT\ *point,\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *offset,\ FMOD\_TIMEUNIT\ offsettype);}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addSyncPoint\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ offset,\ FMOD\_TIMEUNIT\ offsettype,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ FMOD\_SYNCPOINT\ **point);}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ deleteSyncPoint\ \ \ \ \ \ \ \ (FMOD\_SYNCPOINT\ *point);}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Functions\ also\ in\ Channel\ class\ but\ here\ they\ are\ the\ 'default'\ to\ save\ having\ to\ change\ it\ in\ Channel\ all\ the\ time.}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMode\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_MODE\ mode);}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMode\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_MODE\ *mode);}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setLoopCount\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ loopcount);}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLoopCount\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *loopcount);}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setLoopPoints\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ loopstart,\ FMOD\_TIMEUNIT\ loopstarttype,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ loopend,\ FMOD\_TIMEUNIT\ loopendtype);}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLoopPoints\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *loopstart,\ FMOD\_TIMEUNIT\ loopstarttype,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *loopend,\ FMOD\_TIMEUNIT\ loopendtype);}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ MOD/S3M/XM/IT/MID\ sequenced\ formats\ only.}}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMusicNumChannels\ \ \ \ (\textcolor{keywordtype}{int}\ *numchannels);}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMusicChannelVolume\ \ (\textcolor{keywordtype}{int}\ channel,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMusicChannelVolume\ \ (\textcolor{keywordtype}{int}\ channel,\ \textcolor{keywordtype}{float}\ *volume);}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMusicSpeed\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ speed);}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMusicSpeed\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *speed);}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00250\ \ \ \ \ \};}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00254\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'ChannelControl\ API'.\ \ \ This\ is\ a\ base\ class\ for\ Channel\ and\ ChannelGroup\ so\ they\ can\ share\ the\ same\ functionality.\ \ This\ cannot\ be\ used\ or\ instansiated\ explicitly.}}
+\DoxyCodeLine{00255\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{class\ }ChannelControl}
+\DoxyCodeLine{00257\ \ \ \ \ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ Control\ class.}}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ ChannelControl();}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ ChannelControl(\textcolor{keyword}{const}\ ChannelControl\ \&);}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSystemObject\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}}\ **system);}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ General\ control\ functionality\ for\ Channels\ and\ ChannelGroups.}}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ stop\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPaused\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ paused);}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPaused\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *paused);}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setVolume\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getVolume\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *volume);}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setVolumeRamp\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ ramp);}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getVolumeRamp\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *ramp);}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getAudibility\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *audibility);}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPitch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ pitch);}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPitch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *pitch);}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMute\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ mute);}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMute\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *mute);}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setReverbProperties\ \ \ \ (\textcolor{keywordtype}{int}\ instance,\ \textcolor{keywordtype}{float}\ wet);}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getReverbProperties\ \ \ \ (\textcolor{keywordtype}{int}\ instance,\ \textcolor{keywordtype}{float}\ *wet);}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setLowPassGain\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ gain);}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLowPassGain\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *gain);}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMode\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_MODE\ mode);}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMode\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_MODE\ *mode);}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setCallback\ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELCONTROL\_CALLBACK\ callback);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ isPlaying\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *isplaying);}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Panning\ and\ level\ adjustment.}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ all\ 'set'\ functions\ alter\ a\ final\ matrix,\ this\ is\ why\ the\ only\ get\ function\ is\ getMixMatrix,\ to\ avoid\ other\ get\ functions\ returning\ incorrect/obsolete\ values.}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPan\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ pan);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMixLevelsOutput\ \ \ \ \ (\textcolor{keywordtype}{float}\ frontleft,\ \textcolor{keywordtype}{float}\ frontright,\ \textcolor{keywordtype}{float}\ center,\ \textcolor{keywordtype}{float}\ lfe,\ \textcolor{keywordtype}{float}\ surroundleft,\ \textcolor{keywordtype}{float}\ surroundright,\ \textcolor{keywordtype}{float}\ backleft,\ \textcolor{keywordtype}{float}\ backright);}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMixLevelsInput\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *levels,\ \textcolor{keywordtype}{int}\ numlevels);}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMixMatrix\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *matrix,\ \textcolor{keywordtype}{int}\ outchannels,\ \textcolor{keywordtype}{int}\ inchannels,\ \textcolor{keywordtype}{int}\ inchannel\_hop\ =\ 0);}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMixMatrix\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *matrix,\ \textcolor{keywordtype}{int}\ *outchannels,\ \textcolor{keywordtype}{int}\ *inchannels,\ \textcolor{keywordtype}{int}\ inchannel\_hop\ =\ 0);}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clock\ based\ functionality.}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSPClock\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *dspclock,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *parentclock);}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setDelay\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock\_start,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock\_end,\ \textcolor{keywordtype}{bool}\ stopchannels\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDelay\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *dspclock\_start,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *dspclock\_end,\ \textcolor{keywordtype}{bool}\ *stopchannels\ =\ 0);}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addFadePoint\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setFadePointRamp\ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ removeFadePoints\ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock\_start,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ dspclock\_end);}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getFadePoints\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *numpoints,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ *point\_dspclock,\ \textcolor{keywordtype}{float}\ *point\_volume);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ DSP\ effects.}}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **dsp);}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ *dsp);}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ removeDSP\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ *dsp);}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumDSPs\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numdsps);}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setDSPIndex\ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ *dsp,\ \textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDSPIndex\ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ *dsp,\ \textcolor{keywordtype}{int}\ *index);}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 3D\ functionality.}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DAttributes\ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *pos,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vel);}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DAttributes\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *pos,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vel);}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DMinMaxDistance\ \ \ \ (\textcolor{keywordtype}{float}\ mindistance,\ \textcolor{keywordtype}{float}\ maxdistance);}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DMinMaxDistance\ \ \ \ (\textcolor{keywordtype}{float}\ *mindistance,\ \textcolor{keywordtype}{float}\ *maxdistance);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DConeSettings\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ insideconeangle,\ \textcolor{keywordtype}{float}\ outsideconeangle,\ \textcolor{keywordtype}{float}\ outsidevolume);}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DConeSettings\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *insideconeangle,\ \textcolor{keywordtype}{float}\ *outsideconeangle,\ \textcolor{keywordtype}{float}\ *outsidevolume);}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DConeOrientation\ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *orientation);}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DConeOrientation\ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *orientation);}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DCustomRolloff\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *points,\ \textcolor{keywordtype}{int}\ numpoints);}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DCustomRolloff\ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ **points,\ \textcolor{keywordtype}{int}\ *numpoints);}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DOcclusion\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ directocclusion,\ \textcolor{keywordtype}{float}\ reverbocclusion);}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DOcclusion\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *directocclusion,\ \textcolor{keywordtype}{float}\ *reverbocclusion);}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DSpread\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ angle);}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DSpread\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *angle);}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DLevel\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ level);}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DLevel\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *level);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DDopplerLevel\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ level);}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DDopplerLevel\ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *level);}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DDistanceFilter\ \ \ \ (\textcolor{keywordtype}{bool}\ custom,\ \textcolor{keywordtype}{float}\ customLevel,\ \textcolor{keywordtype}{float}\ centerFreq);}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DDistanceFilter\ \ \ \ (\textcolor{keywordtype}{bool}\ *custom,\ \textcolor{keywordtype}{float}\ *customLevel,\ \textcolor{keywordtype}{float}\ *centerFreq);}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00340\ \ \ \ \ \};}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00343\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'Channel'\ API.}}
+\DoxyCodeLine{00344\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keyword}{class\ }Channel\ :\ \textcolor{keyword}{public}\ ChannelControl}
+\DoxyCodeLine{00346\ \ \ \ \ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ Channel\ class.\ \ Appropriate\ Channel\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ Channel();}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ Channel(\textcolor{keyword}{const}\ Channel\ \&);}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Channel\ specific\ control\ functionality.}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setFrequency\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ frequency);}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getFrequency\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *frequency);}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPriority\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ priority);}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPriority\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *priority);}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPosition\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position,\ FMOD\_TIMEUNIT\ postype);}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPosition\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *position,\ FMOD\_TIMEUNIT\ postype);}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setChannelGroup\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ *channelgroup);}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getChannelGroup\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_channel_group}{ChannelGroup}}\ **channelgroup);}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setLoopCount\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ loopcount);}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLoopCount\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *loopcount);}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setLoopPoints\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ loopstart,\ FMOD\_TIMEUNIT\ loopstarttype,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ loopend,\ FMOD\_TIMEUNIT\ loopendtype);}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getLoopPoints\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *loopstart,\ FMOD\_TIMEUNIT\ loopstarttype,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *loopend,\ FMOD\_TIMEUNIT\ loopendtype);}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Information\ only\ functions.}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ isVirtual\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *isvirtual);}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getCurrentSound\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ **sound);}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getIndex\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *index);}
+\DoxyCodeLine{00373\ \ \ \ \ \};}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00376\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'ChannelGroup'\ API}}
+\DoxyCodeLine{00377\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keyword}{class\ }ChannelGroup\ :\ \textcolor{keyword}{public}\ ChannelControl}
+\DoxyCodeLine{00379\ \ \ \ \ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ ChannelGroup\ class.\ \ Appropriate\ ChannelGroup\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ ChannelGroup();}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ ChannelGroup(\textcolor{keyword}{const}\ ChannelGroup\ \&);}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nested\ channel\ groups.}}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addGroup\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (ChannelGroup\ *group,\ \textcolor{keywordtype}{bool}\ propagatedspclock\ =\ \textcolor{keyword}{true},\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}}\ **connection\ =\ 0);}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumGroups\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numgroups);}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getGroup\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ ChannelGroup\ **group);}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParentGroup\ \ \ \ \ \ \ \ \ \ (ChannelGroup\ **group);}
+\DoxyCodeLine{00395\ }
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Information\ only\ functions.}}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getName\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen);}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumChannels\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numchannels);}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getChannel\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{class_f_m_o_d_1_1_channel}{Channel}}\ **channel);}
+\DoxyCodeLine{00400\ \ \ \ \ \};}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00403\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'SoundGroup'\ API}}
+\DoxyCodeLine{00404\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keyword}{class\ }SoundGroup}
+\DoxyCodeLine{00406\ \ \ \ \ \{}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ SoundGroup\ class.\ \ Appropriate\ SoundGroup\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ SoundGroup();}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ SoundGroup(\textcolor{keyword}{const}\ SoundGroup\ \&);}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSystemObject\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}}\ **system);}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SoundGroup\ control\ functions.}}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMaxAudible\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ maxaudible);}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMaxAudible\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *maxaudible);}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMaxAudibleBehavior\ \ (FMOD\_SOUNDGROUP\_BEHAVIOR\ behavior);}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMaxAudibleBehavior\ \ (FMOD\_SOUNDGROUP\_BEHAVIOR\ *behavior);}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMuteFadeSpeed\ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ speed);}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMuteFadeSpeed\ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *speed);}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setVolume\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getVolume\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *volume);}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ stop\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Information\ only\ functions.}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getName\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ namelen);}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumSounds\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numsounds);}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSound\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{class_f_m_o_d_1_1_sound}{Sound}}\ **sound);}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumPlaying\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numplaying);}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00438\ \ \ \ \ \};}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00441\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'DSP'\ API}}
+\DoxyCodeLine{00442\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keyword}{class\ }DSP}
+\DoxyCodeLine{00444\ \ \ \ \ \{}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ DSP\ class.\ \ Appropriate\ DSP\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ DSP();}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ DSP(\textcolor{keyword}{const}\ DSP\ \&);}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getSystemObject\ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_system}{System}}\ **system);}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Connection\ /\ disconnection\ /\ input\ and\ output\ enumeration.}}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addInput\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (DSP\ *input,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}}\ **connection\ =\ 0,\ FMOD\_DSPCONNECTION\_TYPE\ type\ =\ FMOD\_DSPCONNECTION\_TYPE\_STANDARD);}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ disconnectFrom\ \ \ \ \ \ \ \ \ (DSP\ *target,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}}\ *connection\ =\ 0);}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ disconnectAll\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ inputs,\ \textcolor{keywordtype}{bool}\ outputs);}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumInputs\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numinputs);}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumOutputs\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numoutputs);}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getInput\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ DSP\ **input,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}}\ **inputconnection);}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutput\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ DSP\ **output,\ \mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p_connection}{DSPConnection}}\ **outputconnection);}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ DSP\ unit\ control.}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ active);}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *active);}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setBypass\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ bypass);}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getBypass\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *bypass);}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setWetDryMix\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ prewet,\ \textcolor{keywordtype}{float}\ postwet,\ \textcolor{keywordtype}{float}\ dry);}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getWetDryMix\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *prewet,\ \textcolor{keywordtype}{float}\ *postwet,\ \textcolor{keywordtype}{float}\ *dry);}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setChannelFormat\ \ \ \ \ \ \ (FMOD\_CHANNELMASK\ channelmask,\ \textcolor{keywordtype}{int}\ numchannels,\ FMOD\_SPEAKERMODE\ source\_speakermode);}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getChannelFormat\ \ \ \ \ \ \ (FMOD\_CHANNELMASK\ *channelmask,\ \textcolor{keywordtype}{int}\ *numchannels,\ FMOD\_SPEAKERMODE\ *source\_speakermode);}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutputChannelFormat\ (FMOD\_CHANNELMASK\ inmask,\ \textcolor{keywordtype}{int}\ inchannels,\ FMOD\_SPEAKERMODE\ inspeakermode,\ FMOD\_CHANNELMASK\ *outmask,\ \textcolor{keywordtype}{int}\ *outchannels,\ FMOD\_SPEAKERMODE\ *outspeakermode);}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ reset\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setCallback\ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_DSP\_CALLBACK\ callback);}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ DSP\ parameter\ control.}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setParameterFloat\ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ value);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setParameterInt\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setParameterBool\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{bool}\ value);}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setParameterData\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{void}\ *data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ length);}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParameterFloat\ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ *value,\ \textcolor{keywordtype}{char}\ *valuestr,\ \textcolor{keywordtype}{int}\ valuestrlen);}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParameterInt\ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ *value,\ \textcolor{keywordtype}{char}\ *valuestr,\ \textcolor{keywordtype}{int}\ valuestrlen);}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParameterBool\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{bool}\ *value,\ \textcolor{keywordtype}{char}\ *valuestr,\ \textcolor{keywordtype}{int}\ valuestrlen);}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParameterData\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{void}\ **data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *length,\ \textcolor{keywordtype}{char}\ *valuestr,\ \textcolor{keywordtype}{int}\ valuestrlen);}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumParameters\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numparams);}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getParameterInfo\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___p_a_r_a_m_e_t_e_r___d_e_s_c}{FMOD\_DSP\_PARAMETER\_DESC}}\ **desc);}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getDataParameterIndex\ \ (\textcolor{keywordtype}{int}\ datatype,\ \textcolor{keywordtype}{int}\ *index);}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ showConfigDialog\ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *hwnd,\ \textcolor{keywordtype}{bool}\ show);}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ DSP\ attributes.}}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getInfo\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *version,\ \textcolor{keywordtype}{int}\ *channels,\ \textcolor{keywordtype}{int}\ *configwidth,\ \textcolor{keywordtype}{int}\ *configheight);}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getType\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_DSP\_TYPE\ *type);}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getIdle\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *idle);}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Metering.}}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMeteringEnabled\ \ \ \ \ (\textcolor{keywordtype}{bool}\ inputEnabled,\ \textcolor{keywordtype}{bool}\ outputEnabled);}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMeteringEnabled\ \ \ \ \ (\textcolor{keywordtype}{bool}\ *inputEnabled,\ \textcolor{keywordtype}{bool}\ *outputEnabled);}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMeteringInfo\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___d_s_p___m_e_t_e_r_i_n_g___i_n_f_o}{FMOD\_DSP\_METERING\_INFO}}\ *inputInfo,\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___m_e_t_e_r_i_n_g___i_n_f_o}{FMOD\_DSP\_METERING\_INFO}}\ *outputInfo);}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getCPUUsage\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *exclusive,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *inclusive);}
+\DoxyCodeLine{00506\ \ \ \ \ \};}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00510\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'DSPConnection'\ API}}
+\DoxyCodeLine{00511\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keyword}{class\ }DSPConnection}
+\DoxyCodeLine{00513\ \ \ \ \ \{}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ DSPConnection\ class.\ \ Appropriate\ DSPConnection\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ DSPConnection();}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ DSPConnection(\textcolor{keyword}{const}\ DSPConnection\ \&);}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00521\ }
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getInput\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **input);}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getOutput\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{class_f_m_o_d_1_1_d_s_p}{DSP}}\ **output);}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMix\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMix\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *volume);}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setMixMatrix\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *matrix,\ \textcolor{keywordtype}{int}\ outchannels,\ \textcolor{keywordtype}{int}\ inchannels,\ \textcolor{keywordtype}{int}\ inchannel\_hop\ =\ 0);}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMixMatrix\ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ *matrix,\ \textcolor{keywordtype}{int}\ *outchannels,\ \textcolor{keywordtype}{int}\ *inchannels,\ \textcolor{keywordtype}{int}\ inchannel\_hop\ =\ 0);}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getType\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_DSPCONNECTION\_TYPE\ *type);}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00533\ \ \ \ \ \};}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ }
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00537\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'Geometry'\ API}}
+\DoxyCodeLine{00538\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00539\ \ \ \ \ \textcolor{keyword}{class\ }Geometry}
+\DoxyCodeLine{00540\ \ \ \ \ \{}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ Geometry\ class.\ \ Appropriate\ Geometry\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ Geometry();}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ Geometry(\textcolor{keyword}{const}\ Geometry\ \&);}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Polygon\ manipulation.}}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ addPolygon\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{float}\ directocclusion,\ \textcolor{keywordtype}{float}\ reverbocclusion,\ \textcolor{keywordtype}{bool}\ doublesided,\ \textcolor{keywordtype}{int}\ numvertices,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vertices,\ \textcolor{keywordtype}{int}\ *polygonindex);}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getNumPolygons\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *numpolygons);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getMaxPolygons\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ *maxpolygons,\ \textcolor{keywordtype}{int}\ *maxvertices);}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPolygonNumVertices\ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ *numvertices);}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPolygonVertex\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ vertexindex,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vertex);}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPolygonVertex\ \ \ \ \ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ vertexindex,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *vertex);}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPolygonAttributes\ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ directocclusion,\ \textcolor{keywordtype}{float}\ reverbocclusion,\ \textcolor{keywordtype}{bool}\ doublesided);}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPolygonAttributes\ \ \ (\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ *directocclusion,\ \textcolor{keywordtype}{float}\ *reverbocclusion,\ \textcolor{keywordtype}{bool}\ *doublesided);}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Object\ manipulation.}}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ active);}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *active);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setRotation\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *forward,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *up);}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getRotation\ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *forward,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *up);}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setPosition\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *position);}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getPosition\ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *position);}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setScale\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *scale);}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getScale\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *scale);}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ save\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *data,\ \textcolor{keywordtype}{int}\ *datasize);}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00575\ \ \ \ \ \};}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ }
+\DoxyCodeLine{00578\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00579\ \textcolor{comment}{\ \ \ \ \ \ \ \ 'Reverb'\ API}}
+\DoxyCodeLine{00580\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{00581\ \ \ \ \ \textcolor{keyword}{class\ }Reverb3D}
+\DoxyCodeLine{00582\ \ \ \ \ \{}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00584\ }
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constructor\ made\ private\ so\ user\ cannot\ statically\ instance\ a\ Reverb3D\ class.\ \ Appropriate\ Reverb\ creation\ or\ retrieval\ function\ must\ be\ used.}}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ Reverb3D();}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ Reverb3D(\textcolor{keyword}{const}\ Reverb3D\ \&);}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ release\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ();}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reverb\ manipulation.}}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ set3DAttributes\ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *position,\ \textcolor{keywordtype}{float}\ mindistance,\ \textcolor{keywordtype}{float}\ maxdistance);}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ get3DAttributes\ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *position,\ \textcolor{keywordtype}{float}\ *mindistance,\textcolor{keywordtype}{float}\ *maxdistance);}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setProperties\ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}}\ *properties);}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getProperties\ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}}\ *properties);}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ active);}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getActive\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{bool}\ *active);}
+\DoxyCodeLine{00600\ }
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Userdata\ set/get.}}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ setUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ FMOD\_RESULT\ F\_API\ getUserData\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00604\ \ \ \ \ \};}
+\DoxyCodeLine{00605\ \}}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00607\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,907 @@
+\doxysection{fmod\+\_\+common.\+h}
+\hypertarget{fmod__common_8h_source}{}\label{fmod__common_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_common.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_common.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ FMOD\ Core\ API\ -\/\ Common\ C/C++\ header\ file.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ Copyright\ (c),\ Firelight\ Technologies\ Pty,\ Ltd.\ 2004-\/2024.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ This\ header\ is\ included\ by\ fmod.hpp\ (C++\ interface)\ and\ fmod.h\ (C\ interface)\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ For\ more\ detail\ visit:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ https://fmod.com/docs/2.02/api/core-\/api-\/common.html\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ \_FMOD\_COMMON\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ \_FMOD\_COMMON\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ \ Library\ import\ helpers}}
+\DoxyCodeLine{00015\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_\_CYGWIN\_\_)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_CALL\ \_\_stdcall}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_CALL}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ ||\ defined(\_\_CYGWIN\_\_)\ ||\ defined(\_\_ORBIS\_\_)\ ||\ defined(F\_USE\_DECLSPEC)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_EXPORT\ \_\_declspec(dllexport)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)\ ||\ defined(\_\_ANDROID\_\_)\ ||\ defined(\_\_linux\_\_)\ ||\ defined(F\_USE\_ATTRIBUTE)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_EXPORT\ \_\_attribute\_\_((visibility("{}default"{})))}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_EXPORT}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#ifdef\ DLL\_EXPORTS}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_API\ F\_EXPORT\ F\_CALL}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \#define\ F\_API\ F\_CALL}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ F\_CALLBACK\ F\_CALL}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ \ FMOD\ core\ types}}
+\DoxyCodeLine{00040\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_BOOL;}
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_SYSTEM\ \ \ \ \ \ \ \ \ FMOD\_SYSTEM;}
+\DoxyCodeLine{00043\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_SOUND\ \ \ \ \ \ \ \ \ \ FMOD\_SOUND;}
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_CHANNELCONTROL\ FMOD\_CHANNELCONTROL;}
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_CHANNEL\ \ \ \ \ \ \ \ FMOD\_CHANNEL;}
+\DoxyCodeLine{00046\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_CHANNELGROUP\ \ \ FMOD\_CHANNELGROUP;}
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_SOUNDGROUP\ \ \ \ \ FMOD\_SOUNDGROUP;}
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_REVERB3D\ \ \ \ \ \ \ FMOD\_REVERB3D;}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_DSP\ \ \ \ \ \ \ \ \ \ \ \ FMOD\_DSP;}
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_DSPCONNECTION\ \ FMOD\_DSPCONNECTION;}
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_POLYGON\ \ \ \ \ \ \ \ FMOD\_POLYGON;}
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_GEOMETRY\ \ \ \ \ \ \ FMOD\_GEOMETRY;}
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }FMOD\_SYNCPOINT\ \ \ \ \ \ FMOD\_SYNCPOINT;}
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}}\ \ \mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ \ \ FMOD\ constants}}
+\DoxyCodeLine{00058\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ FMOD\_VERSION\ \ \ \ 0x00020226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*\ 0xaaaabbcc\ -\/>\ aaaa\ =\ product\ version,\ bb\ =\ major\ version,\ cc\ =\ minor\ version.*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_DEBUG\_FLAGS;}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_LEVEL\_NONE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000000}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_LEVEL\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_LEVEL\_WARNING\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_LEVEL\_LOG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_TYPE\_MEMORY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_TYPE\_FILE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000200}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_TYPE\_CODEC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000400}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_TYPE\_TRACE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000800}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_DISPLAY\_TIMESTAMPS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00010000}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_DISPLAY\_LINENUMBERS\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00020000}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ FMOD\_DEBUG\_DISPLAY\_THREAD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00040000}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_MEMORY\_TYPE;}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_NORMAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000000}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_STREAM\_FILE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_STREAM\_DECODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_SAMPLEDATA\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_DSP\_BUFFER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_PLUGIN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_PERSISTENT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00200000}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ FMOD\_MEMORY\_ALL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xFFFFFFFF}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_INITFLAGS;}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_NORMAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000000}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_STREAM\_FROM\_UPDATE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_MIX\_FROM\_UPDATE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_3D\_RIGHTHANDED\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_CLIP\_OUTPUT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_CHANNEL\_LOWPASS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_CHANNEL\_DISTANCEFILTER\ \ \ \ \ \ \ \ \ \ \ \ 0x00000200}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_PROFILE\_ENABLE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00010000}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_VOL0\_BECOMES\_VIRTUAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00020000}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_GEOMETRY\_USECLOSEST\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00040000}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_PREFER\_DOLBY\_DOWNMIX\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00080000}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_THREAD\_UNSAFE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00100000}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_PROFILE\_METER\_ALL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00200000}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ FMOD\_INIT\_MEMORY\_TRACKING\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00400000}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_DRIVER\_STATE;}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ FMOD\_DRIVER\_STATE\_CONNECTED\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ FMOD\_DRIVER\_STATE\_DEFAULT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_TIMEUNIT;}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_MS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_PCM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_PCMBYTES\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_RAWBYTES\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_PCMFRACTION\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_MODORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_MODROW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000200}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ FMOD\_TIMEUNIT\_MODPATTERN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000400}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_SYSTEM\_CALLBACK\_TYPE;}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_DEVICELISTCHANGED\ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_DEVICELOST\ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_MEMORYALLOCATIONFAILED\ 0x00000004}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_THREADCREATED\ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_BADDSPCONNECTION\ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_PREMIX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000020}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_POSTMIX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000040}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000080}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_MIDMIX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_THREADDESTROYED\ \ \ \ \ \ \ \ 0x00000200}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_PREUPDATE\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000400}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_POSTUPDATE\ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000800}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_RECORDLISTCHANGED\ \ \ \ \ \ 0x00001000}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_BUFFEREDNOMIX\ \ \ \ \ \ \ \ \ \ 0x00002000}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_DEVICEREINITIALIZE\ \ \ \ \ 0x00004000}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_OUTPUTUNDERRUN\ \ \ \ \ \ \ \ \ 0x00008000}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_RECORDPOSITIONCHANGED\ \ 0x00010000}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ FMOD\_SYSTEM\_CALLBACK\_ALL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xFFFFFFFF}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_MODE;}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ FMOD\_DEFAULT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000000}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ FMOD\_LOOP\_OFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ FMOD\_LOOP\_NORMAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ FMOD\_LOOP\_BIDI\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ FMOD\_2D\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ FMOD\_3D\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ FMOD\_CREATESTREAM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000080}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ FMOD\_CREATESAMPLE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ FMOD\_CREATECOMPRESSEDSAMPLE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000200}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ FMOD\_OPENUSER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000400}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ FMOD\_OPENMEMORY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000800}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ FMOD\_OPENMEMORY\_POINT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x10000000}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ FMOD\_OPENRAW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00001000}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ FMOD\_OPENONLY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00002000}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ FMOD\_ACCURATETIME\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00004000}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ FMOD\_MPEGSEARCH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00008000}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ FMOD\_NONBLOCKING\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00010000}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ FMOD\_UNIQUE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00020000}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_HEADRELATIVE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00040000}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_WORLDRELATIVE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00080000}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_INVERSEROLLOFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00100000}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_LINEARROLLOFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00200000}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_LINEARSQUAREROLLOFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00400000}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_INVERSETAPEREDROLLOFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00800000}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_CUSTOMROLLOFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x04000000}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ FMOD\_3D\_IGNOREGEOMETRY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x40000000}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ FMOD\_IGNORETAGS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x02000000}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ FMOD\_LOWMEM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08000000}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ FMOD\_VIRTUAL\_PLAYFROMSTART\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x80000000}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_CHANNELMASK;}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_FRONT\_LEFT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000001}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000002}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000004}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_LOW\_FREQUENCY\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000008}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000010}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT\ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000020}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_BACK\_LEFT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000040}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_BACK\_RIGHT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000080}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_BACK\_CENTER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00000100}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_MONO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT)}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_STEREO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_LRC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_QUAD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ |\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT)}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_SURROUND\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ |\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ |\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT)}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_5POINT1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ |\ FMOD\_CHANNELMASK\_LOW\_FREQUENCY\ |\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ \ |\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_5POINT1\_REARS\ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ |\ FMOD\_CHANNELMASK\_LOW\_FREQUENCY\ |\ FMOD\_CHANNELMASK\_BACK\_LEFT\ \ \ \ \ \ |\ FMOD\_CHANNELMASK\_BACK\_RIGHT)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_7POINT0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ |\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ |\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT\ |\ FMOD\_CHANNELMASK\_BACK\_LEFT\ \ \ \ \ \ |\ FMOD\_CHANNELMASK\_BACK\_RIGHT)}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ FMOD\_CHANNELMASK\_7POINT1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_CHANNELMASK\_FRONT\_LEFT\ |\ FMOD\_CHANNELMASK\_FRONT\_RIGHT\ |\ FMOD\_CHANNELMASK\_FRONT\_CENTER\ \ |\ FMOD\_CHANNELMASK\_LOW\_FREQUENCY\ |\ FMOD\_CHANNELMASK\_SURROUND\_LEFT\ \ |\ FMOD\_CHANNELMASK\_SURROUND\_RIGHT\ |\ FMOD\_CHANNELMASK\_BACK\_LEFT\ |\ FMOD\_CHANNELMASK\_BACK\_RIGHT)}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ FMOD\_PORT\_INDEX;}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ FMOD\_PORT\_INDEX\_NONE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xFFFFFFFFFFFFFFFF}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ FMOD\_PORT\_INDEX\_FLAG\_VR\_CONTROLLER\ \ \ \ \ \ \ \ \ \ 0x1000000000000000}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ FMOD\_THREAD\_PRIORITY;}
+\DoxyCodeLine{00190\ \textcolor{comment}{/*\ Platform\ specific\ priority\ range\ */}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ \ \ \ \ \ \ \ \ \ \ (-\/32\ *\ 1024)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_PLATFORM\_MAX\ \ \ \ \ \ \ \ \ \ \ (\ 32\ *\ 1024)}}
+\DoxyCodeLine{00193\ \textcolor{comment}{/*\ Platform\ agnostic\ priorities,\ maps\ internally\ to\ platform\ specific\ value\ */}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_DEFAULT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 1)}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_LOW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 2)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_MEDIUM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 3)}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_HIGH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 4)}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_VERY\_HIGH\ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 5)}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_EXTREME\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 6)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_CRITICAL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_THREAD\_PRIORITY\_PLATFORM\_MIN\ -\/\ 7)}}
+\DoxyCodeLine{00201\ \textcolor{comment}{/*\ Thread\ defaults\ */}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_MIXER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_EXTREME}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_FEEDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_CRITICAL}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_STREAM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_VERY\_HIGH}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_FILE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_HIGH}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_NONBLOCKING\ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_HIGH}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_RECORD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_HIGH}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_GEOMETRY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_LOW}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_PROFILER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_MEDIUM}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_STUDIO\_UPDATE\ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_MEDIUM}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_STUDIO\_LOAD\_BANK\ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_MEDIUM}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_STUDIO\_LOAD\_SAMPLE\ \ \ \ \ FMOD\_THREAD\_PRIORITY\_MEDIUM}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_CONVOLUTION1\ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_VERY\_HIGH}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_PRIORITY\_CONVOLUTION2\ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_PRIORITY\_VERY\_HIGH}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ FMOD\_THREAD\_STACK\_SIZE;}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_DEFAULT\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_MIXER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (80\ \ *\ 1024)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_FEEDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (16\ \ *\ 1024)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_STREAM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (96\ \ *\ 1024)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_FILE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (64\ \ *\ 1024)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_NONBLOCKING\ \ \ \ \ \ \ \ \ \ (112\ *\ 1024)}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_RECORD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (16\ \ *\ 1024)}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_GEOMETRY\ \ \ \ \ \ \ \ \ \ \ \ \ (48\ \ *\ 1024)}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_PROFILER\ \ \ \ \ \ \ \ \ \ \ \ \ (128\ *\ 1024)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_STUDIO\_UPDATE\ \ \ \ \ \ \ \ (96\ \ *\ 1024)}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_STUDIO\_LOAD\_BANK\ \ \ \ \ (96\ \ *\ 1024)}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_STUDIO\_LOAD\_SAMPLE\ \ \ (96\ \ *\ 1024)}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_CONVOLUTION1\ \ \ \ \ \ \ \ \ (16\ \ *\ 1024)}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_STACK\_SIZE\_CONVOLUTION2\ \ \ \ \ \ \ \ \ (16\ \ *\ 1024)}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ FMOD\_THREAD\_AFFINITY;}
+\DoxyCodeLine{00233\ \textcolor{comment}{/*\ Platform\ agnostic\ thread\ groupings\ */}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_GROUP\_DEFAULT\ \ \ \ \ \ \ \ \ \ 0x4000000000000000}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_GROUP\_A\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x4000000000000001}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_GROUP\_B\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x4000000000000002}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_GROUP\_C\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x4000000000000003}}
+\DoxyCodeLine{00238\ \textcolor{comment}{/*\ Thread\ defaults\ */}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_MIXER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_A}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_FEEDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_STREAM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_FILE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_NONBLOCKING\ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_RECORD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_GEOMETRY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_PROFILER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_STUDIO\_UPDATE\ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_B}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_STUDIO\_LOAD\_BANK\ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_STUDIO\_LOAD\_SAMPLE\ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CONVOLUTION1\ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CONVOLUTION2\ \ \ \ \ \ \ \ \ \ \ FMOD\_THREAD\_AFFINITY\_GROUP\_C}}
+\DoxyCodeLine{00252\ \textcolor{comment}{/*\ Core\ mask,\ valid\ up\ to\ 1\ <<\ 62\ */}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_ALL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 0)}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 1)}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 2)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 3)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_4\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 4)}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 5)}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_6\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 6)}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_7\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 7)}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_8\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 8)}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_9\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 9)}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_10\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 10)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_11\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 11)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_12\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 12)}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_13\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 13)}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_14\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 14)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ FMOD\_THREAD\_AFFINITY\_CORE\_15\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1\ <<\ 15)}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \textcolor{comment}{/*\ Preset\ for\ FMOD\_REVERB\_PROPERTIES\ */}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_OFF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1000,\ \ \ \ 7,\ \ 11,\ 5000,\ 100,\ 100,\ 100,\ 250,\ 0,\ \ \ \ 20,\ \ 96,\ -\/80.0f\ \}}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_GENERIC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 83,\ 100,\ 100,\ 250,\ 0,\ 14500,\ \ 96,\ \ -\/8.0f\ \}}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_PADDEDCELL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ 170,\ \ \ \ 1,\ \ \ 2,\ 5000,\ \ 10,\ 100,\ 100,\ 250,\ 0,\ \ \ 160,\ \ 84,\ \ -\/7.8f\ \}}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_ROOM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ 400,\ \ \ \ 2,\ \ \ 3,\ 5000,\ \ 83,\ 100,\ 100,\ 250,\ 0,\ \ 6050,\ \ 88,\ \ -\/9.4f\ \}}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_BATHROOM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 54,\ 100,\ \ 60,\ 250,\ 0,\ \ 2900,\ \ 83,\ \ \ 0.5f\ \}}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_LIVINGROOM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ 500,\ \ \ \ 3,\ \ \ 4,\ 5000,\ \ 10,\ 100,\ 100,\ 250,\ 0,\ \ \ 160,\ \ 58,\ -\/19.0f\ \}}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_STONEROOM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 2300,\ \ \ 12,\ \ 17,\ 5000,\ \ 64,\ 100,\ 100,\ 250,\ 0,\ \ 7800,\ \ 71,\ \ -\/8.5f\ \}}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_AUDITORIUM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 4300,\ \ \ 20,\ \ 30,\ 5000,\ \ 59,\ 100,\ 100,\ 250,\ 0,\ \ 5850,\ \ 64,\ -\/11.7f\ \}}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_CONCERTHALL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 3900,\ \ \ 20,\ \ 29,\ 5000,\ \ 70,\ 100,\ 100,\ 250,\ 0,\ \ 5650,\ \ 80,\ \ -\/9.8f\ \}}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_CAVE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 2900,\ \ \ 15,\ \ 22,\ 5000,\ 100,\ 100,\ 100,\ 250,\ 0,\ 20000,\ \ 59,\ -\/11.3f\ \}}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_ARENA\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 7200,\ \ \ 20,\ \ 30,\ 5000,\ \ 33,\ 100,\ 100,\ 250,\ 0,\ \ 4500,\ \ 80,\ \ -\/9.6f\ \}}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_HANGAR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ 10000,\ \ \ 20,\ \ 30,\ 5000,\ \ 23,\ 100,\ 100,\ 250,\ 0,\ \ 3400,\ \ 72,\ \ -\/7.4f\ \}}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_CARPETTEDHALLWAY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ 300,\ \ \ \ 2,\ \ 30,\ 5000,\ \ 10,\ 100,\ 100,\ 250,\ 0,\ \ \ 500,\ \ 56,\ -\/24.0f\ \}}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_HALLWAY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 59,\ 100,\ 100,\ 250,\ 0,\ \ 7800,\ \ 87,\ \ -\/5.5f\ \}}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_STONECORRIDOR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ 270,\ \ \ 13,\ \ 20,\ 5000,\ \ 79,\ 100,\ 100,\ 250,\ 0,\ \ 9000,\ \ 86,\ \ -\/6.0f\ \}}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_ALLEY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 86,\ 100,\ 100,\ 250,\ 0,\ \ 8300,\ \ 80,\ \ -\/9.8f\ \}}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_FOREST\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ 162,\ \ 88,\ 5000,\ \ 54,\ \ 79,\ 100,\ 250,\ 0,\ \ \ 760,\ \ 94,\ -\/12.3f\ \}}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_CITY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 67,\ \ 50,\ 100,\ 250,\ 0,\ \ 4050,\ \ 66,\ -\/26.0f\ \}}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_MOUNTAINS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ 300,\ 100,\ 5000,\ \ 21,\ \ 27,\ 100,\ 250,\ 0,\ \ 1220,\ \ 82,\ -\/24.0f\ \}}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_QUARRY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ 61,\ \ 25,\ 5000,\ \ 83,\ 100,\ 100,\ 250,\ 0,\ \ 3400,\ 100,\ \ -\/5.0f\ \}}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_PLAIN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ 179,\ 100,\ 5000,\ \ 50,\ \ 21,\ 100,\ 250,\ 0,\ \ 1670,\ \ 65,\ -\/28.0f\ \}}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_PARKINGLOT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1700,\ \ \ \ 8,\ \ 12,\ 5000,\ 100,\ 100,\ 100,\ 250,\ 0,\ 20000,\ \ 56,\ -\/19.5f\ \}}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_SEWERPIPE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 2800,\ \ \ 14,\ \ 21,\ 5000,\ \ 14,\ \ 80,\ \ 60,\ 250,\ 0,\ \ 3400,\ \ 66,\ \ \ 1.2f\ \}}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#define\ FMOD\_PRESET\_UNDERWATER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ 1500,\ \ \ \ 7,\ \ 11,\ 5000,\ \ 10,\ 100,\ 100,\ 250,\ 0,\ \ \ 500,\ \ 92,\ \ \ 7.0f\ \}}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#define\ FMOD\_MAX\_CHANNEL\_WIDTH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 32}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#define\ FMOD\_MAX\_SYSTEMS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#define\ FMOD\_MAX\_LISTENERS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#define\ FMOD\_REVERB\_MAXINSTANCES\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 4}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_THREAD\_TYPE}
+\DoxyCodeLine{00303\ \{}
+\DoxyCodeLine{00304\ \ \ \ \ FMOD\_THREAD\_TYPE\_MIXER,}
+\DoxyCodeLine{00305\ \ \ \ \ FMOD\_THREAD\_TYPE\_FEEDER,}
+\DoxyCodeLine{00306\ \ \ \ \ FMOD\_THREAD\_TYPE\_STREAM,}
+\DoxyCodeLine{00307\ \ \ \ \ FMOD\_THREAD\_TYPE\_FILE,}
+\DoxyCodeLine{00308\ \ \ \ \ FMOD\_THREAD\_TYPE\_NONBLOCKING,}
+\DoxyCodeLine{00309\ \ \ \ \ FMOD\_THREAD\_TYPE\_RECORD,}
+\DoxyCodeLine{00310\ \ \ \ \ FMOD\_THREAD\_TYPE\_GEOMETRY,}
+\DoxyCodeLine{00311\ \ \ \ \ FMOD\_THREAD\_TYPE\_PROFILER,}
+\DoxyCodeLine{00312\ \ \ \ \ FMOD\_THREAD\_TYPE\_STUDIO\_UPDATE,}
+\DoxyCodeLine{00313\ \ \ \ \ FMOD\_THREAD\_TYPE\_STUDIO\_LOAD\_BANK,}
+\DoxyCodeLine{00314\ \ \ \ \ FMOD\_THREAD\_TYPE\_STUDIO\_LOAD\_SAMPLE,}
+\DoxyCodeLine{00315\ \ \ \ \ FMOD\_THREAD\_TYPE\_CONVOLUTION1,}
+\DoxyCodeLine{00316\ \ \ \ \ FMOD\_THREAD\_TYPE\_CONVOLUTION2,}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ FMOD\_THREAD\_TYPE\_MAX,}
+\DoxyCodeLine{00319\ \ \ \ \ FMOD\_THREAD\_TYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00320\ \}\ FMOD\_THREAD\_TYPE;}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_RESULT}
+\DoxyCodeLine{00323\ \{}
+\DoxyCodeLine{00324\ \ \ \ \ FMOD\_OK,}
+\DoxyCodeLine{00325\ \ \ \ \ FMOD\_ERR\_BADCOMMAND,}
+\DoxyCodeLine{00326\ \ \ \ \ FMOD\_ERR\_CHANNEL\_ALLOC,}
+\DoxyCodeLine{00327\ \ \ \ \ FMOD\_ERR\_CHANNEL\_STOLEN,}
+\DoxyCodeLine{00328\ \ \ \ \ FMOD\_ERR\_DMA,}
+\DoxyCodeLine{00329\ \ \ \ \ FMOD\_ERR\_DSP\_CONNECTION,}
+\DoxyCodeLine{00330\ \ \ \ \ FMOD\_ERR\_DSP\_DONTPROCESS,}
+\DoxyCodeLine{00331\ \ \ \ \ FMOD\_ERR\_DSP\_FORMAT,}
+\DoxyCodeLine{00332\ \ \ \ \ FMOD\_ERR\_DSP\_INUSE,}
+\DoxyCodeLine{00333\ \ \ \ \ FMOD\_ERR\_DSP\_NOTFOUND,}
+\DoxyCodeLine{00334\ \ \ \ \ FMOD\_ERR\_DSP\_RESERVED,}
+\DoxyCodeLine{00335\ \ \ \ \ FMOD\_ERR\_DSP\_SILENCE,}
+\DoxyCodeLine{00336\ \ \ \ \ FMOD\_ERR\_DSP\_TYPE,}
+\DoxyCodeLine{00337\ \ \ \ \ FMOD\_ERR\_FILE\_BAD,}
+\DoxyCodeLine{00338\ \ \ \ \ FMOD\_ERR\_FILE\_COULDNOTSEEK,}
+\DoxyCodeLine{00339\ \ \ \ \ FMOD\_ERR\_FILE\_DISKEJECTED,}
+\DoxyCodeLine{00340\ \ \ \ \ FMOD\_ERR\_FILE\_EOF,}
+\DoxyCodeLine{00341\ \ \ \ \ FMOD\_ERR\_FILE\_ENDOFDATA,}
+\DoxyCodeLine{00342\ \ \ \ \ FMOD\_ERR\_FILE\_NOTFOUND,}
+\DoxyCodeLine{00343\ \ \ \ \ FMOD\_ERR\_FORMAT,}
+\DoxyCodeLine{00344\ \ \ \ \ FMOD\_ERR\_HEADER\_MISMATCH,}
+\DoxyCodeLine{00345\ \ \ \ \ FMOD\_ERR\_HTTP,}
+\DoxyCodeLine{00346\ \ \ \ \ FMOD\_ERR\_HTTP\_ACCESS,}
+\DoxyCodeLine{00347\ \ \ \ \ FMOD\_ERR\_HTTP\_PROXY\_AUTH,}
+\DoxyCodeLine{00348\ \ \ \ \ FMOD\_ERR\_HTTP\_SERVER\_ERROR,}
+\DoxyCodeLine{00349\ \ \ \ \ FMOD\_ERR\_HTTP\_TIMEOUT,}
+\DoxyCodeLine{00350\ \ \ \ \ FMOD\_ERR\_INITIALIZATION,}
+\DoxyCodeLine{00351\ \ \ \ \ FMOD\_ERR\_INITIALIZED,}
+\DoxyCodeLine{00352\ \ \ \ \ FMOD\_ERR\_INTERNAL,}
+\DoxyCodeLine{00353\ \ \ \ \ FMOD\_ERR\_INVALID\_FLOAT,}
+\DoxyCodeLine{00354\ \ \ \ \ FMOD\_ERR\_INVALID\_HANDLE,}
+\DoxyCodeLine{00355\ \ \ \ \ FMOD\_ERR\_INVALID\_PARAM,}
+\DoxyCodeLine{00356\ \ \ \ \ FMOD\_ERR\_INVALID\_POSITION,}
+\DoxyCodeLine{00357\ \ \ \ \ FMOD\_ERR\_INVALID\_SPEAKER,}
+\DoxyCodeLine{00358\ \ \ \ \ FMOD\_ERR\_INVALID\_SYNCPOINT,}
+\DoxyCodeLine{00359\ \ \ \ \ FMOD\_ERR\_INVALID\_THREAD,}
+\DoxyCodeLine{00360\ \ \ \ \ FMOD\_ERR\_INVALID\_VECTOR,}
+\DoxyCodeLine{00361\ \ \ \ \ FMOD\_ERR\_MAXAUDIBLE,}
+\DoxyCodeLine{00362\ \ \ \ \ FMOD\_ERR\_MEMORY,}
+\DoxyCodeLine{00363\ \ \ \ \ FMOD\_ERR\_MEMORY\_CANTPOINT,}
+\DoxyCodeLine{00364\ \ \ \ \ FMOD\_ERR\_NEEDS3D,}
+\DoxyCodeLine{00365\ \ \ \ \ FMOD\_ERR\_NEEDSHARDWARE,}
+\DoxyCodeLine{00366\ \ \ \ \ FMOD\_ERR\_NET\_CONNECT,}
+\DoxyCodeLine{00367\ \ \ \ \ FMOD\_ERR\_NET\_SOCKET\_ERROR,}
+\DoxyCodeLine{00368\ \ \ \ \ FMOD\_ERR\_NET\_URL,}
+\DoxyCodeLine{00369\ \ \ \ \ FMOD\_ERR\_NET\_WOULD\_BLOCK,}
+\DoxyCodeLine{00370\ \ \ \ \ FMOD\_ERR\_NOTREADY,}
+\DoxyCodeLine{00371\ \ \ \ \ FMOD\_ERR\_OUTPUT\_ALLOCATED,}
+\DoxyCodeLine{00372\ \ \ \ \ FMOD\_ERR\_OUTPUT\_CREATEBUFFER,}
+\DoxyCodeLine{00373\ \ \ \ \ FMOD\_ERR\_OUTPUT\_DRIVERCALL,}
+\DoxyCodeLine{00374\ \ \ \ \ FMOD\_ERR\_OUTPUT\_FORMAT,}
+\DoxyCodeLine{00375\ \ \ \ \ FMOD\_ERR\_OUTPUT\_INIT,}
+\DoxyCodeLine{00376\ \ \ \ \ FMOD\_ERR\_OUTPUT\_NODRIVERS,}
+\DoxyCodeLine{00377\ \ \ \ \ FMOD\_ERR\_PLUGIN,}
+\DoxyCodeLine{00378\ \ \ \ \ FMOD\_ERR\_PLUGIN\_MISSING,}
+\DoxyCodeLine{00379\ \ \ \ \ FMOD\_ERR\_PLUGIN\_RESOURCE,}
+\DoxyCodeLine{00380\ \ \ \ \ FMOD\_ERR\_PLUGIN\_VERSION,}
+\DoxyCodeLine{00381\ \ \ \ \ FMOD\_ERR\_RECORD,}
+\DoxyCodeLine{00382\ \ \ \ \ FMOD\_ERR\_REVERB\_CHANNELGROUP,}
+\DoxyCodeLine{00383\ \ \ \ \ FMOD\_ERR\_REVERB\_INSTANCE,}
+\DoxyCodeLine{00384\ \ \ \ \ FMOD\_ERR\_SUBSOUNDS,}
+\DoxyCodeLine{00385\ \ \ \ \ FMOD\_ERR\_SUBSOUND\_ALLOCATED,}
+\DoxyCodeLine{00386\ \ \ \ \ FMOD\_ERR\_SUBSOUND\_CANTMOVE,}
+\DoxyCodeLine{00387\ \ \ \ \ FMOD\_ERR\_TAGNOTFOUND,}
+\DoxyCodeLine{00388\ \ \ \ \ FMOD\_ERR\_TOOMANYCHANNELS,}
+\DoxyCodeLine{00389\ \ \ \ \ FMOD\_ERR\_TRUNCATED,}
+\DoxyCodeLine{00390\ \ \ \ \ FMOD\_ERR\_UNIMPLEMENTED,}
+\DoxyCodeLine{00391\ \ \ \ \ FMOD\_ERR\_UNINITIALIZED,}
+\DoxyCodeLine{00392\ \ \ \ \ FMOD\_ERR\_UNSUPPORTED,}
+\DoxyCodeLine{00393\ \ \ \ \ FMOD\_ERR\_VERSION,}
+\DoxyCodeLine{00394\ \ \ \ \ FMOD\_ERR\_EVENT\_ALREADY\_LOADED,}
+\DoxyCodeLine{00395\ \ \ \ \ FMOD\_ERR\_EVENT\_LIVEUPDATE\_BUSY,}
+\DoxyCodeLine{00396\ \ \ \ \ FMOD\_ERR\_EVENT\_LIVEUPDATE\_MISMATCH,}
+\DoxyCodeLine{00397\ \ \ \ \ FMOD\_ERR\_EVENT\_LIVEUPDATE\_TIMEOUT,}
+\DoxyCodeLine{00398\ \ \ \ \ FMOD\_ERR\_EVENT\_NOTFOUND,}
+\DoxyCodeLine{00399\ \ \ \ \ FMOD\_ERR\_STUDIO\_UNINITIALIZED,}
+\DoxyCodeLine{00400\ \ \ \ \ FMOD\_ERR\_STUDIO\_NOT\_LOADED,}
+\DoxyCodeLine{00401\ \ \ \ \ FMOD\_ERR\_INVALID\_STRING,}
+\DoxyCodeLine{00402\ \ \ \ \ FMOD\_ERR\_ALREADY\_LOCKED,}
+\DoxyCodeLine{00403\ \ \ \ \ FMOD\_ERR\_NOT\_LOCKED,}
+\DoxyCodeLine{00404\ \ \ \ \ FMOD\_ERR\_RECORD\_DISCONNECTED,}
+\DoxyCodeLine{00405\ \ \ \ \ FMOD\_ERR\_TOOMANYSAMPLES,}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ FMOD\_RESULT\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00408\ \}\ FMOD\_RESULT;}
+\DoxyCodeLine{00409\ }
+\DoxyCodeLine{00410\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_CHANNELCONTROL\_TYPE}
+\DoxyCodeLine{00411\ \{}
+\DoxyCodeLine{00412\ \ \ \ \ FMOD\_CHANNELCONTROL\_CHANNEL,}
+\DoxyCodeLine{00413\ \ \ \ \ FMOD\_CHANNELCONTROL\_CHANNELGROUP,}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ FMOD\_CHANNELCONTROL\_MAX,}
+\DoxyCodeLine{00416\ \ \ \ \ FMOD\_CHANNELCONTROL\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00417\ \}\ FMOD\_CHANNELCONTROL\_TYPE;}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_OUTPUTTYPE}
+\DoxyCodeLine{00420\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ FMOD\_OUTPUTTYPE\_AUTODETECT,}
+\DoxyCodeLine{00422\ \ \ \ \ FMOD\_OUTPUTTYPE\_UNKNOWN,}
+\DoxyCodeLine{00423\ \ \ \ \ FMOD\_OUTPUTTYPE\_NOSOUND,}
+\DoxyCodeLine{00424\ \ \ \ \ FMOD\_OUTPUTTYPE\_WAVWRITER,}
+\DoxyCodeLine{00425\ \ \ \ \ FMOD\_OUTPUTTYPE\_NOSOUND\_NRT,}
+\DoxyCodeLine{00426\ \ \ \ \ FMOD\_OUTPUTTYPE\_WAVWRITER\_NRT,}
+\DoxyCodeLine{00427\ \ \ \ \ FMOD\_OUTPUTTYPE\_WASAPI,}
+\DoxyCodeLine{00428\ \ \ \ \ FMOD\_OUTPUTTYPE\_ASIO,}
+\DoxyCodeLine{00429\ \ \ \ \ FMOD\_OUTPUTTYPE\_PULSEAUDIO,}
+\DoxyCodeLine{00430\ \ \ \ \ FMOD\_OUTPUTTYPE\_ALSA,}
+\DoxyCodeLine{00431\ \ \ \ \ FMOD\_OUTPUTTYPE\_COREAUDIO,}
+\DoxyCodeLine{00432\ \ \ \ \ FMOD\_OUTPUTTYPE\_AUDIOTRACK,}
+\DoxyCodeLine{00433\ \ \ \ \ FMOD\_OUTPUTTYPE\_OPENSL,}
+\DoxyCodeLine{00434\ \ \ \ \ FMOD\_OUTPUTTYPE\_AUDIOOUT,}
+\DoxyCodeLine{00435\ \ \ \ \ FMOD\_OUTPUTTYPE\_AUDIO3D,}
+\DoxyCodeLine{00436\ \ \ \ \ FMOD\_OUTPUTTYPE\_WEBAUDIO,}
+\DoxyCodeLine{00437\ \ \ \ \ FMOD\_OUTPUTTYPE\_NNAUDIO,}
+\DoxyCodeLine{00438\ \ \ \ \ FMOD\_OUTPUTTYPE\_WINSONIC,}
+\DoxyCodeLine{00439\ \ \ \ \ FMOD\_OUTPUTTYPE\_AAUDIO,}
+\DoxyCodeLine{00440\ \ \ \ \ FMOD\_OUTPUTTYPE\_AUDIOWORKLET,}
+\DoxyCodeLine{00441\ \ \ \ \ FMOD\_OUTPUTTYPE\_PHASE,}
+\DoxyCodeLine{00442\ \ \ \ \ FMOD\_OUTPUTTYPE\_OHAUDIO,}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \ \ \ \ FMOD\_OUTPUTTYPE\_MAX,}
+\DoxyCodeLine{00445\ \ \ \ \ FMOD\_OUTPUTTYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00446\ \}\ FMOD\_OUTPUTTYPE;}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DEBUG\_MODE}
+\DoxyCodeLine{00449\ \{}
+\DoxyCodeLine{00450\ \ \ \ \ FMOD\_DEBUG\_MODE\_TTY,}
+\DoxyCodeLine{00451\ \ \ \ \ FMOD\_DEBUG\_MODE\_FILE,}
+\DoxyCodeLine{00452\ \ \ \ \ FMOD\_DEBUG\_MODE\_CALLBACK,}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \ \ \ \ FMOD\_DEBUG\_MODE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00455\ \}\ FMOD\_DEBUG\_MODE;}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_SPEAKERMODE}
+\DoxyCodeLine{00458\ \{}
+\DoxyCodeLine{00459\ \ \ \ \ FMOD\_SPEAKERMODE\_DEFAULT,}
+\DoxyCodeLine{00460\ \ \ \ \ FMOD\_SPEAKERMODE\_RAW,}
+\DoxyCodeLine{00461\ \ \ \ \ FMOD\_SPEAKERMODE\_MONO,}
+\DoxyCodeLine{00462\ \ \ \ \ FMOD\_SPEAKERMODE\_STEREO,}
+\DoxyCodeLine{00463\ \ \ \ \ FMOD\_SPEAKERMODE\_QUAD,}
+\DoxyCodeLine{00464\ \ \ \ \ FMOD\_SPEAKERMODE\_SURROUND,}
+\DoxyCodeLine{00465\ \ \ \ \ FMOD\_SPEAKERMODE\_5POINT1,}
+\DoxyCodeLine{00466\ \ \ \ \ FMOD\_SPEAKERMODE\_7POINT1,}
+\DoxyCodeLine{00467\ \ \ \ \ FMOD\_SPEAKERMODE\_7POINT1POINT4,}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ FMOD\_SPEAKERMODE\_MAX,}
+\DoxyCodeLine{00470\ \ \ \ \ FMOD\_SPEAKERMODE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00471\ \}\ FMOD\_SPEAKERMODE;}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_SPEAKER}
+\DoxyCodeLine{00474\ \{}
+\DoxyCodeLine{00475\ \ \ \ \ FMOD\_SPEAKER\_NONE\ =\ -\/1,}
+\DoxyCodeLine{00476\ \ \ \ \ FMOD\_SPEAKER\_FRONT\_LEFT\ =\ 0,}
+\DoxyCodeLine{00477\ \ \ \ \ FMOD\_SPEAKER\_FRONT\_RIGHT,}
+\DoxyCodeLine{00478\ \ \ \ \ FMOD\_SPEAKER\_FRONT\_CENTER,}
+\DoxyCodeLine{00479\ \ \ \ \ FMOD\_SPEAKER\_LOW\_FREQUENCY,}
+\DoxyCodeLine{00480\ \ \ \ \ FMOD\_SPEAKER\_SURROUND\_LEFT,}
+\DoxyCodeLine{00481\ \ \ \ \ FMOD\_SPEAKER\_SURROUND\_RIGHT,}
+\DoxyCodeLine{00482\ \ \ \ \ FMOD\_SPEAKER\_BACK\_LEFT,}
+\DoxyCodeLine{00483\ \ \ \ \ FMOD\_SPEAKER\_BACK\_RIGHT,}
+\DoxyCodeLine{00484\ \ \ \ \ FMOD\_SPEAKER\_TOP\_FRONT\_LEFT,}
+\DoxyCodeLine{00485\ \ \ \ \ FMOD\_SPEAKER\_TOP\_FRONT\_RIGHT,}
+\DoxyCodeLine{00486\ \ \ \ \ FMOD\_SPEAKER\_TOP\_BACK\_LEFT,}
+\DoxyCodeLine{00487\ \ \ \ \ FMOD\_SPEAKER\_TOP\_BACK\_RIGHT,}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \ \ \ \ FMOD\_SPEAKER\_MAX,}
+\DoxyCodeLine{00490\ \ \ \ \ FMOD\_SPEAKER\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00491\ \}\ FMOD\_SPEAKER;}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_CHANNELORDER}
+\DoxyCodeLine{00494\ \{}
+\DoxyCodeLine{00495\ \ \ \ \ FMOD\_CHANNELORDER\_DEFAULT,}
+\DoxyCodeLine{00496\ \ \ \ \ FMOD\_CHANNELORDER\_WAVEFORMAT,}
+\DoxyCodeLine{00497\ \ \ \ \ FMOD\_CHANNELORDER\_PROTOOLS,}
+\DoxyCodeLine{00498\ \ \ \ \ FMOD\_CHANNELORDER\_ALLMONO,}
+\DoxyCodeLine{00499\ \ \ \ \ FMOD\_CHANNELORDER\_ALLSTEREO,}
+\DoxyCodeLine{00500\ \ \ \ \ FMOD\_CHANNELORDER\_ALSA,}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ FMOD\_CHANNELORDER\_MAX,}
+\DoxyCodeLine{00503\ \ \ \ \ FMOD\_CHANNELORDER\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00504\ \}\ FMOD\_CHANNELORDER;}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00506\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_PLUGINTYPE}
+\DoxyCodeLine{00507\ \{}
+\DoxyCodeLine{00508\ \ \ \ \ FMOD\_PLUGINTYPE\_OUTPUT,}
+\DoxyCodeLine{00509\ \ \ \ \ FMOD\_PLUGINTYPE\_CODEC,}
+\DoxyCodeLine{00510\ \ \ \ \ FMOD\_PLUGINTYPE\_DSP,}
+\DoxyCodeLine{00511\ }
+\DoxyCodeLine{00512\ \ \ \ \ FMOD\_PLUGINTYPE\_MAX,}
+\DoxyCodeLine{00513\ \ \ \ \ FMOD\_PLUGINTYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00514\ \}\ FMOD\_PLUGINTYPE;}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_SOUND\_TYPE}
+\DoxyCodeLine{00517\ \{}
+\DoxyCodeLine{00518\ \ \ \ \ FMOD\_SOUND\_TYPE\_UNKNOWN,}
+\DoxyCodeLine{00519\ \ \ \ \ FMOD\_SOUND\_TYPE\_AIFF,}
+\DoxyCodeLine{00520\ \ \ \ \ FMOD\_SOUND\_TYPE\_ASF,}
+\DoxyCodeLine{00521\ \ \ \ \ FMOD\_SOUND\_TYPE\_DLS,}
+\DoxyCodeLine{00522\ \ \ \ \ FMOD\_SOUND\_TYPE\_FLAC,}
+\DoxyCodeLine{00523\ \ \ \ \ FMOD\_SOUND\_TYPE\_FSB,}
+\DoxyCodeLine{00524\ \ \ \ \ FMOD\_SOUND\_TYPE\_IT,}
+\DoxyCodeLine{00525\ \ \ \ \ FMOD\_SOUND\_TYPE\_MIDI,}
+\DoxyCodeLine{00526\ \ \ \ \ FMOD\_SOUND\_TYPE\_MOD,}
+\DoxyCodeLine{00527\ \ \ \ \ FMOD\_SOUND\_TYPE\_MPEG,}
+\DoxyCodeLine{00528\ \ \ \ \ FMOD\_SOUND\_TYPE\_OGGVORBIS,}
+\DoxyCodeLine{00529\ \ \ \ \ FMOD\_SOUND\_TYPE\_PLAYLIST,}
+\DoxyCodeLine{00530\ \ \ \ \ FMOD\_SOUND\_TYPE\_RAW,}
+\DoxyCodeLine{00531\ \ \ \ \ FMOD\_SOUND\_TYPE\_S3M,}
+\DoxyCodeLine{00532\ \ \ \ \ FMOD\_SOUND\_TYPE\_USER,}
+\DoxyCodeLine{00533\ \ \ \ \ FMOD\_SOUND\_TYPE\_WAV,}
+\DoxyCodeLine{00534\ \ \ \ \ FMOD\_SOUND\_TYPE\_XM,}
+\DoxyCodeLine{00535\ \ \ \ \ FMOD\_SOUND\_TYPE\_XMA,}
+\DoxyCodeLine{00536\ \ \ \ \ FMOD\_SOUND\_TYPE\_AUDIOQUEUE,}
+\DoxyCodeLine{00537\ \ \ \ \ FMOD\_SOUND\_TYPE\_AT9,}
+\DoxyCodeLine{00538\ \ \ \ \ FMOD\_SOUND\_TYPE\_VORBIS,}
+\DoxyCodeLine{00539\ \ \ \ \ FMOD\_SOUND\_TYPE\_MEDIA\_FOUNDATION,}
+\DoxyCodeLine{00540\ \ \ \ \ FMOD\_SOUND\_TYPE\_MEDIACODEC,}
+\DoxyCodeLine{00541\ \ \ \ \ FMOD\_SOUND\_TYPE\_FADPCM,}
+\DoxyCodeLine{00542\ \ \ \ \ FMOD\_SOUND\_TYPE\_OPUS,}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ FMOD\_SOUND\_TYPE\_MAX,}
+\DoxyCodeLine{00545\ \ \ \ \ FMOD\_SOUND\_TYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00546\ \}\ FMOD\_SOUND\_TYPE;}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_SOUND\_FORMAT}
+\DoxyCodeLine{00549\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ FMOD\_SOUND\_FORMAT\_NONE,}
+\DoxyCodeLine{00551\ \ \ \ \ FMOD\_SOUND\_FORMAT\_PCM8,}
+\DoxyCodeLine{00552\ \ \ \ \ FMOD\_SOUND\_FORMAT\_PCM16,}
+\DoxyCodeLine{00553\ \ \ \ \ FMOD\_SOUND\_FORMAT\_PCM24,}
+\DoxyCodeLine{00554\ \ \ \ \ FMOD\_SOUND\_FORMAT\_PCM32,}
+\DoxyCodeLine{00555\ \ \ \ \ FMOD\_SOUND\_FORMAT\_PCMFLOAT,}
+\DoxyCodeLine{00556\ \ \ \ \ FMOD\_SOUND\_FORMAT\_BITSTREAM,}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \ \ \ \ FMOD\_SOUND\_FORMAT\_MAX,}
+\DoxyCodeLine{00559\ \ \ \ \ FMOD\_SOUND\_FORMAT\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00560\ \}\ FMOD\_SOUND\_FORMAT;}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00562\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_OPENSTATE}
+\DoxyCodeLine{00563\ \{}
+\DoxyCodeLine{00564\ \ \ \ \ FMOD\_OPENSTATE\_READY,}
+\DoxyCodeLine{00565\ \ \ \ \ FMOD\_OPENSTATE\_LOADING,}
+\DoxyCodeLine{00566\ \ \ \ \ FMOD\_OPENSTATE\_ERROR,}
+\DoxyCodeLine{00567\ \ \ \ \ FMOD\_OPENSTATE\_CONNECTING,}
+\DoxyCodeLine{00568\ \ \ \ \ FMOD\_OPENSTATE\_BUFFERING,}
+\DoxyCodeLine{00569\ \ \ \ \ FMOD\_OPENSTATE\_SEEKING,}
+\DoxyCodeLine{00570\ \ \ \ \ FMOD\_OPENSTATE\_PLAYING,}
+\DoxyCodeLine{00571\ \ \ \ \ FMOD\_OPENSTATE\_SETPOSITION,}
+\DoxyCodeLine{00572\ }
+\DoxyCodeLine{00573\ \ \ \ \ FMOD\_OPENSTATE\_MAX,}
+\DoxyCodeLine{00574\ \ \ \ \ FMOD\_OPENSTATE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00575\ \}\ FMOD\_OPENSTATE;}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_SOUNDGROUP\_BEHAVIOR}
+\DoxyCodeLine{00578\ \{}
+\DoxyCodeLine{00579\ \ \ \ \ FMOD\_SOUNDGROUP\_BEHAVIOR\_FAIL,}
+\DoxyCodeLine{00580\ \ \ \ \ FMOD\_SOUNDGROUP\_BEHAVIOR\_MUTE,}
+\DoxyCodeLine{00581\ \ \ \ \ FMOD\_SOUNDGROUP\_BEHAVIOR\_STEALLOWEST,}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ \ \ FMOD\_SOUNDGROUP\_BEHAVIOR\_MAX,}
+\DoxyCodeLine{00584\ \ \ \ \ FMOD\_SOUNDGROUP\_BEHAVIOR\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00585\ \}\ FMOD\_SOUNDGROUP\_BEHAVIOR;}
+\DoxyCodeLine{00586\ }
+\DoxyCodeLine{00587\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_CHANNELCONTROL\_CALLBACK\_TYPE}
+\DoxyCodeLine{00588\ \{}
+\DoxyCodeLine{00589\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_END,}
+\DoxyCodeLine{00590\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_VIRTUALVOICE,}
+\DoxyCodeLine{00591\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_SYNCPOINT,}
+\DoxyCodeLine{00592\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_OCCLUSION,}
+\DoxyCodeLine{00593\ }
+\DoxyCodeLine{00594\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_MAX,}
+\DoxyCodeLine{00595\ \ \ \ \ FMOD\_CHANNELCONTROL\_CALLBACK\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00596\ \}\ FMOD\_CHANNELCONTROL\_CALLBACK\_TYPE;}
+\DoxyCodeLine{00597\ }
+\DoxyCodeLine{00598\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_CHANNELCONTROL\_DSP\_INDEX}
+\DoxyCodeLine{00599\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ FMOD\_CHANNELCONTROL\_DSP\_HEAD\ \ \ \ \ =\ -\/1,}
+\DoxyCodeLine{00601\ \ \ \ \ FMOD\_CHANNELCONTROL\_DSP\_FADER\ \ \ \ =\ -\/2,}
+\DoxyCodeLine{00602\ \ \ \ \ FMOD\_CHANNELCONTROL\_DSP\_TAIL\ \ \ \ \ =\ -\/3,}
+\DoxyCodeLine{00603\ }
+\DoxyCodeLine{00604\ \ \ \ \ FMOD\_CHANNELCONTROL\_DSP\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00605\ \}\ FMOD\_CHANNELCONTROL\_DSP\_INDEX;}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00607\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_ERRORCALLBACK\_INSTANCETYPE}
+\DoxyCodeLine{00608\ \{}
+\DoxyCodeLine{00609\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_NONE,}
+\DoxyCodeLine{00610\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_SYSTEM,}
+\DoxyCodeLine{00611\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_CHANNEL,}
+\DoxyCodeLine{00612\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_CHANNELGROUP,}
+\DoxyCodeLine{00613\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_CHANNELCONTROL,}
+\DoxyCodeLine{00614\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_SOUND,}
+\DoxyCodeLine{00615\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_SOUNDGROUP,}
+\DoxyCodeLine{00616\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_DSP,}
+\DoxyCodeLine{00617\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_DSPCONNECTION,}
+\DoxyCodeLine{00618\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_GEOMETRY,}
+\DoxyCodeLine{00619\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_REVERB3D,}
+\DoxyCodeLine{00620\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_SYSTEM,}
+\DoxyCodeLine{00621\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_EVENTDESCRIPTION,}
+\DoxyCodeLine{00622\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_EVENTINSTANCE,}
+\DoxyCodeLine{00623\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_PARAMETERINSTANCE,}
+\DoxyCodeLine{00624\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_BUS,}
+\DoxyCodeLine{00625\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_VCA,}
+\DoxyCodeLine{00626\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_BANK,}
+\DoxyCodeLine{00627\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_STUDIO\_COMMANDREPLAY,}
+\DoxyCodeLine{00628\ }
+\DoxyCodeLine{00629\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00630\ \}\ FMOD\_ERRORCALLBACK\_INSTANCETYPE;}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00632\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSP\_RESAMPLER}
+\DoxyCodeLine{00633\ \{}
+\DoxyCodeLine{00634\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_DEFAULT,}
+\DoxyCodeLine{00635\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_NOINTERP,}
+\DoxyCodeLine{00636\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_LINEAR,}
+\DoxyCodeLine{00637\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_CUBIC,}
+\DoxyCodeLine{00638\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_SPLINE,}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_MAX,}
+\DoxyCodeLine{00641\ \ \ \ \ FMOD\_DSP\_RESAMPLER\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00642\ \}\ FMOD\_DSP\_RESAMPLER;}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSP\_CALLBACK\_TYPE}
+\DoxyCodeLine{00645\ \{}
+\DoxyCodeLine{00646\ \ \ \ \ FMOD\_DSP\_CALLBACK\_DATAPARAMETERRELEASE,}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \ \ \ \ FMOD\_DSP\_CALLBACK\_MAX,}
+\DoxyCodeLine{00649\ \ \ \ \ FMOD\_DSP\_CALLBACK\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00650\ \}\ FMOD\_DSP\_CALLBACK\_TYPE;}
+\DoxyCodeLine{00651\ }
+\DoxyCodeLine{00652\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_DSPCONNECTION\_TYPE}
+\DoxyCodeLine{00653\ \{}
+\DoxyCodeLine{00654\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_STANDARD,}
+\DoxyCodeLine{00655\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_SIDECHAIN,}
+\DoxyCodeLine{00656\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_SEND,}
+\DoxyCodeLine{00657\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_SEND\_SIDECHAIN,}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_MAX,}
+\DoxyCodeLine{00660\ \ \ \ \ FMOD\_DSPCONNECTION\_TYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00661\ \}\ FMOD\_DSPCONNECTION\_TYPE;}
+\DoxyCodeLine{00662\ }
+\DoxyCodeLine{00663\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_TAGTYPE}
+\DoxyCodeLine{00664\ \{}
+\DoxyCodeLine{00665\ \ \ \ \ FMOD\_TAGTYPE\_UNKNOWN,}
+\DoxyCodeLine{00666\ \ \ \ \ FMOD\_TAGTYPE\_ID3V1,}
+\DoxyCodeLine{00667\ \ \ \ \ FMOD\_TAGTYPE\_ID3V2,}
+\DoxyCodeLine{00668\ \ \ \ \ FMOD\_TAGTYPE\_VORBISCOMMENT,}
+\DoxyCodeLine{00669\ \ \ \ \ FMOD\_TAGTYPE\_SHOUTCAST,}
+\DoxyCodeLine{00670\ \ \ \ \ FMOD\_TAGTYPE\_ICECAST,}
+\DoxyCodeLine{00671\ \ \ \ \ FMOD\_TAGTYPE\_ASF,}
+\DoxyCodeLine{00672\ \ \ \ \ FMOD\_TAGTYPE\_MIDI,}
+\DoxyCodeLine{00673\ \ \ \ \ FMOD\_TAGTYPE\_PLAYLIST,}
+\DoxyCodeLine{00674\ \ \ \ \ FMOD\_TAGTYPE\_FMOD,}
+\DoxyCodeLine{00675\ \ \ \ \ FMOD\_TAGTYPE\_USER,}
+\DoxyCodeLine{00676\ }
+\DoxyCodeLine{00677\ \ \ \ \ FMOD\_TAGTYPE\_MAX,}
+\DoxyCodeLine{00678\ \ \ \ \ FMOD\_TAGTYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00679\ \}\ FMOD\_TAGTYPE;}
+\DoxyCodeLine{00680\ }
+\DoxyCodeLine{00681\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_TAGDATATYPE}
+\DoxyCodeLine{00682\ \{}
+\DoxyCodeLine{00683\ \ \ \ \ FMOD\_TAGDATATYPE\_BINARY,}
+\DoxyCodeLine{00684\ \ \ \ \ FMOD\_TAGDATATYPE\_INT,}
+\DoxyCodeLine{00685\ \ \ \ \ FMOD\_TAGDATATYPE\_FLOAT,}
+\DoxyCodeLine{00686\ \ \ \ \ FMOD\_TAGDATATYPE\_STRING,}
+\DoxyCodeLine{00687\ \ \ \ \ FMOD\_TAGDATATYPE\_STRING\_UTF16,}
+\DoxyCodeLine{00688\ \ \ \ \ FMOD\_TAGDATATYPE\_STRING\_UTF16BE,}
+\DoxyCodeLine{00689\ \ \ \ \ FMOD\_TAGDATATYPE\_STRING\_UTF8,}
+\DoxyCodeLine{00690\ }
+\DoxyCodeLine{00691\ \ \ \ \ FMOD\_TAGDATATYPE\_MAX,}
+\DoxyCodeLine{00692\ \ \ \ \ FMOD\_TAGDATATYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00693\ \}\ FMOD\_TAGDATATYPE;}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00695\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ FMOD\_PORT\_TYPE}
+\DoxyCodeLine{00696\ \{}
+\DoxyCodeLine{00697\ \ \ \ \ FMOD\_PORT\_TYPE\_MUSIC,}
+\DoxyCodeLine{00698\ \ \ \ \ FMOD\_PORT\_TYPE\_COPYRIGHT\_MUSIC,}
+\DoxyCodeLine{00699\ \ \ \ \ FMOD\_PORT\_TYPE\_VOICE,}
+\DoxyCodeLine{00700\ \ \ \ \ FMOD\_PORT\_TYPE\_CONTROLLER,}
+\DoxyCodeLine{00701\ \ \ \ \ FMOD\_PORT\_TYPE\_PERSONAL,}
+\DoxyCodeLine{00702\ \ \ \ \ FMOD\_PORT\_TYPE\_VIBRATION,}
+\DoxyCodeLine{00703\ \ \ \ \ FMOD\_PORT\_TYPE\_AUX,}
+\DoxyCodeLine{00704\ }
+\DoxyCodeLine{00705\ \ \ \ \ FMOD\_PORT\_TYPE\_MAX,}
+\DoxyCodeLine{00706\ \ \ \ \ FMOD\_PORT\_TYPE\_FORCEINT\ =\ 65536}
+\DoxyCodeLine{00707\ \}\ FMOD\_PORT\_TYPE;}
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00710\ \textcolor{comment}{\ \ \ \ FMOD\ callbacks}}
+\DoxyCodeLine{00711\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00712\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_DEBUG\_CALLBACK)\ \ \ \ \ \ \ \ \ \ \ (FMOD\_DEBUG\_FLAGS\ flags,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ line,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ func,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ message);}
+\DoxyCodeLine{00713\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_SYSTEM\_CALLBACK)\ \ \ \ \ \ \ \ \ \ (FMOD\_SYSTEM\ *system,\ FMOD\_SYSTEM\_CALLBACK\_TYPE\ type,\ \textcolor{keywordtype}{void}\ *commanddata1,\ \textcolor{keywordtype}{void}*\ commanddata2,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00714\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_CHANNELCONTROL\_CALLBACK)\ \ (FMOD\_CHANNELCONTROL\ *channelcontrol,\ FMOD\_CHANNELCONTROL\_TYPE\ controltype,\ FMOD\_CHANNELCONTROL\_CALLBACK\_TYPE\ callbacktype,\ \textcolor{keywordtype}{void}\ *commanddata1,\ \textcolor{keywordtype}{void}\ *commanddata2);}
+\DoxyCodeLine{00715\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_DSP\_CALLBACK)\ \ \ \ \ \ \ \ \ \ \ \ \ (FMOD\_DSP\ *dsp,\ FMOD\_DSP\_CALLBACK\_TYPE\ type,\ \textcolor{keywordtype}{void}\ *data);}
+\DoxyCodeLine{00716\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_SOUND\_NONBLOCK\_CALLBACK)\ \ (FMOD\_SOUND\ *sound,\ FMOD\_RESULT\ result);}
+\DoxyCodeLine{00717\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_SOUND\_PCMREAD\_CALLBACK)\ \ \ (FMOD\_SOUND\ *sound,\ \textcolor{keywordtype}{void}\ *data,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ datalen);}
+\DoxyCodeLine{00718\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_SOUND\_PCMSETPOS\_CALLBACK)\ (FMOD\_SOUND\ *sound,\ \textcolor{keywordtype}{int}\ subsound,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position,\ FMOD\_TIMEUNIT\ postype);}
+\DoxyCodeLine{00719\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_OPEN\_CALLBACK)\ \ \ \ \ \ \ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *filesize,\ \textcolor{keywordtype}{void}\ **handle,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00720\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_CLOSE\_CALLBACK)\ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *handle,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00721\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_READ\_CALLBACK)\ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *handle,\ \textcolor{keywordtype}{void}\ *buffer,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ sizebytes,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *bytesread,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00722\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_SEEK\_CALLBACK)\ \ \ \ \ \ \ (\textcolor{keywordtype}{void}\ *handle,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ pos,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00723\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_ASYNCREAD\_CALLBACK)\ \ (\mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}}\ *info,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00724\ \textcolor{keyword}{typedef}\ FMOD\_RESULT\ (F\_CALL\ *FMOD\_FILE\_ASYNCCANCEL\_CALLBACK)(\mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}}\ *info,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00725\ \textcolor{keyword}{typedef}\ void\ \ \ \ \ \ \ \ (F\_CALL\ *FMOD\_FILE\_ASYNCDONE\_FUNC)\ \ \ \ \ \ (\mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}}\ *info,\ FMOD\_RESULT\ result);}
+\DoxyCodeLine{00726\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}*\ \ \ \ \ \ \ (F\_CALL\ *FMOD\_MEMORY\_ALLOC\_CALLBACK)\ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ size,\ FMOD\_MEMORY\_TYPE\ type,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *sourcestr);}
+\DoxyCodeLine{00727\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}*\ \ \ \ \ \ \ (F\_CALL\ *FMOD\_MEMORY\_REALLOC\_CALLBACK)\ \ (\textcolor{keywordtype}{void}\ *ptr,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ size,\ FMOD\_MEMORY\_TYPE\ type,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *sourcestr);}
+\DoxyCodeLine{00728\ \textcolor{keyword}{typedef}\ void\ \ \ \ \ \ \ \ (F\_CALL\ *FMOD\_MEMORY\_FREE\_CALLBACK)\ \ \ \ \ (\textcolor{keywordtype}{void}\ *ptr,\ FMOD\_MEMORY\_TYPE\ type,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *sourcestr);}
+\DoxyCodeLine{00729\ \textcolor{keyword}{typedef}\ float\ \ \ \ \ \ \ (F\_CALL\ *FMOD\_3D\_ROLLOFF\_CALLBACK)\ \ \ \ \ \ (FMOD\_CHANNELCONTROL\ *channelcontrol,\ \textcolor{keywordtype}{float}\ distance);}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00732\ \textcolor{comment}{\ \ \ \ FMOD\ structs}}
+\DoxyCodeLine{00733\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00734\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___a_s_y_n_c_r_e_a_d_i_n_f_o}{FMOD\_ASYNCREADINFO}}}
+\DoxyCodeLine{00735\ \{}
+\DoxyCodeLine{00736\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *handle;}
+\DoxyCodeLine{00737\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ offset;}
+\DoxyCodeLine{00738\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ sizebytes;}
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ priority;}
+\DoxyCodeLine{00740\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *userdata;}
+\DoxyCodeLine{00741\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *buffer;}
+\DoxyCodeLine{00742\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ bytesread;}
+\DoxyCodeLine{00743\ \ \ \ \ FMOD\_FILE\_ASYNCDONE\_FUNC\ \ done;}
+\DoxyCodeLine{00744\ \};}
+\DoxyCodeLine{00745\ }
+\DoxyCodeLine{00746\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}}
+\DoxyCodeLine{00747\ \{}
+\DoxyCodeLine{00748\ \ \ \ \ \textcolor{keywordtype}{float}\ x;}
+\DoxyCodeLine{00749\ \ \ \ \ \textcolor{keywordtype}{float}\ y;}
+\DoxyCodeLine{00750\ \ \ \ \ \textcolor{keywordtype}{float}\ z;}
+\DoxyCodeLine{00751\ \}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}};}
+\DoxyCodeLine{00752\ }
+\DoxyCodeLine{00753\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}}}
+\DoxyCodeLine{00754\ \{}
+\DoxyCodeLine{00755\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ position;}
+\DoxyCodeLine{00756\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ velocity;}
+\DoxyCodeLine{00757\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ forward;}
+\DoxyCodeLine{00758\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ up;}
+\DoxyCodeLine{00759\ \}\ \mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}};}
+\DoxyCodeLine{00760\ }
+\DoxyCodeLine{00761\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}}
+\DoxyCodeLine{00762\ \{}
+\DoxyCodeLine{00763\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ Data1;}
+\DoxyCodeLine{00764\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ Data2;}
+\DoxyCodeLine{00765\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ Data3;}
+\DoxyCodeLine{00766\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \ Data4[8];}
+\DoxyCodeLine{00767\ \}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}};}
+\DoxyCodeLine{00768\ }
+\DoxyCodeLine{00769\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___p_l_u_g_i_n_l_i_s_t}{FMOD\_PLUGINLIST}}}
+\DoxyCodeLine{00770\ \{}
+\DoxyCodeLine{00771\ \ \ \ \ FMOD\_PLUGINTYPE\ \ type;}
+\DoxyCodeLine{00772\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ *description;}
+\DoxyCodeLine{00773\ \}\ \mbox{\hyperlink{struct_f_m_o_d___p_l_u_g_i_n_l_i_s_t}{FMOD\_PLUGINLIST}};}
+\DoxyCodeLine{00774\ }
+\DoxyCodeLine{00775\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_ADVANCEDSETTINGS}}}
+\DoxyCodeLine{00776\ \{}
+\DoxyCodeLine{00777\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cbSize;}
+\DoxyCodeLine{00778\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxMPEGCodecs;}
+\DoxyCodeLine{00779\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxADPCMCodecs;}
+\DoxyCodeLine{00780\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxXMACodecs;}
+\DoxyCodeLine{00781\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxVorbisCodecs;}
+\DoxyCodeLine{00782\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxAT9Codecs;}
+\DoxyCodeLine{00783\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxFADPCMCodecs;}
+\DoxyCodeLine{00784\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxPCMCodecs;}
+\DoxyCodeLine{00785\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ASIONumChannels;}
+\DoxyCodeLine{00786\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ **ASIOChannelList;}
+\DoxyCodeLine{00787\ \ \ \ \ FMOD\_SPEAKER\ \ \ \ \ \ \ *ASIOSpeakerList;}
+\DoxyCodeLine{00788\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vol0virtualvol;}
+\DoxyCodeLine{00789\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ defaultDecodeBufferSize;}
+\DoxyCodeLine{00790\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \ \ \ \ profilePort;}
+\DoxyCodeLine{00791\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ geometryMaxFadeTime;}
+\DoxyCodeLine{00792\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ distanceFilterCenterFreq;}
+\DoxyCodeLine{00793\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reverb3Dinstance;}
+\DoxyCodeLine{00794\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DSPBufferPoolSize;}
+\DoxyCodeLine{00795\ \ \ \ \ FMOD\_DSP\_RESAMPLER\ \ resamplerMethod;}
+\DoxyCodeLine{00796\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ randomSeed;}
+\DoxyCodeLine{00797\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxConvolutionThreads;}
+\DoxyCodeLine{00798\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxOpusCodecs;}
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxSpatialObjects;}
+\DoxyCodeLine{00800\ \}\ \mbox{\hyperlink{struct_f_m_o_d___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_ADVANCEDSETTINGS}};}
+\DoxyCodeLine{00801\ }
+\DoxyCodeLine{00802\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___t_a_g}{FMOD\_TAG}}}
+\DoxyCodeLine{00803\ \{}
+\DoxyCodeLine{00804\ \ \ \ \ FMOD\_TAGTYPE\ \ \ \ \ \ type;}
+\DoxyCodeLine{00805\ \ \ \ \ FMOD\_TAGDATATYPE\ \ datatype;}
+\DoxyCodeLine{00806\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ *name;}
+\DoxyCodeLine{00807\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ *data;}
+\DoxyCodeLine{00808\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ datalen;}
+\DoxyCodeLine{00809\ \ \ \ \ FMOD\_BOOL\ \ \ \ \ \ \ \ \ updated;}
+\DoxyCodeLine{00810\ \}\ \mbox{\hyperlink{struct_f_m_o_d___t_a_g}{FMOD\_TAG}};}
+\DoxyCodeLine{00811\ }
+\DoxyCodeLine{00812\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o}{FMOD\_CREATESOUNDEXINFO}}}
+\DoxyCodeLine{00813\ \{}
+\DoxyCodeLine{00814\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cbsize;}
+\DoxyCodeLine{00815\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ length;}
+\DoxyCodeLine{00816\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fileoffset;}
+\DoxyCodeLine{00817\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ numchannels;}
+\DoxyCodeLine{00818\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ defaultfrequency;}
+\DoxyCodeLine{00819\ \ \ \ \ FMOD\_SOUND\_FORMAT\ \ \ \ \ \ \ \ \ \ \ \ \ \ format;}
+\DoxyCodeLine{00820\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decodebuffersize;}
+\DoxyCodeLine{00821\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ initialsubsound;}
+\DoxyCodeLine{00822\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ numsubsounds;}
+\DoxyCodeLine{00823\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *inclusionlist;}
+\DoxyCodeLine{00824\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ inclusionlistnum;}
+\DoxyCodeLine{00825\ \ \ \ \ FMOD\_SOUND\_PCMREAD\_CALLBACK\ \ \ \ pcmreadcallback;}
+\DoxyCodeLine{00826\ \ \ \ \ FMOD\_SOUND\_PCMSETPOS\_CALLBACK\ \ pcmsetposcallback;}
+\DoxyCodeLine{00827\ \ \ \ \ FMOD\_SOUND\_NONBLOCK\_CALLBACK\ \ \ nonblockcallback;}
+\DoxyCodeLine{00828\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *dlsname;}
+\DoxyCodeLine{00829\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *encryptionkey;}
+\DoxyCodeLine{00830\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxpolyphony;}
+\DoxyCodeLine{00831\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *userdata;}
+\DoxyCodeLine{00832\ \ \ \ \ FMOD\_SOUND\_TYPE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ suggestedsoundtype;}
+\DoxyCodeLine{00833\ \ \ \ \ FMOD\_FILE\_OPEN\_CALLBACK\ \ \ \ \ \ \ \ fileuseropen;}
+\DoxyCodeLine{00834\ \ \ \ \ FMOD\_FILE\_CLOSE\_CALLBACK\ \ \ \ \ \ \ fileuserclose;}
+\DoxyCodeLine{00835\ \ \ \ \ FMOD\_FILE\_READ\_CALLBACK\ \ \ \ \ \ \ \ fileuserread;}
+\DoxyCodeLine{00836\ \ \ \ \ FMOD\_FILE\_SEEK\_CALLBACK\ \ \ \ \ \ \ \ fileuserseek;}
+\DoxyCodeLine{00837\ \ \ \ \ FMOD\_FILE\_ASYNCREAD\_CALLBACK\ \ \ fileuserasyncread;}
+\DoxyCodeLine{00838\ \ \ \ \ FMOD\_FILE\_ASYNCCANCEL\_CALLBACK\ fileuserasynccancel;}
+\DoxyCodeLine{00839\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *fileuserdata;}
+\DoxyCodeLine{00840\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filebuffersize;}
+\DoxyCodeLine{00841\ \ \ \ \ FMOD\_CHANNELORDER\ \ \ \ \ \ \ \ \ \ \ \ \ \ channelorder;}
+\DoxyCodeLine{00842\ \ \ \ \ FMOD\_SOUNDGROUP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *initialsoundgroup;}
+\DoxyCodeLine{00843\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ initialseekposition;}
+\DoxyCodeLine{00844\ \ \ \ \ FMOD\_TIMEUNIT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ initialseekpostype;}
+\DoxyCodeLine{00845\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ignoresetfilesystem;}
+\DoxyCodeLine{00846\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioqueuepolicy;}
+\DoxyCodeLine{00847\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minmidigranularity;}
+\DoxyCodeLine{00848\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nonblockthreadid;}
+\DoxyCodeLine{00849\ \ \ \ \ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *fsbguid;}
+\DoxyCodeLine{00850\ \}\ \mbox{\hyperlink{struct_f_m_o_d___c_r_e_a_t_e_s_o_u_n_d_e_x_i_n_f_o}{FMOD\_CREATESOUNDEXINFO}};}
+\DoxyCodeLine{00851\ }
+\DoxyCodeLine{00852\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}}}
+\DoxyCodeLine{00853\ \{}
+\DoxyCodeLine{00854\ \ \ \ \ \textcolor{keywordtype}{float}\ DecayTime;}
+\DoxyCodeLine{00855\ \ \ \ \ \textcolor{keywordtype}{float}\ EarlyDelay;}
+\DoxyCodeLine{00856\ \ \ \ \ \textcolor{keywordtype}{float}\ LateDelay;}
+\DoxyCodeLine{00857\ \ \ \ \ \textcolor{keywordtype}{float}\ HFReference;}
+\DoxyCodeLine{00858\ \ \ \ \ \textcolor{keywordtype}{float}\ HFDecayRatio;}
+\DoxyCodeLine{00859\ \ \ \ \ \textcolor{keywordtype}{float}\ Diffusion;}
+\DoxyCodeLine{00860\ \ \ \ \ \textcolor{keywordtype}{float}\ Density;}
+\DoxyCodeLine{00861\ \ \ \ \ \textcolor{keywordtype}{float}\ LowShelfFrequency;}
+\DoxyCodeLine{00862\ \ \ \ \ \textcolor{keywordtype}{float}\ LowShelfGain;}
+\DoxyCodeLine{00863\ \ \ \ \ \textcolor{keywordtype}{float}\ HighCut;}
+\DoxyCodeLine{00864\ \ \ \ \ \textcolor{keywordtype}{float}\ EarlyLateMix;}
+\DoxyCodeLine{00865\ \ \ \ \ \textcolor{keywordtype}{float}\ WetLevel;}
+\DoxyCodeLine{00866\ \}\ \mbox{\hyperlink{struct_f_m_o_d___r_e_v_e_r_b___p_r_o_p_e_r_t_i_e_s}{FMOD\_REVERB\_PROPERTIES}};}
+\DoxyCodeLine{00867\ }
+\DoxyCodeLine{00868\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___e_r_r_o_r_c_a_l_l_b_a_c_k___i_n_f_o}{FMOD\_ERRORCALLBACK\_INFO}}}
+\DoxyCodeLine{00869\ \{}
+\DoxyCodeLine{00870\ \ \ \ \ FMOD\_RESULT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result;}
+\DoxyCodeLine{00871\ \ \ \ \ FMOD\_ERRORCALLBACK\_INSTANCETYPE\ \ instancetype;}
+\DoxyCodeLine{00872\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *instance;}
+\DoxyCodeLine{00873\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *functionname;}
+\DoxyCodeLine{00874\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *functionparams;}
+\DoxyCodeLine{00875\ \}\ \mbox{\hyperlink{struct_f_m_o_d___e_r_r_o_r_c_a_l_l_b_a_c_k___i_n_f_o}{FMOD\_ERRORCALLBACK\_INFO}};}
+\DoxyCodeLine{00876\ }
+\DoxyCodeLine{00877\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___c_p_u___u_s_a_g_e}{FMOD\_CPU\_USAGE}}}
+\DoxyCodeLine{00878\ \{}
+\DoxyCodeLine{00879\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ dsp;}
+\DoxyCodeLine{00880\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ stream;}
+\DoxyCodeLine{00881\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ geometry;}
+\DoxyCodeLine{00882\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ update;}
+\DoxyCodeLine{00883\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ convolution1;}
+\DoxyCodeLine{00884\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ convolution2;}
+\DoxyCodeLine{00885\ \}\ \mbox{\hyperlink{struct_f_m_o_d___c_p_u___u_s_a_g_e}{FMOD\_CPU\_USAGE}};}
+\DoxyCodeLine{00886\ }
+\DoxyCodeLine{00887\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_a_t_a___p_a_r_a_m_e_t_e_r___i_n_f_o}{FMOD\_DSP\_DATA\_PARAMETER\_INFO}}}
+\DoxyCodeLine{00888\ \{}
+\DoxyCodeLine{00889\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ *data;}
+\DoxyCodeLine{00890\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ length;}
+\DoxyCodeLine{00891\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ index;}
+\DoxyCodeLine{00892\ \}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_a_t_a___p_a_r_a_m_e_t_e_r___i_n_f_o}{FMOD\_DSP\_DATA\_PARAMETER\_INFO}};}
+\DoxyCodeLine{00893\ }
+\DoxyCodeLine{00894\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00895\ \textcolor{comment}{\ \ \ \ FMOD\ optional\ headers\ for\ plugin\ development}}
+\DoxyCodeLine{00896\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00897\ \textcolor{preprocessor}{\#include\ "{}fmod\_codec.h"{}}}
+\DoxyCodeLine{00898\ \textcolor{preprocessor}{\#include\ "{}fmod\_dsp.h"{}}}
+\DoxyCodeLine{00899\ \textcolor{preprocessor}{\#include\ "{}fmod\_output.h"{}}}
+\DoxyCodeLine{00900\ }
+\DoxyCodeLine{00901\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

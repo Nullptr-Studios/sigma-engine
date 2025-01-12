@@ -1,0 +1,74 @@
+\doxysection{AEVec3.\+h}
+\hypertarget{_a_e_vec3_8h_source}{}\label{_a_e_vec3_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEVec3.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEVec3.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Project\ Name\ \ \ \ \ :\ \ \ Alpha\ Engine}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ File\ Name\ \ \ \ \ \ \ \ :\ \ \ AEMtx33.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Author\ \ \ \ \ \ \ \ \ \ \ :\ \ \ Sun\ Tjen\ Fam}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Creation\ Date\ \ \ \ :\ \ \ 2008/01/31}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Purpose\ \ \ \ \ \ \ \ \ \ :\ \ \ header\ file\ for\ the\ 3x3\ matrix\ library}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ History\ \ \ \ \ \ \ \ \ \ :}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ -\/\ 2008/01/31\ \ \ \ \ :\ \ \ -\/\ initial\ implementation}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ AEX\_VEC3\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ AEX\_VEC3\_H}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#pragma\ warning(disable\ :\ 4201)\ }\textcolor{comment}{//\ nameless\ struct\ warning}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{struct\ }AEVec3}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{union}}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ z;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ v[3];}
+\DoxyCodeLine{00025\ \ \ \ \ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ AEVec3();}
+\DoxyCodeLine{00028\ \ \ \ \ AEVec3(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs);}
+\DoxyCodeLine{00029\ \ \ \ \ AEVec3(\textcolor{keywordtype}{float}\ xx,\ \textcolor{keywordtype}{float}\ yy,\ \textcolor{keywordtype}{float}\ zz);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{explicit}\ AEVec3(\textcolor{keywordtype}{float}\ xx);}
+\DoxyCodeLine{00031\ \ \ \ \ ;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ add\ or\ substract\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00033\ \ \ \ \ AEVec3\ operator+(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ AEVec3\ operator+=(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs);}
+\DoxyCodeLine{00035\ \ \ \ \ AEVec3\ operator-\/(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ AEVec3\ operator-\/=(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs);}
+\DoxyCodeLine{00037\ \ \ \ \ ;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ multiply\ or\ divide\ by\ a\ scalar\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00039\ \ \ \ \ AEVec3\ operator*(\textcolor{keywordtype}{float}\ s)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ \ \ \ \ AEVec3\ operator/(\textcolor{keywordtype}{float}\ s)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \ \ ;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ get\ vector\ length\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{float}\ Length()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ \ \ \ \ ;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ calculate\ normalized\ vector\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00046\ \ \ \ \ AEVec3\ \ \ \ \ \ \ \ \ Normalize()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{const}\ AEVec3\ \&\ NormalizeThis();}
+\DoxyCodeLine{00048\ \ \ \ \ ;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ dot\ product\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{float}\ operator*(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ \ \ \ \ ;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ cross\ product\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ;}}
+\DoxyCodeLine{00053\ \ \ \ \ AEVec3\ Cross(\textcolor{keyword}{const}\ AEVec3\ \&\ rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ AEVec3\ ZERO;}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00061\ \mbox{\hyperlink{struct_a_e_vec3}{AEVec3}}\ operator*(T\ s,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_a_e_vec3}{AEVec3}}\ \&\ rhs)}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ (rhs\ *\ s);}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#pragma\ warning(default\ :\ 4201)\ }\textcolor{comment}{//\ nameless\ struct\ warning}}
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

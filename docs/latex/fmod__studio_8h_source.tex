@@ -1,0 +1,254 @@
+\doxysection{fmod\+\_\+studio.\+h}
+\hypertarget{fmod__studio_8h_source}{}\label{fmod__studio_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_studio.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/FMOD/fmod\_studio.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ FMOD\ Studio\ API\ -\/\ C\ header\ file.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ Copyright\ (c),\ Firelight\ Technologies\ Pty,\ Ltd.\ 2004-\/2024.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ Use\ this\ header\ in\ conjunction\ with\ fmod\_studio\_common.h\ (which\ contains\ all\ the\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ constants\ /\ callbacks)\ to\ develop\ using\ the\ C\ language.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ For\ more\ detail\ visit:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ https://fmod.com/docs/2.02/api/studio-\/api.html\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ ========================================================================================\ */}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ FMOD\_STUDIO\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ FMOD\_STUDIO\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}fmod\_studio\_common.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ }
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ \ Global}}
+\DoxyCodeLine{00023\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00024\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_ParseID(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *idstring,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00025\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_Create(FMOD\_STUDIO\_SYSTEM\ **system,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ headerversion);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ System}}
+\DoxyCodeLine{00029\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00030\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_System\_IsValid(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00031\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetAdvancedSettings(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_STUDIO\_ADVANCEDSETTINGS}}\ *settings);}
+\DoxyCodeLine{00032\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetAdvancedSettings(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___a_d_v_a_n_c_e_d_s_e_t_t_i_n_g_s}{FMOD\_STUDIO\_ADVANCEDSETTINGS}}\ *settings);}
+\DoxyCodeLine{00033\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_Initialize(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ maxchannels,\ FMOD\_STUDIO\_INITFLAGS\ studioflags,\ FMOD\_INITFLAGS\ flags,\ \textcolor{keywordtype}{void}\ *extradriverdata);}
+\DoxyCodeLine{00034\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_Release(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00035\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_Update(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00036\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetCoreSystem(FMOD\_STUDIO\_SYSTEM\ *system,\ FMOD\_SYSTEM\ **coresystem);}
+\DoxyCodeLine{00037\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetEvent(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pathOrID,\ FMOD\_STUDIO\_EVENTDESCRIPTION\ **event);}
+\DoxyCodeLine{00038\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBus(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pathOrID,\ FMOD\_STUDIO\_BUS\ **bus);}
+\DoxyCodeLine{00039\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetVCA(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pathOrID,\ FMOD\_STUDIO\_VCA\ **vca);}
+\DoxyCodeLine{00040\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBank(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pathOrID,\ FMOD\_STUDIO\_BANK\ **bank);}
+\DoxyCodeLine{00041\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetEventByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ FMOD\_STUDIO\_EVENTDESCRIPTION\ **event);}
+\DoxyCodeLine{00042\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBusByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ FMOD\_STUDIO\_BUS\ **bus);}
+\DoxyCodeLine{00043\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetVCAByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ FMOD\_STUDIO\_VCA\ **vca);}
+\DoxyCodeLine{00044\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBankByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ FMOD\_STUDIO\_BANK\ **bank);}
+\DoxyCodeLine{00045\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetSoundInfo(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *key,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___s_o_u_n_d___i_n_f_o}{FMOD\_STUDIO\_SOUND\_INFO}}\ *info);}
+\DoxyCodeLine{00046\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterDescriptionByName(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *parameter);}
+\DoxyCodeLine{00047\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterDescriptionByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *parameter);}
+\DoxyCodeLine{00048\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterLabelByName(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ labelindex,\ \textcolor{keywordtype}{char}\ *label,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00049\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterLabelByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{int}\ labelindex,\ \textcolor{keywordtype}{char}\ *label,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00050\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{float}\ *value,\ \textcolor{keywordtype}{float}\ *finalvalue);}
+\DoxyCodeLine{00051\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetParameterByID(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{float}\ value,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00052\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetParameterByIDWithLabel(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *label,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00053\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetParametersByIDs(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ *ids,\ \textcolor{keywordtype}{float}\ *values,\ \textcolor{keywordtype}{int}\ count,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00054\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterByName(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{float}\ *value,\ \textcolor{keywordtype}{float}\ *finalvalue);}
+\DoxyCodeLine{00055\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetParameterByName(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{float}\ value,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00056\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetParameterByNameWithLabel(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *label,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00057\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LookupID(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00058\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LookupPath(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00059\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetNumListeners(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ *numlisteners);}
+\DoxyCodeLine{00060\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetNumListeners(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ numlisteners);}
+\DoxyCodeLine{00061\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetListenerAttributes(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}}\ *attributes,\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *attenuationposition);}
+\DoxyCodeLine{00062\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetListenerAttributes(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}}\ *attributes,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___v_e_c_t_o_r}{FMOD\_VECTOR}}\ *attenuationposition);}
+\DoxyCodeLine{00063\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetListenerWeight(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ *weight);}
+\DoxyCodeLine{00064\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetListenerWeight(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ weight);}
+\DoxyCodeLine{00065\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LoadBankFile(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ FMOD\_STUDIO\_LOAD\_BANK\_FLAGS\ flags,\ FMOD\_STUDIO\_BANK\ **bank);}
+\DoxyCodeLine{00066\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LoadBankMemory(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *buffer,\ \textcolor{keywordtype}{int}\ length,\ FMOD\_STUDIO\_LOAD\_MEMORY\_MODE\ mode,\ FMOD\_STUDIO\_LOAD\_BANK\_FLAGS\ flags,\ FMOD\_STUDIO\_BANK\ **bank);}
+\DoxyCodeLine{00067\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LoadBankCustom(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___b_a_n_k___i_n_f_o}{FMOD\_STUDIO\_BANK\_INFO}}\ *info,\ FMOD\_STUDIO\_LOAD\_BANK\_FLAGS\ flags,\ FMOD\_STUDIO\_BANK\ **bank);}
+\DoxyCodeLine{00068\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_RegisterPlugin(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___d_s_p___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_DSP\_DESCRIPTION}}\ *description);}
+\DoxyCodeLine{00069\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_UnregisterPlugin(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name);}
+\DoxyCodeLine{00070\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_UnloadAll(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00071\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_FlushCommands(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00072\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_FlushSampleLoading(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00073\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_StartCommandCapture(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ FMOD\_STUDIO\_COMMANDCAPTURE\_FLAGS\ flags);}
+\DoxyCodeLine{00074\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_StopCommandCapture(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00075\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_LoadCommandReplay(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ FMOD\_STUDIO\_COMMANDREPLAY\_FLAGS\ flags,\ FMOD\_STUDIO\_COMMANDREPLAY\ **replay);}
+\DoxyCodeLine{00076\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBankCount(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00077\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBankList(FMOD\_STUDIO\_SYSTEM\ *system,\ FMOD\_STUDIO\_BANK\ **array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00078\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterDescriptionCount(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00079\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetParameterDescriptionList(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00080\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetCPUUsage(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___c_p_u___u_s_a_g_e}{FMOD\_STUDIO\_CPU\_USAGE}}\ *usage,\ \mbox{\hyperlink{struct_f_m_o_d___c_p_u___u_s_a_g_e}{FMOD\_CPU\_USAGE}}\ *usage\_core);}
+\DoxyCodeLine{00081\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetBufferUsage(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___b_u_f_f_e_r___u_s_a_g_e}{FMOD\_STUDIO\_BUFFER\_USAGE}}\ *usage);}
+\DoxyCodeLine{00082\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_ResetBufferUsage(FMOD\_STUDIO\_SYSTEM\ *system);}
+\DoxyCodeLine{00083\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetCallback(FMOD\_STUDIO\_SYSTEM\ *system,\ FMOD\_STUDIO\_SYSTEM\_CALLBACK\ callback,\ FMOD\_STUDIO\_SYSTEM\_CALLBACK\_TYPE\ callbackmask);}
+\DoxyCodeLine{00084\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_SetUserData(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00085\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetUserData(FMOD\_STUDIO\_SYSTEM\ *system,\ \textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00086\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_System\_GetMemoryUsage(FMOD\_STUDIO\_SYSTEM\ *system,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___m_e_m_o_r_y___u_s_a_g_e}{FMOD\_STUDIO\_MEMORY\_USAGE}}\ *memoryusage);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ \ \ \ EventDescription}}
+\DoxyCodeLine{00090\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00091\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_EventDescription\_IsValid(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription);}
+\DoxyCodeLine{00092\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetID(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00093\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetPath(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00094\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterDescriptionCount(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00095\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterDescriptionByIndex(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *parameter);}
+\DoxyCodeLine{00096\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterDescriptionByName(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *parameter);}
+\DoxyCodeLine{00097\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterDescriptionByID(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___d_e_s_c_r_i_p_t_i_o_n}{FMOD\_STUDIO\_PARAMETER\_DESCRIPTION}}\ *parameter);}
+\DoxyCodeLine{00098\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterLabelByIndex(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ labelindex,\ \textcolor{keywordtype}{char}\ *label,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00099\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterLabelByName(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ labelindex,\ \textcolor{keywordtype}{char}\ *label,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00100\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetParameterLabelByID(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{int}\ labelindex,\ \textcolor{keywordtype}{char}\ *label,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00101\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetUserPropertyCount(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00102\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetUserPropertyByIndex(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___u_s_e_r___p_r_o_p_e_r_t_y}{FMOD\_STUDIO\_USER\_PROPERTY}}\ *property);}
+\DoxyCodeLine{00103\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetUserProperty(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___u_s_e_r___p_r_o_p_e_r_t_y}{FMOD\_STUDIO\_USER\_PROPERTY}}\ *property);}
+\DoxyCodeLine{00104\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetLength(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ *length);}
+\DoxyCodeLine{00105\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetMinMaxDistance(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{float}\ *min,\ \textcolor{keywordtype}{float}\ *max);}
+\DoxyCodeLine{00106\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetSoundSize(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{float}\ *size);}
+\DoxyCodeLine{00107\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_IsSnapshot(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *snapshot);}
+\DoxyCodeLine{00108\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_IsOneshot(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *oneshot);}
+\DoxyCodeLine{00109\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_IsStream(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *isStream);}
+\DoxyCodeLine{00110\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_Is3D(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *is3D);}
+\DoxyCodeLine{00111\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_IsDopplerEnabled(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *doppler);}
+\DoxyCodeLine{00112\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_HasSustainPoint(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_BOOL\ *sustainPoint);}
+\DoxyCodeLine{00113\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_CreateInstance(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_STUDIO\_EVENTINSTANCE\ **instance);}
+\DoxyCodeLine{00114\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetInstanceCount(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00115\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetInstanceList(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_STUDIO\_EVENTINSTANCE\ **array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00116\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_LoadSampleData(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription);}
+\DoxyCodeLine{00117\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_UnloadSampleData(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription);}
+\DoxyCodeLine{00118\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetSampleLoadingState(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_STUDIO\_LOADING\_STATE\ *state);}
+\DoxyCodeLine{00119\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_ReleaseAllInstances(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription);}
+\DoxyCodeLine{00120\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_SetCallback(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ FMOD\_STUDIO\_EVENT\_CALLBACK\ callback,\ FMOD\_STUDIO\_EVENT\_CALLBACK\_TYPE\ callbackmask);}
+\DoxyCodeLine{00121\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_GetUserData(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00122\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventDescription\_SetUserData(FMOD\_STUDIO\_EVENTDESCRIPTION\ *eventdescription,\ \textcolor{keywordtype}{void}\ *userdata);\ \ \ }
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00125\ \textcolor{comment}{\ \ \ \ EventInstance}}
+\DoxyCodeLine{00126\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00127\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_EventInstance\_IsValid(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance);}
+\DoxyCodeLine{00128\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetDescription(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_EVENTDESCRIPTION\ **description);}
+\DoxyCodeLine{00129\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetVolume(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{float}\ *volume,\ \textcolor{keywordtype}{float}\ *finalvolume);}
+\DoxyCodeLine{00130\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetVolume(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00131\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetPitch(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{float}\ *pitch,\ \textcolor{keywordtype}{float}\ *finalpitch);}
+\DoxyCodeLine{00132\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetPitch(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{float}\ pitch);}
+\DoxyCodeLine{00133\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_Get3DAttributes(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}}\ *attributes);}
+\DoxyCodeLine{00134\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_Set3DAttributes(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d__3_d___a_t_t_r_i_b_u_t_e_s}{FMOD\_3D\_ATTRIBUTES}}\ *attributes);}
+\DoxyCodeLine{00135\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetListenerMask(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *mask);}
+\DoxyCodeLine{00136\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetListenerMask(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mask);}
+\DoxyCodeLine{00137\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetProperty(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_EVENT\_PROPERTY\ index,\ \textcolor{keywordtype}{float}\ *value);}
+\DoxyCodeLine{00138\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetProperty(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_EVENT\_PROPERTY\ index,\ \textcolor{keywordtype}{float}\ value);}
+\DoxyCodeLine{00139\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetReverbLevel(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ *level);}
+\DoxyCodeLine{00140\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetReverbLevel(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{float}\ level);}
+\DoxyCodeLine{00141\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetPaused(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_BOOL\ *paused);}
+\DoxyCodeLine{00142\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetPaused(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_BOOL\ paused);}
+\DoxyCodeLine{00143\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_Start(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance);}
+\DoxyCodeLine{00144\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_Stop(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_STOP\_MODE\ mode);}
+\DoxyCodeLine{00145\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetTimelinePosition(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{int}\ *position);}
+\DoxyCodeLine{00146\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetTimelinePosition(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{int}\ position);}
+\DoxyCodeLine{00147\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetPlaybackState(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_PLAYBACK\_STATE\ *state);}
+\DoxyCodeLine{00148\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetChannelGroup(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_CHANNELGROUP\ **group);}
+\DoxyCodeLine{00149\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetMinMaxDistance(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{float}\ *min,\ \textcolor{keywordtype}{float}\ *max);}
+\DoxyCodeLine{00150\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_Release(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance);}
+\DoxyCodeLine{00151\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_IsVirtual(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_BOOL\ *virtualstate);}
+\DoxyCodeLine{00152\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetParameterByName(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{float}\ *value,\ \textcolor{keywordtype}{float}\ *finalvalue);}
+\DoxyCodeLine{00153\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetParameterByName(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{float}\ value,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00154\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetParameterByNameWithLabel(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *label,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00155\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetParameterByID(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{float}\ *value,\ \textcolor{keywordtype}{float}\ *finalvalue);}
+\DoxyCodeLine{00156\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetParameterByID(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{float}\ value,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00157\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetParameterByIDWithLabel(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ \textcolor{keywordtype}{id},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *label,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00158\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetParametersByIDs(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___p_a_r_a_m_e_t_e_r___i_d}{FMOD\_STUDIO\_PARAMETER\_ID}}\ *ids,\ \textcolor{keywordtype}{float}\ *values,\ \textcolor{keywordtype}{int}\ count,\ FMOD\_BOOL\ ignoreseekspeed);}
+\DoxyCodeLine{00159\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_KeyOff(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance);}
+\DoxyCodeLine{00160\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetCallback(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ FMOD\_STUDIO\_EVENT\_CALLBACK\ callback,\ FMOD\_STUDIO\_EVENT\_CALLBACK\_TYPE\ callbackmask);}
+\DoxyCodeLine{00161\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetUserData(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00162\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_SetUserData(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00163\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetCPUUsage(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *exclusive,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *inclusive);}
+\DoxyCodeLine{00164\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_EventInstance\_GetMemoryUsage(FMOD\_STUDIO\_EVENTINSTANCE\ *eventinstance,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___m_e_m_o_r_y___u_s_a_g_e}{FMOD\_STUDIO\_MEMORY\_USAGE}}\ *memoryusage);}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00167\ \textcolor{comment}{\ \ \ \ Bus}}
+\DoxyCodeLine{00168\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00169\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_Bus\_IsValid(FMOD\_STUDIO\_BUS\ *bus);}
+\DoxyCodeLine{00170\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetID(FMOD\_STUDIO\_BUS\ *bus,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00171\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetPath(FMOD\_STUDIO\_BUS\ *bus,\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00172\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetVolume(FMOD\_STUDIO\_BUS\ *bus,\ \textcolor{keywordtype}{float}\ *volume,\ \textcolor{keywordtype}{float}\ *finalvolume);}
+\DoxyCodeLine{00173\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_SetVolume(FMOD\_STUDIO\_BUS\ *bus,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00174\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetPaused(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_BOOL\ *paused);}
+\DoxyCodeLine{00175\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_SetPaused(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_BOOL\ paused);}
+\DoxyCodeLine{00176\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetMute(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_BOOL\ *mute);}
+\DoxyCodeLine{00177\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_SetMute(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_BOOL\ mute);}
+\DoxyCodeLine{00178\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_StopAllEvents(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_STUDIO\_STOP\_MODE\ mode);}
+\DoxyCodeLine{00179\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetPortIndex(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_PORT\_INDEX\ *index);}
+\DoxyCodeLine{00180\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_SetPortIndex(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_PORT\_INDEX\ index);}
+\DoxyCodeLine{00181\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_LockChannelGroup(FMOD\_STUDIO\_BUS\ *bus);}
+\DoxyCodeLine{00182\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_UnlockChannelGroup(FMOD\_STUDIO\_BUS\ *bus);}
+\DoxyCodeLine{00183\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetChannelGroup(FMOD\_STUDIO\_BUS\ *bus,\ FMOD\_CHANNELGROUP\ **group);}
+\DoxyCodeLine{00184\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetCPUUsage(FMOD\_STUDIO\_BUS\ *bus,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *exclusive,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *inclusive);}
+\DoxyCodeLine{00185\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bus\_GetMemoryUsage(FMOD\_STUDIO\_BUS\ *bus,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___m_e_m_o_r_y___u_s_a_g_e}{FMOD\_STUDIO\_MEMORY\_USAGE}}\ *memoryusage);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00188\ \textcolor{comment}{\ \ \ \ VCA}}
+\DoxyCodeLine{00189\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00190\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_VCA\_IsValid(FMOD\_STUDIO\_VCA\ *vca);}
+\DoxyCodeLine{00191\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_VCA\_GetID(FMOD\_STUDIO\_VCA\ *vca,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00192\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_VCA\_GetPath(FMOD\_STUDIO\_VCA\ *vca,\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00193\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_VCA\_GetVolume(FMOD\_STUDIO\_VCA\ *vca,\ \textcolor{keywordtype}{float}\ *volume,\ \textcolor{keywordtype}{float}\ *finalvolume);}
+\DoxyCodeLine{00194\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_VCA\_SetVolume(FMOD\_STUDIO\_VCA\ *vca,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00197\ \textcolor{comment}{\ \ \ \ Bank}}
+\DoxyCodeLine{00198\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00199\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_Bank\_IsValid(FMOD\_STUDIO\_BANK\ *bank);}
+\DoxyCodeLine{00200\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetID(FMOD\_STUDIO\_BANK\ *bank,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00201\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetPath(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00202\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_Unload(FMOD\_STUDIO\_BANK\ *bank);}
+\DoxyCodeLine{00203\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_LoadSampleData(FMOD\_STUDIO\_BANK\ *bank);}
+\DoxyCodeLine{00204\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_UnloadSampleData(FMOD\_STUDIO\_BANK\ *bank);}
+\DoxyCodeLine{00205\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetLoadingState(FMOD\_STUDIO\_BANK\ *bank,\ FMOD\_STUDIO\_LOADING\_STATE\ *state);}
+\DoxyCodeLine{00206\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetSampleLoadingState(FMOD\_STUDIO\_BANK\ *bank,\ FMOD\_STUDIO\_LOADING\_STATE\ *state);}
+\DoxyCodeLine{00207\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetStringCount(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00208\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetStringInfo(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{int}\ index,\ \mbox{\hyperlink{struct_f_m_o_d___g_u_i_d}{FMOD\_GUID}}\ *\textcolor{keywordtype}{id},\ \textcolor{keywordtype}{char}\ *path,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ *retrieved);}
+\DoxyCodeLine{00209\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetEventCount(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00210\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetEventList(FMOD\_STUDIO\_BANK\ *bank,\ FMOD\_STUDIO\_EVENTDESCRIPTION\ **array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00211\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetBusCount(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00212\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetBusList(FMOD\_STUDIO\_BANK\ *bank,\ FMOD\_STUDIO\_BUS\ **array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00213\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetVCACount(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00214\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetVCAList(FMOD\_STUDIO\_BANK\ *bank,\ FMOD\_STUDIO\_VCA\ **array,\ \textcolor{keywordtype}{int}\ capacity,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00215\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_GetUserData(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00216\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_Bank\_SetUserData(FMOD\_STUDIO\_BANK\ *bank,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00219\ \textcolor{comment}{\ \ \ \ Command\ playback\ information}}
+\DoxyCodeLine{00220\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00221\ FMOD\_BOOL\ \ \ F\_API\ FMOD\_Studio\_CommandReplay\_IsValid(FMOD\_STUDIO\_COMMANDREPLAY\ *replay);}
+\DoxyCodeLine{00222\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetSystem(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_STUDIO\_SYSTEM\ **system);}
+\DoxyCodeLine{00223\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetLength(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{float}\ *length);}
+\DoxyCodeLine{00224\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetCommandCount(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{00225\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetCommandInfo(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{int}\ commandindex,\ \mbox{\hyperlink{struct_f_m_o_d___s_t_u_d_i_o___c_o_m_m_a_n_d___i_n_f_o}{FMOD\_STUDIO\_COMMAND\_INFO}}\ *info);}
+\DoxyCodeLine{00226\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetCommandString(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{int}\ commandindex,\ \textcolor{keywordtype}{char}\ *buffer,\ \textcolor{keywordtype}{int}\ length);}
+\DoxyCodeLine{00227\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetCommandAtTime(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{float}\ time,\ \textcolor{keywordtype}{int}\ *commandindex);}
+\DoxyCodeLine{00228\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetBankPath(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *bankPath);}
+\DoxyCodeLine{00229\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_Start(FMOD\_STUDIO\_COMMANDREPLAY\ *replay);}
+\DoxyCodeLine{00230\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_Stop(FMOD\_STUDIO\_COMMANDREPLAY\ *replay);}
+\DoxyCodeLine{00231\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SeekToTime(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{float}\ time);}
+\DoxyCodeLine{00232\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SeekToCommand(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{int}\ commandindex);}
+\DoxyCodeLine{00233\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetPaused(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_BOOL\ *paused);}
+\DoxyCodeLine{00234\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetPaused(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_BOOL\ paused);}
+\DoxyCodeLine{00235\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetPlaybackState(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_STUDIO\_PLAYBACK\_STATE\ *state);}
+\DoxyCodeLine{00236\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetCurrentCommand(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{int}\ *commandindex,\ \textcolor{keywordtype}{float}\ *currenttime);}
+\DoxyCodeLine{00237\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_Release(FMOD\_STUDIO\_COMMANDREPLAY\ *replay);}
+\DoxyCodeLine{00238\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetFrameCallback(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_STUDIO\_COMMANDREPLAY\_FRAME\_CALLBACK\ callback);}
+\DoxyCodeLine{00239\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetLoadBankCallback(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_STUDIO\_COMMANDREPLAY\_LOAD\_BANK\_CALLBACK\ callback);}
+\DoxyCodeLine{00240\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetCreateInstanceCallback(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ FMOD\_STUDIO\_COMMANDREPLAY\_CREATE\_INSTANCE\_CALLBACK\ callback);}
+\DoxyCodeLine{00241\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_GetUserData(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{void}\ **userdata);}
+\DoxyCodeLine{00242\ FMOD\_RESULT\ F\_API\ FMOD\_Studio\_CommandReplay\_SetUserData(FMOD\_STUDIO\_COMMANDREPLAY\ *replay,\ \textcolor{keywordtype}{void}\ *userdata);}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00245\ \}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ FMOD\_STUDIO\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

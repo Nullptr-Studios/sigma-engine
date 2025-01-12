@@ -1,0 +1,76 @@
+\doxysection{AEAudio.\+h}
+\hypertarget{_a_e_audio_8h_source}{}\label{_a_e_audio_8h_source}\index{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEAudio.h@{D:/Git/fight-\/night-\/finale-\/engine/inc/aecore/AEAudio.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Project\ Name\ \ \ \ \ :\ \ \ Alpha\ Engine}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ File\ Name\ \ \ \ \ \ \ \ :\ \ \ AEAudio.h}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Author\ \ \ \ \ \ \ \ \ \ \ :\ \ \ Thomas\ Komair}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Creation\ Date\ \ \ \ :\ \ \ 2013/06/13}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Purpose\ \ \ \ \ \ \ \ \ \ :\ \ \ main\ header\ file\ for\ the\ AudioManager}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ History\ \ \ \ \ \ \ \ \ \ :}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ -\/\ 2012/03/29\ \ \ \ \ :\ \ \ -\/\ initial\ implementation}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ AE\_AUDIO\_MANAGER\_H\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ AE\_AUDIO\_MANAGER\_H\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ STL\ includes}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ Forward\ declaration\ of\ internal\ structures}}
+\DoxyCodeLine{00020\ \textcolor{keyword}{struct\ }Sound;}
+\DoxyCodeLine{00021\ \textcolor{keyword}{struct\ }Voice;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ volume}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{float}\ AEVoiceGetVolume(\textcolor{keyword}{const}\ Voice\ *\ pVoice);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{void}\ \ AEVoiceSetVolume(Voice\ *\ pVoice,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ paused}}
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{void}\ AEVoiceSetPause(Voice\ *\ pVoice,\ \textcolor{keywordtype}{bool}\ paused);}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{bool}\ AEVoiceIsPaused(\textcolor{keyword}{const}\ Voice\ *\ pVoice);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ looping}}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{void}\ AEVoiceSetLoop(Voice\ *\ pVoice,\ \textcolor{keywordtype}{bool}\ isLoop);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{bool}\ AEVoiceIsLooping(\textcolor{keyword}{const}\ Voice\ *\ pVoice);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ group\ Id}}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \ \ \ \ AEVoiceSetGroupId(Voice\ *\ pVoice,\ \textcolor{keywordtype}{unsigned}\ group);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{unsigned}\ AEVoiceGetGroupId(\textcolor{keyword}{const}\ Voice\ *\ pVoice);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ Returns\ false\ when\ the\ voice\ finished\ playing.}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Note:\ this\ is\ meant\ for\ the\ gameplay\ code\ to\ know\ when\ a\ sound\ finished\ playing.}}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{bool}\ AEVoiceIsValid(\textcolor{keyword}{const}\ Voice\ *\ pVoice);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ Audio\ Manager}}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{bool}\ AEAudioInitialize();}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ AEAudioUpdate();}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ AEAudioShutdown();}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ Debug\ Stats}}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{unsigned}\ AEAudioGetFreeVoiceCount();}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{unsigned}\ AEAudioGetUsedVoiceCount();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ set\ group\ volumes}}
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{void}\ AEAudioSetGroupVolume(\textcolor{keywordtype}{unsigned}\ group\_id,\ \textcolor{keywordtype}{float}\ volume);}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{void}\ AEAudioStopGroup(\textcolor{keywordtype}{unsigned}\ group\_id);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ Sound\ Management}}
+\DoxyCodeLine{00057\ Sound\ *\ AEAudioCreateSound(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ filename);}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{void}\ \ \ \ AEAudioFreeSound(Sound\ *\ pSound);}
+\DoxyCodeLine{00059\ Voice\ *\ AEAudioPlay(Sound\ *\ pSound,\ \textcolor{keywordtype}{bool}\ paused\ =\ \textcolor{keyword}{false},\ \textcolor{keywordtype}{unsigned}\ group\_id\ =\ -\/1);}
+\DoxyCodeLine{00060\ Voice\ *\ AEAudioLoop(Sound\ *\ pSound,\ \textcolor{keywordtype}{bool}\ paused\ =\ \textcolor{keyword}{false},\ \textcolor{keywordtype}{unsigned}\ group\_id\ =\ -\/1);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ AEAudioStopAll();}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ Debug\ stats}}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{unsigned}\ AEAudioGetFreeVoiceCount();}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{unsigned}\ AEAudioGetUsedVoiceCount();}
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{unsigned}\ AEAudioGetTotalVoiceCount();}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,61 @@
+\doxysection{Object.\+hpp}
+\hypertarget{_object_8hpp_source}{}\label{_object_8hpp_source}\index{D:/Git/fight-\/night-\/finale-\/engine/src/Object.hpp@{D:/Git/fight-\/night-\/finale-\/engine/src/Object.hpp}}
+\mbox{\hyperlink{_object_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <aecore/AEVec2.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <aecore/AEVec3.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_f_n_f_e}{FNFE}}\ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_f_n_f_e_1_1_transform}{Transform}}\ \{}
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{struct_a_e_vec3}{AEVec3}}\ position\ =\ \{\};}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{struct_a_e_vec2}{AEVec2}}\ scale\ =\ \{\};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordtype}{float}\ rotation\ =\ 0.0f;}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }Object\ \{}
+\DoxyCodeLine{00023\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{explicit}\ Object(\textcolor{keyword}{const}\ uint32\_t\ \textcolor{keywordtype}{id})\ :\ m\_id(\textcolor{keywordtype}{id})\ \{\}}
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{virtual}\ \string~Object()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \textcolor{comment}{//copy\ constructors}}
+\DoxyCodeLine{00029\ \ \ Object(\textcolor{keyword}{const}\ Object\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00030\ \ \ Object\&\ operator=(\textcolor{keyword}{const}\ Object\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00031\ \ \ Object(Object\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00032\ \ \ Object\&\ operator=(Object\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \mbox{\hyperlink{struct_f_n_f_e_1_1_transform}{Transform}}\ transform;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Init()\ \{\}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Start()\ \{\}}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Update(\textcolor{keywordtype}{double}\ delta)\ \{\}}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Draw()\ \{\}}
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Destroy()\ \{\}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ uint32\_t\ GetId()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_id;\ \}}
+\DoxyCodeLine{00045\ \ \ std::string\ GetName()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_name;\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keywordtype}{void}\ SetName(\textcolor{keyword}{const}\ std::string\&\ name)\ \{\ m\_name\ =\ name;\ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{keywordtype}{bool}\ IsPersistent()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_persistent;\ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ uint32\_t\ m\_id\ =\ 0;}
+\DoxyCodeLine{00054\ \ \ std::string\ m\_name\ =\ \textcolor{stringliteral}{"{}Base\ Object"{}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{bool}\ m\_active\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{bool}\ m\_persistent\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \}\ \textcolor{comment}{//\ FNFE}}
+
+\end{DoxyCode}
