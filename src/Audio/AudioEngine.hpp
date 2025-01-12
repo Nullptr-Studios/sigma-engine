@@ -1,4 +1,3 @@
-// ?2023 JDSherbert. All rights reserved.
 
 #pragma once
 
@@ -7,7 +6,6 @@
 /// FMOD wrapper which can utilize audio files (.wav, .mp3, .ogg etc) and FMOD soundbanks (.bank files).
 /// Supports playback of loops or one-shots in stereo, and customizable spatialization.
 ///
-/// @author JDSherbert
 /// @dependencies FMOD Studio & Core
 
 #include <FMOD/fmod_studio.hpp>

@@ -33,9 +33,13 @@ void GameManager::GameInit()
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
 
   //not working
-  /*audioEngine = std::make_unique<AudioEngine>();
-  audioEngine->Init();*/
+  audioEngine = std::make_unique<AudioEngine>();
+  audioEngine->Init();
 
+  AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
+
+  audioEngine->Load(data);
+  audioEngine->Play(data);
 }
 
 
@@ -49,7 +53,8 @@ void GameManager::Run()
     currentScene->Draw();
     //@TODO: Implement Factory in order to tick the objects
   }
-  //audioEngine->Update();
+  audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
+  audioEngine->Update();
   AESysFrameEnd();
 }
 

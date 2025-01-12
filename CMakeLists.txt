@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(fight_night_finale_engine)
+project(fnf_E)
 
 set(CMAKE_CXX_STANDARD 26)
 
@@ -26,3 +26,8 @@ target_link_directories(fnf_E PUBLIC lib)
 target_link_libraries(fnf_E PUBLIC fmodL_vc)
 target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
 target_link_libraries(fnf_E PUBLIC aecore)
+
+#copy res folder to build directory
+add_custom_command(TARGET fnf_E POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)

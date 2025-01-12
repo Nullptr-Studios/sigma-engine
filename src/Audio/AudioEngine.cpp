@@ -1,7 +1,5 @@
-// ?2023 JDSherbert. All rights reserved.
 
 /// @file AudioEngine.cpp
-/// @author JDSherbert
 
 #include "AudioEngine.hpp"
 
