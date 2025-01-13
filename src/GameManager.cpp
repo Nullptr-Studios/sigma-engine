@@ -8,10 +8,10 @@
 
 #include "GameManager.hpp"
 
-#include <aecore/AEDebug.h>
-#include <aecore/AEGameStateMgr.h>
-#include <aecore/AESystem.h>
 #include <iostream>
+
+#include <aecore/AEDebug.h>
+#include <aecore/AESystem.h>
 
 #include "Audio/AudioEngine.hpp"
 #include "Scene.hpp"
@@ -23,6 +23,8 @@ GameManager::GameManager(const char *title, int width, int height)
   this->m_title = title;
   this->m_width = width;
   this->m_height = height;
+
+  GameInit();
 }
 
 GameManager::~GameManager() {}
@@ -32,7 +34,6 @@ void GameManager::GameInit()
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
 
-  //not working
   audioEngine = std::make_unique<AudioEngine>();
   audioEngine->Init();
 

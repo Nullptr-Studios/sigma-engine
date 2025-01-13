@@ -33,7 +33,7 @@ target_precompile_headers(fnf_E PRIVATE src/Pch.hpp)
 
 #copy res folder to build directory
 add_custom_command(TARGET fnf_E POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
 
 #copy FMOD dlls to build directory

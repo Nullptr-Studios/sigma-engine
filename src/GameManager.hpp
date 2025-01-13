@@ -11,10 +11,8 @@
 
 
 namespace FNFE {
-class AudioEngine;
-}
-namespace FNFE {
 
+class AudioEngine;
 class Scene;
 
 class GameManager
@@ -30,8 +28,6 @@ public:
   GameManager(const char* title, int width, int height);
   ~GameManager();
 
-  void GameInit();
-
   /**
    * @brief Main engine loop
    */
@@ -46,6 +42,8 @@ public:
 
 
 private:
+
+  void GameInit();
 
   const char* m_title;
   int m_width;
