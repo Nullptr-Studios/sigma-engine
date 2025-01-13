@@ -27,8 +27,9 @@ void \mbox{\hyperlink{class_f_n_f_e_1_1_audio_engine_ac9ddf1cce8d65acd7fccf01ad7
 \item 
 unsigned int \mbox{\hyperlink{class_f_n_f_e_1_1_audio_engine_ada7da0ca612f60319a5c7eddda4aa82b}{Get\+Length\+MS}} (Audio\+Data audio\+Data)
 \item 
-void \mbox{\hyperlink{class_f_n_f_e_1_1_audio_engine_ae05cfc16d7f7886299e50c8626130427}{Load\+Bank}} (const char \texorpdfstring{$\ast$}{*}file\+Path)
-\item 
+\Hypertarget{class_f_n_f_e_1_1_audio_engine_ae05cfc16d7f7886299e50c8626130427}\label{class_f_n_f_e_1_1_audio_engine_ae05cfc16d7f7886299e50c8626130427} 
+void {\bfseries Load\+Bank} (const char \texorpdfstring{$\ast$}{*}file\+Path)
+\begin{DoxyCompactList}\small\item\em Loads an FMOD Studio soundbank (\texorpdfstring{$\ast$}{*}.bank) file. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_f_n_f_e_1_1_audio_engine_a47eb5d68a08f1af0c972f73120c56635}{Load\+Event}} (const char \texorpdfstring{$\ast$}{*}event\+Name, std\+::vector$<$ std\+::pair$<$ const char \texorpdfstring{$\ast$}{*}, float $>$ $>$ params\+Values=\{ \})
 \item 
 void \mbox{\hyperlink{class_f_n_f_e_1_1_audio_engine_a7672100c5df2ca5d559272dfcd8b40da}{Set\+Event\+Param\+Value}} (const char \texorpdfstring{$\ast$}{*}event\+Name, const char \texorpdfstring{$\ast$}{*}parameter\+Name, float value)
@@ -108,19 +109,13 @@ Checks if an event is playing. \Hypertarget{class_f_n_f_e_1_1_audio_engine_abde3
 {\footnotesize\ttfamily \label{class_f_n_f_e_1_1_audio_engine_abde3168d69db251428394672bd6b09aa} 
 void FNFE\+::\+Audio\+Engine\+::\+Load (\begin{DoxyParamCaption}\item[{Audio\+Data}]{audio\+Data}{}\end{DoxyParamCaption})}
 
-Loads a sound from disk using provided settings Prepares for later playback with \doxylink{class_f_n_f_e_1_1_audio_engine_accf93fccd17448d0a9145680b4e42cf6}{Play()} Only reads the audio file and loads into the audio engine if the sound file has already been added to the cache. \Hypertarget{class_f_n_f_e_1_1_audio_engine_ae05cfc16d7f7886299e50c8626130427}\index{FNFE::AudioEngine@{FNFE::AudioEngine}!LoadBank@{LoadBank}}
-\index{LoadBank@{LoadBank}!FNFE::AudioEngine@{FNFE::AudioEngine}}
-\doxysubsubsection{\texorpdfstring{LoadBank()}{LoadBank()}}
-{\footnotesize\ttfamily \label{class_f_n_f_e_1_1_audio_engine_ae05cfc16d7f7886299e50c8626130427} 
-void FNFE\+::\+Audio\+Engine\+::\+Load\+Bank (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{file\+Path}{}\end{DoxyParamCaption})}
-
-Loads an FMOD Studio soundbank TODO Fix \Hypertarget{class_f_n_f_e_1_1_audio_engine_a47eb5d68a08f1af0c972f73120c56635}\index{FNFE::AudioEngine@{FNFE::AudioEngine}!LoadEvent@{LoadEvent}}
+Loads a sound from disk using provided settings Prepares for later playback with \doxylink{class_f_n_f_e_1_1_audio_engine_accf93fccd17448d0a9145680b4e42cf6}{Play()} Only reads the audio file and loads into the audio engine if the sound file has already been added to the cache. \Hypertarget{class_f_n_f_e_1_1_audio_engine_a47eb5d68a08f1af0c972f73120c56635}\index{FNFE::AudioEngine@{FNFE::AudioEngine}!LoadEvent@{LoadEvent}}
 \index{LoadEvent@{LoadEvent}!FNFE::AudioEngine@{FNFE::AudioEngine}}
 \doxysubsubsection{\texorpdfstring{LoadEvent()}{LoadEvent()}}
 {\footnotesize\ttfamily \label{class_f_n_f_e_1_1_audio_engine_a47eb5d68a08f1af0c972f73120c56635} 
 void FNFE\+::\+Audio\+Engine\+::\+Load\+Event (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{event\+Name}{, }\item[{std\+::vector$<$ std\+::pair$<$ const char \texorpdfstring{$\ast$}{*}, float $>$ $>$}]{params\+Values}{ = {\ttfamily \{~\}}}\end{DoxyParamCaption})}
 
-Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method. TODO Fix \Hypertarget{class_f_n_f_e_1_1_audio_engine_a494eae132624b142d54f5ed5a6ef7795}\index{FNFE::AudioEngine@{FNFE::AudioEngine}!MuteAll@{MuteAll}}
+Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method. \Hypertarget{class_f_n_f_e_1_1_audio_engine_a494eae132624b142d54f5ed5a6ef7795}\index{FNFE::AudioEngine@{FNFE::AudioEngine}!MuteAll@{MuteAll}}
 \index{MuteAll@{MuteAll}!FNFE::AudioEngine@{FNFE::AudioEngine}}
 \doxysubsubsection{\texorpdfstring{MuteAll()}{MuteAll()}}
 {\footnotesize\ttfamily \label{class_f_n_f_e_1_1_audio_engine_a494eae132624b142d54f5ed5a6ef7795} 

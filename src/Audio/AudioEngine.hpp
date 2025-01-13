@@ -82,8 +82,6 @@ public:
    */
   void UpdateVolume(AudioData &audioData, float newVolume, unsigned int fadeSampleLength = 0);
 
-
-
   /**
   * Updates the position of a looping 3D sound that has already been loaded and is playing back.
   * The AudioData object's position coordinates will be used for the new sound position, so
@@ -95,7 +93,6 @@ public:
    * Checks if a looping sound is playing.
    */
   bool IsPlaying(AudioData audioData);
-
 
   /**
    * Sets the position of the listener in the 3D scene.
@@ -114,15 +111,12 @@ public:
   unsigned int GetLengthMS(AudioData audioData);
 
   /**
-   * Loads an FMOD Studio soundbank
-   * TODO Fix
+   * @brief Loads an FMOD Studio soundbank (*.bank) file.
    */
   void LoadBank(const char* filePath);
 
   /**
-   * Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before
-   * calling this method.
-   * TODO Fix
+   * Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method.
    */
   void LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues = { });
 

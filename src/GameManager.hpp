@@ -3,7 +3,7 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief AudioEngine
  */
 
 #pragma once
@@ -28,10 +28,16 @@ public:
   GameManager(const char* title, int width, int height);
   ~GameManager();
 
+
   /**
    * @brief Main engine loop
    */
   void Run();
+
+  /**
+   * @brief Uninitializes the engine
+   */
+  void Uninitialize();
 
   /**
    * @brief Loads a scene and unloads the currently loaded scene

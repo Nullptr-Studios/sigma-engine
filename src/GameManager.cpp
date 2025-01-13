@@ -3,7 +3,7 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief AudioEngine class definition
  */
 
 #include "GameManager.hpp"
@@ -29,10 +29,12 @@ GameManager::GameManager(const char *title, int width, int height)
 
 GameManager::~GameManager() {}
 
+void GameManager::Uninitialize() { audioEngine->Terminate(); }
+
 void GameManager::GameInit()
 {
   // Initialize alpha engine
-  AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
+  AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
 
   audioEngine = std::make_unique<AudioEngine>();
   audioEngine->Init();
@@ -40,7 +42,15 @@ void GameManager::GameInit()
   AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
 
   audioEngine->Load(data);
-  audioEngine->Play(data);
+  //Master bank is needed to load other banks
+  audioEngine->LoadBank("res/Master.bank");
+  audioEngine->LoadBank("res/Master.strings.bank");
+
+  //Load the music bank
+  audioEngine->LoadBank("res/Music.bank");
+  audioEngine->LoadEvent("event:/Music/OST_Credits");
+  audioEngine->PlayEvent("event:/Music/OST_Credits");
+
 }
 
 

@@ -17,13 +17,20 @@ FNFE::AudioEngine::AudioEngine()
 
 void FNFE::AudioEngine::Init()
 {
-    ERRCHECK(FMOD::Studio::System::create(&studioSystem));
-    ERRCHECK(studioSystem->getCoreSystem(&lowLevelSystem));
-    ERRCHECK(lowLevelSystem->setSoftwareFormat(AUDIO_SAMPLE_RATE, FMOD_SPEAKERMODE_7POINT1, 0));
-    ERRCHECK(lowLevelSystem->set3DSettings(1.0, DISTANCEFACTOR, 0.5f));
-    ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0));
-    ERRCHECK(lowLevelSystem->getMasterChannelGroup(&mastergroup));
-    InitializeReverb();
+  ERRCHECK(FMOD::Studio::System::create(&studioSystem));
+  ERRCHECK(studioSystem->getCoreSystem(&lowLevelSystem));
+  ERRCHECK(lowLevelSystem->setSoftwareFormat(AUDIO_SAMPLE_RATE, FMOD_SPEAKERMODE_5POINT1, 0));
+  ERRCHECK(lowLevelSystem->set3DSettings(1.0, DISTANCEFACTOR, 0.5f));
+#if _DEBUG
+  //live-update while on debug
+  ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_LIVEUPDATE, FMOD_INIT_NORMAL, 0));
+#elif NDEBUG
+  ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0));
+#endif
+
+
+  ERRCHECK(lowLevelSystem->getMasterChannelGroup(&mastergroup));
+  InitializeReverb();
 }
 
 void FNFE::AudioEngine::Terminate()

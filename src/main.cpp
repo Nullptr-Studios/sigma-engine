@@ -25,6 +25,10 @@ int main() {
   {
     gameManager->Run();
   }
+  gameManager->Uninitialize();
+  AESysExit();
+
+
 
   return 0;
 }
