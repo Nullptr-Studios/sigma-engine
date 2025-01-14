@@ -55,9 +55,9 @@ private:
   int m_width;
   int m_height;
 
-  std::unique_ptr<AudioEngine> audioEngine;
+  std::unique_ptr<AudioEngine> m_audioEngine;
 
-  Scene* currentScene = nullptr;
+  Scene* m_currentScene = nullptr;
 };
 
 } // FNFE

@@ -8,7 +8,12 @@
 
 #pragma once
 
-// C++ standard libraries (AEEngine.h already includes these)
+// C++ standard libraries (AEEngine.h already includes most of these)
+#include <memory>
+#include <utility>
+#include <functional>
+#include <sstream>
+
 // Alpha Engine includes
 #include <aecore/AEEngine.h>
 

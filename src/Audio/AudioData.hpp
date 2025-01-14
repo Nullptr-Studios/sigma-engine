@@ -29,10 +29,10 @@ public:
 
   AudioData(const char* filePath, bool loop = false, bool is3D = false, float reverbAmount = 0.0f, AEVec3 position = { 0.0f, 0.0f, 0.0f }) : filePath(filePath), loop(loop), is3D(is3D), reverbAmount(reverbAmount), position(position)
   {
-      volume = 1.0f;
-      loaded = false;
-      lengthMS = 0;
-      uniqueID = filePath;
+    volume = 1.0f;
+    loaded = false;
+    lengthMS = 0;
+    uniqueID = filePath;
   }
   ~AudioData();
 
