@@ -1,47 +1,62 @@
-/**
- * @file GameManager.cpp
- * @author Dario
- * @date 11/01/2025
- *
- * @brief [Brief description of the file's purpose]
- */
+
 
 #include "GameManager.hpp"
 
-#include <aecore/AEAudio.h>
-#include <aecore/AEDebug.h>
-#include <aecore/AEGameStateMgr.h>
-#include <aecore/AESystem.h>
 #include <iostream>
 
+#include <aecore/AEDebug.h>
+#include <aecore/AESystem.h>
+
+#include "Audio/AudioEngine.hpp"
 #include "Scene.hpp"
 
 namespace FNFE {
 
 GameManager::GameManager(const char *title, int width, int height)
+  : m_title(title), m_width(width), m_height(height)
 {
-  // Initialize alpha engine
-  AEDbgAssertFunction(AESysInit(title, width, height), "GameManager.cpp", __LINE__, "AESysInit() failed!");
-
-  AEDbgAssertFunction(AEAudioInitialize(), "GameManager.cpp", __LINE__, "AEAudioInitialize() failed!");
-
-  std::cout << "[GameManager] AE initialized!" << std::endl;
-
+  GameInit();
 }
 
 GameManager::~GameManager() {}
+
+void GameManager::Uninitialize() { m_audioEngine->Terminate(); }
+
+void GameManager::GameInit()
+{
+  // Initialize alpha engine
+  AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
+
+  m_audioEngine = std::make_unique<AudioEngine>();
+  m_audioEngine->Init();
+
+  AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
+
+  m_audioEngine->Load(data);
+  //Master bank is needed to load other banks
+  m_audioEngine->LoadBank("res/Master.bank");
+  m_audioEngine->LoadBank("res/Master.strings.bank");
+
+  //Load the music bank
+  m_audioEngine->LoadBank("res/Music.bank");
+  m_audioEngine->LoadEvent("event:/Music/OST_Credits");
+  m_audioEngine->PlayEvent("event:/Music/OST_Credits");
+
+}
 
 
 void GameManager::Run()
 {
   AESysFrameStart();
   AESysUpdate();
-  if (currentScene != nullptr)
+  if (m_currentScene != nullptr)
   {
-    currentScene->Update(AEGetFrameTime());
-    currentScene->Draw();
+    m_currentScene->Update(AEGetFrameTime());
+    m_currentScene->Draw();
     //@TODO: Implement Factory in order to tick the objects
   }
+  m_audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
+  m_audioEngine->Update();
   AESysFrameEnd();
 }
 
@@ -55,19 +70,19 @@ void GameManager::LoadScene(Scene* scene)
     return;
   }
 
-  if (currentScene != nullptr)
+  if (m_currentScene != nullptr)
   {
-    currentScene->Free();
-    currentScene->Unload();
+    m_currentScene->Free();
+    m_currentScene->Unload();
 
-    delete currentScene;
+    delete m_currentScene;
   }
 
-  currentScene = scene;
-  std::cout << "[GameManager] Scene: " << currentScene->GetName() << " with ID: " << scene->GetID() << " loading..." << std::endl;
-  currentScene->Load();
-  currentScene->Init();
-  std::cout << "[GameManager] Scene: " << currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!" << std::endl;
+  m_currentScene = scene;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loading..." << std::endl;
+  m_currentScene->Load();
+  m_currentScene->Init();
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!" << std::endl;
 
 }
 

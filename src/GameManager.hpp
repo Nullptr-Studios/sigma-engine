@@ -3,15 +3,17 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief AudioEngine
  */
 
 #pragma once
+#include <memory>
+
 
 namespace FNFE {
 
+class AudioEngine;
 class Scene;
-
 
 class GameManager
 {
@@ -26,10 +28,16 @@ public:
   GameManager(const char* title, int width, int height);
   ~GameManager();
 
+
   /**
    * @brief Main engine loop
    */
   void Run();
+
+  /**
+   * @brief Uninitializes the engine
+   */
+  void Uninitialize();
 
   /**
    * @brief Loads a scene and unloads the currently loaded scene
@@ -41,7 +49,15 @@ public:
 
 private:
 
-  Scene* currentScene = nullptr;
+  void GameInit();
+
+  const char* m_title;
+  int m_width;
+  int m_height;
+
+  std::unique_ptr<AudioEngine> m_audioEngine;
+
+  Scene* m_currentScene = nullptr;
 };
 
 } // FNFE
