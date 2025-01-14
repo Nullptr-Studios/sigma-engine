@@ -21,7 +21,11 @@ add_executable(fnf_E
         src/Audio/AudioEngine.hpp
         src/Audio/AudioEngine.cpp
         src/Audio/AudioData.cpp
+        src/Factory.cpp
+        src/Factory.hpp
+        src/Core.hpp
 )
+
 target_include_directories(fnf_E PUBLIC inc)
 target_link_directories(fnf_E PUBLIC lib)
 target_link_libraries(fnf_E PUBLIC fmodL_vc)
