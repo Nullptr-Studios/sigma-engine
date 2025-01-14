@@ -21,6 +21,8 @@ add_executable(fnf_E
         src/Audio/AudioEngine.hpp
         src/Audio/AudioEngine.cpp
         src/Audio/AudioData.cpp
+        src/Collision/Collision.cpp
+        src/Collision/Collision.hpp
 )
 target_include_directories(fnf_E PUBLIC inc)
 target_link_directories(fnf_E PUBLIC lib)
