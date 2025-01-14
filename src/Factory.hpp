@@ -7,11 +7,10 @@
  */
 
 #pragma once
-#include <iostream>
-#include <memory>
-#include <stdexcept>
+#include <pch.hpp>
+
+#include "Actor.hpp"
 #include "Core.hpp"
-#include "GameObject.hpp"
 #include "Object.hpp"
 
 namespace FNFE {
@@ -60,7 +59,7 @@ public:
   void DestroyAllObjects();
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
-  // RenderableMap GetRenderables() { return m_renderables; }
+  ActorMap GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 
@@ -75,7 +74,20 @@ private:
   id_t m_currentId = 0;
   static Factory* m_instance;
 
+  /**
+   * @brief Map that contains all objects
+   *
+   * This map contains a @c std::shared_ptr for every object that exist in the game stored by its ID. This map is used
+   * to call all the object's functions like @c Update. The Factory class has ownership of all the objects.
+   */
   ObjectMap m_objects;
+  /**
+   * @brief Map that contains all renderable objects
+   *
+   * This map contains a @c std::shared_ptr for every object (Actor class or inherited) that is renderable in the game
+   * stored by its ID. This map os used for rendering objects in game.
+   */
+  ActorMap m_renderables;
         
 };
 
@@ -90,14 +102,13 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
     throw std::runtime_error("Object ID overflow");
   }
 
-  m_objects.emplace(obj->GetID(), std::static_pointer_cast<Object>(obj));
+  m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
 
-  // This is here if we want a list of the objects that are renderable
-  // if constexpr (std::is_base_of_v<Actor, T>) {
-  //   m_renderables.emplace(obj->GetID(), std::static_pointer_cast<Actor>(obj));
-  // }
+  if constexpr (std::is_base_of_v<Actor, T>) {
+    m_renderables.emplace(obj->GetId(), std::static_pointer_cast<Actor>(obj));
+  }
 
-  std::cout << "Created object " << name << " with ID: " << obj->GetID() << std::endl;
+  std::cout << "Created object " << name << " with ID: " << obj->GetId() << std::endl;
   return obj;
 }
 

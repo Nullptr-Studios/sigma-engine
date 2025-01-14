@@ -9,6 +9,7 @@
 #pragma once
 
 // C++ standard libraries (AEEngine.h already includes most of these)
+#include <iostream>
 #include <memory>
 #include <utility>
 #include <functional>

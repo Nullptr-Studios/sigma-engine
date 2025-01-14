@@ -7,14 +7,21 @@
  */
 
 #pragma once
-#include <memory>
-
+#include <pch.hpp>
+#include <Factory.hpp>
 
 namespace FNFE {
 
 class AudioEngine;
 class Scene;
 
+/**
+ * @class GameManager
+ * @brief Main engine class
+ *
+ * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
+ * class must own all core components of the engine.
+ */
 class GameManager
 {
 public:
@@ -55,6 +62,7 @@ private:
   int m_width;
   int m_height;
 
+  std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
 
   Scene* m_currentScene = nullptr;

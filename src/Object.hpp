@@ -18,16 +18,31 @@
 namespace FNFE {
 
 struct Transform {
-  AEVec3 position = {};
-  AEVec2 scale = {};
+  AEVec3 position = AEVec3(0.0f);
+  AEVec2 scale = AEVec2(100.0f);
   float rotation = 0.0f;
+
+  /**
+   * @brief Calculates the matrix of the transform
+   * Uses translate * rotate * scale
+   * @return AEMtx33
+   */
+  AEMtx33& GetMatrix() {
+    AEMtx33 scaleMat, rotateMat, translateMat;
+    AEMtx33Scale(&scaleMat, scale.x, scale.y);
+    AEMtx33Rot(&rotateMat, rotation);
+    AEMtx33Trans(&translateMat, position.x, position.y);
+
+    AEMtx33 world = translateMat * rotateMat * scaleMat;
+    return world;
+  }
 };
 
 // At least give me credit for copying this from my engine -x
 
 class Object {
 protected:
-  explicit Object(const uint32_t id) : m_id(id) {}
+  explicit Object(const uint32_t id) : m_id(id) { Init(); }
   virtual ~Object() = default;
 
 public:
@@ -42,7 +57,7 @@ public:
 
   virtual void Init() {}
   virtual void Start() {}
-  virtual void Update(double delta) {}
+  virtual void Update(double deltaTime) {}
   virtual void Draw() {}
   virtual void Destroy() {}
 
@@ -63,6 +78,6 @@ private:
 
 };
 
-typedef std::map<id_t, std::shared_ptr<Object>> ObjectMap;
+typedef std::unordered_map<id_t, std::shared_ptr<Object>> ObjectMap;
 
 } // FNFE
