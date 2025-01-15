@@ -13,7 +13,13 @@ GameManager::GameManager(const char *title, int width, int height)
 
 GameManager::~GameManager() = default;
 
-void GameManager::Uninitialize() { m_audioEngine->Terminate(); }
+void GameManager::Uninitialize()
+{
+  m_factory->DestroyAllObjects();
+
+  //something crashes here :( -m
+  m_audioEngine->Terminate();
+}
 
 void GameManager::GameInit()
 {
@@ -26,21 +32,24 @@ void GameManager::GameInit()
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
   {
-    AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
+    //AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
 
-    m_audioEngine->Load(data);
+    //m_audioEngine->Load(data);
     //Master bank is needed to load other banks
     m_audioEngine->LoadBank("res/Master.bank");
     m_audioEngine->LoadBank("res/Master.strings.bank");
 
     //Load the music bank
     m_audioEngine->LoadBank("res/Music.bank");
-    m_audioEngine->LoadEvent("event:/Music/OST_Credits");
-    m_audioEngine->PlayEvent("event:/Music/OST_Credits");
+    std::vector<std::pair<const char*, float>> params;
+    params.emplace_back("LowPass", 1);
+    m_audioEngine->LoadEvent("event:/Music/OST_Level3", params);
+    m_audioEngine->PlayEvent("event:/Music/OST_Level3");
   }
 
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexturePath("res/toast.png");
+
 }
 
 
@@ -69,6 +78,8 @@ void GameManager::Run()
       AEGfxTriDraw(renderable->GetTris());
     }
   }
+
+  m_audioEngine->SetEventParamValue("event:/Music/OST_Level3", "LowPass", AESin(AEGetTime()));
 
   // Audio
   m_audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
@@ -101,8 +112,9 @@ void GameManager::LoadScene(Scene* scene)
   m_currentScene->Load();
   m_currentScene->Init();
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!" << std::endl;
-
 }
+
+
 
 #pragma endregion
 

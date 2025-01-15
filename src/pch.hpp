@@ -22,3 +22,6 @@
 #include <FMOD/fmod_studio.hpp>
 #include <FMOD/fmod.hpp>
 #include <FMOD/fmod_errors.h>
+
+//json
+#include <json.hpp>

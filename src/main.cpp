@@ -7,7 +7,8 @@
 
 // Test XML include
 #include "Audio/AudioEngine.hpp"
-#include "rapidxml/rapidxml.hpp"
+#include "json.hpp"
+typedef nlohmann::json json_t;
 
 int main() {
 
