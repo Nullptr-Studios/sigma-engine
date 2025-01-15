@@ -44,7 +44,7 @@ void Factory::FreeTexture(const char *filepath) {
     AEGfxTextureUnload(m_textures.at(filepath));
     m_textures.erase(filepath);
   } catch (const std::out_of_range &e) {
-    std::cout << "[Factory] The texture you are trying to delete doesn't exist";
+    std::cout << "[Factory] The texture \"" << filepath << "\" doesn't exist. Please create it before trying to delete it\n";
   }
 }
 void Factory::FreeAllTextures() {

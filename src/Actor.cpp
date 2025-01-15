@@ -29,4 +29,4 @@ void Actor::SetTexture(const char* path) {
   m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
 }
 
-} // namespace FNFE
+}

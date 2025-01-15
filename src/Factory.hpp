@@ -141,7 +141,7 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
     m_renderables.emplace(obj->GetId(), std::static_pointer_cast<Actor>(obj));
   }
 
-  std::cout << "Created object " << name << " with ID: " << obj->GetId() << std::endl;
+  std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
   return obj;
 }
 

@@ -3,7 +3,7 @@
  * @author Xein
  * @date 14/01/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief The Actor class is a type of Object that can be rendered
  */
 
 #pragma once
