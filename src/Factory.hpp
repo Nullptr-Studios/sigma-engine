@@ -27,15 +27,18 @@ namespace FNFE {
  * @note This class has ownership of all game objects
  */
 class Factory {
+
+  typedef std::unordered_map<const char*, AEGfxTexture*> TextureMap;
+
 public:
   Factory() { m_instance = this; }
-  ~Factory() { m_instance = nullptr; }
+  ~Factory();
 
   // Copy constructor
   Factory &operator=(const Factory &) = delete;
   Factory(const Factory &) = delete;
 
-#pragma region Factory
+#pragma region Objects
 
   /**
    * Handles the creation of a new object
@@ -60,6 +63,16 @@ public:
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
   ActorMap GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
+
+#pragma endregion
+
+#pragma region Textures
+
+  AEGfxTexture* LoadTexture(const char* filepath);
+  void FreeTexture(const char* filepath);
+  void FreeAllTextures();
+
+  TextureMap GetTextures() { return m_textures; }
 
 #pragma endregion
 
@@ -88,7 +101,13 @@ private:
    * stored by its ID. This map os used for rendering objects in game.
    */
   ActorMap m_renderables;
-        
+  /**
+   * @brief Map that contains all textures
+   *
+   * This maps contains pointers for every loaded texture currently in the game. The textures have their relative path
+   * as a key
+   */
+  TextureMap m_textures;
 };
 
 template<typename T, typename>

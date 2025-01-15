@@ -1,4 +1,5 @@
 #include "Actor.hpp"
+#include "Factory.hpp"
 
 namespace FNFE {
 
@@ -13,7 +14,7 @@ void Actor::Init() {
 
   m_triangleList = AEGfxTriEnd();
 
-  ReloadTexture();
+  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath.c_str());
 }
 
 void Actor::Destroy() {
@@ -21,11 +22,6 @@ void Actor::Destroy() {
   AEGfxTextureUnload(m_texture);
   m_texture = nullptr;
   AEGfxTriFree(m_triangleList);
-}
-
-void Actor::ReloadTexture() {
-  if (m_texture != nullptr) AEGfxTextureUnload(m_texture);
-  m_texture = AEGfxTextureLoad("res/toast.png");
 }
 
 } // namespace FNFE
