@@ -5,10 +5,6 @@
 #include "Scene.hpp"
 #include "TestScene.hpp"
 
-// Test XML include
-#include "Audio/AudioEngine.hpp"
-#include "json.hpp"
-typedef nlohmann::json json_t;
 
 int main() {
 
