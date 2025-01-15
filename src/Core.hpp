@@ -7,11 +7,14 @@
  */
 
 #pragma once
+#include <pch.hpp>
 
 namespace FNFE {
 
 typedef unsigned int id_t; ///< @brief Type definition for object IDs
 
 #define FNFE_FACTORY Factory::GetInstance() ///< @brief Major version number
+
+typedef nlohmann::json json_t;
 
 }

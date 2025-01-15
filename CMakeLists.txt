@@ -21,7 +21,7 @@ target_link_directories(fnf_E PUBLIC lib)
 target_link_libraries(fnf_E PUBLIC fmodL_vc)
 target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
 target_link_libraries(fnf_E PUBLIC aecore)
-
+target_include_directories(fnf_E PUBLIC lib/json/single_include/nlohmann/)
 # precompiled header
 target_precompile_headers(fnf_E PRIVATE src/pch.hpp)
 

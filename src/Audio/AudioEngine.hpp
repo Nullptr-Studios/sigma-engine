@@ -8,13 +8,7 @@
 ///
 /// @dependencies FMOD Studio & Core
 
-#include <FMOD/fmod_studio.hpp>
-#include <FMOD/fmod.hpp>
-
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+#include <pch.hpp>
 
 #include "AudioData.hpp"
 

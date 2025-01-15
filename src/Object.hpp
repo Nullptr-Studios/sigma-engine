@@ -9,7 +9,6 @@
 #pragma once
 #include <aecore/AEVec2.h>
 #include <aecore/AEVec3.h>
-#include <map>
 #include <memory>
 #include <string>
 

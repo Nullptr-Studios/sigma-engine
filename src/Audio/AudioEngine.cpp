@@ -35,6 +35,24 @@ void FNFE::AudioEngine::Init()
 
 void FNFE::AudioEngine::Terminate()
 {
+  bool paused;
+  mastergroup->stop();
+  for (auto sound : soundBanks)
+  {
+    sound.second->unload();
+  }
+  for (auto sound : sounds)
+  {
+    sound.second->release();
+  }
+  for (auto map : eventInstances)
+  {
+    map.second->getPaused(&paused);
+    if (!paused)
+      map.second->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+    map.second->release();
+  }
+
   lowLevelSystem->close();
   studioSystem->release();
 }
