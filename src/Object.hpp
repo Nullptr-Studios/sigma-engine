@@ -27,12 +27,12 @@ struct Transform {
    * @return AEMtx33
    */
   AEMtx33& GetMatrix() {
-    AEMtx33 scaleMat, rotateMat, translateMat;
-    AEMtx33Scale(&scaleMat, scale.x, scale.y);
-    AEMtx33Rot(&rotateMat, rotation);
-    AEMtx33Trans(&translateMat, position.x, position.y);
+    //Changed this to use only one matrix -m
+    AEMtx33 world;
+    AEMtx33ScaleApply(&world,&world, scale.x, scale.y);
+    AEMtx33RotApply(&world, &world, rotation);
+    AEMtx33TransApply(&world, &world, position.x, position.y);
 
-    AEMtx33 world = translateMat * rotateMat * scaleMat;
     return world;
   }
 };

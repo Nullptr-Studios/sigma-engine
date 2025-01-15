@@ -17,7 +17,7 @@ void GameManager::Uninitialize()
 {
   m_factory->DestroyAllObjects();
 
-  //something crashes here :( -m
+  //TODO something crashes here :( -m
   m_audioEngine->Terminate();
 }
 

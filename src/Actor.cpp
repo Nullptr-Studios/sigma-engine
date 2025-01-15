@@ -19,7 +19,7 @@ void Actor::Init() {
 
 void Actor::Destroy() {
   Object::Destroy();
-  AEGfxTextureUnload(m_texture);
+  FNFE_FACTORY->FreeTexture(m_texturePath);
   m_texture = nullptr;
   AEGfxTriFree(m_triangleList);
 }
