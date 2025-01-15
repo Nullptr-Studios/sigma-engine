@@ -18,6 +18,7 @@ void GameManager::Uninitialize() { m_audioEngine->Terminate(); }
 void GameManager::GameInit()
 {
   m_factory = std::make_unique<Factory>();
+  m_factory->FreeAllTextures();
 
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
@@ -40,7 +41,8 @@ void GameManager::GameInit()
   }
 
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
-  test->SetTexturePath("res/toast.png");
+  test->SetTexture("res/nnnnn.png");
+  test->SetTexture("res/toast.png");
 }
 
 
@@ -65,7 +67,7 @@ void GameManager::Run()
     for (const auto& [id, renderable] : m_factory->GetRenderables()) {
       AEMtx33 viewMatrix = renderable->transform.GetMatrix();
       AEGfxSetTransform(&viewMatrix);
-      AEGfxTextureSet(renderable->GetTexture());
+      if(renderable->GetTexture() != nullptr) AEGfxTextureSet(renderable->GetTexture());
       AEGfxTriDraw(renderable->GetTris());
     }
   }

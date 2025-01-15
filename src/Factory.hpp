@@ -28,6 +28,10 @@ namespace FNFE {
  */
 class Factory {
 
+  /**
+   * @typedef TextureMap
+   * @brief Type used for mapping
+   */
   typedef std::unordered_map<const char*, AEGfxTexture*> TextureMap;
 
 public:
@@ -56,10 +60,7 @@ public:
    */
   void DestroyObject(id_t id);
 
-  /**
-   * Destroys all objects and clears the object map
-   */
-  void DestroyAllObjects();
+  void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
   ActorMap GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
@@ -68,11 +69,24 @@ public:
 
 #pragma region Textures
 
-  AEGfxTexture* LoadTexture(const char* filepath);
+  /**
+   *  @brief Adds texture to the pool
+   *  This function checks if the texture is already loaded, if not, it loads it into memory and returns it. If it is
+   *  loaded it simply returns the texture
+   *
+   * @param filepath Filepath of the texture to load
+   * @return @c AEGfxTexture* of the texture
+   */
+  AEGfxTexture * LoadTexture(const char* filepath);
+  /**
+   * @brief Frees textures from the pool
+   * Tells Alpha Engine to free the textures from memory and deletes the entry on the pool
+   * @param filepath
+   */
   void FreeTexture(const char* filepath);
-  void FreeAllTextures();
+  void FreeAllTextures(); ///< @brief Frees memory for all textures and clears the texture pool
 
-  TextureMap GetTextures() { return m_textures; }
+  TextureMap GetTextures() { return m_textures; } ///< @brief Returns the texture pool
 
 #pragma endregion
 

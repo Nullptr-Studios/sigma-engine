@@ -22,12 +22,16 @@ void Factory::DestroyAllObjects() {
     obj.reset();
   }
   m_objects.clear();
+  m_renderables.clear();
 }
 
 AEGfxTexture* Factory::LoadTexture(const char* filepath) {
+  if (filepath == nullptr) return nullptr;
+
   try {
+    auto texture = m_textures.at(filepath);
     std::cout << "[Factory] Texture " << filepath << " already exists\n";
-    return m_textures.at(filepath);
+    return texture;
   } catch (const std::out_of_range &e) {
     std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
     m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
@@ -50,4 +54,4 @@ void Factory::FreeAllTextures() {
   }
 }
 
-} // namespace FNFE
+}

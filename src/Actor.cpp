@@ -14,7 +14,7 @@ void Actor::Init() {
 
   m_triangleList = AEGfxTriEnd();
 
-  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath.c_str());
+  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
 }
 
 void Actor::Destroy() {
@@ -22,6 +22,11 @@ void Actor::Destroy() {
   AEGfxTextureUnload(m_texture);
   m_texture = nullptr;
   AEGfxTriFree(m_triangleList);
+}
+
+void Actor::SetTexture(const char* path) {
+  m_texturePath = path;
+  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
 }
 
 } // namespace FNFE

@@ -11,6 +11,13 @@
 
 namespace FNFE {
 
+/**
+ * @class Actor
+ * @brief Object with renderable properties
+ *
+ * An Actor inherits from @c Object and adds renderable functions. All actors are also stored on the @c RenderablesMap
+ * inside the Factory to allow for easier render function access
+ */
 class Actor : public Object {
 public:
   Actor(id_t id) : Object(id) { Init(); }
@@ -21,18 +28,20 @@ public:
   void Draw() override {}
   void Destroy() override;
 
-  AEGfxTriList * GetTris() const { return m_triangleList;}
-
-  AEGfxTexture* GetTexture() const { return m_texture; }
-  void SetTexturePath(const std::string& path) { m_texturePath = path; }
+  [[nodiscard]] AEGfxTriList* GetTris() const { return m_triangleList;} ///< @brief Gets the Alpha Engine triangle list shit
+  [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
+  /**
+   * @brief Sets the texture of the object
+   * Changes the texture path variables and reloads the texture data by calling the factory
+   * @param path Texture path
+   */
+  void SetTexture(const char* path);
 
 private:
   AEGfxTriList* m_triangleList;
 
-  std::string m_texturePath = "res/toast.png";
+  const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
-  void ReloadTexture();
-
 };
 
 typedef std::unordered_map<id_t, std::shared_ptr<Actor>> ActorMap;
