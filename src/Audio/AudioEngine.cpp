@@ -35,23 +35,23 @@ void FNFE::AudioEngine::Init()
 
 void FNFE::AudioEngine::Terminate()
 {
-  bool paused;
-  mastergroup->stop();
-  for (auto sound : soundBanks)
-  {
-    sound.second->unload();
-  }
-  for (auto sound : sounds)
-  {
-    sound.second->release();
-  }
-  for (auto map : eventInstances)
-  {
-    map.second->getPaused(&paused);
-    if (!paused)
-      map.second->stop(FMOD_STUDIO_STOP_IMMEDIATE);
-    map.second->release();
-  }
+  // bool paused;
+  // mastergroup->stop();
+  // for (auto sound : soundBanks)
+  // {
+  //   sound.second->unload();
+  // }
+  // for (auto sound : sounds)
+  // {
+  //   sound.second->release();
+  // }
+  // for (auto map : eventInstances)
+  // {
+  //   map.second->getPaused(&paused);
+  //   if (!paused)
+  //     map.second->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+  //   map.second->release();
+  // }
 
   lowLevelSystem->close();
   studioSystem->release();
@@ -83,7 +83,7 @@ void FNFE::AudioEngine::Load(AudioData audioData)
 void FNFE::AudioEngine::Play(AudioData audioData)
 {
   if (!audioData.IsLoaded()) {
-    //std::cout << "Playing Sound\n";
+    std::cout << " [AudioEngine] Playing Sound: " << audioData.GetUniqueID() << "\n";
     FMOD::Channel* channel;
     // start play in 'paused' state
     ERRCHECK(lowLevelSystem->playSound(sounds[audioData.GetUniqueID()], 0, true /* start paused */, &channel));
@@ -106,7 +106,7 @@ void FNFE::AudioEngine::Play(AudioData audioData)
 
   }
   else
-    std::cout << "Audio Engine: Can't play, sound was not loaded yet from " << audioData.GetFilePath() << '\n';
+    std::cout << "[AudioEngine] Can't play, sound was not loaded yet from " << audioData.GetFilePath() << '\n';
 
 }
 
@@ -114,11 +114,12 @@ void FNFE::AudioEngine::Stop(AudioData audioData)
 {
   if (IsPlaying(audioData))
   {
+    std::cout << "[AudioEngine] Stopping sound " << audioData.GetUniqueID() << '\n';
     ERRCHECK(loopsPlaying[audioData.GetUniqueID()]->stop());
     loopsPlaying.erase(audioData.GetUniqueID());
   }
   else
-    std::cout << "Audio Engine: Can't stop a looping sound that's not playing!\n";
+    std::cout << "[AudioEngine] Can't stop a looping sound that's not playing!\n";
 }
 
 void FNFE::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, unsigned int fadeSampleLength)
@@ -146,7 +147,7 @@ void FNFE::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, unsi
     audioData.SetVolume(newVolume); // update the AudioData's volume
   }
   else
-      std::cout << "AudioEngine: Can't update sound loop volume! (It isn't playing or might not be loaded)\n";
+      std::cout << "[AudioEngine] Can't update sound loop volume! (It isn't playing or might not be loaded)\n";
 }
 
 
@@ -158,7 +159,7 @@ void FNFE::AudioEngine::Update3DPosition(AudioData audioData)
       Set3DChannelPosition(audioData, loopsPlaying[audioData.GetUniqueID()]);
   }
   else
-      std::cout << "Audio Engine: Can't update sound position!\n";
+      std::cout << "[AudioEngine] Can't update sound position!\n";
 
 }
 
@@ -190,7 +191,7 @@ unsigned int FNFE::AudioEngine::GetLengthMS(AudioData audioData)
 
 void FNFE::AudioEngine::LoadBank(const char* filepath)
 {
-  std::cout << "Audio Engine: Loading FMOD Studio Sound Bank " << filepath << '\n';
+  std::cout << "[AudioEngine] Loading FMOD Studio Sound Bank " << filepath << '\n';
   FMOD::Studio::Bank* bank = NULL;
   ERRCHECK(studioSystem->loadBankFile(filepath, FMOD_STUDIO_LOAD_BANK_NORMAL, &bank));
   soundBanks.insert({ filepath, bank });
@@ -198,14 +199,14 @@ void FNFE::AudioEngine::LoadBank(const char* filepath)
 
 void FNFE::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
 {
-  std::cout << "AudioEngine: Loading FMOD Studio Event " << eventName << '\n';
+  std::cout << "[AudioEngine] Loading FMOD Studio Event " << eventName << '\n';
   FMOD::Studio::EventDescription* eventDescription = NULL;
   ERRCHECK(studioSystem->getEvent(eventName, &eventDescription));
   // Create an instance of the event
   FMOD::Studio::EventInstance* eventInstance = NULL;
   ERRCHECK(eventDescription->createInstance(&eventInstance));
   for (const auto& parVal : paramsValues) {
-    std::cout << "AudioEngine: Setting Event Instance Parameter " << parVal.first << "to value: " << parVal.second << '\n';
+    std::cout << "[AudioEngine] Setting Event Instance Parameter " << parVal.first << " to value: " << parVal.second << '\n';
     // Set the parameter values of the event instance
     ERRCHECK(eventInstance->setParameterByName(parVal.first, parVal.second));
   }
@@ -218,7 +219,7 @@ void FNFE::AudioEngine::SetEventParamValue(const char* eventName, const char* pa
   if (eventInstances.count(eventName) > 0)
       ERRCHECK(eventInstances[eventName]->setParameterByName(parameterName, value));
   else
-      std::cout << "AudioEngine: Event " << eventName << " was not in event instance cache, can't set param \n";
+      std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, can't set param \n";
 
 }
 
@@ -228,20 +229,20 @@ void FNFE::AudioEngine::PlayEvent(const char* eventName, int instanceIndex) {
   if (eventInstances.count(eventName) > 0)
       ERRCHECK(eventInstances[eventName]->start());
   else
-      std::cout << "AudioEngine: Event " << eventName << " was not in event instance cache, cannot play \n";
+      std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot play \n";
 }
 
 void FNFE::AudioEngine::StopEvent(const char* eventName, int instanceIndex) {
   if (eventInstances.count(eventName) > 0)
       ERRCHECK(eventInstances[eventName]->stop(FMOD_STUDIO_STOP_ALLOWFADEOUT));
   else
-      std::cout << "AudioEngine: Event " << eventName << " was not in event instance cache, cannot stop \n";
+      std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot stop \n";
 }
 
 void FNFE::AudioEngine::SetEventVolume(const char* eventName, float volume0to1)
 {
-  std::cout << "AudioEngine: Setting Event Volume\n";
   ERRCHECK(eventInstances[eventName]->setVolume(volume0to1));
+  std::cout << "[AudioEngine] Setting Event Volume\n";
 }
 
 bool FNFE::AudioEngine::IsPlaying(const char* eventName, int instance /*= 0*/)
