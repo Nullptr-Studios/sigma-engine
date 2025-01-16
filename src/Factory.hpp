@@ -9,9 +9,9 @@
 #pragma once
 #include <pch.hpp>
 
-#include "Actor.hpp"
 #include "Core.hpp"
-#include "Object.hpp"
+#include "Objects/Actor.hpp"
+#include "Objects/Object.hpp"
 
 namespace FNFE {
 
