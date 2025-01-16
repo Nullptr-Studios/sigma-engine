@@ -12,10 +12,6 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 
 add_executable(fnf_E src/main.cpp
         ${SRC}
-        src/Character.cpp
-        src/Character.hpp
-        src/Pawn.cpp
-        src/Pawn.hpp
 )
 
 target_include_directories(fnf_E PUBLIC src)

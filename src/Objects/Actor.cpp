@@ -3,6 +3,7 @@
 
 namespace FNFE {
 
+// Init
 void Actor::Init() {
   Object::Init();
 
