@@ -7,11 +7,10 @@
  */
 
 #pragma once
-#include <iostream>
-#include <memory>
-#include <stdexcept>
+#include <pch.hpp>
+
+#include "Actor.hpp"
 #include "Core.hpp"
-#include "GameObject.hpp"
 #include "Object.hpp"
 
 namespace FNFE {
@@ -28,15 +27,22 @@ namespace FNFE {
  * @note This class has ownership of all game objects
  */
 class Factory {
+
+  /**
+   * @typedef TextureMap
+   * @brief Type used for mapping
+   */
+  typedef std::unordered_map<const char*, AEGfxTexture*> TextureMap;
+
 public:
   Factory() { m_instance = this; }
-  ~Factory() { m_instance = nullptr; }
+  ~Factory();
 
   // Copy constructor
   Factory &operator=(const Factory &) = delete;
   Factory(const Factory &) = delete;
 
-#pragma region Factory
+#pragma region Objects
 
   /**
    * Handles the creation of a new object
@@ -54,13 +60,33 @@ public:
    */
   void DestroyObject(id_t id);
 
-  /**
-   * Destroys all objects and clears the object map
-   */
-  void DestroyAllObjects();
+  void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
-  // RenderableMap GetRenderables() { return m_renderables; }
+  ActorMap GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
+
+#pragma endregion
+
+#pragma region Textures
+
+  /**
+   *  @brief Adds texture to the pool
+   *  This function checks if the texture is already loaded, if not, it loads it into memory and returns it. If it is
+   *  loaded it simply returns the texture
+   *
+   * @param filepath Filepath of the texture to load
+   * @return @c AEGfxTexture* of the texture
+   */
+  AEGfxTexture * LoadTexture(const char* filepath);
+  /**
+   * @brief Frees textures from the pool
+   * Tells Alpha Engine to free the textures from memory and deletes the entry on the pool
+   * @param filepath
+   */
+  void FreeTexture(const char* filepath);
+  void FreeAllTextures(); ///< @brief Frees memory for all textures and clears the texture pool
+
+  TextureMap GetTextures() { return m_textures; } ///< @brief Returns the texture pool
 
 #pragma endregion
 
@@ -75,8 +101,27 @@ private:
   id_t m_currentId = 0;
   static Factory* m_instance;
 
+  /**
+   * @brief Map that contains all objects
+   *
+   * This map contains a @c std::shared_ptr for every object that exist in the game stored by its ID. This map is used
+   * to call all the object's functions like @c Update. The Factory class has ownership of all the objects.
+   */
   ObjectMap m_objects;
-        
+  /**
+   * @brief Map that contains all renderable objects
+   *
+   * This map contains a @c std::shared_ptr for every object (Actor class or inherited) that is renderable in the game
+   * stored by its ID. This map os used for rendering objects in game.
+   */
+  ActorMap m_renderables;
+  /**
+   * @brief Map that contains all textures
+   *
+   * This maps contains pointers for every loaded texture currently in the game. The textures have their relative path
+   * as a key
+   */
+  TextureMap m_textures;
 };
 
 template<typename T, typename>
@@ -90,14 +135,13 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
     throw std::runtime_error("Object ID overflow");
   }
 
-  m_objects.emplace(obj->GetID(), std::static_pointer_cast<Object>(obj));
+  m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
 
-  // This is here if we want a list of the objects that are renderable
-  // if constexpr (std::is_base_of_v<Actor, T>) {
-  //   m_renderables.emplace(obj->GetID(), std::static_pointer_cast<Actor>(obj));
-  // }
+  if constexpr (std::is_base_of_v<Actor, T>) {
+    m_renderables.emplace(obj->GetId(), std::static_pointer_cast<Actor>(obj));
+  }
 
-  std::cout << "Created object " << name << " with ID: " << obj->GetID() << std::endl;
+  std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
   return obj;
 }
 

@@ -9,6 +9,7 @@
 #pragma once
 
 // C++ standard libraries (AEEngine.h already includes most of these)
+#include <iostream>
 #include <memory>
 #include <utility>
 #include <functional>
@@ -21,3 +22,6 @@
 #include <FMOD/fmod_studio.hpp>
 #include <FMOD/fmod.hpp>
 #include <FMOD/fmod_errors.h>
+
+//json
+#include <json.hpp>

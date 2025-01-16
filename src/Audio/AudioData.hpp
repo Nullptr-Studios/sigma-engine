@@ -9,7 +9,6 @@
 #include <aecore/AEVec3.h>
 #include <string>
 
-
 class AudioData
 {
 private:

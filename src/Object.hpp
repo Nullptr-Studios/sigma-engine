@@ -9,7 +9,6 @@
 #pragma once
 #include <aecore/AEVec2.h>
 #include <aecore/AEVec3.h>
-#include <map>
 #include <memory>
 #include <string>
 
@@ -18,16 +17,31 @@
 namespace FNFE {
 
 struct Transform {
-  AEVec3 position = {};
-  AEVec2 scale = {};
+  AEVec3 position = AEVec3(0.0f);
+  AEVec2 scale = AEVec2(100.0f);
   float rotation = 0.0f;
+
+  /**
+   * @brief Calculates the matrix of the transform
+   * Uses translate * rotate * scale
+   * @return AEMtx33
+   */
+  AEMtx33& GetMatrix() {
+    //Changed this to use only one matrix -m
+    AEMtx33 world;
+    AEMtx33ScaleApply(&world,&world, scale.x, scale.y);
+    AEMtx33RotApply(&world, &world, rotation);
+    AEMtx33TransApply(&world, &world, position.x, position.y);
+
+    return world;
+  }
 };
 
 // At least give me credit for copying this from my engine -x
 
 class Object {
 protected:
-  explicit Object(const uint32_t id) : m_id(id) {}
+  explicit Object(const uint32_t id) : m_id(id) { Init(); }
   virtual ~Object() = default;
 
 public:
@@ -42,7 +56,7 @@ public:
 
   virtual void Init() {}
   virtual void Start() {}
-  virtual void Update(double delta) {}
+  virtual void Update(double deltaTime) {}
   virtual void Draw() {}
   virtual void Destroy() {}
 
@@ -63,6 +77,6 @@ private:
 
 };
 
-typedef std::map<id_t, std::shared_ptr<Object>> ObjectMap;
+typedef std::unordered_map<id_t, std::shared_ptr<Object>> ObjectMap;
 
 } // FNFE
