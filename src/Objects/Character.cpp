@@ -2,9 +2,9 @@
 
 namespace FNFE {
 
-void Character::Init() { Pawn::Init(); }
-void Character::Start() { Pawn::Start(); }
-void Character::Update(double delta) { Pawn::Update(delta); }
-void Character::Destroy() { Pawn::Destroy(); }
+void Character::Init() { Actor::Init(); }
+void Character::Start() { Actor::Start(); }
+void Character::Update(double delta) { Actor::Update(delta); }
+void Character::Destroy() { Actor::Destroy(); }
 
 }
