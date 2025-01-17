@@ -90,6 +90,7 @@ void GameManager::Run()
   AESysFrameEnd();
 }
 
+// Scene Management
 #pragma region Scene Management
 
 void GameManager::LoadScene(Scene* scene)
