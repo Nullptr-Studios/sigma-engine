@@ -16,7 +16,7 @@ struct Collision;
 struct AEVec3;
 
 /**
- * @brief a struct for the rect Collider
+ * @struct RectCollider a struct for the rect Collider
  */
 struct RectCollider {
   /**

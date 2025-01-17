@@ -21,7 +21,7 @@
 bool RectOnRect(AEVec3 &pos_a, AEVec3 &scale_a, AEVec3 &pos_b, AEVec3 &scale_b);
 
 /**
- * @brief Collision Types
+ * @enum CollisionType Collision Types
  */
 enum CollisionType {
 
@@ -40,7 +40,7 @@ enum CollisionType {
 };
 
 /**
- * @brief holds all the information of a collision
+ * @struct Collision holds all the information of a collision
  */
 struct Collision {
   /**
