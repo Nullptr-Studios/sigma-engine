@@ -4,6 +4,9 @@
  * @date 14/01/2025
  *
  * @brief The Actor class is a type of Object that can be rendered
+ *
+ * TODO: Dante add collision things here
+ * Maybe use it as a std::unique_ptr<CollisionComponent>, you have to create the CollisionComponent struct by yourself
  */
 
 #pragma once
@@ -21,6 +24,7 @@ namespace FNFE {
 class Actor : public Object {
 public:
   Actor(id_t id) : Object(id) { Init(); }
+  ~Actor() override = default;
 
   void Init() override;
   void Start() override {}
