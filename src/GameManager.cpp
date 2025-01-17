@@ -1,11 +1,8 @@
 #include "GameManager.hpp"
-
 #include "Audio/AudioEngine.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
-#include "Objects/ActorTest1.hpp"
-#include "Objects/ActorTest2.hpp"
 #include "Scene.hpp"
 
 namespace FNFE {
@@ -60,13 +57,6 @@ void GameManager::GameInit()
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
 
-  auto test2 = FNFE_FACTORY->CreateObject<ActorTest1>("Test1");
-  test2->transform.position.x = -100;
-  test->SetTexture("res/toast.png");
-
-  auto test3 = FNFE_FACTORY->CreateObject<ActorTest2>("Test2");
-  test3->transform.position.x = 100;
-  test->SetTexture("res/toast.png");
 }
 
 
