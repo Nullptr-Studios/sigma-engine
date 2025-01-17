@@ -7,10 +7,8 @@
  */
 
 #include "Collider.hpp"
-
-#include <iostream>
-
 #include "Collision.hpp"
+#include <iostream>
 
 bool CollideObject(RectCollider &obj_a, RectCollider &obj_b) {
   int rects_a = obj_a.m_boxPoints.size();
@@ -91,17 +89,17 @@ void TestCollider() {
   RectCollider obj_a{};
   obj_a.m_transform = &transform_a;
   obj_a.m_id = 1;
-  obj_a.m_boxPoints.push_back({0, 0, 0});
-  obj_a.m_boxScales.push_back({20, 20, 20});
-  obj_a.m_boxPoints.push_back({20, 20, 0});
-  obj_a.m_boxScales.push_back({20, 20, 20});
+  obj_a.m_boxPoints.emplace_back(0, 0, 0);
+  obj_a.m_boxScales.emplace_back(20, 20, 20);
+  obj_a.m_boxPoints.emplace_back(20, 20, 0);
+  obj_a.m_boxScales.emplace_back(20, 20, 20);
   RectCollider obj_b{};
   obj_b.m_transform = &transform_b;
   obj_b.m_id = 2;
-  obj_b.m_boxPoints.push_back({0, 0, 0});
-  obj_b.m_boxScales.push_back({20, 20, 20});
-  obj_b.m_boxPoints.push_back({20, 20, 0});
-  obj_b.m_boxScales.push_back({20, 20, 20});
+  obj_b.m_boxPoints.emplace_back(0, 0, 0);
+  obj_b.m_boxScales.emplace_back(20, 20, 20);
+  obj_b.m_boxPoints.emplace_back(20, 20, 0);
+  obj_b.m_boxScales.emplace_back(20, 20, 20);
 
   unsigned color = AE_COLORS_BLUE;
   if (CollideObject(obj_a, obj_b)) {
@@ -114,7 +112,7 @@ void TestCollider() {
 
 
 void DrawRectCollider(const RectCollider &collider, unsigned color) {
-  int rectangles = collider.m_boxPoints.size();
+  int rectangles = collider.m_boxPoints.size(); // NOLINT(*-narrowing-conversions)
   for (int i = 0; i < rectangles; i++) {
     AEVec2 pos = {collider.m_transform->position.x, collider.m_transform->position.y};
     pos += {collider.m_boxPoints[i].x, collider.m_boxPoints[i].y};
