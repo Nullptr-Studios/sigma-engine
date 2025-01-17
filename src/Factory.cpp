@@ -28,14 +28,13 @@ void Factory::DestroyAllObjects() {
 AEGfxTexture* Factory::LoadTexture(const char* filepath) {
   if (filepath == nullptr) return nullptr;
 
-  try {
-    auto texture = m_textures.at(filepath);
+  if (m_textures.contains(filepath)) {
     std::cout << "[Factory] Texture " << filepath << " already exists\n";
-    return texture;
-  } catch (const std::out_of_range &e) {
+    return m_textures[filepath];
+  } else {
     std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
-    m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
-    return m_textures.at(filepath);
+    auto t = m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
+    return t.first->second;
   }
 }
 

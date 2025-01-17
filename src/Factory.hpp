@@ -32,7 +32,7 @@ class Factory {
    * @typedef TextureMap
    * @brief Type used for mapping
    */
-  typedef std::unordered_map<const char*, AEGfxTexture*> TextureMap;
+  typedef std::map<std::string, AEGfxTexture*> TextureMap;
 
 public:
   Factory() { m_instance = this; }
