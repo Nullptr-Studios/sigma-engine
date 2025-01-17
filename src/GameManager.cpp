@@ -65,6 +65,9 @@ void GameManager::Run()
 
   if (m_currentScene != nullptr)
   {
+    // Collisions
+    // TODO: For Each Actor UpdateCollisionList(actor.getCollider());
+    // TODO: For Each Actor CollideObject(obj,other_obj);
     // Tick
     for (const auto& [id, object] : m_factory->GetObjects()) {
       object->Update(AEGetFrameTime());

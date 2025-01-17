@@ -6,10 +6,12 @@
  * @brief File to manage collisions between objects
  */
 #pragma once
+#include "Core.hpp"
 
-#include "../Object.hpp"
 
-typedef unsigned int id_t; //TODO: remove when merge
+namespace FNFE {
+  class Actor;
+}
 struct Collision;
 struct AEVec3;
 
@@ -17,8 +19,6 @@ struct AEVec3;
  * @brief a struct for the rect Collider
  */
 struct RectCollider {
-  FNFE::Transform * m_transform; //TODO: TEMP
-  id_t m_id;
   /**
    * @brief all the offsets for each box collider in the collider
    */
@@ -28,12 +28,11 @@ struct RectCollider {
    */
   std::vector<AEVec3> m_boxScales;
   /**
-   *
+   * @brief all the collision that are happening on this frame
    */
-  std::unordered_map<id_t, Collision> m_boxCollisionMap;
+  std::unordered_map<FNFE::id_t, Collision> m_boxCollisionMap;
 };
 
-// TODO: change input to be the class of whereever the collider is stored
 
 /**
  * @brief check the collision between 2 objects and adds a collision
@@ -42,7 +41,7 @@ struct RectCollider {
  * @param obj_b
  * @return
  */
-bool CollideObject(RectCollider &obj_a, RectCollider &obj_b);
+bool CollideObject(FNFE::Actor &obj_a, FNFE::Actor &obj_b);
 
 /**
  * @brief adds a collision to both of the colliders and if there's already a collision between
@@ -51,7 +50,7 @@ bool CollideObject(RectCollider &obj_a, RectCollider &obj_b);
  * @param obj_a
  * @param obj_b
  */
-void AddCollision(RectCollider &obj_a, RectCollider &obj_b);
+void AddCollision(FNFE::Actor &obj_a, FNFE::Actor &obj_b);
 
 /**
  * @brief Iterates around the collisionMap and updates all the collisions
@@ -63,4 +62,4 @@ void UpdateCollisionList(RectCollider &obj_a);
 // DEBUG
 void TestCollider();
 void TestCollisionChecks();
-void DrawRectCollider(const RectCollider &collider, unsigned color);
+void DrawRectCollider(const FNFE::Actor obj, unsigned color);

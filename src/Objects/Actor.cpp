@@ -1,5 +1,6 @@
 #include "Actor.hpp"
 #include "Factory.hpp"
+#include "Collision/Collider.hpp"
 
 namespace FNFE {
 

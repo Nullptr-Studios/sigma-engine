@@ -12,6 +12,8 @@
 #pragma once
 #include "Object.hpp"
 
+
+struct RectCollider;
 namespace FNFE {
 
 /**
@@ -34,6 +36,7 @@ public:
 
   [[nodiscard]] AEGfxTriList* GetTris() const { return m_triangleList;} ///< @brief Gets the Alpha Engine triangle list shit
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
+  RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
   /**
    * @brief Sets the texture of the object
    * Changes the texture path variables and reloads the texture data by calling the factory
@@ -41,6 +44,8 @@ public:
    */
   void SetTexture(const char* path);
 
+protected:
+  RectCollider * m_collider = nullptr;
 private:
   AEGfxTriList* m_triangleList;
 

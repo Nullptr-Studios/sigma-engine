@@ -3,10 +3,11 @@
  * @author dante
  * @date 1/16/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief collision and collision data
  */
 #pragma once
-#include "Collider.hpp"
+#include "Core.hpp"
+
 
 /**
  * @brief calculates if 2 rectangles in the 3rd dimension are colliding
@@ -29,7 +30,7 @@ enum CollisionType {
    */
   ENTER,
   /**
-   * @brief the the object has been colliding with this object
+   * @brief the object has been colliding with this object
    */
   STAY,
   /**
@@ -49,7 +50,7 @@ struct Collision {
   /**
    * @brief the id of the object of collision
    */
-  id_t m_object;
+  FNFE::id_t m_object;
 };
 
 // DEBUG

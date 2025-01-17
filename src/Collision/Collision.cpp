@@ -10,7 +10,6 @@
 #include <aecore/AEGraphics.h>
 #include <aecore/AEVec2.h>
 #include <iostream>
-#include "../Object.hpp"
 
 
 bool RectOnRect(AEVec3 &pos_a, AEVec3 &scale_a, AEVec3 &pos_b, AEVec3 &scale_b) {
