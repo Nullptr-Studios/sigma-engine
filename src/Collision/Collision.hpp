@@ -6,7 +6,6 @@
  * @brief [Brief description of the file's purpose]
  */
 #pragma once
-#include "../GameObject.hpp"
 #include "Collider.hpp"
 
 /**
@@ -20,12 +19,38 @@
  */
 bool RectOnRect(AEVec3 &pos_a, AEVec3 &scale_a, AEVec3 &pos_b, AEVec3 &scale_b);
 
-enum CollisionType { ENTER, STAY, EXIT };
-struct Collision {
-  CollisionType m_type;
-  id_t m_object;
+/**
+ * @brief Collision Types
+ */
+enum CollisionType {
+
+  /**
+   * @brief The object has collided with this object
+   */
+  ENTER,
+  /**
+   * @brief the the object has been colliding with this object
+   */
+  STAY,
+  /**
+   * @brief the object has just exited colliding with the object
+   */
+  EXIT
 };
 
+/**
+ * @brief holds all the information of a collision
+ */
+struct Collision {
+  /**
+   * @brief the type of collision
+   */
+  CollisionType m_type;
+  /**
+   * @brief the id of the object of collision
+   */
+  id_t m_object;
+};
 
 // DEBUG
 void TestRect();
