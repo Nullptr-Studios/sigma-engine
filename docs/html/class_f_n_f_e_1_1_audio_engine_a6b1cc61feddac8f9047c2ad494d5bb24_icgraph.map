@@ -1,9 +1,0 @@
-<map id="FNFE::AudioEngine::IsPlaying" name="FNFE::AudioEngine::IsPlaying">
-<area shape="rect" id="Node000001" title=" " alt="" coords="226,56,371,99"/>
-<area shape="rect" id="Node000002" href="$class_f_n_f_e_1_1_audio_engine.html#a810baa6466e1453df5353672bef223a8" title=" " alt="" coords="5,5,178,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,55,140,35,142,30,211,50"/>
-<area shape="rect" id="Node000003" href="$class_f_n_f_e_1_1_audio_engine.html#a292dc2b930f619d6265abba376a747fe" title=" " alt="" coords="19,56,164,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,80,165,80,165,75,210,75"/>
-<area shape="rect" id="Node000004" href="$class_f_n_f_e_1_1_audio_engine.html#a7b55832b7488d6fb1839ccdf0d67e781" title=" " alt="" coords="19,123,164,165"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,106,161,125,159,119,215,101"/>
-</map>

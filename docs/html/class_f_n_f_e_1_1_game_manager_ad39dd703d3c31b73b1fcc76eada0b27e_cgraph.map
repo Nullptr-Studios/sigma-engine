@@ -1,7 +1,0 @@
-<map id="FNFE::GameManager::LoadScene" name="FNFE::GameManager::LoadScene">
-<area shape="rect" id="Node000001" title="Loads a scene and unloads the currently loaded scene." alt="" coords="5,23,163,65"/>
-<area shape="rect" id="Node000002" href="$class_f_n_f_e_1_1_scene.html#ab7880dc171318f07fe5d2ce80dfb9857" title="Get the ID of this scene." alt="" coords="221,5,366,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,32,205,27,206,32,163,37"/>
-<area shape="rect" id="Node000003" href="$class_f_n_f_e_1_1_scene.html#a7acdf960fe009d0079d2986b1d2a47e0" title="Get the name of this scene." alt="" coords="211,56,376,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,51,195,55,195,60,163,56"/>
-</map>

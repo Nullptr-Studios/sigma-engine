@@ -3,11 +3,12 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief AudioEngine
  */
 
 #pragma once
-#include <memory>
+#include <pch.hpp>
+#include <Factory.hpp>
 
 
 namespace FNFE {
@@ -15,6 +16,13 @@ namespace FNFE {
 class AudioEngine;
 class Scene;
 
+/**
+ * @class GameManager
+ * @brief Main engine class
+ *
+ * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
+ * class must own all core components of the engine.
+ */
 class GameManager
 {
 public:
@@ -28,10 +36,16 @@ public:
   GameManager(const char* title, int width, int height);
   ~GameManager();
 
+
   /**
    * @brief Main engine loop
    */
   void Run();
+
+  /**
+   * @brief Uninitializes the engine
+   */
+  void Uninitialize();
 
   /**
    * @brief Loads a scene and unloads the currently loaded scene
@@ -49,9 +63,10 @@ private:
   int m_width;
   int m_height;
 
-  std::unique_ptr<AudioEngine> audioEngine;
+  std::unique_ptr<Factory> m_factory;
+  std::unique_ptr<AudioEngine> m_audioEngine;
 
-  Scene* currentScene = nullptr;
+  Scene* m_currentScene = nullptr;
 };
 
 } // FNFE
