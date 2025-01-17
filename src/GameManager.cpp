@@ -4,6 +4,7 @@
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "Scene.hpp"
+#include "Objects/Camera.hpp"
 
 namespace FNFE {
 
@@ -54,6 +55,8 @@ void GameManager::GameInit()
     m_audioEngine->PlayEvent("event:/Music/OST_Level3");
   }
 
+  auto camera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
+
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
 
@@ -66,9 +69,6 @@ void GameManager::Run()
   AESysFrameStart();
   AESysUpdate();
 
-  // Camera
-  AEMtx33 cameraMatrix = AEMtx33::IDENTITY;
-
   if (m_currentScene != nullptr)
   {
     // Tick
@@ -79,7 +79,7 @@ void GameManager::Run()
 
     // Render
     for (const auto& [id, renderable] : m_factory->GetRenderables()) {
-      AEMtx33 viewMatrix = renderable->transform.GetMatrix();
+      AEMtx44 viewMatrix = m_activeCamera->CameraMatrix * renderable->transform.GetMatrix4();
       AEGfxSetTransform(&viewMatrix);
       if(renderable->GetTexture() != nullptr) AEGfxTextureSet(renderable->GetTexture());
       AEGfxTriDraw(renderable->GetTris());

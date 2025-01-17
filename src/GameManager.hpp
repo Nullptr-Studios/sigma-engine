@@ -7,9 +7,12 @@
  */
 
 #pragma once
-#include <pch.hpp>
 #include <Factory.hpp>
+#include <pch.hpp>
 
+namespace FNFE {
+class Camera;
+}
 namespace FNFE {
 
 class AudioEngine;
@@ -71,6 +74,8 @@ private:
   std::unique_ptr<AudioEngine> m_audioEngine;
 
   Scene* m_currentScene = nullptr;
+
+  std::shared_ptr<Camera> m_activeCamera;
 };
 
 } // FNFE
