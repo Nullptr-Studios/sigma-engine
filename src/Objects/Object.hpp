@@ -39,7 +39,10 @@ struct Transform {
 
 // At least give me credit for copying this from my engine -x
 
+class Event;
+
 class Object {
+  using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
   explicit Object(const uint32_t id) : m_id(id) { Init(); }
   virtual ~Object() = default;
@@ -60,13 +63,32 @@ public:
   virtual void Draw() {}
   virtual void Destroy() {}
 
+  /**
+   * @brief This function is called whenever you send a message to any Object
+   * The simple and incredible Bloom Event System (tm) is used for sending messages between objects
+   * @param sender Object that sent the original message
+   * @return A bool telling if the message has been handled and shouldn't propagate
+   */
+  virtual bool OnMessage(Object* sender) { return false; }
+  /**
+   * @brief This function sets up the callback for the events
+   * This is used when setting up the object, and it's needed for the events to propagate to other objects
+   * @warning USE THIS ONLY WHEN SETTING UP OBJECTS
+   * @param function Function to call when Message sent
+   */
+  void SetCallback(const EventCallbackFn &function) { m_callback = function; }
+  /**
+   * @brief Sends an @c Event to the specified callback function
+   * @param e Event to send
+   */
+  void SendEvent(Event& e) const { m_callback(e); }
 
-  id_t GetId() const { return m_id; }
-  std::string GetName() const { return m_name; }
+  [[nodiscard]] id_t GetId() const { return m_id; }
+  [[nodiscard]] std::string GetName() const { return m_name; }
 
   void SetName(const std::string& name) { m_name = name; }
 
-  bool IsPersistent() const { return m_persistent; }
+  [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
 private:
   id_t m_id = -1;
@@ -74,6 +96,8 @@ private:
 
   bool m_active = true;
   bool m_persistent = false;
+
+  EventCallbackFn m_callback = nullptr;
 
 };
 
