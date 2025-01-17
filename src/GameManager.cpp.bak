@@ -17,7 +17,7 @@ void GameManager::Uninitialize()
 {
   m_factory->DestroyAllObjects();
 
-  //TODO something crashes here :( -m
+  //something crashes here :( -m
   m_audioEngine->Terminate();
 }
 
@@ -49,8 +49,13 @@ void GameManager::GameInit()
   }
 
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
-  
+<<<<<<< HEAD
+  test->SetTexture("res/nnnnn.png");
   test->SetTexture("res/toast.png");
+=======
+  test->SetTexturePath("res/toast.png");
+
+>>>>>>> origin/AnimationSystem
 }
 
 
@@ -113,8 +118,9 @@ void GameManager::LoadScene(Scene* scene)
   m_currentScene->Load();
   m_currentScene->Init();
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!" << std::endl;
-
 }
+
+
 
 #pragma endregion
 

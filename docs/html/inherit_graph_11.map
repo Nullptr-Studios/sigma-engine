@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$class_f_m_o_d_1_1_channel_control.html" title=" " alt="" coords="5,31,164,57"/>
-<area shape="rect" id="Node000001" href="$class_f_m_o_d_1_1_channel.html" title=" " alt="" coords="229,5,346,32"/>
-<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="178,30,229,23,229,29,179,35"/>
-<area shape="rect" id="Node000002" href="$class_f_m_o_d_1_1_channel_group.html" title=" " alt="" coords="212,56,363,83"/>
-<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="179,53,212,57,211,63,179,58"/>
-</map>

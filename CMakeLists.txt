@@ -3,35 +3,27 @@ project(fnf_E)
 
 set(CMAKE_CXX_STANDARD 26)
 
-
-#add_library(fnf_E STATIC src/main.cpp)
-add_executable(fnf_E
-        src/Pch.cpp
-        src/main.cpp
-        src/GameManager.hpp
-        src/GameManager.cpp
-        src/Scene.hpp
-        src/TestScene.cpp
-        src/Object.hpp
-        src/GameObject.hpp
-        src/GameObject.cpp
-        src/Camera.hpp
-        src/Camera.cpp
-        src/Audio/AudioData.hpp
-        src/Audio/AudioEngine.hpp
-        src/Audio/AudioEngine.cpp
-        src/Audio/AudioData.cpp
-        src/Collision/Collision.cpp
-        src/Collision/Collision.hpp
+file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
+        "src/*.cpp"
+        "src/*.hpp"
+        "src/*.c"
+        "src/*.h"
 )
+
+add_executable(fnf_E src/main.cpp
+        ${SRC}
+)
+
+target_include_directories(fnf_E PUBLIC src)
+
 target_include_directories(fnf_E PUBLIC inc)
 target_link_directories(fnf_E PUBLIC lib)
 target_link_libraries(fnf_E PUBLIC fmodL_vc)
 target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
 target_link_libraries(fnf_E PUBLIC aecore)
-
+target_include_directories(fnf_E PUBLIC lib/json/single_include/nlohmann/)
 # precompiled header
-target_precompile_headers(fnf_E PRIVATE src/Pch.hpp)
+target_precompile_headers(fnf_E PRIVATE src/pch.hpp)
 
 #copy res folder to build directory
 add_custom_command(TARGET fnf_E POST_BUILD

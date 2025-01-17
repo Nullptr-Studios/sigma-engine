@@ -8,55 +8,53 @@
 ///
 /// @dependencies FMOD Studio & Core
 
-#include <FMOD/fmod_studio.hpp>
-#include <FMOD/fmod.hpp>
-
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+#include <pch.hpp>
 
 #include "AudioData.hpp"
 
 /**
- * Error Handling Function for FMOD Errors
+ * @brief Error Handling Function for FMOD Errors
  * @param result - the FMOD_RESULT generated during every FMOD function call
  */
 void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
 #define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
 
+
+
+namespace FNFE {
+
 /**
- * Class that handles the process of loading and playing sounds by wrapping FMOD's functionality.
+ * @namespace FNFE
+ *
+ * @brief Class that handles the process of loading and playing sounds by wrapping FMOD's functionality.
  * Deals with all FMOD calls so that FMOD-specific code does not need to be used outside this class.
  * Only one AudioEngine should be constructed for an application.
  */
-namespace FNFE {
 class AudioEngine
 {
 public:
   /**
-   * Default AudioEngine constructor.
-   * AudioEngine::Init() must be called before using the Audio Engine
+   * @brief AudioEngine::Init() must be called before using the Audio Engine
    */
   AudioEngine();
 
   /**
-   * Initializes Audio Engine Studio and Core systems to default values.
+   * @brief Initializes Audio Engine Studio and Core systems to default values.
    */
   void Init();
 
   /**
-   * Halts the engine instance and frees all held memory.
+   * @brief Halts the engine instance and frees all held memory.
    */
   void Terminate();
 
   /**
-  * Should be called each frame.
+  * @brief Should be called each frame.
   */
   void Update();
 
   /**
-   * Loads a sound from disk using provided settings
+   * @brief Loads a sound from disk using provided settings
    * Prepares for later playback with Play()
    * Only reads the audio file and loads into the audio engine
    * if the sound file has already been added to the cache.
@@ -64,13 +62,13 @@ public:
   void Load(AudioData audioData);
 
   /**
-  * Plays a sound file using FMOD's low level audio system. If the sound file has not been
+  * @brief Plays a sound file using FMOD's low level audio system. If the sound file has not been
   * previously loaded using Load(), a console message is displayed.
   */
   void Play(AudioData audioData);
 
   /**
-   * Stops a looping sound if it's currently playing.
+   * @brief Stops a looping sound if it's currently playing.
    */
   void Stop(AudioData audioData);
 
@@ -82,8 +80,6 @@ public:
    */
   void UpdateVolume(AudioData &audioData, float newVolume, unsigned int fadeSampleLength = 0);
 
-
-
   /**
   * Updates the position of a looping 3D sound that has already been loaded and is playing back.
   * The AudioData object's position coordinates will be used for the new sound position, so
@@ -92,13 +88,12 @@ public:
   void Update3DPosition(AudioData audioData);
 
   /**
-   * Checks if a looping sound is playing.
+   * @return Checks if a looping sound is playing.
    */
   bool IsPlaying(AudioData audioData);
 
-
   /**
-   * Sets the position of the listener in the 3D scene.
+   * @brief Sets the position of the listener in the 3D scene.
    * @param posX, posY, posZ - 3D translation of listener
    * @param forwardX, forwardY, forwardZ - forward angle character is looking in
    * @param upX, upY, upZ - up which must be perpendicular to forward vector
@@ -108,64 +103,61 @@ public:
                              float upX,      float upY,      float upZ);
 
   /**
-  * Utility method that returns the length of a AudioData's audio file in milliseconds
-  * If the sound hasn't been loaded, returns 0
+  * @brief Utility method that returns the length of a AudioData's audio file in milliseconds
+  * @return If the sound hasn't been loaded, returns 0
   */
   unsigned int GetLengthMS(AudioData audioData);
 
   /**
-   * Loads an FMOD Studio soundbank
-   * TODO Fix
+   * @brief Loads an FMOD Studio soundbank (*.bank) file.
    */
   void LoadBank(const char* filePath);
 
   /**
-   * Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before
-   * calling this method.
-   * TODO Fix
+   * @brief Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method.
    */
   void LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues = { });
 
   /**
-   * Sets the parameter of an FMOD Soundbank Event Instance.
+   * @brief Sets the parameter of an FMOD Soundbank Event Instance.
    */
   void SetEventParamValue(const char* eventName, const char* parameterName, float value);
 
   /**
-   * Plays the specified instance of an event
+   * @brief Plays the specified instance of an event
    * TODO support playback of multiple event instances
    * TODO Fix playback
    */
   void PlayEvent(const char* eventName, int instanceIndex = 0);
 
   /**
-   * Stops the specified instance of an event, if it is playing.
+   * @brief Stops the specified instance of an event, if it is playing.
    */
   void StopEvent(const char* eventName, int instanceIndex = 0);
 
   /**
-   * Sets the volume of an event.
+   * @brief Sets the volume of an event.
    * @param normalizedVolume - volume of the event, from 0 (min vol) to 1 (max vol)
    */
   void SetEventVolume(const char* eventName, float normalizedVolume = 0.75f);
 
   /**
-   * Checks if an event is playing.
+   * @brief Checks if an event is playing.
    */
   bool IsPlaying(const char* eventName, int instance = 0);
 
   /**
-   * Mutes all sounds.
+   *  @brief Mutes all sounds.
    */
   void MuteAll();
 
   /**
-   * Unmutes all sounds.
+   *  @brief Unmutes all sounds.
    */
   void UnmuteAll();
 
   /**
-   * Returns true if the audio engine is muted, false if not
+   *  @brief Returns true if the audio engine is muted, false if not
    */
   bool IsMute();
 
@@ -175,22 +167,22 @@ public:
 private:
 
   /**
-   * Checks if a sound file is in the soundCache
+   *  @brief Checks if a sound file is in the soundCache
    */
   bool IsLoaded(AudioData audioData);
 
   /**
-   * Sets the 3D position of a sound
+   *  @brief Sets the 3D position of a sound
    */
   void Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel);
 
   /**
-   * Initializes the reverb effect
+   *  @brief Initializes the reverb effect
    */
   void InitializeReverb();
 
   /**
-   * Prints debug info about an FMOD event description
+   *  @brief Prints debug info about an FMOD event description
    */
   void DebugEventInfo(FMOD::Studio::EventDescription* eventDescription);
 
@@ -230,7 +222,7 @@ private:
   // flag tracking if the Audio Engin is muted
   bool muted = false;
 
-  /*
+  /**
    * Map which caches FMOD Low-Level sounds
    * Key is the AudioData's uniqueKey field.
    * Value is the FMOD::Sound* to be played back.
@@ -238,25 +230,25 @@ private:
    */
   std::map<std::string, FMOD::Sound*> sounds;
 
-  /*
+  /**
    * Map which stores the current playback channels of any playing sound loop
    * Key is the AudioData's uniqueKey field.
    * Value is the FMOD::Channel* the FMOD::Sound* is playing back on.
    */
   std::map<std::string, FMOD::Channel*> loopsPlaying;
 
-  /*
-   * Map which stores the soundbanks loaded with loadFMODStudioBank()
+  /**
+   *  @brief Map which stores the soundbanks loaded with loadFMODStudioBank()
    */
   std::map<std::string, FMOD::Studio::Bank*> soundBanks;
 
-  /*
-   * Map which stores event descriptions created during loadFMODStudioEvent()
+  /**
+   *  @brief Map which stores event descriptions created during loadFMODStudioEvent()
    */
   std::map<std::string, FMOD::Studio::EventDescription*> eventDescriptions;
 
-  /*
-   * Map which stores event instances created during loadFMODStudioEvent()
+  /**
+   * @brief Map which stores event instances created during loadFMODStudioEvent()
    */
   std::map<std::string, FMOD::Studio::EventInstance*> eventInstances;
 };
