@@ -8,12 +8,12 @@
 #pragma once
 #include "Core.hpp"
 
-
 namespace FNFE {
-  class Actor;
+class Actor;
 }
-struct Collision;
 struct AEVec3;
+namespace FNFE::Collision {
+struct Collision;
 
 /**
  * @struct RectCollider a struct for the rect Collider
@@ -30,36 +30,37 @@ struct RectCollider {
   /**
    * @brief all the collision that are happening on this frame
    */
-  std::unordered_map<FNFE::id_t, Collision> m_boxCollisionMap;
+  std::unordered_map<id_t, Collision> m_boxCollisionDataMap;
 };
 
 
 /**
  * @brief check the collision between 2 objects and adds a collision
  * to their respective collisionMap
- * @param obj_a
- * @param obj_b
+ * @param objA
+ * @param objB
  * @return
  */
-bool CollideObject(FNFE::Actor &obj_a, FNFE::Actor &obj_b);
+bool CollideObject(Actor &objA, FNFE::Actor &objB);
 
 /**
  * @brief adds a collision to both of the colliders and if there's already a collision between
  * the 2 objects change the collision to CollisionType::STAY
  *
- * @param obj_a
- * @param obj_b
+ * @param objA
+ * @param objB
  */
-void AddCollision(FNFE::Actor &obj_a, FNFE::Actor &obj_b);
+void AddCollision(Actor &objA, FNFE::Actor &objB);
 
 /**
  * @brief Iterates around the collisionMap and updates all the collisions
  * to either on EXIT or delete it if already on exit
- * @param obj_a
+ * @param objA
  */
-void UpdateCollisionList(RectCollider &obj_a);
+void UpdateCollisionList(RectCollider &objA);
 
 // DEBUG
 void TestCollider();
 void TestCollisionChecks();
-void DrawRectCollider(const FNFE::Actor obj, unsigned color);
+void DrawRectCollider(const Actor obj, unsigned color);
+} // namespace FNFE::Collision
