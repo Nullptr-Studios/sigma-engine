@@ -15,6 +15,8 @@
 
 namespace FNFE {
 
+class GameManager;
+
 /**
  * @class Factory
  * @brief Handles the creation and destruction of game objects
@@ -35,13 +37,17 @@ class Factory {
   typedef std::unordered_map<std::string, AEGfxTexture*> TextureMap;
 
 public:
-  Factory() { m_instance = this; }
+  Factory(GameManager* manager, void(GameManager::*callback)(Event &e))
+    : m_managerInstance(manager), m_managerCallback(callback) {
+    m_instance = this;
+  }
   ~Factory();
 
   // Copy constructor
   Factory &operator=(const Factory &) = delete;
   Factory(const Factory &) = delete;
 
+// Objects
 #pragma region Objects
 
   /**
@@ -67,6 +73,7 @@ public:
 
 #pragma endregion
 
+// Textures
 #pragma region Textures
 
   /**
@@ -101,11 +108,14 @@ private:
   id_t m_currentId = 0;
   static Factory* m_instance;
 
+  GameManager* m_managerInstance;
+  void(GameManager::*m_managerCallback)(Event&);
+
   /**
    * @brief Map that contains all objects
    *
-   * This map contains a @c std::shared_ptr for every object that exist in the game stored by its ID. This map is used
-   * to call all the object's functions like @c Update. The Factory class has ownership of all the objects.
+   * This map contains a @c std::shared_ptr for every object that exist in the game stored by its ID. This map is
+   * used to call all the object's functions like @c Update. The Factory class has ownership of all the objects.
    */
   ObjectMap m_objects;
   /**
@@ -124,10 +134,13 @@ private:
   TextureMap m_textures;
 };
 
+// Object declaration
 template<typename T, typename>
 std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
   std::shared_ptr<T> obj = std::make_shared<T>(m_currentId);
   obj->SetName(name);
+  // dont even ask about this -x
+  obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));
   m_currentId++;
 
   // This crashes the program, it will work for now -x

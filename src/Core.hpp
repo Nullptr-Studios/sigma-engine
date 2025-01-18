@@ -13,7 +13,8 @@ namespace FNFE {
 
 typedef unsigned int id_t; ///< @brief Type definition for object IDs
 
-#define FNFE_FACTORY Factory::GetInstance() ///< @brief Major version number
+#define FNFE_FACTORY Factory::GetInstance() ///< @def FNFE_FACTORY @brief Gets Factory instance
+#define FNFE_MANAGER GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 
 typedef nlohmann::json json_t;
 

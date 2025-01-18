@@ -10,11 +10,11 @@
 #include <pch.hpp>
 #include <Factory.hpp>
 
-
 namespace FNFE {
 
 class AudioEngine;
 class Scene;
+class Event;
 
 /**
  * @class GameManager
@@ -36,6 +36,8 @@ public:
   GameManager(const char* title, int width, int height);
   ~GameManager();
 
+  static GameManager* GetInstance() { return m_instance; }
+
 
   /**
    * @brief Main engine loop
@@ -54,8 +56,10 @@ public:
    */
   void LoadScene(Scene* scene);
 
+  void OnEvent(Event& e);
 
 private:
+  static GameManager* m_instance;
 
   void GameInit();
 
