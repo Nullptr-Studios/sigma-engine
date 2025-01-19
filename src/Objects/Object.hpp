@@ -18,7 +18,7 @@ namespace FNFE {
 
 struct Transform {
   AEVec3 position = AEVec3(0.0f);
-  AEVec2 scale = AEVec2(100.0f);
+  AEVec2 scale = AEVec2(1.0f);
   float rotation = 0.0f;
 
   /**

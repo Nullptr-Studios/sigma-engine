@@ -18,19 +18,20 @@ public:
   void Start() override;
   void Update(double deltaTime) override;
 
-  AEMtx44 CameraMatrix = AEMtx44::Identity();
-  AEMtx44 GetCameraMatrix() {
-    return CameraMatrix;
-  }
+  AEMtx44 GetCameraMatrix() { return m_cameraMatrix; }
   // WTF windows.h macroing "near" and "far" as if they weren't common english words -x
   void SetRenderDistance(const float near_, const float far_) { m_near = near_; m_far = far_; }
-  void UpdateMatrix();
 
 private:
+  void UpdateMatrix();
+  
   Transform m_oldTransform;
+  AEMtx44 m_cameraMatrix = AEMtx44::Identity();
 
+  float m_size = 2.0f;
+  float m_ratio;
   float m_near =    0.0f;
-  float m_far  = 1000.0f;
+  float m_far  = 10.0f;
 };
 
 }
