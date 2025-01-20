@@ -42,4 +42,4 @@ void Camera::UpdateMatrix() {
   m_cameraMatrix = clip.MultThis(view);
 }
 
-} // namespace FNFE
+}
