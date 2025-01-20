@@ -6,8 +6,9 @@ void Camera::Start() {
   Object::Start();
 
   AEVec2 viewport;
+  AEGfxSetFullscreen(true);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  m_ratio = viewport.x / viewport.y; 
+  m_ratio = viewport.x / viewport.y;
   
   m_oldTransform = transform;
   UpdateMatrix();
@@ -37,7 +38,7 @@ void Camera::UpdateMatrix() {
   auto view = rotation * translation;
 
   // Clip Space
-  auto clip = AEMtx44::OrthoProjGL(m_size * m_ratio, m_size, m_far, m_near);
+  AEMtx44 clip = AEMtx44::OrthoProjGL(1/m_size, 1/m_size, m_near, m_far);
   m_cameraMatrix = clip.MultThis(view);
 }
 

@@ -18,7 +18,7 @@ namespace FNFE {
 
 struct Transform {
   AEVec3 position = AEVec3(0.0f);
-  AEVec2 scale = AEVec2(1.0f);
+  AEVec2 scale = AEVec2(100.0f);
   float rotation = 0.0f;
 
   /**
@@ -26,7 +26,7 @@ struct Transform {
    * Uses translate * rotate * scale
    * @return AEMtx33
    */
-  AEMtx33& GetMatrix() const {
+  [[nodiscard]] AEMtx33& GetMatrix() const {
     //Changed this to use only one matrix -m
     AEMtx33 world;
     AEMtx33ScaleApply(&world,&world, scale.x, scale.y);
@@ -41,12 +41,14 @@ struct Transform {
    * This is used in order to have a camera instead of screen coordinates
    * @return AEMtx44
    */
-  AEMtx44 & GetMatrix4() const {
+  [[nodiscard]] AEMtx44& GetMatrix4() const {
     // Thy the fuck are Mtx33 and Mtx44 so different -x
     AEMtx44 world = AEMtx44::Identity();
-    world.ScaleThis(scale.x, scale.y, 1.0f);
-    world.RotateThis(0.0f, 0.0f, rotation);
-    world.Translate(position.x, position.y, position.y);
+    AEMtx44 scaleMat, rotateMat, translateMat;
+    scaleMat = AEMtx44::Scale(scale.x, scale.y, 1.0f);
+    rotateMat = AEMtx44::Rotate(0.0f, 0.0f, rotation);
+    translateMat = AEMtx44::Translate(position.x, position.y, 0.0f);
+    world = translateMat * rotateMat * scaleMat;
     return world;
   }
 };

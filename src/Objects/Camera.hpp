@@ -28,10 +28,10 @@ private:
   Transform m_oldTransform;
   AEMtx44 m_cameraMatrix = AEMtx44::Identity();
 
-  float m_size = 2.0f;
-  float m_ratio;
-  float m_near =    0.0f;
-  float m_far  = 10.0f;
+  float m_ratio;         ///< @brief Ratio between width and height
+  float m_size =   1.0f; ///< @brief Scaling of the camera by screen size
+  float m_near =   0.0f; ///< @brief Near clip plane
+  float m_far  = 100.0f; ///< @brief Far clip plane
 };
 
 }

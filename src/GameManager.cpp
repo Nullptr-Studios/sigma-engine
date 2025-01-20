@@ -61,6 +61,7 @@ void GameManager::GameInit()
 
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
+  test->transform.position = AEVec3(0.0f, 500.0f, 0.0f);
 
 }
 
