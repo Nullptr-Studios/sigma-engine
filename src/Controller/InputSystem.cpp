@@ -11,12 +11,21 @@ void InputSystem::UpdateInput(int controllerId) {
   AEVector2Normalize(&m_directionBuffer, &m_directionBuffer);
   if (AEInputGamepadButtonPressed(controllerId, PLAYER_NORMAL)) {
     m_inputBuffer = PLAYER_NORMAL;
+    m_timeBuffer = time(nullptr);
   } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_SECONDARY)) {
     m_inputBuffer = PLAYER_SECONDARY;
+    m_timeBuffer = time(nullptr);
   } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_JUMP)) {
     m_inputBuffer = PLAYER_JUMP;
+    m_timeBuffer = time(nullptr);
   } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_ULT)) {
     m_inputBuffer = PLAYER_ULT;
+    m_timeBuffer = time(nullptr);
+  } else {
+    if (m_inputBuffer != NULL_ACTION && (time(nullptr), m_timeBuffer) > 2) {
+      m_inputBuffer = NULL_ACTION;
+      std::cout << "Ran Out Of Time\n";
+    }
   }
 
   
@@ -28,8 +37,5 @@ PlayerAction InputSystem::GetAction() {
 }
 } // namespace FNFE
 
-FNFE::PlayerController control{};
 void testPlayer() {
-  control.Update();
-  AEGfxCircle(control.pos.x,control.pos.y, .5f, AE_COLORS_RED);
 }

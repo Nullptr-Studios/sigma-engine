@@ -25,9 +25,9 @@ public:
 
 private:
   void PlayAction(PlayerAction action);
-
+  void EndAction(PlayerAction action);
   int m_controllerId{};
   InputSystem m_inputSystem;
-  PlayerState state = NEUTRAL;
+  PlayerState m_state = NEUTRAL;
 };
 } // namespace FNFE

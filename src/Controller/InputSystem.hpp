@@ -23,9 +23,10 @@ public:
   AEVec2 GetMovement() {return m_directionBuffer;};
 
 private:
-  std::vector<PlayerAction> m_comboBuffer;
+  std::vector<PlayerAction> m_comboBuffer{};
   PlayerAction m_inputBuffer{};
   AEVec2 m_directionBuffer{};
+  time_t m_timeBuffer{};
 };
 } // namespace FNFE
 void testPlayer();
