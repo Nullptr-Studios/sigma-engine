@@ -2,7 +2,7 @@
 #include "InputSystem.hpp"
 #include "Objects/Object.hpp"
 namespace FNFE {
-
+// TODO: what i have now is just for testing purpose if you want delete it all and redo it
 void PlayerController::Update() {
   m_inputSystem.UpdateInput(0);
   if (m_state == NEUTRAL) {
@@ -12,7 +12,7 @@ void PlayerController::Update() {
       return;
     }
     AEVec2 movement = m_inputSystem.GetMovement();
-    m_position += {movement.x,movement.y,0} * 10;
+    m_position += {movement.x,movement.y,0};
     m_transform->position = m_position;
   }
 }

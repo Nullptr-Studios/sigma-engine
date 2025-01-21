@@ -10,6 +10,19 @@
 
 namespace FNFE {
 /**
+ * @enum KeyBoardInput only used for player one when there is only one controller
+ */
+enum KeyBoardInput {
+  K_UP = 'W',
+  K_LEFT = 'A',
+  K_DOWN = 'S',
+  K_RIGHT = 'D',
+  K_JUMP = ' ',
+  K_NORMAL = 'J',
+  K_SECOUNDARY = 'K',
+  K_ULT = 'L',
+};
+/**
  * @brief all the keycodes for the buttons are mapped to this enum
  */
 enum PlayerAction {
@@ -48,10 +61,6 @@ public:
   AEVec2 GetMovement() {return m_directionBuffer;};
 
 private:
-  /**
-   * @brief list of actions that make up a combo
-   */
-  std::vector<PlayerAction> m_comboBuffer{};
   /**
    * @brief action input buffer
    */

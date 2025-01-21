@@ -1,9 +1,10 @@
 /**
  * @file PlayerController.hpp
- * @author dante
- * @date 1/20/2025
+ * @author alexey
+ * @date 1/22/2025
  *
  * @brief Manages and interprets input to action
+ * TODO: ALEXEY DO THESE FILES PlayerController and ControllerComponent
  */
 #pragma once
 #include "ControllerComponent.hpp"
@@ -32,6 +33,7 @@ public:
   void Update() override;
 
 private:
+  //TODO: have a combo buffer to keep track of current combo
   /**
    * @brief plays specifed action
    * @param action specifed action

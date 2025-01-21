@@ -1,8 +1,8 @@
 #include "InputSystem.hpp"
-#include "PlayerController.hpp"
 namespace FNFE {
 
-#define CLAMP_DIR(val) (val > .5)?1:(val <-.5)?-1:0
+
+#define CLAMP_DIR(val) ((val > .5) ? 1 : (val < -.5) ? -1 : 0)
 void InputSystem::UpdateInput(int controllerId) {
   m_directionBuffer = AEInputGamepadStickLeft(controllerId);
   m_directionBuffer.x = CLAMP_DIR(m_directionBuffer.x);
