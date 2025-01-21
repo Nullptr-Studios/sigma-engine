@@ -1,6 +1,6 @@
 #include "PlayerController.hpp"
-#include <thread>
 #include "InputSystem.hpp"
+#include "Objects/Object.hpp"
 namespace FNFE {
 
 void PlayerController::Update() {
@@ -11,11 +11,14 @@ void PlayerController::Update() {
       PlayAction(action);
       return;
     }
-    pos += m_inputSystem.GetMovement() * 10;
+    AEVec2 movement = m_inputSystem.GetMovement();
+    m_position += {movement.x,movement.y,0} * 10;
+    m_transform->position = m_position;
   }
 }
 void PlayerController::PlayAction(PlayerAction action) {
   m_state = ACTION;
+  std::cout << "Action: " <<ToChar(action) << "\n";
   // TODO: Do Animation
   // TODO: After animation return to NEURTRAL
   EndAction(action);

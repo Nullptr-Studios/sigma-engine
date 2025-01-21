@@ -23,7 +23,7 @@ void InputSystem::UpdateInput(int controllerId) {
   } else {
     if (m_inputBuffer != NULL_ACTION && (time(nullptr), m_timeBuffer) > 2) {
       m_inputBuffer = NULL_ACTION;
-      std::cout << "Ran Out Of Time\n";
+      std::cout << "InputBuffer Timeout\n";
     }
   }
 }
