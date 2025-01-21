@@ -12,6 +12,7 @@
 #include "Core.hpp"
 #include "Objects/Actor.hpp"
 #include "Objects/Object.hpp"
+#include "StateManager.hpp"
 
 namespace FNFE {
 
@@ -155,6 +156,11 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
   }
 
   std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
+
+  // Calls the @c Start function if the game is already running -x
+  // If not, the function will be called on the Start method with the rest of game objects
+  if (StateManager::GetCurrent() == IN_GAME) obj->Start();
+  
   return obj;
 }
 

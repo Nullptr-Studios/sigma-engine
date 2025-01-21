@@ -44,7 +44,9 @@ class Event;
 class Object {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
-  explicit Object(const uint32_t id) : m_id(id) { Init(); }
+  explicit Object(const uint32_t id) : m_id(id) {
+    Init();
+  }
   virtual ~Object() = default;
 
 public:
