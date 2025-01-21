@@ -24,6 +24,8 @@ public:
   ControllerComponent &operator=(ControllerComponent &&) = default;
 
 protected:
+  AEVec3 position{};
+  
   virtual void Update()=0;
 };
 } // namespace FNFE

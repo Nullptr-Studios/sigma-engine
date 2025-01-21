@@ -16,6 +16,8 @@ enum PlayerAction {
   PLAYER_SECONDARY = AE_GAMEPAD_B,
   PLAYER_ULT = AE_GAMEPAD_Y
 };
+char ToChar(PlayerAction action);
+
 class InputSystem {
 public:
   void UpdateInput(int controllerId);
@@ -29,4 +31,3 @@ private:
   time_t m_timeBuffer{};
 };
 } // namespace FNFE
-void testPlayer();

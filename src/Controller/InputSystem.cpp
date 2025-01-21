@@ -1,5 +1,4 @@
 #include "InputSystem.hpp"
-
 #include "PlayerController.hpp"
 namespace FNFE {
 
@@ -9,16 +8,16 @@ void InputSystem::UpdateInput(int controllerId) {
   m_directionBuffer.x = CLAMP_DIR(m_directionBuffer.x);
   m_directionBuffer.y = CLAMP_DIR(m_directionBuffer.y);
   AEVector2Normalize(&m_directionBuffer, &m_directionBuffer);
-  if (AEInputGamepadButtonPressed(controllerId, PLAYER_NORMAL)) {
+  if (AEInputGamepadButtonTriggered(controllerId, PLAYER_NORMAL)) {
     m_inputBuffer = PLAYER_NORMAL;
     m_timeBuffer = time(nullptr);
-  } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_SECONDARY)) {
+  } else if (AEInputGamepadButtonTriggered(controllerId, PLAYER_SECONDARY)) {
     m_inputBuffer = PLAYER_SECONDARY;
     m_timeBuffer = time(nullptr);
-  } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_JUMP)) {
+  } else if (AEInputGamepadButtonTriggered(controllerId, PLAYER_JUMP)) {
     m_inputBuffer = PLAYER_JUMP;
     m_timeBuffer = time(nullptr);
-  } else if (AEInputGamepadButtonPressed(controllerId, PLAYER_ULT)) {
+  } else if (AEInputGamepadButtonTriggered(controllerId, PLAYER_ULT)) {
     m_inputBuffer = PLAYER_ULT;
     m_timeBuffer = time(nullptr);
   } else {
@@ -27,15 +26,26 @@ void InputSystem::UpdateInput(int controllerId) {
       std::cout << "Ran Out Of Time\n";
     }
   }
-
-  
 }
+
 PlayerAction InputSystem::GetAction() {
   PlayerAction tmp = m_inputBuffer;
   m_inputBuffer = NULL_ACTION;
   return tmp;
 }
-} // namespace FNFE
 
-void testPlayer() {
+char ToChar(PlayerAction action) {
+  switch (action) {
+    case PLAYER_NORMAL:
+      return 'A';
+    case PLAYER_SECONDARY:
+      return 'X';
+    case PLAYER_JUMP:
+      return 'B';
+    case PLAYER_ULT:
+      return 'Y';
+    default:
+      return '?';
+  }
 }
+} // namespace FNFE

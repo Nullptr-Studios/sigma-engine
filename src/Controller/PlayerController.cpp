@@ -11,26 +11,15 @@ void PlayerController::Update() {
       PlayAction(action);
       return;
     }
-    pos += m_inputSystem.GetMovement() * .16667;
+    pos += m_inputSystem.GetMovement() * 10;
   }
 }
 void PlayerController::PlayAction(PlayerAction action) {
-  if (m_state != NEUTRAL) {
-    std::cout << "WHAT THE FUCK HOW\n";
-  }
-  std::cout << this << " Start Action\n";
+  m_state = ACTION;
   // TODO: Do Animation
   // TODO: After animation return to NEURTRAL
-  std::thread(
-      [this, action]()
-      {
-        std::this_thread::sleep_for(std::chrono::microseconds(900));
-        EndAction(action);
-      })
-      .detach();
+  EndAction(action);
 }
-void PlayerController::EndAction(PlayerAction action) {
-  m_state = NEUTRAL;
-}
+void PlayerController::EndAction(PlayerAction action) { m_state = NEUTRAL; }
 
 } // namespace FNFE
