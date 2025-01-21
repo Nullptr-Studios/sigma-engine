@@ -4,17 +4,14 @@
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "Scene.hpp"
-#include "Core.hpp"
 
 namespace FNFE {
 
 GameManager* GameManager::m_instance = nullptr;
-GameState GameManager::m_gameState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height)
     : m_title(title), m_width(width), m_height(height) {
   m_instance = this;
-  m_gameState = ENGINE_INIT;
   GameInit();
 }
 
@@ -24,7 +21,6 @@ GameManager::~GameManager() {
 
 void GameManager::Uninitialize()
 {
-  m_gameState = ENGINE_ENDING;
   m_factory->DestroyAllObjects();
 
   //TODO something crashes here :( -m
@@ -61,7 +57,6 @@ void GameManager::GameInit()
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
 
-  m_gameState = IN_GAME;
 }
 
 
@@ -104,18 +99,6 @@ void GameManager::Run()
   AESysFrameEnd();
 }
 
-void GameManager::OnEvent(Event &e) {
-  EventDispatcher dispatcher(e);
-
-  for (const auto& [id, object] : m_factory->GetObjects()) {
-    dispatcher.Dispatch<MessageEvent>([object](MessageEvent& e)->bool{
-      if(object->GetName() == e.GetReceiver()) return object->OnMessage(e.GetSender());
-      return false;
-    });
-  }
-
-}
-
 // Scene Management
 #pragma region Scene Management
 
@@ -139,6 +122,17 @@ void GameManager::LoadScene(Scene *scene) {
   m_currentScene->Init();
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!"
             << std::endl;
+}
+void GameManager::OnEvent(Event &e) {
+  EventDispatcher dispatcher(e);
+
+  for (const auto& [id, object] : m_factory->GetObjects()) {
+    dispatcher.Dispatch<MessageEvent>([object](MessageEvent& e)->bool{
+      if(object->GetName() == e.GetReceiver()) return object->OnMessage(e.GetSender());
+      return false;
+    });
+  }
+
 }
 
 #pragma endregion

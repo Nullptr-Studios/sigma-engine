@@ -8,14 +8,13 @@
 
 #pragma once
 #include <pch.hpp>
+#include <Factory.hpp>
 
 namespace FNFE {
 
 class AudioEngine;
-class Factory;
 class Scene;
 class Event;
-enum GameState : char;
 
 /**
  * @class GameManager
@@ -24,8 +23,8 @@ enum GameState : char;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager {
-  friend class StateManager;
+class GameManager
+{
 public:
   /**
    * @brief Initialization of alpha engine and base FNFE classes
@@ -38,6 +37,7 @@ public:
   ~GameManager();
 
   static GameManager* GetInstance() { return m_instance; }
+
 
   /**
    * @brief Main engine loop
@@ -60,7 +60,6 @@ public:
 
 private:
   static GameManager* m_instance;
-  static GameState m_gameState;
 
   void GameInit();
 
@@ -73,4 +72,5 @@ private:
 
   Scene* m_currentScene = nullptr;
 };
-}
+
+} // FNFE
