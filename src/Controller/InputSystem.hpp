@@ -10,26 +10,30 @@
 
 namespace FNFE {
 /**
- * @enum KeyBoardInput only used for player one when there is only one controller
+ * @enum InputBinding K_ for keyboard specific for player one only G_ for gamepad keybinds
  */
-enum KeyBoardInput {
+enum InputBinding {
   K_UP = 'W',
   K_LEFT = 'A',
   K_DOWN = 'S',
   K_RIGHT = 'D',
   K_JUMP = ' ',
   K_NORMAL = 'J',
-  K_SECOUNDARY = 'K',
+  K_SECONDARY = 'K',
   K_ULT = 'L',
+  G_JUMP = AE_GAMEPAD_B,
+  G_NORMAL = AE_GAMEPAD_A,
+  G_SECONDARY = AE_GAMEPAD_X,
+  G_ULT = AE_GAMEPAD_Y,
 };
 /**
- * @brief all the keycodes for the buttons are mapped to this enum
+ * @brief all the possible player actions
  */
 enum PlayerAction {
-  NULL_ACTION = 0, ///<@brief No Action
-  PLAYER_JUMP = AE_GAMEPAD_B, ///<@brief action jump
+  NULL_ACTION = NULL, ///<@brief No Action
   PLAYER_NORMAL = AE_GAMEPAD_A, ///<@brief action normal attack
-  PLAYER_SECONDARY = AE_GAMEPAD_X, ///<@brief action secoundary attack
+  PLAYER_JUMP = AE_GAMEPAD_B, ///<@brief action jump
+  PLAYER_SECONDARY = AE_GAMEPAD_X, ///<@brief action secondary attack
   PLAYER_ULT = AE_GAMEPAD_Y ///<@brief action ult attack
 };
 /**

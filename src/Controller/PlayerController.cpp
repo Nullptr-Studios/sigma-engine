@@ -4,7 +4,7 @@
 namespace FNFE {
 // TODO: what i have now is just for testing purpose if you want delete it all and redo it
 void PlayerController::Update() {
-  m_inputSystem.UpdateInput(0);
+  m_inputSystem.UpdateInput(-1);
   if (m_state == NEUTRAL) {
     PlayerAction action = m_inputSystem.GetAction();
     if (action != NULL_ACTION) {
