@@ -11,6 +11,8 @@
 #ifndef AEX_MTX44_H
 #define AEX_MTX44_H
 #pragma warning(disable : 4201) // nameless struct warning
+#undef near
+#undef far
 
 // ---------------------------------------------------------------------------
 // a simple 4x4 matrix class

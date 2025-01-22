@@ -4,6 +4,7 @@
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "Scene.hpp"
+#include "Objects/Camera.hpp"
 
 namespace FNFE {
 
@@ -54,9 +55,11 @@ void GameManager::GameInit()
     m_audioEngine->PlayEvent("event:/Music/OST_Level3");
   }
 
+  auto camera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
+  m_activeCamera = camera;
+
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
-
 }
 
 
@@ -66,8 +69,10 @@ void GameManager::Run()
   AESysFrameStart();
   AESysUpdate();
 
-  // Camera
-  AEMtx33 cameraMatrix = AEMtx33::IDENTITY;
+  // Start
+  for (const auto& [id, object] : m_factory->GetObjects()) {
+    object->Start();
+  }
 
   if (m_currentScene != nullptr)
   {
@@ -77,12 +82,13 @@ void GameManager::Run()
     // Tick
     for (const auto& [id, object] : m_factory->GetObjects()) {
       object->Update(AEGetFrameTime());
-      object->transform.rotation -= 1 * AEGetFrameTime();
     }
 
     // Render
     for (const auto& [id, renderable] : m_factory->GetRenderables()) {
-      AEMtx33 viewMatrix = renderable->transform.GetMatrix();
+      AEMtx44 camera = m_activeCamera->GetCameraMatrix();
+      AEMtx44 transform = renderable->transform.GetMatrix4();
+      AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
       if(renderable->GetTexture() != nullptr) AEGfxTextureSet(renderable->GetTexture());
       AEGfxTriDraw(renderable->GetTris());
