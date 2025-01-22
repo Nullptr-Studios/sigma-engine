@@ -5,7 +5,7 @@ namespace FNFE {
 // TODO: what i have now is just for testing purpose if you want delete it all and redo it
 void PlayerController::Update() {
   m_inputSystem.UpdateInput(-1);
-  if (m_state == NEUTRAL) {
+  if (m_state == IDLE) {
     PlayerAction action = m_inputSystem.GetAction();
     if (action != NULL_ACTION) {
       PlayAction(action);
@@ -23,6 +23,6 @@ void PlayerController::PlayAction(PlayerAction action) {
   // TODO: After animation return to NEURTRAL
   EndAction(action);
 }
-void PlayerController::EndAction(PlayerAction action) { m_state = NEUTRAL; }
+void PlayerController::EndAction(PlayerAction action) { m_state = IDLE; }
 
 } // namespace FNFE

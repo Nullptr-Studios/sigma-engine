@@ -19,9 +19,10 @@ namespace FNFE {
  * @enum PlayerState for the current state the player is in
  */
 enum PlayerState {
-  NEUTRAL, ///<@brief the player is either moving or standing still
-  AIR, ///<@brief the player is in the air
-  ACTION, ///<@brief the player is preforming a action
+  IDLE,   ///< @brief The player is standing still
+  MOVING, ///< @brief The player is moving
+  AIR,    ///< @brief The player is in the air
+  ACTION, ///< @brief The player is preforming an action
 };
 
 /**
@@ -56,6 +57,6 @@ private:
   /**
    * @brief what state the player is in
    */
-  PlayerState m_state = NEUTRAL;
+  PlayerState m_state = IDLE;
 };
 } // namespace FNFE

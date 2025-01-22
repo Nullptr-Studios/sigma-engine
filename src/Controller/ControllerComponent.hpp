@@ -18,7 +18,7 @@ namespace FNFE {
  */
 class ControllerComponent {
 public:
-  ControllerComponent(Transform* transform) : m_transform(transform) = default;
+  ControllerComponent(Transform* transform) : m_transform(transform) {};
   virtual ~ControllerComponent() = default;
   ControllerComponent(const ControllerComponent &) = delete;
   ControllerComponent &operator=(const ControllerComponent &) = delete;
@@ -27,19 +27,8 @@ public:
 
   
 protected:
-  /**
-   * @brief 3D position of the object
-   */
-  AEVec3 m_position{};
-
-  /**
-   * @brief Pointer to the transform of the object
-   */
-  Transform* m_transform{};
-
-  /**
-   * @brief update function to update the player/ai
-   */
-  virtual void Update()=0;
+  AEVec3 m_position{}; ///<@brief 3D position of the object
+  Transform* m_transform{}; ///<@brief Pointer to the transform of the object
+  virtual void Update()=0; ///<@brief update function to update the player/ai
 };
 } // namespace FNFE

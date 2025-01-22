@@ -1,10 +1,20 @@
 #include "InputSystem.hpp"
 namespace FNFE {
 
-
-#define CLAMP_DIR(val) ((val > .5) ? 1 : (val < -.5) ? -1 : 0)
-#define IS_TRIGGERED(G_CODE,K_CODE) (controllerId <0)?AEInputKeyTriggered(K_CODE):AEInputGamepadButtonTriggered(controllerId, G_CODE)
+/**
+ * @def CHECK_INPUT(G_CODE, K_CODE)
+ * @brief Checks whether a specific key or gamepad button is triggered.
+ *      based on what the controllerId is id < 0 for keyboard
+ *      0-3 for gamepad
+ * @param G_CODE gamepad code for the gamepad button
+ * @param K_CODE keyboard key for the keyboard
+ *
+ * @note this macro will only work in InputSystem::UpdateInput for its
+ *      reliance on the controllerId variable
+ */
+#define CHECK_INPUT(G_CODE,K_CODE) (controllerId <0)?AEInputKeyTriggered(K_CODE):AEInputGamepadButtonTriggered(controllerId, G_CODE)
 void InputSystem::UpdateInput(int controllerId) {
+  // Use gamepad stick or keyboard keys for player movement
   if (controllerId >=0 ) {
     m_directionBuffer = AEInputGamepadStickLeft(controllerId);
   } else {
@@ -14,19 +24,18 @@ void InputSystem::UpdateInput(int controllerId) {
     m_directionBuffer.y -= AEInputKeyPressed(K_DOWN);
     m_directionBuffer.y += AEInputKeyPressed(K_UP);
   }
-  m_directionBuffer.x = CLAMP_DIR(m_directionBuffer.x);
-  m_directionBuffer.y = CLAMP_DIR(m_directionBuffer.y);
   AEVector2Normalize(&m_directionBuffer, &m_directionBuffer);
-  if (IS_TRIGGERED(G_NORMAL, K_NORMAL)) {
+  // Use Gamepad buttons vs keyboard keys for player actions
+  if (CHECK_INPUT(G_NORMAL, K_NORMAL)) {
     m_inputBuffer = PLAYER_NORMAL;
     m_timeBuffer = time(nullptr);
-  } else if (IS_TRIGGERED(G_SECONDARY,K_SECONDARY)) {
+  } else if (CHECK_INPUT(G_SECONDARY,K_SECONDARY)) {
     m_inputBuffer = PLAYER_SECONDARY;
     m_timeBuffer = time(nullptr);
-  } else if (IS_TRIGGERED(G_JUMP,K_JUMP)) {
+  } else if (CHECK_INPUT(G_JUMP,K_JUMP)) {
     m_inputBuffer = PLAYER_JUMP;
     m_timeBuffer = time(nullptr);
-  } else if (IS_TRIGGERED(G_ULT,K_ULT)) {
+  } else if (CHECK_INPUT(G_ULT,K_ULT)) {
     m_inputBuffer = PLAYER_ULT;
     m_timeBuffer = time(nullptr);
   } else {

@@ -12,7 +12,7 @@ namespace FNFE {
 /**
  * @enum InputBinding K_ for keyboard specific for player one only G_ for gamepad keybinds
  */
-enum InputBinding {
+enum InputBinding { //TODO: Xein Tasks dante to serialize this into a json
   K_UP = 'W',
   K_LEFT = 'A',
   K_DOWN = 'S',
@@ -29,7 +29,7 @@ enum InputBinding {
 /**
  * @brief all the possible player actions
  */
-enum PlayerAction {
+enum PlayerAction { //TODO: Searialize this also
   NULL_ACTION = NULL, ///<@brief No Action
   PLAYER_NORMAL = AE_GAMEPAD_A, ///<@brief action normal attack
   PLAYER_JUMP = AE_GAMEPAD_B, ///<@brief action jump
@@ -65,17 +65,8 @@ public:
   AEVec2 GetMovement() {return m_directionBuffer;};
 
 private:
-  /**
-   * @brief action input buffer
-   */
-  PlayerAction m_inputBuffer{};
-  /**
-   * @brief directinal input buffer
-   */
-  AEVec2 m_directionBuffer{};
-  /**
-   * @brief timeout buffer for the input buffers
-   */
-  time_t m_timeBuffer{};
+  PlayerAction m_inputBuffer{}; ///<@brief action input buffer
+  AEVec2 m_directionBuffer{}; ///<@brief directinal input buffer
+  time_t m_timeBuffer{}; ///<@brief timeout buffer for the input buffers
 };
 } // namespace FNFE
