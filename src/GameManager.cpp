@@ -10,7 +10,7 @@
 namespace FNFE {
 
 GameManager* GameManager::m_instance = nullptr;
-GameState StateManager::m_currentState = ENGINE_IDLE;
+EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height)
     : m_title(title), m_width(width), m_height(height) {
@@ -23,7 +23,7 @@ GameManager::~GameManager() {
 }
 
 void GameManager::Uninitialize() {
-  StateManager::SetGameState(ENGINE_EXIT);
+  StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
   //TODO something crashes here :( -m
@@ -31,7 +31,7 @@ void GameManager::Uninitialize() {
 }
 
 void GameManager::GameInit() {
-  StateManager::SetGameState(ENGINE_INIT);
+  StateManager::SetEngineState(ENGINE_INIT);
   
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
   m_factory->FreeAllTextures();
@@ -64,7 +64,7 @@ void GameManager::GameInit() {
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
 
-  StateManager::SetGameState(IN_GAME);
+  StateManager::SetEngineState(IN_GAME);
 }
 
 

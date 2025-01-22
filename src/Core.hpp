@@ -7,6 +7,7 @@
  */
 
 #pragma once
+#include <json.hpp>
 
 namespace FNFE {
 
@@ -17,18 +18,19 @@ typedef nlohmann::json json_t; ///< @typedef json_t @brief Type definition for j
 #define FNFE_MANAGER GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 
 /**
- * @enum GameState
+ * @enum EngineState
  * @brief Stores all possible game states
  * This is useful for disabling input on menus, handling the Begin method of objects...
  */
-enum GameState : unsigned char {
+enum EngineState : unsigned char {
   ENGINE_IDLE = 0, ///< @brief The engine is not in any state (default)
   ENGINE_INIT,     ///< @brief The engine is initializing
   SCENE_LOAD,      ///< @brief A scene is currently being loaded
-  IN_GAME,         ///< @brief The engine is running a scene
-  IN_MENU,         ///< @brief The game is stopped and a menu/UI is shown
+  IN_GAME,         ///< @brief The engine has loaded everything and is running a scene
   SCENE_UNLOAD,    ///< @brief A scene is currently being unloaded
   ENGINE_EXIT,     ///< @brief The engine is stopping all its processes
 };
+
+// TODO: Do GameState enum
 
 }

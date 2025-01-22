@@ -10,7 +10,7 @@
 
 namespace FNFE {
 
-enum GameState : unsigned char; 
+enum EngineState : unsigned char; 
 
 /**
  * @class StateManager
@@ -18,11 +18,11 @@ enum GameState : unsigned char;
  */
 class StateManager {
 public:
-  static GameState GetGameState() { return m_currentState; } ///< @brief Gets the current state @return The GameState enum
-  static void SetGameState(const GameState state) { m_currentState = state; } ///< @brief Updates the current state @param state New game state
+  static EngineState GetEngineState() { return m_currentEngineState; } ///< @brief Gets the current state @return The EngineState enum
+  static void SetEngineState(const EngineState state) { m_currentEngineState = state; } ///< @brief Updates the current state @param state New engine state
   
 private:
-  static GameState m_currentState;
+  static EngineState m_currentEngineState;
 };
 
 }
