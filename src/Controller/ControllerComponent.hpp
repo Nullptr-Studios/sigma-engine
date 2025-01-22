@@ -18,7 +18,7 @@ namespace FNFE {
  */
 class ControllerComponent {
 public:
-  ControllerComponent(Transform * transform) {m_transform = transform;}
+  ControllerComponent(Transform* transform) : m_transform(transform) = default;
   virtual ~ControllerComponent() = default;
   ControllerComponent(const ControllerComponent &) = delete;
   ControllerComponent &operator=(const ControllerComponent &) = delete;
