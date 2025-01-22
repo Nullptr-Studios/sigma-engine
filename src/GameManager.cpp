@@ -10,7 +10,7 @@
 namespace FNFE {
 
 GameManager* GameManager::m_instance = nullptr;
-GameState StateManager::m_currentState = IDLE;
+GameState StateManager::m_currentState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height)
     : m_title(title), m_width(width), m_height(height) {
