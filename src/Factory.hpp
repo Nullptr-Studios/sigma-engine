@@ -156,10 +156,9 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
   }
   std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
-  // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation -x
-  // If not, we will call it when every object is called at the Invoke Begin phase
-  if (StateManager::GetGameState() == IN_GAME || StateManager::GetGameState() == IN_MENU)
-    obj->Start();
+  // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
+  // If not, we will call it when every object is called at the Invoke Begin phase -x
+  if (StateManager::GetGameState() == IN_GAME) obj->Start();
   
   return obj;
 }
