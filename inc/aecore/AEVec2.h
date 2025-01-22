@@ -31,6 +31,7 @@ struct AEVec2
     AEVec2(float xx, float yy);
     explicit AEVec2(float xx); //! flag as explicit to prevent implicit conversion from float to AEVec2
 
+    // Operators
     // add or substract
     AEVec2 operator+(const AEVec2 & rhs) const;
     AEVec2 operator+=(const AEVec2 & rhs);
@@ -45,6 +46,15 @@ struct AEVec2
 
     // unitary negation
     AEVec2 operator-() const;
+
+    // comparison
+    // fucking alpha engine didn't have this -x
+    bool operator==(const AEVec2& other) const {
+        return x == other.x && y == other.y;
+    }
+    bool operator!=(const AEVec2& other) const {
+        return x != other.x || y != other.y;
+    }
 
     // vector length
     float Length() const;

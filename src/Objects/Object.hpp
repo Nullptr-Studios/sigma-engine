@@ -26,13 +26,29 @@ struct Transform {
    * Uses translate * rotate * scale
    * @return AEMtx33
    */
-  AEMtx33& GetMatrix() {
+  [[nodiscard]] AEMtx33& GetMatrix() const {
     //Changed this to use only one matrix -m
     AEMtx33 world;
     AEMtx33ScaleApply(&world,&world, scale.x, scale.y);
     AEMtx33RotApply(&world, &world, rotation);
     AEMtx33TransApply(&world, &world, position.x, position.y);
 
+    return world;
+  }
+
+  /**
+   * @brief Calculates a 4x4 Transform matrix
+   * This is used in order to have a camera instead of screen coordinates
+   * @return AEMtx44
+   */
+  [[nodiscard]] AEMtx44& GetMatrix4() const {
+    // Thy the fuck are Mtx33 and Mtx44 so different -x
+    AEMtx44 world = AEMtx44::Identity();
+    AEMtx44 scaleMat, rotateMat, translateMat;
+    scaleMat = AEMtx44::Scale(scale.x, scale.y, 1.0f);
+    rotateMat = AEMtx44::Rotate(0.0f, 0.0f, rotation);
+    translateMat = AEMtx44::Translate(position.x, position.y, 0.0f);
+    world = translateMat * rotateMat * scaleMat;
     return world;
   }
 };
@@ -65,7 +81,7 @@ public:
 
   /**
    * @brief This function is called whenever you send a message to any Object
-   * The simple and incredible Bloom Event System (tm) is used for sending messages between objects
+   * The simple and incredible FNF Event System (tm) is used for sending messages between objects
    * @param sender Object that sent the original message
    * @return A bool telling if the message has been handled and shouldn't propagate
    */

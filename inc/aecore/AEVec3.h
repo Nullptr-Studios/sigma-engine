@@ -29,6 +29,7 @@ struct AEVec3
     AEVec3(float xx, float yy, float zz);
     explicit AEVec3(float xx);
     ;
+    // Operators
     // add or substract										;
     AEVec3 operator+(const AEVec3 & rhs) const;
     AEVec3 operator+=(const AEVec3 & rhs);
@@ -38,6 +39,15 @@ struct AEVec3
     // multiply or divide by a scalar						;
     AEVec3 operator*(float s) const;
     AEVec3 operator/(float s) const;
+    ;
+    // comparison
+    // fucking alpha engine didn't have this -x
+    bool operator==(const AEVec3& other) const {
+        return x == other.x && y == other.y && z == other.z;
+    }
+    bool operator!=(const AEVec3& other) const {
+        return x != other.x || y != other.y || z != other.z;
+    }
     ;
     // get vector length									;
     float Length() const;

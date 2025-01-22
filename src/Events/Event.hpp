@@ -3,11 +3,11 @@
  * @author Xein
  * @date 21/11/2024
  *
- * @brief Provides the base classes and macros to define and handle events in the Bloom Engine.
+ * @brief Provides the base classes and macros to define and handle events in the FNF Engine.
  * @note This is literally brought from the Bloom Engine by Nullptr* Studios
  *
  * This file contains the foundational classes and structures for the event system used within
- * the Bloom Engine. The event system is designed to facilitate communication between different
+ * the FNF Engine. The event system is designed to facilitate communication between different
  * parts of the engine or game logic. Events are categorized and can be dynamically dispatched
  * using a dispatcher mechanism. The system ensures that events can be handled efficiently and
  * flexibly, while also supporting extension for new event types.
@@ -20,7 +20,7 @@ namespace FNFE {
 
 /**
  * @enum EventType
- * @brief Represents the various types of events supported by the Bloom Engine.
+ * @brief Represents the various types of events supported by the FNF Engine.
  *
  * Each value in the enum corresponds to a specific type of event that can occur
  * during the execution of the application. This enum is used to identify and
@@ -48,7 +48,7 @@ enum class EventType {
 // Event
 /**
  * @class Event
- * @brief Abstract base class for all events in the Bloom Engine.
+ * @brief Abstract base class for all events in the FNF Engine.
  *
  * The @c Event class serves as the base for all event types. It provides a common interface for
  * retrieving the event type, name, and category flags. Events can also be converted to string

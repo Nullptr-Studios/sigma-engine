@@ -10,9 +10,14 @@
  */
 
 #pragma once
+#include "Collision/Collision.hpp"
 #include "Object.hpp"
 
+
 namespace FNFE {
+namespace Collision {
+struct RectCollider;
+}
 
 /**
  * @class Actor
@@ -34,6 +39,7 @@ public:
 
   [[nodiscard]] AEGfxTriList* GetTris() const { return m_triangleList;} ///< @brief Gets the Alpha Engine triangle list shit
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
+  [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
   /**
    * @brief Sets the texture of the object
    * Changes the texture path variables and reloads the texture data by calling the factory
@@ -41,6 +47,8 @@ public:
    */
   void SetTexture(const char* path);
 
+protected:
+  Collision::RectCollider * m_collider = nullptr;
 private:
   AEGfxTriList* m_triangleList;
 

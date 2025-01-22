@@ -34,7 +34,7 @@ class Factory {
    * @typedef TextureMap
    * @brief Type used for mapping
    */
-  typedef std::unordered_map<const char*, AEGfxTexture*> TextureMap;
+  typedef std::unordered_map<std::string, AEGfxTexture*> TextureMap;
 
 public:
   Factory(GameManager* manager, void(GameManager::*callback)(Event &e))
