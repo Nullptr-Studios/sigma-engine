@@ -1,4 +1,5 @@
 #include "GameManager.hpp"
+#include "StateManager.hpp"
 #include "Audio/AudioEngine.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
@@ -9,6 +10,7 @@
 namespace FNFE {
 
 GameManager* GameManager::m_instance = nullptr;
+EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height)
     : m_title(title), m_width(width), m_height(height) {
@@ -20,16 +22,17 @@ GameManager::~GameManager() {
   m_instance = nullptr;
 }
 
-void GameManager::Uninitialize()
-{
+void GameManager::Uninitialize() {
+  StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
   //TODO something crashes here :( -m
   m_audioEngine->Terminate();
 }
 
-void GameManager::GameInit()
-{
+void GameManager::GameInit() {
+  StateManager::SetEngineState(ENGINE_INIT);
+  
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
   m_factory->FreeAllTextures();
 
@@ -60,11 +63,12 @@ void GameManager::GameInit()
 
   auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
   test->SetTexture("res/toast.png");
+
+  StateManager::SetEngineState(IN_GAME);
 }
 
 
-void GameManager::Run()
-{
+void GameManager::Run() {
   // AE Shit
   AESysFrameStart();
   AESysUpdate();
@@ -143,4 +147,4 @@ void GameManager::OnEvent(Event &e) {
 
 #pragma endregion
 
-} // FNFE
+} 
