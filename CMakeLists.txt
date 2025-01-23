@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
-project(fnf_E)
+project(Fight Night Finale Engine)
 
+
+set(CMAKE_CXX_STANDARD 23)
+
+add_subdirectory(dev)
 add_subdirectory(engine)
-add_subdirectory(test)

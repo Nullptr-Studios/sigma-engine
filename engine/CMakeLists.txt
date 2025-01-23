@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
-
 project(fnf_E)
 
 
-set(CMAKE_CXX_STANDARD 26)
-
+set(CMAKE_CXX_STANDARD 23)
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
         "src/*.cpp"
         "src/*.hpp"
@@ -20,23 +18,25 @@ target_include_directories(fnf_E PUBLIC src)
 
 target_include_directories(fnf_E PUBLIC inc)
 target_link_directories(fnf_E PUBLIC lib)
-target_link_libraries(fnf_E PUBLIC fmodL_vc)
-target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
+
+if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+    message("debug mode")
+    target_link_libraries(fnf_E PUBLIC fmodL_vc)
+    target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
+    
+elseif (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+    message("release mode")
+    target_link_libraries(fnf_E PUBLIC fmod_vc)
+    target_link_libraries(fnf_E PUBLIC fmodstudio_vc)
+    
+else ()
+    message("unknown mode")
+
+endif ()
+
 target_link_libraries(fnf_E PUBLIC aecore)
 target_include_directories(fnf_E PUBLIC lib/json/single_include/nlohmann/)
+
 # precompiled header
 target_precompile_headers(fnf_E PRIVATE src/pch.hpp)
-
-#copy res folder to build directory
-add_custom_command(TARGET fnf_E POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
-
-#copy FMOD dlls to build directory
-add_custom_command(TARGET fnf_E POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/lib/fmodL.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>/)
-
-add_custom_command(TARGET fnf_E POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_SOURCE_DIR}/lib/fmodstudioL.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>/)
+        
