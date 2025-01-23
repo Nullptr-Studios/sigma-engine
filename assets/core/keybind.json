@@ -1,0 +1,18 @@
+{
+  "Gamepad": {
+    "normal": 1,
+    "secondary": 2,
+    "jump": 3,
+    "ult": 4
+  },
+  "Keyboard": {
+    "up": "W",
+    "left": "A",
+    "down": "S",
+    "right": "D",
+    "normal": "J",
+    "secondary": "K",
+    "jump": " ",
+    "ult": "L"
+  }
+}
