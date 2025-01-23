@@ -12,6 +12,7 @@
 #include "Core.hpp"
 #include "Objects/Actor.hpp"
 #include "Objects/Object.hpp"
+#include "StateManager.hpp"
 
 namespace FNFE {
 
@@ -153,8 +154,12 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
   if constexpr (std::is_base_of_v<Actor, T>) {
     m_renderables.emplace(obj->GetId(), std::static_pointer_cast<Actor>(obj));
   }
-
   std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
+
+  // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
+  // If not, we will call it when every object is called at the Invoke Begin phase -x
+  if (StateManager::GetEngineState() == IN_GAME) obj->Start();
+  
   return obj;
 }
 
