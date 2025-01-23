@@ -1,3 +1,11 @@
+/**
+ * @file main.cpp
+ * @author Xein
+ * @date 1/23/2025
+ *
+ * @brief [Brief description of the file's purpose]
+ */
+
 #include <aecore/AEEngine.h>
 #include <iostream>
 
@@ -5,22 +13,19 @@
 #include "Scene.hpp"
 #include "TestScene.hpp"
 
-
 int main() {
 
   FNFE::GameManager* gameManager = new FNFE::GameManager("FNF Engine", 800, 600);
-  FNFE::Scene* scene = new FNFE::Scene("scene1", 1);
+  FNFE::Scene* scene = new TestScene("scene1", 1);
 
   gameManager->LoadScene(scene);
 
-  while (AESysWindowExists())
-  {
+  while (AESysWindowExists()) {
     gameManager->Run();
   }
+  
   gameManager->Uninitialize();
   AESysExit();
-
-
 
   return 0;
 }
