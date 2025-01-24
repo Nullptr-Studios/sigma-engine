@@ -30,7 +30,7 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Transform *transform) : ControllerComponent(transform) {}
+  PlayerController(Character* character) : ControllerComponent(character) {}
   void Update() override;
 
 private:

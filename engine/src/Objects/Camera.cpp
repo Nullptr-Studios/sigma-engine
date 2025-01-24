@@ -6,7 +6,7 @@ void Camera::Start() {
   Object::Start();
 
   AEVec2 viewport;
-  AEGfxSetFullscreen(true);
+  AEGfxSetFullscreen(false);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   m_ratio = viewport.x / viewport.y;
   
