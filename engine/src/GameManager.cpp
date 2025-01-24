@@ -26,7 +26,7 @@ void GameManager::Uninitialize() {
   StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
-  //TODO something crashes here :( -m
+  // The crash was due to LIVEUPDATE
   m_audioEngine->Terminate();
 }
 
@@ -42,27 +42,27 @@ void GameManager::GameInit() {
   // Initialize audio engine
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
-  {
-    //AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
-
-    //m_audioEngine->Load(data);
-    //Master bank is needed to load other banks
-    m_audioEngine->LoadBank("res/Master.bank");
-    m_audioEngine->LoadBank("res/Master.strings.bank");
-
-    //Load the music bank
-    m_audioEngine->LoadBank("res/Music.bank");
-    std::vector<std::pair<const char*, float>> params;
-    params.emplace_back("LowPass", 1);
-    m_audioEngine->LoadEvent("event:/Music/OST_Level3", params);
-    m_audioEngine->PlayEvent("event:/Music/OST_Level3");
-  }
+  // {
+  //   //AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
+  //
+  //   //m_audioEngine->Load(data);
+  //   //Master bank is needed to load other banks
+  //   m_audioEngine->LoadBank("res/Master.bank");
+  //   m_audioEngine->LoadBank("res/Master.strings.bank");
+  //
+  //   //Load the music bank
+  //   m_audioEngine->LoadBank("res/Music.bank");
+  //   std::vector<std::pair<const char*, float>> params;
+  //   params.emplace_back("LowPass", 1);
+  //   m_audioEngine->LoadEvent("event:/Music/OST_Level3", params);
+  //   m_audioEngine->PlayEvent("event:/Music/OST_Level3");
+  // }
 
   auto camera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
   m_activeCamera = camera;
 
-  auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
-  test->SetTexture("res/toast.png");
+  // auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
+  // test->SetTexture("res/toast.png");
 
   StateManager::SetEngineState(IN_GAME);
 }
@@ -99,10 +99,9 @@ void GameManager::Run() {
     }
   }
 
-  m_audioEngine->SetEventParamValue("event:/Music/OST_Level3", "LowPass", AESin(AEGetTime()));
 
   // Audio
-  m_audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
+  // m_audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
   m_audioEngine->Update();
 
   // AE Shit
