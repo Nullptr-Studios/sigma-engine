@@ -21,12 +21,9 @@ void FNFE::AudioEngine::Init()
   ERRCHECK(studioSystem->getCoreSystem(&lowLevelSystem));
   ERRCHECK(lowLevelSystem->setSoftwareFormat(AUDIO_SAMPLE_RATE, FMOD_SPEAKERMODE_5POINT1, 0));
   ERRCHECK(lowLevelSystem->set3DSettings(1.0, DISTANCEFACTOR, 0.5f));
-  #if _DEBUG
+
   //live-update while on debug
   ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0));
-  #elif NDEBUG
-  ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0));
-  #endif
 
 
   ERRCHECK(lowLevelSystem->getMasterChannelGroup(&mastergroup));
@@ -35,24 +32,6 @@ void FNFE::AudioEngine::Init()
 
 void FNFE::AudioEngine::Terminate()
 {
-  // bool paused;
-  // mastergroup->stop();
-  // for (auto sound : soundBanks)
-  // {
-  //   sound.second->unload();
-  // }
-  // for (auto sound : sounds)
-  // {
-  //   sound.second->release();
-  // }
-  // for (auto map : eventInstances)
-  // {
-  //   map.second->getPaused(&paused);
-  //   if (!paused)
-  //     map.second->stop(FMOD_STUDIO_STOP_IMMEDIATE);
-  //   map.second->release();
-  // }
-
   lowLevelSystem->close();
   studioSystem->release();
 }

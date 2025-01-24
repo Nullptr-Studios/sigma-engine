@@ -26,6 +26,9 @@ void GameManager::Uninitialize() {
   StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
+  
+  AEGfxTriFree(m_factory->GetSharedTriList());
+
   // The crash was due to LIVEUPDATE
   m_audioEngine->Terminate();
 }
@@ -82,8 +85,7 @@ void GameManager::Run() {
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
   }
-
-
+  
   // Audio
   m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x,m_activeCamera->transform.position.y,0,0,1,0,0,0,1);
   m_audioEngine->Update();

@@ -23,7 +23,7 @@ void Actor::Destroy() {
   Object::Destroy();
   FNFE_FACTORY->FreeTexture(m_texturePath);
   m_texture = nullptr;
-  AEGfxTriFree(m_triangleList);
+
 }
 
 void Actor::SetTexture(const char* path) {
