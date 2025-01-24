@@ -132,6 +132,7 @@ void GameManager::LoadScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!"
             << std::endl;
 }
+  
 void GameManager::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
 
