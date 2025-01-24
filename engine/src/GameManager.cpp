@@ -26,7 +26,7 @@ void GameManager::Uninitialize() {
   StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
-  //TODO something crashes here :( -m
+  // The crash was due to LIVEUPDATE
   m_audioEngine->Terminate();
 }
 
