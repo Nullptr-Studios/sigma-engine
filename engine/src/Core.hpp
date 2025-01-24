@@ -8,14 +8,15 @@
 
 #pragma once
 #include <json.hpp>
+#include <pch.hpp>
 
 namespace FNFE {
 
 typedef unsigned int id_t;     ///< @typedef id_t   @brief Type definition for object IDs
 typedef nlohmann::json json_t; ///< @typedef json_t @brief Type definition for json files
 
-#define FNFE_FACTORY Factory::GetInstance() ///< @def FNFE_FACTORY @brief Gets Factory instance
-#define FNFE_MANAGER GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
+#define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
+#define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
 
 /**
  * @enum EngineState

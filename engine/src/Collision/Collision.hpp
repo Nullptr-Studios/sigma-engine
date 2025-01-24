@@ -7,6 +7,8 @@
  */
 #pragma once
 #include "Core.hpp"
+#include "aecore/AEVec3.h"
+#include "aecore/AEVec2.h"
 
 namespace FNFE::Collision {
 
