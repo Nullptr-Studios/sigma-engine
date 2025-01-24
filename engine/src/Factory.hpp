@@ -41,6 +41,7 @@ public:
   Factory(GameManager* manager, void(GameManager::*callback)(Event &e))
     : m_managerInstance(manager), m_managerCallback(callback) {
     m_instance = this;
+    InitializeTriList();
   }
   ~Factory();
 
@@ -98,6 +99,8 @@ public:
 
 #pragma endregion
 
+  AEGfxTriList* GetSharedTriList() { return m_tris; } ///< @brief Returns the shared TriList
+
   static Factory* GetInstance() {
     if (m_instance == nullptr) {
       throw std::runtime_error("Factory instance not created");
@@ -111,6 +114,15 @@ private:
 
   GameManager* m_managerInstance;
   void(GameManager::*m_managerCallback)(Event&);
+
+  /**
+   * @brief TriList for rendering
+   *
+   * This is a pointer to the TriList that will be used to render all renderables in the game.
+   */
+  AEGfxTriList* m_tris = nullptr;
+
+  void InitializeTriList(); ///< @brief Initializes the TriList
 
   /**
    * @brief Map that contains all objects

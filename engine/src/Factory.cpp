@@ -4,6 +4,7 @@ namespace FNFE {
 
 Factory *Factory::m_instance = nullptr;
 
+
 Factory::~Factory() {
   DestroyAllObjects();
   FreeAllTextures();
@@ -51,6 +52,17 @@ void Factory::FreeAllTextures() {
     AEGfxTextureUnload(texture);
     m_textures.erase(filepath);
   }
+}
+
+void Factory::InitializeTriList()
+{
+  AEGfxTriStart();
+  AEGfxTriAdd(-0.5f, -0.5f, AE_COLORS_WHITE, 0.0f, 0.0f, -0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, -0.5f,
+              AE_COLORS_WHITE, 1.0f, 0.0f);
+  AEGfxTriAdd(-0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, 0.5f, AE_COLORS_WHITE, 1.0f, 1.0f, 0.5f, -0.5f,
+              AE_COLORS_WHITE, 1.0f, 0.0f);
+
+  m_tris = AEGfxTriEnd();
 }
 
 }
