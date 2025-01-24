@@ -21,8 +21,8 @@ void Actor::Init() {
 
 void Actor::Destroy() {
   Object::Destroy();
-  FNFE_FACTORY->FreeTexture(m_texturePath);
-  m_texture = nullptr;
+  /*FNFE_FACTORY->FreeTexture(m_texturePath);
+  m_texture = nullptr;*/
 
 }
 
