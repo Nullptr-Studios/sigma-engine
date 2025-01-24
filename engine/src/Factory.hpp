@@ -68,6 +68,12 @@ public:
    */
   void DestroyObject(id_t id);
 
+  /**
+   * Destroys an object by its reference
+   * @param object Object reference
+   */
+  void DestroyObejct(Object& object);
+
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map

@@ -14,7 +14,13 @@ Factory::~Factory() {
 
 void Factory::DestroyObject(id_t id) {
   m_objects[id]->Destroy();
+  m_objects[id].reset();
   m_objects.erase(id);
+}
+
+void Factory::DestroyObejct(Object &object)
+{
+  DestroyObject(object.GetId());
 }
 
 void Factory::DestroyAllObjects() {
