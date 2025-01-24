@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(Fight Night Finale Engine)
+project(Fight_Night_Finale_Engine LANGUAGES CXX)
 
 
 set(CMAKE_CXX_STANDARD 23)

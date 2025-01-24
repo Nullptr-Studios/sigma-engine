@@ -14,7 +14,23 @@ add_executable(engine_test src/main.cpp
         ${SRC}
 )
 
-target_link_libraries(engine_test fnf_E)
+target_link_libraries(engine_test PRIVATE fnf_E)
+
+# FMOD shit
+if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+    message("debug mode")
+    target_link_libraries(fnf_E PUBLIC fmodL_vc)
+    target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
+    
+elseif (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+    message("release mode")
+    target_link_libraries(fnf_E PUBLIC fmod_vc)
+    target_link_libraries(fnf_E PUBLIC fmodstudio_vc)
+    
+else ()
+    message("unknown mode")
+
+endif ()
 
 #copy res folder to build directory
 add_custom_command(TARGET engine_test POST_BUILD
