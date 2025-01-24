@@ -15,7 +15,9 @@ Factory::~Factory() {
 void Factory::DestroyObject(id_t id) {
   m_objects[id]->Destroy();
   m_objects[id].reset();
+  m_renderables[id].reset();
   m_objects.erase(id);
+  m_renderables.erase(id);
 }
 
 void Factory::DestroyObejct(Object &object)

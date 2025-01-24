@@ -70,6 +70,7 @@ void GameManager::Run() {
     // TODO: For Each Actor UpdateCollisionList(actor.getCollider());
     // TODO: For Each Actor CollideObject(obj,other_obj);
     // Tick
+    auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
       object->Update(AEGetFrameTime());
     }
