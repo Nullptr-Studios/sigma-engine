@@ -6,11 +6,22 @@ namespace FNFE {
 
 /*
 TODO:
-
+  Make this more performant!
+  IK you can just call this at object creation but if you do that you can't hotswap it :( -a
  */
+void PlayerController::CheckControllers() {
+  for (int i = 0; i<=3; i++) {
+    if (AEInputGamepadConnected(i)) {
+      m_controllerId = i;
+      return;
+    }
+  }
+  m_controllerId = -1;
+}
 
 // i guess we will never know what to do -x
 void PlayerController::Update() {
+  CheckControllers();
   m_inputSystem.UpdateInput(m_controllerId);
   if (m_state != ACTION) {
     std::string action = m_inputSystem.GetAction();

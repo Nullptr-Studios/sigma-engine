@@ -46,6 +46,12 @@ private:
   float maxVelocity = 10.0f; ///@brief max player acceleration
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
+
+  /**
+   * @brief checks if any gamepad is connected, sets controller id to gamepad id
+   */
+  //TODO: make this work with multiple controllers
+void CheckControllers();
   /**
    * @brief helper function to update movement
    * @param movement_action specified movement action
@@ -66,7 +72,6 @@ private:
   /**
    * @brief id of the controller being used
    */
-  //TODO: Maybe I'm dumb but I don't see how u actually get controller id -a
   int m_controllerId = -1;
   /**
    * @brief input system that manages input
