@@ -8,6 +8,15 @@
 #pragma once
 #include "Core.hpp"
 
+/**
+ * @enum ColliderFlag bitwise enum for detecting collisions
+ */
+enum ColliderFlag {
+    PLAYER = 1 << 0, ///<@brief binary 0001
+    ENEMY = 1 << 1, ///<@brief binary 0010
+    UI = 1 << 2, ///<@brief binary 0100
+};
+
 namespace FNFE {
 class Actor;
 }
@@ -19,18 +28,10 @@ struct Collision;
  * @struct RectCollider a struct for the rect Collider
  */
 struct RectCollider {
-  /**
-   * @brief all the offsets for each box collider in the collider
-   */
-  std::vector<AEVec3> m_boxPoints;
-  /**
-   * @brief all the scales for each box collider in the collider
-   */
-  std::vector<AEVec3> m_boxScales;
-  /**
-   * @brief all the collision that are happening on this frame
-   */
-  std::unordered_map<id_t, Collision> m_boxCollisionDataMap;
+  unsigned flag; ///<@brief bitwise enum for what can the collider collide with
+  std::vector<AEVec3> m_boxPoints; ///<@brief all the offsets for each box collider in the collider
+  std::vector<AEVec3> m_boxScales; ///<@brief all the scales for each box collider in the collider
+  std::unordered_map<id_t, Collision> m_boxCollisionDataMap; ///<@brief all the collision that are happening on this frame
 };
 
 
@@ -41,7 +42,9 @@ struct RectCollider {
  * @param objB
  * @return
  */
-bool CollideObject(Actor &objA, FNFE::Actor &objB);
+bool CollideObject(Actor *objA, FNFE::Actor *objB);
+
+bool CollideObject(RectCollider *colliderA, RectCollider *colliderB);
 
 /**
  * @brief adds a collision to both of the colliders and if there's already a collision between
@@ -50,17 +53,17 @@ bool CollideObject(Actor &objA, FNFE::Actor &objB);
  * @param objA
  * @param objB
  */
-void AddCollision(Actor &objA, FNFE::Actor &objB);
+void AddCollision(Actor *objA, FNFE::Actor *objB);
 
 /**
  * @brief Iterates around the collisionMap and updates all the collisions
  * to either on EXIT or delete it if already on exit
  * @param objA
  */
-void UpdateCollisionList(RectCollider &objA);
+void UpdateCollisionList(RectCollider *objA);
 
 // DEBUG
 void TestCollider();
 void TestCollisionChecks();
-void DrawRectCollider(const Actor obj, unsigned color);
+void DrawRectCollider(const Actor *obj, unsigned color);
 } // namespace FNFE::Collision
