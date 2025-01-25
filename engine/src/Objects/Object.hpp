@@ -41,7 +41,7 @@ struct Transform {
    * This is used in order to have a camera instead of screen coordinates
    * @return AEMtx44
    */
-  [[nodiscard]] AEMtx44& GetMatrix4() const {
+  [[nodiscard]] AEMtx44 GetMatrix4() const {
     // Thy the fuck are Mtx33 and Mtx44 so different -x
     AEMtx44 world = AEMtx44::Identity();
     AEMtx44 scaleMat, rotateMat, translateMat;

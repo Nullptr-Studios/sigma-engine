@@ -12,6 +12,8 @@ Factory::~Factory() {
 }
 
 void Factory::DestroyObject(id_t id) {
+  std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
+  
   m_objects[id]->Destroy();
   m_objects[id].reset();
   m_renderables.erase(
