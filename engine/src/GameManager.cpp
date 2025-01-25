@@ -78,6 +78,8 @@ void GameManager::Run() {
     // Render
     for (const auto& renderableId : m_factory->GetRenderables()) {
       auto actor = static_cast<Actor*>(m_factory->GetObject(renderableId));
+      if (!actor->GetStartHandled()) continue; // We do this because the object has not had its Start method done yet
+      
       AEMtx44 camera = m_activeCamera->GetCameraMatrix();
       AEMtx44 transform = actor->transform.GetMatrix4();
       AEMtx44 viewMatrix = camera * transform;
