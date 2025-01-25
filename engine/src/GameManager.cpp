@@ -78,7 +78,7 @@ for (const auto& renderableId : m_factory->GetRenderables()) {
   for (const auto& renderableId2 : m_factory->GetRenderables()) {
     auto actorB = static_cast<Actor*>(m_factory->GetObject(renderableId2));
     if (actorA != actorB) {
-      std::cout << Collision::CollideObject(actorA, actorB);
+      Collision::CollideObject(actorA, actorB);
       // Collision::DrawRectCollider(actorA, AE_COLORS_BLUE);
       // Collision::DrawRectCollider(actorB, AE_COLORS_BLUE);
     }

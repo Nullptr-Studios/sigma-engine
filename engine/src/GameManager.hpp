@@ -59,6 +59,8 @@ public:
    */
   void LoadScene(Scene* scene);
 
+  Scene* GetCurrentScene() { return m_currentScene; }
+
   void OnEvent(Event& e);
 
   // TODO: Create a camera controller at some point

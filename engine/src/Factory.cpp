@@ -23,7 +23,7 @@ void Factory::DestroyObject(id_t id) {
   m_objects.erase(id);
 }
 
-void Factory::DestroyObejct(Object *object)
+void Factory::DestroyObject(Object *object)
 {
   DestroyObject(object->GetId());
 }

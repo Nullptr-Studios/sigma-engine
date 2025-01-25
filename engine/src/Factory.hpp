@@ -74,7 +74,7 @@ public:
    * Destroys an object by its reference
    * @param object Object reference
    */
-  void DestroyObejct(Object* object);
+  void DestroyObject(Object* object);
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
