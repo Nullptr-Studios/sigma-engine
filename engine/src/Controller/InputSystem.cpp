@@ -60,7 +60,6 @@ void InputSystem::UpdateDirection(int controllerId) {
       m_movementBuffer = AEInputGamepadStickRight(controllerId);
     }
   }
-    std::cout << m_movementBuffer.x << ", " << m_movementBuffer.y << std::endl;
 }
 
 void InputSystem::UpdateActions(int controllerId) {

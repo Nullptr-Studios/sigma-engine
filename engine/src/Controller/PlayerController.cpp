@@ -8,6 +8,8 @@ namespace FNFE {
 TODO:
 
  */
+
+// i guess we will never know what to do -x
 void PlayerController::Update() {
   m_inputSystem.UpdateInput(m_controllerId);
   if (m_state != ACTION) {
@@ -80,9 +82,6 @@ void PlayerController::UpdateMovement() {
     m_state = IDLE; // Transition to IDLE when velocity is 0
   }
 
-  // Debug output (optional)
-  std::cout << "Position: " << m_character->transform.position.x << ", " << m_character->transform.position.y
-            << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
 }
 
 
