@@ -26,6 +26,7 @@ void GameManager::Uninitialize() {
   StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
+  m_factory->FreeAllTextures();
   
   AEGfxTriFree(m_factory->GetSharedTriList());
 
@@ -41,7 +42,7 @@ void GameManager::GameInit()
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
 
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
-  m_factory->FreeAllTextures();
+  //m_factory->FreeAllTextures();
   
   // Initialize audio engine
   m_audioEngine = std::make_unique<AudioEngine>();

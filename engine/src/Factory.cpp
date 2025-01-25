@@ -51,7 +51,9 @@ AEGfxTexture* Factory::LoadTexture(const char* filepath) {
   }
   
   std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
-  auto t = m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
+  auto Tx = AEGfxTextureLoad(filepath);
+  AEGfxTextureSetFilters(Tx, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
+  auto t = m_textures.emplace(filepath, Tx);
   return t.first->second;
 }
 
@@ -68,8 +70,9 @@ void Factory::FreeTexture(const char *filepath) {
 void Factory::FreeAllTextures() {
   for (auto& [filepath, texture]: m_textures) {
     AEGfxTextureUnload(texture);
-    m_textures.erase(filepath);
+    // m_textures.erase(filepath);
   }
+  m_textures.clear();
 }
 
 void Factory::InitializeTriList()
