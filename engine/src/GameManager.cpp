@@ -55,6 +55,7 @@ void GameManager::GameInit()
   // Start
   for (const auto& [id, object] : m_factory->GetObjects()) {
     object->Start();
+    object->SetStartHandled();
   }
 }
 
@@ -72,6 +73,10 @@ void GameManager::Run() {
     // Tick
     auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
+      if (!object->GetStartHandled()) {
+        object->Start();
+        object->SetStartHandled();
+      }
       object->Update(AEGetFrameTime());
     }
 

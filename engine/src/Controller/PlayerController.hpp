@@ -28,14 +28,21 @@ enum PlayerState {
 };
 
 /**
- * @class PlayerController manages per player input and actions
+ * @class PlayerController
+ * @brief Manages per player input and actions
  */
 class PlayerController final : public ControllerComponent {
 public:
   PlayerController(Character* character) : ControllerComponent(character) {}
   ~PlayerController() override {}
-  void Update() override;
-
+  void Update() override; ///< @brief Call this every frame to update the player position
+  /**
+   * @brief Get the direction the player is facing
+   * This is like the direction the player is moving, but it never returns a zero value
+   * @return The direction the player last moved
+   */
+  AEVec2 GetFacingDirection() const { return m_facingDirection; }
+  
 private:
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
@@ -69,5 +76,9 @@ private:
    * @brief what state the player is in
    */
   PlayerState m_state = IDLE;
+  
+  AEVec2 m_facingDirection = AEVec2(1.0f, 0.0f); ///< @brief Direction the player last moved
+  
 };
-} // namespace FNFE
+
+}

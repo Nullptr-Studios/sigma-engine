@@ -28,6 +28,10 @@ void PlayerController::UpdateMovement() {
   bool isMovingX = movement.x != 0.f;
   bool isMovingY = movement.y != 0.f;
 
+  if (isMovingX || isMovingY) {
+    m_facingDirection = AEVec2(movement.x, movement.y);
+  }
+
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
   if (isMovingX) {
     // Apply acceleration and clamp velocity
@@ -78,8 +82,8 @@ void PlayerController::UpdateMovement() {
   }
 
   // Debug output (optional)
-  std::cout << "Position: " << m_position.x << ", " << m_position.y
-            << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
+  // std::cout << "Position: " << m_position.x << ", " << m_position.y
+  //           << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
 }
 
 
