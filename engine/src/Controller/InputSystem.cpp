@@ -1,6 +1,44 @@
 #include "InputSystem.hpp"
+#include <fstream>
+
 namespace FNFE {
 
+InputSystem::InputSystem(const std::string& keybindPath) {
+  m_inputBuffer = {};
+  std::ifstream file(keybindPath);
+  auto keybinds =  nlohmann::json::parse(file);
+  std::cout << keybinds << std::endl;
+  std::string moveStick = keybinds["gamepad"]["sticks"]["movement"];
+  if (moveStick == "left") {
+    m_movementStick = 0;//left
+  } else {
+    m_movementStick = 1;//right
+  }
+  auto kMovement = keybinds["keyboard"]["movement"];
+  auto kActions = keybinds["keyboard"]["actions"];
+  auto gActions = keybinds["gamepad"]["action"];
+  for (auto &item: kMovement.items()) {
+    std::basic_string<char> key = item.key();
+    std::basic_string<char> value = item.value();
+    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    m_keyboardMovement.insert(pair);
+  }
+
+  for (auto &item: kActions.items()) {
+    std::basic_string<char> key = item.key();
+    std::basic_string<char> value = item.value();
+    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    m_keyboardActions.insert(pair);
+  }
+
+  for (auto &item: gActions.items()) {
+    std::basic_string<char> key = item.key();
+    std::basic_string<char> value = item.value();
+    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    m_gamepadActions.insert(pair);
+  }
+}
+  
 /**
  * @def CHECK_INPUT(G_CODE, K_CODE)
  * @brief Checks whether a specific key or gamepad button is triggered.
@@ -15,55 +53,73 @@ namespace FNFE {
 #define CHECK_INPUT(G_CODE,K_CODE) (controllerId <0)?AEInputKeyTriggered(K_CODE):AEInputGamepadButtonTriggered(controllerId, G_CODE)
 void InputSystem::UpdateInput(int controllerId) {
   // Use gamepad stick or keyboard keys for player movement
-  if (controllerId >=0 ) {
-    m_directionBuffer = AEInputGamepadStickLeft(controllerId);
-  } else {
-    m_directionBuffer = {};
-    m_directionBuffer.x -= AEInputKeyPressed(K_LEFT);
-    m_directionBuffer.x += AEInputKeyPressed(K_RIGHT);
-    m_directionBuffer.y -= AEInputKeyPressed(K_DOWN);
-    m_directionBuffer.y += AEInputKeyPressed(K_UP);
-  }
-  AEVector2Normalize(&m_directionBuffer, &m_directionBuffer);
+  UpdateDirection(controllerId);
   // Use Gamepad buttons vs keyboard keys for player actions
-  if (CHECK_INPUT(G_NORMAL, K_NORMAL)) {
-    m_inputBuffer = PLAYER_NORMAL;
-    m_timeBuffer = time(nullptr);
-  } else if (CHECK_INPUT(G_SECONDARY,K_SECONDARY)) {
-    m_inputBuffer = PLAYER_SECONDARY;
-    m_timeBuffer = time(nullptr);
-  } else if (CHECK_INPUT(G_JUMP,K_JUMP)) {
-    m_inputBuffer = PLAYER_JUMP;
-    m_timeBuffer = time(nullptr);
-  } else if (CHECK_INPUT(G_ULT,K_ULT)) {
-    m_inputBuffer = PLAYER_ULT;
-    m_timeBuffer = time(nullptr);
+  UpdateActions(controllerId);
+}
+
+void InputSystem::UpdateDirection(int controllerId) {
+  if (controllerId == -1 ) {
+    if(AEInputKeyTriggered(m_keyboardMovement["up"][0])){m_movementBuffer.y+=1;}
+    if(AEInputKeyTriggered(m_keyboardMovement["left"][0])){m_movementBuffer.x-=1;}
+    if(AEInputKeyTriggered(m_keyboardMovement["down"][0])){m_movementBuffer.y-=1;}
+    if(AEInputKeyTriggered(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
   } else {
-    if (m_inputBuffer != NULL_ACTION && (time(nullptr), m_timeBuffer) > 2) {
-      m_inputBuffer = NULL_ACTION;
-      std::cout << "InputBuffer Timeout\n";
+    if (m_movementStick == 0) { // if left stick
+      m_movementBuffer = AEInputGamepadStickLeft(controllerId);
+    } else if (m_movementStick == 1) { //if right stick
+      m_movementBuffer = AEInputGamepadStickRight(controllerId);
     }
+  }
+  if (m_movementBuffer.x != 0 && m_movementBuffer.y != 0) {
+    std::cout << m_movementBuffer.x << ", " << m_movementBuffer.y << std::endl;
   }
 }
 
-PlayerAction InputSystem::GetAction() {
-  PlayerAction tmp = m_inputBuffer;
-  m_inputBuffer = NULL_ACTION;
+void InputSystem::UpdateActions(int controllerId) {
+  if (controllerId == -1 ) {
+    for (auto action : m_keyboardActions) {
+      if (AEInputKeyTriggered(action.second[0])) {
+        m_inputBuffer = action.first;
+        m_timeBuffer = time(nullptr);
+        std::cout << action.first << std::endl;
+        return;
+      }
+    }
+  } else {
+    for (auto action : m_gamepadActions) {
+      if (AEInputGamepadButtonTriggered(controllerId,ToGamepadKey(action.second[0]))) {
+        m_inputBuffer = action.first;
+        m_timeBuffer = time(nullptr);
+        return;
+      }
+    }
+  }
+  if (!m_inputBuffer.empty() && (time(nullptr) - m_timeBuffer) > .1f) {
+    std::cout << "InputBuffer Timeout\n";
+    m_inputBuffer.clear();
+  }
+}
+
+std::string InputSystem::GetAction() {
+  std::string tmp = m_inputBuffer;
+  m_inputBuffer.clear();
   return tmp;
 }
 
-char ToChar(PlayerAction action) {
-  switch (action) {
-    case PLAYER_NORMAL:
-      return 'A';
-    case PLAYER_SECONDARY:
-      return 'X';
-    case PLAYER_JUMP:
-      return 'B';
-    case PLAYER_ULT:
-      return 'Y';
+int ToGamepadKey(char button) {
+  switch (button) {
+    case 'X':
+      return AE_GAMEPAD_X;
+    case 'Y':
+      return AE_GAMEPAD_Y;
+    case 'A':
+      return AE_GAMEPAD_A;
+    case 'B':
+      return AE_GAMEPAD_B;
     default:
       return '?';
   }
 }
+
 } // namespace FNFE
