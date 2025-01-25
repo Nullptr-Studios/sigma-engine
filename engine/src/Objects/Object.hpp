@@ -83,7 +83,7 @@ public:
    * @brief This function is called whenever you send a message to any Object
    * The simple and incredible FNF Event System (tm) is used for sending messages between objects
    * @param sender Object that sent the original message
-   * @return A bool telling if the message has been handled and shouldn't propagate
+      * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnMessage(Object* sender) { return false; }
   /**
