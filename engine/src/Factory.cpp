@@ -4,7 +4,6 @@ namespace FNFE {
 
 Factory *Factory::m_instance = nullptr;
 
-
 Factory::~Factory() {
   DestroyAllObjects();
   FreeAllTextures();
@@ -15,9 +14,11 @@ Factory::~Factory() {
 void Factory::DestroyObject(id_t id) {
   m_objects[id]->Destroy();
   m_objects[id].reset();
-  m_renderables[id].reset();
+  m_renderables.erase(
+    std::remove(m_renderables.begin(), m_renderables.end(), id), 
+    m_renderables.end()
+  );
   m_objects.erase(id);
-  m_renderables.erase(id);
 }
 
 void Factory::DestroyObejct(Object &object)
@@ -32,6 +33,10 @@ void Factory::DestroyAllObjects() {
   }
   m_objects.clear();
   m_renderables.clear();
+}
+
+Object* Factory::GetObjectA(id_t id) {
+  return m_objects[id].get();
 }
 
 AEGfxTexture* Factory::LoadTexture(const char* filepath) {

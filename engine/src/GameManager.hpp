@@ -75,7 +75,7 @@ private:
 
   Scene* m_currentScene = nullptr;
 
-  std::shared_ptr<Camera> m_activeCamera;
+  Camera* m_activeCamera;
 };
 
 } // FNFE
