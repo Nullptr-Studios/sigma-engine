@@ -34,7 +34,7 @@ void PlayerController::UpdateMovement() {
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
   if (isMovingX) {
     // Apply acceleration and clamp velocity
-    velocityX += acceleration * movement.x;
+    velocityX = std::clamp(velocityX + acceleration * movement.x, -maxVelocity, maxVelocity);
     // Ensure velocity doesn't exceed max speed if necessary (optional)
     // velocityX = std::clamp(velocityX, -MAX_VELOCITY, MAX_VELOCITY);
   } else {
@@ -52,7 +52,7 @@ void PlayerController::UpdateMovement() {
   }
 
   if (isMovingY) {
-    velocityY += acceleration * movement.y;
+    velocityY = std::clamp(velocityY + acceleration * movement.y, -maxVelocity, maxVelocity);
     // Ensure velocity doesn't exceed max speed if necessary (optional)
     // velocityY = std::clamp(velocityY, -MAX_VELOCITY, MAX_VELOCITY);
   } else {
@@ -81,7 +81,7 @@ void PlayerController::UpdateMovement() {
   }
 
   // Debug output (optional)
-  std::cout << "Position: " << m_position.x << ", " << m_position.y
+  std::cout << "Position: " << m_character->transform.position.x << ", " << m_character->transform.position.y
             << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
 }
 

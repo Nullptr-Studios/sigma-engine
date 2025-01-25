@@ -43,7 +43,7 @@ public:
   
 private:
   float acceleration = 0.1f; /// @brief player acceleration
-  float maxVelocity = 10000.0f; ///@brief max player acceleration
+  float maxVelocity = 10.0f; ///@brief max player acceleration
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
   /**
