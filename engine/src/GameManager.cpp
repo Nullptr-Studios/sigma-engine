@@ -70,18 +70,20 @@ void GameManager::Run() {
     // TODO: For Each Actor UpdateCollisionList(actor.getCollider());
     // TODO: For Each Actor CollideObject(obj,other_obj);
     // Tick
+    auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
       object->Update(AEGetFrameTime());
     }
 
     // Render
-    for (const auto& [id, renderable] : m_factory->GetRenderables()) {
+    for (const auto& renderableId : m_factory->GetRenderables()) {
+      auto actor = static_cast<Actor*>(m_factory->GetObject(renderableId));
       AEMtx44 camera = m_activeCamera->GetCameraMatrix();
-      AEMtx44 transform = renderable->transform.GetMatrix4();
+      AEMtx44 transform = actor->transform.GetMatrix4();
       AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
-      if(renderable->GetTexture() != nullptr)
-        AEGfxTextureSet(renderable->GetTexture());
+      if(actor->GetTexture() != nullptr)
+        AEGfxTextureSet(actor->GetTexture());
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
   }

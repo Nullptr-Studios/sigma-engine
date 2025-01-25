@@ -53,6 +53,4 @@ private:
   AEGfxTexture* m_texture = nullptr;
 };
 
-typedef std::unordered_map<id_t, std::shared_ptr<Actor>> ActorMap;
-
 }

@@ -31,6 +31,8 @@ class GameManager;
  */
 class Factory {
 
+  typedef std::list<id_t> ActorList;
+
   /**
    * @typedef TextureMap
    * @brief Type used for mapping
@@ -57,10 +59,10 @@ public:
    *
    * @tparam T Object type
    * @param name Object name
-   * @return Shared pointer of the created object
+   * @return Pointer of the created object
    */
   template <typename T, typename = std::enable_if_t<std::is_base_of_v<Object, T>>>
-  std::shared_ptr<T> CreateObject(const std::string& name = "Unnamed Object");
+  T* CreateObject(const std::string& name = "Unnamed Object");
 
   /**
    * Destroys an object by its ID
@@ -77,7 +79,9 @@ public:
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
-  ActorMap GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
+  Object* GetObject(id_t id); ///< @brief Returns an object by ID
+  
+  ActorList GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 
@@ -138,12 +142,11 @@ private:
    */
   ObjectMap m_objects;
   /**
-   * @brief Map that contains all renderable objects
+   * @brief List that contains all renderable objects
    *
-   * This map contains a @c std::shared_ptr for every object (Actor class or inherited) that is renderable in the game
-   * stored by its ID. This map os used for rendering objects in game.
+   * This list contains the @c id_t of every renderable object (@c Actor) so they can be called on the draw call
    */
-  ActorMap m_renderables;
+  ActorList m_renderables;
   /**
    * @brief Map that contains all textures
    *
@@ -155,7 +158,7 @@ private:
 
 // Object declaration
 template<typename T, typename>
-std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
+T* Factory::CreateObject(const std::string& name) {
   std::shared_ptr<T> obj = std::make_shared<T>(m_currentId);
   obj->SetName(name);
   // dont even ask about this -x
@@ -169,16 +172,14 @@ std::shared_ptr<T> Factory::CreateObject(const std::string& name) {
 
   m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
 
-  if constexpr (std::is_base_of_v<Actor, T>) {
-    m_renderables.emplace(obj->GetId(), std::static_pointer_cast<Actor>(obj));
-  }
+  if constexpr (std::is_base_of_v<Actor, T>) m_renderables.emplace_back(obj->GetId());
   std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
   if (StateManager::GetEngineState() == IN_GAME) obj->Start();
   
-  return obj;
+  return obj.get();
 }
 
 }
