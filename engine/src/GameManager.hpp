@@ -61,6 +61,9 @@ public:
 
   void OnEvent(Event& e);
 
+  // TODO: Create a camera controller at some point
+  void ChangeCamera(Camera* camera) { m_activeCamera = camera; }
+
 private:
   static GameManager* m_instance;
 
