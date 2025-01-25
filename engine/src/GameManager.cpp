@@ -90,8 +90,8 @@ void GameManager::Run() {
       AEMtx44 transform = actor->transform.GetMatrix4();
       AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
-      if(actor->GetTexture() != nullptr)
-        AEGfxTextureSet(actor->GetTexture());
+      AEGfxTextureSet(actor->GetTexture());
+      AEGfxSetTextureTransform(actor->GetTextureTransform());
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
   }

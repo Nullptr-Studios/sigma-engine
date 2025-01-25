@@ -46,11 +46,17 @@ public:
    */
   void SetTexture(const char* path);
 
+  void SetTextureTransform(AEMtx33 NewTxT);
+  
+  AEMtx33* GetTextureTransform() { return &m_tMtx; }
+
 protected:
   Collision::RectCollider * m_collider = nullptr;
 private:
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
+
+  AEMtx33 m_tMtx;
 };
 
 }

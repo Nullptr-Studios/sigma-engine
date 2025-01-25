@@ -64,6 +64,7 @@ public:
   // TODO: Create a camera controller at some point
   void ChangeCamera(Camera* camera) { m_activeCamera = camera; }
 
+  Camera* GetActiveCamera() { return m_activeCamera; }
 private:
   static GameManager* m_instance;
 
