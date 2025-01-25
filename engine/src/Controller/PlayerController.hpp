@@ -32,14 +32,13 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Character* character) : ControllerComponent(character) {
-    velocity = 0;
-  }
+  PlayerController(Character* character) : ControllerComponent(character) {}
   ~PlayerController() override {}
   void Update() override;
 
 private:
-  float velocity; ///@brief player velocity variable, 0 by default
+  float velocityX = 0; ///@brief player velocity variable, 0 by default
+  float velocityY = 0; ///@brief player velocity variable, 0 by default
   /**
    * @brief helper function to update movement
    * @param movement_action specified movement action

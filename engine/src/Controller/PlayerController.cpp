@@ -2,7 +2,9 @@
 #include "InputSystem.hpp"
 #include "Objects/Character.hpp"
 #include "Objects/Object.hpp"
+
 namespace FNFE {
+
 /*
 TODO:
 
@@ -15,7 +17,7 @@ void PlayerController::Update() {
       PlayAction(action);
       return;
     }
-   UpdateMovement();
+    UpdateMovement();
   }
 }
 
@@ -23,44 +25,72 @@ void PlayerController::UpdateMovement() {
   AEVec2 movement = m_inputSystem.GetMovement();
 
   // Check for movement input
-  bool isMoving = movement.Length() > 0.001f;
+  bool isMovingX = movement.x != 0.f;
+  bool isMovingY = movement.y != 0.f;
 
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
-  if (isMoving) {
+  if (isMovingX) {
     // Apply acceleration and clamp velocity
-    velocity += 0.1f;
+    velocityX += 0.1f * movement.x;
+    // Ensure velocity doesn't exceed max speed if necessary (optional)
+    // velocityX = std::clamp(velocityX, -MAX_VELOCITY, MAX_VELOCITY);
   } else {
     // Deceleration: When there's no movement, decrease velocity
-    if (velocity > 0.0f) {
-      velocity -= PLAYER_ACCELERATION;
-      if (velocity < 0.0f) {
-        velocity = 0.0f; // Prevent going below zero
+    if (velocityX != 0.f) {
+      // Apply deceleration towards zero
+      if (velocityX > 0.f) {
+        velocityX -= PLAYER_ACCELERATION;
+        if (velocityX < 0.f) velocityX = 0.f;  // Clamp to zero if overshooting
+      } else if (velocityX < 0.f) {
+        velocityX += PLAYER_ACCELERATION;
+        if (velocityX > 0.f) velocityX = 0.f;  // Clamp to zero if overshooting
+      }
+    }
+  }
+
+  if (isMovingY) {
+    velocityY += 0.1f * movement.y;
+    // Ensure velocity doesn't exceed max speed if necessary (optional)
+    // velocityY = std::clamp(velocityY, -MAX_VELOCITY, MAX_VELOCITY);
+  } else {
+    // Deceleration: When there's no movement, decrease velocity
+    if (velocityY != 0.f) {
+      // Apply deceleration towards zero
+      if (velocityY > 0.f) {
+        velocityY -= PLAYER_ACCELERATION;
+        if (velocityY < 0.f) velocityY = 0.f;  // Clamp to zero if overshooting
+      } else if (velocityY < 0.f) {
+        velocityY += PLAYER_ACCELERATION;
+        if (velocityY > 0.f) velocityY = 0.f;  // Clamp to zero if overshooting
       }
     }
   }
 
   // Update position based on movement direction and velocity
-  m_position = {movement.x * velocity, movement.y * velocity, 0};
+  m_position = {velocityX, velocityY, 0};
   m_character->transform.position += m_position;
 
   // Transition to MOVING state if velocity is above a small threshold
-  if (velocity > 0.0f) {
+  if (std::abs(velocityX) > 0.1f || std::abs(velocityY) > 0.1f) {
     m_state = MOVING;
   } else {
     m_state = IDLE; // Transition to IDLE when velocity is 0
   }
 
   // Debug output (optional)
-  std::cout << "Position: " << m_position.x << ", " << m_position.y << " Velocity: " << velocity << std::endl;
+  std::cout << "Position: " << m_position.x << ", " << m_position.y
+            << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
 }
+
 
 void PlayerController::PlayAction(PlayerAction action) {
   m_state = ACTION;
-  std::cout << "Action: " <<ToChar(action) << "\n";
+  std::cout << "Action: " << ToChar(action) << "\n";
   // TODO: Do Animation
   // TODO: After animation return to NEURTRAL
   EndAction(action);
 }
+
 void PlayerController::EndAction(PlayerAction action) { m_state = IDLE; }
 
 } // namespace FNFE
