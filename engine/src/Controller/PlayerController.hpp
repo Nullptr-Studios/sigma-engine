@@ -31,7 +31,7 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Character* character) : ControllerComponent(character), m_inputSystem("assets/core/keybind.json") {}
+  PlayerController(Character* character) : ControllerComponent(character), m_inputSystem("assets/core/keybinds.json") {}
   ~PlayerController() override {}
   void Update() override; ///< @brief Call this every frame to update the player position
   /**
@@ -67,7 +67,7 @@ private:
    * @brief id of the controller being used
    */
   //TODO: Maybe I'm dumb but I don't see how u actually get controller id -a
-  int m_controllerId;
+  int m_controllerId = -1;
   /**
    * @brief input system that manages input
    */

@@ -81,8 +81,8 @@ void PlayerController::UpdateMovement() {
   }
 
   // Debug output (optional)
-  // std::cout << "Position: " << m_position.x << ", " << m_position.y
-  //           << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
+  std::cout << "Position: " << m_position.x << ", " << m_position.y
+            << " VelocityX: " << velocityX << " velocityY: " << velocityY << std::endl;
 }
 
 
