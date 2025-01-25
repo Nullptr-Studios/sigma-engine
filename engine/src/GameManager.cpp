@@ -70,7 +70,7 @@ void GameManager::Run() {
 
   if (m_currentScene != nullptr)
   {
-    // Collisions
+        // Collisions
     // For Each Actor UpdateCollisionList(actor.getCollider());
 auto renderable = m_factory->GetRenderables();
 
@@ -80,15 +80,37 @@ for (const auto& renderableId : renderable) {
     continue;
   UpdateCollisionList(updateActor->GetCollider());
 }
-    // For Each Actor CollideObject(obj,other_obj);
-for (int i = 0; i < renderable->size(); i++) {
-  auto actorA = static_cast<Actor*>(m_factory->GetObjectAt(renderable->));
-  if (!actorA->IsInViewport())
-    continue;
-  for (const auto& renderableId2 : m_factory->GetRenderables()) {
-    auto actorB = dynamic_cast<Actor*>(m_factory->GetObjectAt(renderableId2));
-    if (!actorB->IsInViewport())
+   // For Each Actor CollideObject(obj,other_obj);
+    auto renderableA = renderable.begin();
+    int k2 = 0;
+  for (int i = 0; i < renderable.size(); i++) {
+    id_t& idA = *renderableA;
+    auto actorA = dynamic_cast<Actor*>(m_factory->GetObjectAt(idA));
+    if (!actorA->IsInViewport()) {
+
+      if (renderableA != renderable.end()) {
+        
+        k2++;
+      std::advance(renderableA, 1);
       continue;
+      }
+      else {
+        break;
+      }
+    }
+    auto renderableB = renderable.begin();
+    for (int k = k2;k < renderable.size(); k++) {
+      id_t& idB = *renderableB;
+      auto actorB = dynamic_cast<Actor*>(m_factory->GetObjectAt(idB));
+    if (!actorB->IsInViewport()) {
+      if (renderableB != renderable.end()) {
+        
+        std::advance(renderableB, 1);
+        continue;
+      }else {
+        break;
+      }
+    }
     if (actorA != actorB) {
       Collision::CollideObject(actorA, actorB);
 
@@ -96,7 +118,21 @@ for (int i = 0; i < renderable->size(); i++) {
       // Collision::DrawRectCollider(actorA, AE_COLORS_BLUE);
       // Collision::DrawRectCollider(actorB, AE_COLORS_BLUE);
     }
+      if (renderableB != renderable.end()) {
+        std::advance(renderableB, 1);
+
+      }else {
+        break;
+      }
+
   }
+    if (renderableA != renderable.end()) {
+      k2++;
+      std::advance(renderableA, 1); 
+
+    }else {
+      break;
+    }
 }
 #ifndef NDEBUG
 
