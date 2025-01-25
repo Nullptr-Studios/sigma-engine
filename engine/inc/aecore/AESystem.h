@@ -14,12 +14,15 @@
 // ---------------------------------------------------------------------------
 
 // window related variables getters/setters
-HWND     AEGetWindowHandler();
-bool     AESysWindowExists();
-unsigned AEGetSysWindowWidth();
-unsigned AEGetSysWindowHeight();
-void     AESetSysWindowWidth(unsigned w);
-void     AESetSysWindowHeight(unsigned h);
+HWND              AEGetWindowHandler();
+bool              AESysWindowExists();
+unsigned          AEGetSysWindowWidth();
+unsigned          AEGetSysWindowHeight();
+inline AEVec2     AEGetWindowSize() {
+                    return AEVec2(AEGetSysWindowWidth(), AEGetSysWindowHeight());
+                  }
+void              AESetSysWindowWidth(unsigned w);
+void              AESetSysWindowHeight(unsigned h);
 
 // ---------------------------------------------------------------------------
 

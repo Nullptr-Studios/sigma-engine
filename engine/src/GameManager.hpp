@@ -61,6 +61,9 @@ public:
 
   void OnEvent(Event& e);
 
+  // TODO: Create a camera controller at some point
+  void ChangeCamera(Camera* camera) { m_activeCamera = camera; }
+
 private:
   static GameManager* m_instance;
 
@@ -75,7 +78,7 @@ private:
 
   Scene* m_currentScene = nullptr;
 
-  std::shared_ptr<Camera> m_activeCamera;
+  Camera* m_activeCamera;
 };
 
 } // FNFE

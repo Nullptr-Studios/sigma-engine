@@ -13,7 +13,17 @@ Factory::~Factory() {
 
 void Factory::DestroyObject(id_t id) {
   m_objects[id]->Destroy();
+  m_objects[id].reset();
+  m_renderables.erase(
+    std::remove(m_renderables.begin(), m_renderables.end(), id), 
+    m_renderables.end()
+  );
   m_objects.erase(id);
+}
+
+void Factory::DestroyObejct(Object &object)
+{
+  DestroyObject(object.GetId());
 }
 
 void Factory::DestroyAllObjects() {
@@ -25,32 +35,50 @@ void Factory::DestroyAllObjects() {
   m_renderables.clear();
 }
 
+Object* Factory::GetObjectA(id_t id) {
+  return m_objects[id].get();
+}
+
 AEGfxTexture* Factory::LoadTexture(const char* filepath) {
   if (filepath == nullptr) return nullptr;
 
+  // @dante fixed a bug here :) -x
   if (m_textures.contains(filepath)) {
     std::cout << "[Factory] Texture " << filepath << " already exists\n";
     return m_textures[filepath];
-  } else {
-    std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
-    auto t = m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
-    return t.first->second;
   }
+  
+  std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
+  auto t = m_textures.emplace(filepath, AEGfxTextureLoad(filepath));
+  return t.first->second;
 }
 
 void Factory::FreeTexture(const char *filepath) {
-  try {
-    AEGfxTextureUnload(m_textures.at(filepath));
+  if (m_textures.contains(filepath)) {
+    AEGfxTextureUnload(m_textures[filepath]);
     m_textures.erase(filepath);
-  } catch (const std::out_of_range &e) {
-    std::cout << "[Factory] The texture \"" << filepath << "\" doesn't exist. Please create it before trying to delete it\n";
+    return;
   }
+
+  std::cout << "[Factory] Texture " << filepath << " does not have a texture\n";
+  std::cout << "[Factory] Unloading avoided\n";
 }
 void Factory::FreeAllTextures() {
   for (auto& [filepath, texture]: m_textures) {
     AEGfxTextureUnload(texture);
     m_textures.erase(filepath);
   }
+}
+
+void Factory::InitializeTriList()
+{
+  AEGfxTriStart();
+  AEGfxTriAdd(-0.5f, -0.5f, AE_COLORS_WHITE, 0.0f, 0.0f, -0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, -0.5f,
+              AE_COLORS_WHITE, 1.0f, 0.0f);
+  AEGfxTriAdd(-0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, 0.5f, AE_COLORS_WHITE, 1.0f, 1.0f, 0.5f, -0.5f,
+              AE_COLORS_WHITE, 1.0f, 0.0f);
+
+  m_tris = AEGfxTriEnd();
 }
 
 }

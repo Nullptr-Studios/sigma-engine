@@ -26,43 +26,29 @@ void GameManager::Uninitialize() {
   StateManager::SetEngineState(ENGINE_EXIT);
   m_factory->DestroyAllObjects();
 
+  
+  AEGfxTriFree(m_factory->GetSharedTriList());
+
   // The crash was due to LIVEUPDATE
   m_audioEngine->Terminate();
 }
 
-void GameManager::GameInit() {
+void GameManager::GameInit()
+{
   StateManager::SetEngineState(ENGINE_INIT);
-  
-  m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
-  m_factory->FreeAllTextures();
 
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
 
+  m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
+  m_factory->FreeAllTextures();
+  
   // Initialize audio engine
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
-  // {
-  //   //AudioData data = AudioData("res/illegal4.mp3", true, true, 1.0f);
-  //
-  //   //m_audioEngine->Load(data);
-  //   //Master bank is needed to load other banks
-  //   m_audioEngine->LoadBank("res/Master.bank");
-  //   m_audioEngine->LoadBank("res/Master.strings.bank");
-  //
-  //   //Load the music bank
-  //   m_audioEngine->LoadBank("res/Music.bank");
-  //   std::vector<std::pair<const char*, float>> params;
-  //   params.emplace_back("LowPass", 1);
-  //   m_audioEngine->LoadEvent("event:/Music/OST_Level3", params);
-  //   m_audioEngine->PlayEvent("event:/Music/OST_Level3");
-  // }
 
   auto camera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
   m_activeCamera = camera;
-
-  // auto test = FNFE_FACTORY->CreateObject<Actor>("Fucking square");
-  // test->SetTexture("res/toast.png");
 
   StateManager::SetEngineState(IN_GAME);
 }
@@ -84,24 +70,26 @@ void GameManager::Run() {
     // TODO: For Each Actor UpdateCollisionList(actor.getCollider());
     // TODO: For Each Actor CollideObject(obj,other_obj);
     // Tick
+    auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
       object->Update(AEGetFrameTime());
     }
 
     // Render
-    for (const auto& [id, renderable] : m_factory->GetRenderables()) {
+    for (const auto& renderableId : m_factory->GetRenderables()) {
+      auto actor = static_cast<Actor*>(m_factory->GetObject(renderableId));
       AEMtx44 camera = m_activeCamera->GetCameraMatrix();
-      AEMtx44 transform = renderable->transform.GetMatrix4();
+      AEMtx44 transform = actor->transform.GetMatrix4();
       AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
-      if(renderable->GetTexture() != nullptr) AEGfxTextureSet(renderable->GetTexture());
-      AEGfxTriDraw(renderable->GetTris());
+      if(actor->GetTexture() != nullptr)
+        AEGfxTextureSet(actor->GetTexture());
+      AEGfxTriDraw(m_factory->GetSharedTriList());
     }
   }
-
-
+  
   // Audio
-  // m_audioEngine->Set3DListenerPosition(1*AESin(AEGetTime()),1*AECos(AEGetTime()),0,0,1,0,0,0,1);
+  m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x,m_activeCamera->transform.position.y,0,0,1,0,0,0,1);
   m_audioEngine->Update();
 
   // AE Shit
@@ -132,7 +120,9 @@ void GameManager::LoadScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!"
             << std::endl;
 }
-  
+
+#pragma endregion
+
 void GameManager::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
 
@@ -145,6 +135,5 @@ void GameManager::OnEvent(Event &e) {
 
 }
 
-#pragma endregion
 
 } 

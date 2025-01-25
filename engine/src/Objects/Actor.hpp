@@ -37,7 +37,6 @@ public:
   void Draw() override {}
   void Destroy() override;
 
-  [[nodiscard]] AEGfxTriList* GetTris() const { return m_triangleList;} ///< @brief Gets the Alpha Engine triangle list shit
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
   [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
   /**
@@ -50,12 +49,8 @@ public:
 protected:
   Collision::RectCollider * m_collider = nullptr;
 private:
-  AEGfxTriList* m_triangleList;
-
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
 };
-
-typedef std::unordered_map<id_t, std::shared_ptr<Actor>> ActorMap;
 
 }
