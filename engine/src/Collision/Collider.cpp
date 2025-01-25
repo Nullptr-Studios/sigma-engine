@@ -5,7 +5,7 @@ namespace FNFE {
 bool Collision::CollideObject(FNFE::Actor *objA, FNFE::Actor *objB) {
   RectCollider *colliderA = objA->GetCollider();
   RectCollider *colliderB = objB->GetCollider();
-  if (!colliderA && !colliderB) {
+  if (!colliderA || !colliderB) {
     return false;
   }
   if (!(colliderA->flag & colliderB->flag)) {
@@ -45,6 +45,8 @@ void Collision::AddCollision(FNFE::Actor *objA, FNFE::Actor *objB) {
 }
 
 void Collision::UpdateCollisionList(RectCollider *obj) {
+  if(obj == nullptr)
+    return;
   for (auto it = obj->m_boxCollisionDataMap.begin(); it != obj->m_boxCollisionDataMap.end();) {
     if (it->second.m_type != CollisionType::STAY) {
       it->second.m_type = CollisionType::EXIT;

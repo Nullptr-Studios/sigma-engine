@@ -5,7 +5,9 @@
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "Scene.hpp"
+#include "Collision/Collider.hpp"
 #include "Objects/Camera.hpp"
+#include "Collision/Collision.hpp"
 
 namespace FNFE {
 
@@ -71,7 +73,22 @@ void GameManager::Run() {
     // Collisions
     // TODO: For Each Actor UpdateCollisionList(actor.getCollider());
     // TODO: For Each Actor CollideObject(obj,other_obj);
-    // Tick
+for (const auto& renderableId : m_factory->GetRenderables()) {
+  auto actorA = static_cast<Actor*>(m_factory->GetObject(renderableId));
+  for (const auto& renderableId2 : m_factory->GetRenderables()) {
+    auto actorB = static_cast<Actor*>(m_factory->GetObject(renderableId2));
+    if (actorA != actorB) {
+      std::cout << Collision::CollideObject(actorA, actorB);
+      // Collision::DrawRectCollider(actorA, AE_COLORS_BLUE);
+      // Collision::DrawRectCollider(actorB, AE_COLORS_BLUE);
+    }
+  }
+  UpdateCollisionList(actorA->GetCollider());
+}
+#ifndef NDEBUG
+
+#endif
+    // TODO: For Each Actor Deubug DrawRectCollider
     auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
       if (!object->GetStartHandled()) {

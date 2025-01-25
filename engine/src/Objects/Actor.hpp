@@ -54,6 +54,7 @@ public:
 protected:
   Collision::RectCollider * m_collider = nullptr;
 private:
+
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
 
