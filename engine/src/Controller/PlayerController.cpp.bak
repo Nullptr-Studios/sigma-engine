@@ -1,0 +1,57 @@
+#include "PlayerController.hpp"
+#include "InputSystem.hpp"
+#include "Objects/Character.hpp"
+#include "Objects/Object.hpp"
+namespace FNFE {
+/*
+TODO:
+  acceleration/deacceleration
+  velocity based off of acceleration
+
+ */
+void PlayerController::Update() {
+  m_inputSystem.UpdateInput(m_controllerId);
+  if (m_state != ACTION) {
+    PlayerAction action = m_inputSystem.GetAction();
+    if (action != NULL_ACTION) {
+      PlayAction(action);
+      return;
+    }
+<<<<<<< Updated upstream
+    AEVec2 movement = m_inputSystem.GetMovement();
+    m_position += {movement.x,movement.y,0};
+    m_character->transform.position += m_position;
+=======
+   UpdateMovement();
+>>>>>>> Stashed changes
+  }
+}
+
+void PlayerController::UpdateMovement() {
+  AEVec2 movement = m_inputSystem.GetMovement();
+  velocity = std::clamp(velocity * PLAYER_ACCELERATION * static_cast<float>(AEGetFrameTime()), 0.0f, PLAYER_MAX_VELOCITY);
+  movement = {movement.x*=velocity, movement.y*=velocity};
+  m_position.x+=movement.x;
+  m_position.y+=movement.y;
+  m_transform->position = m_position;
+  if (velocity != 0.0f) {m_state = MOVING;}
+
+
+  /*
+   * update movement based on direction buffer
+   * transfer velocity from movement to movement
+   * deaccelerate if no action is played
+   * if velocity !0 --> state = moving
+   *
+   */
+}
+void PlayerController::PlayAction(PlayerAction action) {
+  m_state = ACTION;
+  std::cout << "Action: " <<ToChar(action) << "\n";
+  // TODO: Do Animation
+  // TODO: After animation return to NEURTRAL
+  EndAction(action);
+}
+void PlayerController::EndAction(PlayerAction action) { m_state = IDLE; }
+
+} 

@@ -14,6 +14,8 @@ class InputSystem;
 }
 namespace FNFE {
 
+#define PLAYER_ACCELERATION 0.1f /// @brief player acceleration
+#define PLAYER_MAX_VELOCITY 1000000.0f ///@brief maximum player velocity
 
 /**
  * @enum PlayerState for the current state the player is in
@@ -30,10 +32,19 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Character* character) : ControllerComponent(character) {}
+  PlayerController(Character* character) : ControllerComponent(character) {
+    velocity = 0;
+  }
+  ~PlayerController() override {}
   void Update() override;
 
 private:
+  float velocity; ///@brief player velocity variable, 0 by default
+  /**
+   * @brief helper function to update movement
+   * @param movement_action specified movement action
+   */
+  void UpdateMovement();
   //TODO: have a combo buffer to keep track of current combo
   /**
    * @brief plays specifed action
@@ -49,7 +60,8 @@ private:
   /**
    * @brief id of the controller being used
    */
-  int m_controllerId{};
+  //TODO: Maybe I'm dumb but I don't see how u actually get controller id -a
+  int m_controllerId{-1};
   /**
    * @brief input system that manages input
    */
