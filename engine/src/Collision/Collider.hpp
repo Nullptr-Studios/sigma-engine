@@ -12,9 +12,9 @@
  * @enum ColliderFlag bitwise enum for detecting collisions
  */
 enum ColliderFlag {
-    PLAYER = 1 << 0, ///<@brief binary 0001
-    ENEMY = 1 << 1, ///<@brief binary 0010
-    UI = 1 << 2, ///<@brief binary 0100
+    PLAYER = BIT(0), ///<@brief binary 0001
+    ENEMY = BIT(1), ///<@brief binary 0010
+    UI = BIT(2), ///<@brief binary 0100
 };
 
 namespace FNFE {
