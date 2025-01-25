@@ -30,7 +30,9 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Transform *transform) : ControllerComponent(transform) {}
+  PlayerController(Transform *transform) :
+    ControllerComponent(transform), m_inputSystem("assets/core/keybinds.json") {
+  };
   void Update() override;
 
 private:
@@ -39,12 +41,12 @@ private:
    * @brief plays specifed action
    * @param action specifed action
    */
-  void PlayAction(PlayerAction action);
+  void PlayAction(std::string action);
   /**
    * @brief function played when action is ended
    * @param action the action that ended
    */
-  void EndAction(PlayerAction action);
+  void EndAction(std::string action);
 
   /**
    * @brief id of the controller being used
