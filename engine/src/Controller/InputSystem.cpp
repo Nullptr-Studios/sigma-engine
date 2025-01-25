@@ -39,18 +39,6 @@ InputSystem::InputSystem(const std::string& keybindPath) {
   }
 }
   
-/**
- * @def CHECK_INPUT(G_CODE, K_CODE)
- * @brief Checks whether a specific key or gamepad button is triggered.
- *      based on what the controllerId is id < 0 for keyboard
- *      0-3 for gamepad
- * @param G_CODE gamepad code for the gamepad button
- * @param K_CODE keyboard key for the keyboard
- *
- * @note this macro will only work in InputSystem::UpdateInput for its
- *      reliance on the controllerId variable
- */
-#define CHECK_INPUT(G_CODE,K_CODE) (controllerId <0)?AEInputKeyTriggered(K_CODE):AEInputGamepadButtonTriggered(controllerId, G_CODE)
 void InputSystem::UpdateInput(int controllerId) {
   // Use gamepad stick or keyboard keys for player movement
   UpdateDirection(controllerId);

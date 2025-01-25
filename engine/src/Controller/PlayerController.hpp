@@ -31,7 +31,7 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
-  PlayerController(Character* character) : ControllerComponent(character) {}
+  PlayerController(Character* character) : ControllerComponent(character), m_inputSystem("assets/core/keybind.json") {}
   ~PlayerController() override {}
   void Update() override; ///< @brief Call this every frame to update the player position
   /**
@@ -42,6 +42,8 @@ public:
   AEVec2 GetFacingDirection() const { return m_facingDirection; }
   
 private:
+  float acceleration = 0.1f; /// @brief player acceleration
+  float maxVelocity = 10000.0f; ///@brief max player acceleration
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
   /**
@@ -54,18 +56,18 @@ private:
    * @brief plays specifed action
    * @param action specifed action
    */
-  void PlayAction(PlayerAction action);
+  void PlayAction(std::string action);
   /**
    * @brief function played when action is ended
    * @param action the action that ended
    */
-  void EndAction(PlayerAction action);
+  void EndAction(std::string action);
 
   /**
    * @brief id of the controller being used
    */
   //TODO: Maybe I'm dumb but I don't see how u actually get controller id -a
-  int m_controllerId{-1};
+  int m_controllerId;
   /**
    * @brief input system that manages input
    */
