@@ -15,12 +15,9 @@
 namespace FNFE {
   class UIImage : public Actor {
   public:
-     UIImage(id_t id)
-      : Actor(id) {
-    }
-
     void Init() override;
     void Update(double delta) override;;
     unsigned m_uiLayer{};
+
   };
 } // FNFE
