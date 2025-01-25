@@ -15,7 +15,7 @@ enum ColliderFlag {
     PLAYER = BIT(0), ///<@brief binary 0001
     ENEMY = BIT(1), ///<@brief binary 0010
     UI = BIT(2), ///<@brief binary 0100
-	BULLET = BIT(3)
+	BULLET = BIT(3) ///<@brief binary 1000
 };
 
 namespace FNFE {

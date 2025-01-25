@@ -79,9 +79,9 @@ public:
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
-  Object* GetObject(id_t id); ///< @brief Returns an object by ID
+  Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
   
-  ActorList GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
+  ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 

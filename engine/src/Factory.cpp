@@ -37,7 +37,7 @@ void Factory::DestroyAllObjects() {
   m_renderables.clear();
 }
 
-Object* Factory::GetObjectA(id_t id) {
+Object* Factory::GetObjectAt(id_t id) {
   return m_objects[id].get();
 }
 
