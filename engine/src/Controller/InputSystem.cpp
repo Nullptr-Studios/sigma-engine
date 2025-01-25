@@ -47,11 +47,12 @@ void InputSystem::UpdateInput(int controllerId) {
 }
 
 void InputSystem::UpdateDirection(int controllerId) {
+  m_movementBuffer = {};
   if (controllerId == -1 ) {
-    if(AEInputKeyTriggered(m_keyboardMovement["up"][0])){m_movementBuffer.y+=1;}
-    if(AEInputKeyTriggered(m_keyboardMovement["left"][0])){m_movementBuffer.x-=1;}
-    if(AEInputKeyTriggered(m_keyboardMovement["down"][0])){m_movementBuffer.y-=1;}
-    if(AEInputKeyTriggered(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
+    if(AEInputKeyPressed(m_keyboardMovement["up"][0])){m_movementBuffer.y+=1;}
+    if(AEInputKeyPressed(m_keyboardMovement["left"][0])){m_movementBuffer.x-=1;}
+    if(AEInputKeyPressed(m_keyboardMovement["down"][0])){m_movementBuffer.y-=1;}
+    if(AEInputKeyPressed(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
   } else {
     if (m_movementStick == 0) { // if left stick
       m_movementBuffer = AEInputGamepadStickLeft(controllerId);
@@ -59,9 +60,7 @@ void InputSystem::UpdateDirection(int controllerId) {
       m_movementBuffer = AEInputGamepadStickRight(controllerId);
     }
   }
-  if (m_movementBuffer.x != 0 && m_movementBuffer.y != 0) {
     std::cout << m_movementBuffer.x << ", " << m_movementBuffer.y << std::endl;
-  }
 }
 
 void InputSystem::UpdateActions(int controllerId) {
