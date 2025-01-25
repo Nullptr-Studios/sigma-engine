@@ -40,6 +40,9 @@ public:
    * @return The direction the player last moved
    */
   AEVec2 GetFacingDirection() const { return m_facingDirection; }
+
+  float GetMaxVelocity() { return maxVelocity; }
+  void SetMaxVelocity(float velocity) { maxVelocity = velocity; }
   
 private:
   float acceleration = 10.0f; /// @brief player acceleration
