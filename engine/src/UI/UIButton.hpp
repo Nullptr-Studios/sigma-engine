@@ -10,6 +10,7 @@
 namespace FNFE {
   class UIButton final : public UIImage {
   public:
+    explicit UIButton(id_t id): UIImage(id) {}
 
     void Init() override;
 
