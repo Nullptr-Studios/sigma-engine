@@ -12,6 +12,7 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 
 add_library(fnf_E STATIC 
         ${SRC}
+        src/UI/UIImage.hpp
 )
 
 target_include_directories(fnf_E PUBLIC src)

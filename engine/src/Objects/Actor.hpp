@@ -39,6 +39,7 @@ public:
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
   [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
+  [[nodiscard]] void SetCollider(Collision::RectCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
   /**
    * @brief Sets the texture of the object
    * Changes the texture path variables and reloads the texture data by calling the factory
