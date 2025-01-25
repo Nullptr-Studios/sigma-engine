@@ -106,12 +106,16 @@ public:
 
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
+  [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
+  void SetStartHandled() { m_startHandled = true; }
+
 private:
   id_t m_id = -1;
   std::string m_name = "Object";
 
   bool m_active = true;
   bool m_persistent = false;
+  bool m_startHandled = false;
 
   EventCallbackFn m_callback = nullptr;
 

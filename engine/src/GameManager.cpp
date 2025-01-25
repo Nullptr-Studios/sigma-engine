@@ -51,6 +51,12 @@ void GameManager::GameInit()
   m_activeCamera = camera;
 
   StateManager::SetEngineState(IN_GAME);
+
+  // Start
+  for (const auto& [id, object] : m_factory->GetObjects()) {
+    object->Start();
+    object->SetStartHandled();
+  }
 }
 
 
@@ -58,11 +64,6 @@ void GameManager::Run() {
   // AE Shit
   AESysFrameStart();
   AESysUpdate();
-
-  // Start
-  for (const auto& [id, object] : m_factory->GetObjects()) {
-    object->Start();
-  }
 
   if (m_currentScene != nullptr)
   {
@@ -72,6 +73,10 @@ void GameManager::Run() {
     // Tick
     auto a = m_factory->GetObjects();
     for (const auto& [id, object] : m_factory->GetObjects()) {
+      if (!object->GetStartHandled()) {
+        object->Start();
+        object->SetStartHandled();
+      }
       object->Update(AEGetFrameTime());
     }
 
