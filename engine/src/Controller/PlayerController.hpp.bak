@@ -14,6 +14,8 @@ class InputSystem;
 }
 namespace FNFE {
 
+#define PLAYER_ACCELERATION 0.1f /// @brief player acceleration
+#define PLAYER_MAX_VELOCITY 1000000.0f ///@brief maximum player velocity
 
 /**
  * @enum PlayerState for the current state the player is in
@@ -31,6 +33,7 @@ enum PlayerState {
  */
 class PlayerController final : public ControllerComponent {
 public:
+<<<<<<< HEAD
   PlayerController(Character* character) : ControllerComponent(character) {}
   ~PlayerController() override {}
   void Update() override; ///< @brief Call this every frame to update the player position
@@ -41,6 +44,13 @@ public:
    */
   AEVec2 GetFacingDirection() const { return m_facingDirection; }
   
+=======
+  PlayerController(Transform *transform) :
+    ControllerComponent(transform), m_inputSystem("assets/core/keybinds.json") {
+  };
+  void Update() override;
+
+>>>>>>> origin/detached
 private:
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
@@ -54,12 +64,12 @@ private:
    * @brief plays specifed action
    * @param action specifed action
    */
-  void PlayAction(PlayerAction action);
+  void PlayAction(std::string action);
   /**
    * @brief function played when action is ended
    * @param action the action that ended
    */
-  void EndAction(PlayerAction action);
+  void EndAction(std::string action);
 
   /**
    * @brief id of the controller being used

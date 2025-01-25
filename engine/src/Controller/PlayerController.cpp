@@ -2,7 +2,6 @@
 #include "InputSystem.hpp"
 #include "Objects/Character.hpp"
 #include "Objects/Object.hpp"
-
 namespace FNFE {
 
 /*
