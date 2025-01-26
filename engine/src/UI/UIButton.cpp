@@ -5,11 +5,6 @@
 namespace FNFE {
   void UIButton::Init() {
     UIImage::Init();
-    auto collider = new Collision::RectCollider;
-    collider->flag = UI;
-    collider->m_boxPoints.push_back({0,0,0});
-    collider->m_boxScales.push_back({transform.scale.x,transform.scale.y,0});
-    SetCollider(collider);
   }
 
   void UIButton::Update(double delta) {
@@ -20,7 +15,8 @@ namespace FNFE {
     AEVec3 mouseScale = {0,0,0};
     
     bool pressed = AEInputMousePressed(AE_MOUSE_LEFT);
-    bool hovered = Collision::RectOnRect(collider->m_boxPoints[0], collider->m_boxScales[0], mousePos, mouseScale);
+    AEVec3 scale = {transform.scale.x,transform.scale.y,0};
+    bool hovered = Collision::RectOnRect(transform.position,scale, mousePos, mouseScale);
     if (!m_pressed && pressed && hovered) {
       OnPress();
     } else if (m_pressed && pressed && hovered) {
