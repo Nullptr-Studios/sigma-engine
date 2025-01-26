@@ -12,6 +12,14 @@ Factory::~Factory() {
 }
 
 void Factory::DestroyObject(id_t id) {
+  if (m_objects[id] == nullptr)
+      {
+    std::cout << "PREVENTED CRASH\n";
+    m_objects[id].reset();
+    m_objects.erase(id);
+    return;
+  }
+  
   if (m_log)
     std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
   
@@ -31,8 +39,8 @@ void Factory::DestroyObject(Object *object)
 
 void Factory::DestroyAllObjects() {
   for (auto &[id, obj]: m_objects) {
-    obj->Destroy();
-    obj.reset();
+    if (id != NULL)
+      DestroyObject(id);
   }
   m_objects.clear();
   m_renderables.clear();
