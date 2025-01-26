@@ -1,5 +1,8 @@
 #include "Actor.hpp"
+
+#include "Camera.hpp"
 #include "Factory.hpp"
+#include "GameManager.hpp"
 #include "Collision/Collider.hpp"
 
 namespace FNFE {
@@ -29,6 +32,22 @@ void Actor::Destroy() {
 void Actor::SetTexture(const char* path) {
   m_texturePath = path;
   m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
+}
+
+void Actor::SetTextureTransform(AEMtx33 NewTxT)
+{
+  m_tMtx = NewTxT;
+}
+
+bool Actor::IsInViewport()
+{
+  auto c = FNFE_MANAGER->GetActiveCamera();
+  int w = AEGetSysWindowWidth();
+  int h = AEGetSysWindowHeight();
+
+  auto pos = c->transform.position;
+  return transform.position.x > pos.x - w/2 && transform.position.x < pos.x + w/2 && transform.position.y > pos.y - h/2 && transform.position.y < pos.y + h/2;
+  
 }
 
 }

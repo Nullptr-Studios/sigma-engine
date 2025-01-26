@@ -59,11 +59,14 @@ public:
    */
   void LoadScene(Scene* scene);
 
+  Scene* GetCurrentScene() { return m_currentScene; }
+
   void OnEvent(Event& e);
 
   // TODO: Create a camera controller at some point
   void ChangeCamera(Camera* camera) { m_activeCamera = camera; }
 
+  Camera* GetActiveCamera() { return m_activeCamera; }
 private:
   static GameManager* m_instance;
 

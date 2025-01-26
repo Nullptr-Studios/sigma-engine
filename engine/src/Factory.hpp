@@ -74,12 +74,12 @@ public:
    * Destroys an object by its reference
    * @param object Object reference
    */
-  void DestroyObejct(Object& object);
+  void DestroyObject(Object* object);
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
   ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
-  Object* GetObject(id_t id); ///< @brief Returns an object by ID
+  Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
   
   ActorList GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
 
@@ -119,6 +119,9 @@ public:
   }
     
 private:
+
+  bool m_log = false;
+
   id_t m_currentId = 0;
   static Factory* m_instance;
 
@@ -173,11 +176,13 @@ T* Factory::CreateObject(const std::string& name) {
   m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
 
   if constexpr (std::is_base_of_v<Actor, T>) m_renderables.emplace_back(obj->GetId());
-  std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
+  
+  if (m_log)
+    std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
-  if (StateManager::GetEngineState() == IN_GAME) obj->Start();
+  // if (StateManager::GetEngineState() == IN_GAME) obj->Start();
   
   return obj.get();
 }

@@ -9,6 +9,10 @@ TODO:
   Make this more performant!
   IK you can just call this at object creation but if you do that you can't hotswap it :( -a
  */
+<<<<<<< HEAD
+
+// i guess we will never know what to do -x
+=======
 void PlayerController::CheckControllers() {
   for (int i = 0; i<=3; i++) {
     if (AEInputGamepadConnected(i)) {
@@ -19,7 +23,7 @@ void PlayerController::CheckControllers() {
   m_controllerId = -1;
 }
 
-// i guess we will never know what to do -x
+>>>>>>> bcbbda2 (Controller support)
 void PlayerController::Update() {
   CheckControllers();
   m_inputSystem.UpdateInput(m_controllerId);
@@ -47,7 +51,7 @@ void PlayerController::UpdateMovement() {
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
   if (isMovingX) {
     // Apply acceleration and clamp velocity
-    velocityX = std::clamp(velocityX + acceleration * movement.x , -maxVelocity, maxVelocity);
+    velocityX = std::clamp(velocityX + acceleration * movement.x, -maxVelocity, maxVelocity);
     // Ensure velocity doesn't exceed max speed if necessary (optional)
     // velocityX = std::clamp(velocityX, -MAX_VELOCITY, MAX_VELOCITY);
   } else {
@@ -83,7 +87,7 @@ void PlayerController::UpdateMovement() {
   }
 
   // Update position based on movement direction and velocity
-  m_position = {(float)(velocityX * AEGetFrameTime()), (float)(velocityY * AEGetFrameTime()), 0};
+  m_position = {velocityX, velocityY, 0};
   m_character->transform.position += m_position;
 
   // Transition to MOVING state if velocity is above a small threshold

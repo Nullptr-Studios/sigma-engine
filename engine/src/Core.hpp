@@ -12,8 +12,9 @@
 
 namespace FNFE {
 
-typedef unsigned int id_t;     ///< @typedef id_t   @brief Type definition for object IDs
-typedef nlohmann::json json_t; ///< @typedef json_t @brief Type definition for json files
+typedef unsigned int id_t;     ///< @typedef id_t     @brief Type definition for object IDs
+typedef nlohmann::json json_t; ///< @typedef json_t   @brief Type definition for json files
+typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def for the sigma engine
 
 #define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 #define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance

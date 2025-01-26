@@ -83,7 +83,7 @@ public:
    * @brief This function is called whenever you send a message to any Object
    * The simple and incredible FNF Event System (tm) is used for sending messages between objects
    * @param sender Object that sent the original message
-   * @return A bool telling if the message has been handled and shouldn't propagate
+      * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnMessage(Object* sender) { return false; }
   /**
@@ -106,12 +106,16 @@ public:
 
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
+  [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
+  void SetStartHandled() { m_startHandled = true; }
+
 private:
   id_t m_id = -1;
   std::string m_name = "Object";
 
   bool m_active = true;
   bool m_persistent = false;
+  bool m_startHandled = false;
 
   EventCallbackFn m_callback = nullptr;
 

@@ -14,6 +14,8 @@
 // ---------------------------------------------------------------------------
 
 #pragma warning(disable : 4201) // nameless struct warning
+#include "AEVec3.h"
+
 struct AEVec2
 {
     union
@@ -90,6 +92,7 @@ struct AEVec2
     static AEVec2 Random(float min_x, float max_x, float min_y, float max_y);
     static AEVec2 Random01();
     static AEVec2 Lerp(AEVec2 start, AEVec2 end, float tn);
+    AEVec3 ToVec3() const { return AEVec3(x, y, 0); }
 
     static const AEVec2 ZERO;
 };
