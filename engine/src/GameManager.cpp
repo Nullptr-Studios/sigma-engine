@@ -187,6 +187,8 @@ void GameManager::LoadScene(Scene *scene) {
     m_currentScene->Free();
     m_currentScene->Unload();
 
+    m_factory->DestroyAllObjects(); 
+
     delete m_currentScene;
   }
 
