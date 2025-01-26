@@ -17,8 +17,9 @@ public:
   void Init() override;
   void Update(double delta) override;
   virtual void OnEnd() {};
-  AEVec2 m_scale;
-private:
+  AEVec2 m_scale = {750, 25};
   float m_progress = 1;
+
+private:
 };
 }

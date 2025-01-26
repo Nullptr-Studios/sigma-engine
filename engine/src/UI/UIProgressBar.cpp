@@ -3,7 +3,7 @@
 void FNFE::UIProgressBar::Init() {
   UIImage::Init();
   transform.scale = m_scale;
-  m_progress = 1;
+  //m_progress = 1;
 }
 
 void FNFE::UIProgressBar::Update(double delta) {
@@ -12,6 +12,6 @@ void FNFE::UIProgressBar::Update(double delta) {
     transform.scale = {0,0};
     return;
   }
-  m_progress -=delta *.01;
+  //m_progress -=delta *.01;
   transform.scale.x = m_progress*m_scale.x;
 }
