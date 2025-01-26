@@ -29,10 +29,10 @@ enum PlayerState {
  * @class PlayerController
  * @brief Manages per player input and actions
  */
-class PlayerController final : public ControllerComponent {
+class PlayerController : public ControllerComponent {
 public:
   PlayerController(Character* character) : ControllerComponent(character), m_inputSystem("assets/core/keybinds.json") {}
-  ~PlayerController() override {}
+  ~PlayerController() override = default;
   void Update() override; ///< @brief Call this every frame to update the player position
   /**
    * @brief Get the direction the player is facing
@@ -41,12 +41,14 @@ public:
    */
   AEVec2 GetFacingDirection() const { return m_facingDirection; }
 
+  float maxVelocity = 500.0f; ///@brief max player acceleration
+
   float GetMaxVelocity() { return maxVelocity; }
   void SetMaxVelocity(float velocity) { maxVelocity = velocity; }
   
 private:
   float acceleration = 10.0f; /// @brief player acceleration
-  float maxVelocity = 500.0f; ///@brief max player acceleration
+  
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
 
