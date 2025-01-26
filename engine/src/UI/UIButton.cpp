@@ -14,7 +14,6 @@ namespace FNFE {
 
   void UIButton::Update(double delta) {
     UIImage::Update(delta);
-    Collision::DrawRectCollider(this,AE_COLORS_GREEN);
     auto collider = GetCollider();
     auto data = AEGetMouseData();
     AEVec3 mousePos = data.position.ToVec3();

@@ -14,16 +14,19 @@ namespace FNFE {
       : Object(id) {
     }
 
-    void Init() override;
+    void Init(const char * txt, unsigned color);
 
     void Update(double deltaTime) override;
 
 
     void Destroy() override;
 
+
   private:
     AEGfxFont *m_font{};
-    float m_fontSize{};
+    std::string m_text;
+    unsigned m_fontSize{};
+    unsigned m_color{};
     float m_imgSize{};
   };
 }
