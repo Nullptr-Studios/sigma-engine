@@ -12,7 +12,8 @@ Factory::~Factory() {
 }
 
 void Factory::DestroyObject(id_t id) {
-  std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
+  if (m_log)
+    std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
   
   m_objects[id]->Destroy();
   m_objects[id].reset();
@@ -46,11 +47,13 @@ AEGfxTexture* Factory::LoadTexture(const char* filepath) {
 
   // @dante fixed a bug here :) -x
   if (m_textures.contains(filepath)) {
-    std::cout << "[Factory] Texture " << filepath << " already exists\n";
+    if (m_log)
+      std::cout << "[Factory] Texture " << filepath << " already exists\n";
     return m_textures[filepath];
   }
-  
-  std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
+
+  if (m_log)
+    std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
   auto Tx = AEGfxTextureLoad(filepath);
   AEGfxTextureSetFilters(Tx, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
   auto t = m_textures.emplace(filepath, Tx);
@@ -64,8 +67,10 @@ void Factory::FreeTexture(const char *filepath) {
     return;
   }
 
-  std::cout << "[Factory] Texture " << filepath << " does not have a texture\n";
-  std::cout << "[Factory] Unloading avoided\n";
+  if (m_log) {
+    std::cout << "[Factory] Texture " << filepath << " does not have a texture\n";
+    std::cout << "[Factory] Unloading avoided\n";
+  }
 }
 void Factory::FreeAllTextures() {
   for (auto& [filepath, texture]: m_textures) {

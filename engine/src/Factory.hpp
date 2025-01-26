@@ -119,6 +119,9 @@ public:
   }
     
 private:
+
+  bool m_log = false;
+
   id_t m_currentId = 0;
   static Factory* m_instance;
 
@@ -173,7 +176,9 @@ T* Factory::CreateObject(const std::string& name) {
   m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
 
   if constexpr (std::is_base_of_v<Actor, T>) m_renderables.emplace_back(obj->GetId());
-  std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
+  
+  if (m_log)
+    std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
