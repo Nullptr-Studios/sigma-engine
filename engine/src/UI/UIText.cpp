@@ -9,7 +9,7 @@ namespace FNFE {
     m_fontSize = 60;
     m_imgSize = 3;
   	m_color = color;
-    m_font = AEGfxFontCreate("C:/Projects/ggj-2025/res/fonts/arial.ttf", m_fontSize, m_imgSize);
+    m_font = AEGfxFontCreate("res/fonts/arial.ttf", m_fontSize, m_imgSize);
   }
 
   void UIText::Update(double deltaTime) {
