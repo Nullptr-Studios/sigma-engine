@@ -89,8 +89,25 @@ void PlayerController::UpdateMovement() {
   // Transition to MOVING state if velocity is above a small threshold
   if (std::abs(velocityX) > 0.1f || std::abs(velocityY) > 0.1f) {
     m_state = MOVING;
+
+    m_character->m_animComp->PlayAnim();
+
+    if (velocityX > 0.f) {
+      m_character->m_animComp->SetCurrentAnim("ToastWalkingRight");
+    }else if (!velocityY > 0.f) {
+      m_character->m_animComp->SetCurrentAnim("ToastWalkingLeft");
+    }
+
+    if (velocityY > 0.f) {
+      m_character->m_animComp->SetCurrentAnim("ToastWalkingUp");
+    }else if (!velocityX > 0.f) {
+      m_character->m_animComp->SetCurrentAnim("ToastWalkingDown");
+    }
+
+    if (velocityX > 0.f) {}
   } else {
     m_state = IDLE; // Transition to IDLE when velocity is 0
+    m_character->m_animComp->StopAnim();
   }
 
 }

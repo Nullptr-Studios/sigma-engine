@@ -5,6 +5,7 @@
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "Scene.hpp"
+#include "AnimationSystem/AnimationSystem.hpp"
 #include "Collision/Collider.hpp"
 #include "Objects/Camera.hpp"
 #include "Collision/Collision.hpp"
@@ -50,10 +51,12 @@ void GameManager::GameInit()
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
 
+  m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
   auto camera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
   m_activeCamera = camera;
 
   StateManager::SetEngineState(IN_GAME);
+
 
   // Start
   for (const auto& [id, object] : m_factory->GetObjects()) {

@@ -39,8 +39,8 @@ void Factory::DestroyObject(Object *object)
 
 void Factory::DestroyAllObjects() {
   for (auto &[id, obj]: m_objects) {
-    if (id != NULL)
-      DestroyObject(id);
+    // if (id != NULL)
+      //DestroyObject(id);
   }
   m_objects.clear();
   m_renderables.clear();
