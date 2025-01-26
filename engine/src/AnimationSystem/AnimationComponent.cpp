@@ -1,0 +1,86 @@
+/**
+ * @file AnimationComponent.cpp
+ * @author Dario
+ * @date 18/01/2025
+ *
+ * @brief [Brief description of the file's purpose]
+ */
+
+#include "AnimationComponent.hpp"
+
+#include "AnimationSystem.hpp"
+#include "Core.hpp"
+
+void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
+{
+  m_texAtlas = texAtlas;
+  m_frameTime = 1.0f / m_texAtlas->animations[0].frameRate;
+
+  m_timeSinceLastFrame = 0;
+  
+}
+
+void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+{
+  if (m_currentAnimation!=nullptr)
+    if (m_currentAnimation->animationName == animName)
+      return;
+
+  for (auto &anim: m_texAtlas->animations) {
+    if (anim.animationName == animName) {
+      m_currentAnimation = &anim;
+      return;
+    }
+  }
+  m_currentAnimation = nullptr;
+}
+
+void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime)
+{
+  if (!m_isPlaying || m_currentAnimation == nullptr) return;
+
+  if (m_timeSinceLastFrame > m_frameTime)
+  {
+    m_currentFrameIndex++;
+    if (m_currentFrameIndex >= m_currentAnimation->frames.size())
+    {
+      m_currentFrameIndex = 0;
+    }
+    m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+    m_timeSinceLastFrame = 0;
+    UpdateTextureMatrix();
+  }
+  else
+  {
+    m_timeSinceLastFrame += DeltaTime;
+  }
+}
+
+void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
+  if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
+
+  // playing from the fist frame
+  m_currentFrameIndex = 0;
+
+  m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+
+  UpdateTextureMatrix();
+
+  m_timeSinceLastFrame = 0;
+
+  m_isPlaying = true;
+}
+
+void FNFE::ANIMATION::AnimationComponent::StopAnim()
+{
+  if (m_currentAnimation == nullptr) return;
+
+  m_isPlaying = false;
+}
+
+void FNFE::ANIMATION::AnimationComponent::UpdateTextureMatrix()
+{
+  if (m_currentFrame == nullptr || m_texAtlas == nullptr)
+    return;
+  FNFE_ANIMATION->BuildTextureTransform(&m_texMtx, m_currentFrame, m_texAtlas);
+}

@@ -10,6 +10,10 @@
 #include <Factory.hpp>
 #include <pch.hpp>
 
+namespace FNFE::ANIMATION {
+class AnimationSystem;
+}
+
 namespace FNFE {
 class Camera;
 }
@@ -78,6 +82,7 @@ private:
 
   std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
+  std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
 
   Scene* m_currentScene = nullptr;
 

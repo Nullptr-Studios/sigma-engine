@@ -18,6 +18,14 @@ typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def f
 
 #define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 #define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
+#define FNFE_ANIMATION FNFE::ANIMATION::AnimationSystem::GetAnimationSysInstance()
+
+// profiler
+#define PROFILER_START auto start = std::chrono::high_resolution_clock::now();
+#define PROFILER_END(FunctionName) auto end = std::chrono::high_resolution_clock::now();\
+std::chrono::duration<double> elapsed = end - start;\
+std::cout << "[Profiler] [" << FunctionName << "] Elapsed time " << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() << " ms\n";
+
 
 /**
  * @enum EngineState

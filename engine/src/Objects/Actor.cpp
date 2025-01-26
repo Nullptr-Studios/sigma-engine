@@ -3,6 +3,7 @@
 #include "Camera.hpp"
 #include "Factory.hpp"
 #include "GameManager.hpp"
+#include "AnimationSystem/AnimationComponent.hpp"
 #include "Collision/Collider.hpp"
 
 namespace FNFE {
@@ -20,6 +21,7 @@ void Actor::Init() {
   // m_triangleList = AEGfxTriEnd();
   //
   // m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
+
 }
 
 void Actor::Destroy() {
@@ -37,6 +39,11 @@ void Actor::SetTexture(const char* path) {
 void Actor::SetTextureTransform(AEMtx33 NewTxT)
 {
   m_tMtx = NewTxT;
+}
+
+AEMtx33* Actor::GetTextureTransform() {
+
+  return &m_tMtx;
 }
 
 bool Actor::IsInViewport()
