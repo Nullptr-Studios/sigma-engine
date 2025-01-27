@@ -1,4 +1,7 @@
-[submodule "engine/lib/json"]
+[submodule "json"]
 	path = engine/lib/json
 	url = https://github.com/nlohmann/json.git
 
+[submodule "glm"]
+	path = engine/lib/glm
+	url = https://github.com/icaven/glm.git
