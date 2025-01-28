@@ -1,0 +1,21 @@
+{
+  "keyboard": {
+    "movement": {
+      "up": "W",
+      "left": "A",
+      "down": "S",
+      "right": "D"
+    },
+    "actions": {
+      "jump": " "
+    }
+  },
+  "gamepad": {
+    "sticks": {
+      "movement": "left"
+    },
+    "action": {
+      "jump": "A"
+    }
+  }
+}

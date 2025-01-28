@@ -42,16 +42,22 @@ public:
   AEVec2 GetFacingDirection() const { return m_facingDirection; }
 
   float maxVelocity = 500.0f; ///@brief max player acceleration
-
+  float maxAirVelocity = maxVelocity/2;
   float GetMaxVelocity() { return maxVelocity; }
   void SetMaxVelocity(float velocity) { maxVelocity = velocity; }
   
 private:
   float acceleration = 10.0f; /// @brief player acceleration
-  
+  float inAirAcceleration = 5.0f;
+  float playerGravity = 9.8f;
+
+  float jumpHeight = 50.0f;
+
+  bool jumpPeaked = false;
+
   float velocityX = 0; ///@brief player velocity variable, 0 by default
   float velocityY = 0; ///@brief player velocity variable, 0 by default
-
+  float velocityZ = 0;
   /**
    * @brief checks if any gamepad is connected, sets controller id to gamepad id
    */
