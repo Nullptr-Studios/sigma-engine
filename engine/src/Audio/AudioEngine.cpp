@@ -42,6 +42,7 @@ void FNFE::AudioEngine::Update() {
 
 void FNFE::AudioEngine::Load(AudioData audioData)
 {
+  PROFILER_START
   if (!audioData.IsLoaded())
   {
     std::cout << "[AudioEngine] Loading Sound from file " << audioData.GetFilePath() << '\n';
@@ -57,6 +58,8 @@ void FNFE::AudioEngine::Load(AudioData audioData)
   }
   else
     std::cout << "[AudioEngine] Sound File was already loaded!\n";
+
+  PROFILER_END("AudioEngine::Load")
 }
 
 void FNFE::AudioEngine::Play(AudioData audioData)
@@ -170,14 +173,17 @@ unsigned int FNFE::AudioEngine::GetLengthMS(AudioData audioData)
 
 void FNFE::AudioEngine::LoadBank(const char* filepath)
 {
+  PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Sound Bank " << filepath << '\n';
   FMOD::Studio::Bank* bank = NULL;
   ERRCHECK(studioSystem->loadBankFile(filepath, FMOD_STUDIO_LOAD_BANK_NORMAL, &bank));
   soundBanks.insert({ filepath, bank });
+  PROFILER_END("AudioEngine::LoadBank")
 }
 
 void FNFE::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
 {
+  PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Event " << eventName << '\n';
   FMOD::Studio::EventDescription* eventDescription = NULL;
   ERRCHECK(studioSystem->getEvent(eventName, &eventDescription));
@@ -191,6 +197,7 @@ void FNFE::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<c
   }
   eventInstances.insert({ eventName, eventInstance });
   eventDescriptions.insert({ eventName, eventDescription });
+  PROFILER_END("AudioEngine::LoadEvent")
 }
 
 void FNFE::AudioEngine::SetEventParamValue(const char* eventName, const char* parameterName, float value)
@@ -231,7 +238,6 @@ bool FNFE::AudioEngine::IsPlaying(const char* eventName, int instance /*= 0*/)
   ERRCHECK(eventInstances[eventName]->getPlaybackState(&playbackState));
   return playbackState == FMOD_STUDIO_PLAYBACK_PLAYING;
 }
-
 
 void FNFE::AudioEngine::MuteAll()
 {
@@ -291,7 +297,6 @@ void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line)
 
 void FNFE::AudioEngine::DebugEventInfo(FMOD::Studio::EventDescription* eventDescription)
 {
-
   int params;
   bool is3D, isOneshot;
   ERRCHECK(eventDescription->getParameterDescriptionCount(&params));

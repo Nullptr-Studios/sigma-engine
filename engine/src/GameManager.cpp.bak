@@ -70,8 +70,11 @@ void GameManager::GameInit()
     object->Start();
     object->SetStartHandled();
   }
+<<<<<<< Updated upstream
+=======
 
   PROFILER_END("GameManager::GameInit")
+>>>>>>> Stashed changes
 }
 
 

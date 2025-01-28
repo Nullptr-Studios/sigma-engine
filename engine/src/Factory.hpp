@@ -159,7 +159,7 @@ private:
   TextureMap m_textures;
 };
 
-// Object declaration
+//
 template<typename T, typename>
 T* Factory::CreateObject(const std::string& name) {
   std::shared_ptr<T> obj = std::make_shared<T>(m_currentId);
