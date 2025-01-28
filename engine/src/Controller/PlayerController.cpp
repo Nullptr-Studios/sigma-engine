@@ -98,13 +98,13 @@ void PlayerController::UpdateMovement() {
 
     if (velocityX > 0.f) {
       m_character->m_animComp->SetCurrentAnim("ToastWalkingRight");
-    }else if (!velocityY > 0.f) {
+    } else {
       m_character->m_animComp->SetCurrentAnim("ToastWalkingLeft");
     }
 
     if (velocityY > 0.f) {
       m_character->m_animComp->SetCurrentAnim("ToastWalkingUp");
-    }else if (!velocityX > 0.f) {
+    } else {
       m_character->m_animComp->SetCurrentAnim("ToastWalkingDown");
     }
 

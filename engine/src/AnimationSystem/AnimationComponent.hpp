@@ -7,6 +7,7 @@
  */
 
 #pragma once
+#include "GlmAlphaTools.hpp"
 
 namespace FNFE::ANIMATION {
 struct Animation;
@@ -46,7 +47,7 @@ public:
    * @brief Get the texture matrix
    * @return Pointer to the texture matrix
    */
-  AEMtx33* GetTextureMatrix() { return &m_texMtx; }
+  glm::mat3& GetTextureMatrix() { return m_texMtx; }
 
   /**
    * @brief Get the texture atlas
@@ -67,7 +68,7 @@ private:
    */
   void UpdateTextureMatrix();
   
-  AEMtx33 m_texMtx;
+  glm::mat3 m_texMtx;
   TextureAtlas* m_texAtlas;
   int m_currentFrameIndex = 0;
   double m_frameTime = 0.0;

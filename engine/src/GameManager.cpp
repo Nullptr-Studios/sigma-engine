@@ -163,7 +163,8 @@ auto renderable = m_factory->GetRenderables();
       AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
       AEGfxTextureSet(actor->GetTexture());
-      AEGfxSetTextureTransform(actor->GetTextureTransform());
+      auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
+      AEGfxSetTextureTransform(&textureTransform);
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
   }

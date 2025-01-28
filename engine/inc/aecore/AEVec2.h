@@ -28,9 +28,13 @@ struct AEVec2
     };
 
     // ------------------------------------------------------------------------
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2();
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2(const AEVec2 & rhs);
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2(float xx, float yy);
+    [[deprecated("Use glm::vec2 instead")]]
     explicit AEVec2(float xx); //! flag as explicit to prevent implicit conversion from float to AEVec2
 
     // Operators

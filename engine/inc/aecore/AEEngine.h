@@ -43,7 +43,7 @@
 // Alpha engine includes
 #include "AEStdLib.h"
 #include "AEDebug.h"
-#include "AEMath.h"
+#include "AEMath.h" // Don't use this
 #include "AEUtil.h"
 #include "AEFrameRateController.h"
 #include "AESystem.h"

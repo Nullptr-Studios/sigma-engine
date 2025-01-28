@@ -5,6 +5,9 @@
 #include <Factory.hpp>
 #include <fstream>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/matrix_transform_2d.hpp"
+
 FNFE::ANIMATION::AnimationSystem* FNFE::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
 
 // TODO: support for multiple animations
@@ -31,7 +34,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
 
   Animation a;
   a.frameRate = 12; // for now hard coded
-  a.animationName = "Default";
+  a.name = "Default";
 
   std::vector<Frame> m_frames;
   std::vector<Animation> m_animations;
@@ -43,18 +46,18 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
   for (auto frame: J["frames"]) {
     Frame f;
 
-    f.frameName = frame["filename"];
-    f.frameSize = {frame["frame"]["w"], frame["frame"]["h"]};
-    f.framePosition = {frame["frame"]["x"], frame["frame"]["y"]};
+    f.name = frame["filename"];
+    f.size = {frame["frame"]["w"], frame["frame"]["h"]};
+    f.position = {frame["frame"]["x"], frame["frame"]["y"]};
     // f.rotated = frame["rotated"];
-    f.spriteSourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
-    f.spriteSourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
+    f.sourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
+    f.sourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
     // f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
     // f.trimmed = frame["trimmed"];
     // m_frames.emplace_back(f);
 
-    auto index = f.frameName.find_last_of('_');
-    std::string animName = f.frameName.substr(0, index);
+    auto index = f.name.find_last_of('_');
+    std::string animName = f.name.substr(0, index);
     bool found = false;
 
     // TODO FIX SHITTY CODE
@@ -65,7 +68,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
     }else {
       
       for (auto & m_animation : m_animations) {
-        if (m_animation.animationName == animName) {
+        if (m_animation.name == animName) {
           m_animation.frames.emplace_back(f);
           found = true;
           break;
@@ -75,7 +78,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
       if (!found) {
         Animation a;
         a.frameRate = 12; // for now hard coded
-        a.animationName = animName;
+        a.name = animName;
         a.frames.emplace_back(f);
         m_animations.emplace_back(a);
       }
@@ -96,8 +99,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
 
 }
 
-FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::GetTextureAtlas(const char* name)
-{
+FNFE::ANIMATION::TextureAtlas *FNFE::ANIMATION::AnimationSystem::GetTextureAtlas(const char *name) {
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(name)) {
     // std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
@@ -107,32 +109,20 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::GetTextureAtlas
   std::cout << "[AnimationSystem] Texture Atlas not found\n";
   return nullptr;
 }
+void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
+                                                             const glm::vec2 frameSize, const glm::vec2 atlasSize) {
+  glm::vec2 UVs = framePosition / atlasSize;
 
-// TODO: support for trimmed sprites
-void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH)
-{
-  float correctedY = taH - (sY + sH);
-  float vTranslateY = correctedY / taH;
+  float correctedY = atlasSize.y - (framePosition.y + frameSize.y);
+  glm::vec2 translate = glm::vec2(framePosition.x/atlasSize.x, correctedY/atlasSize.y);
 
-  float correctedX = (sX);
-  float uTranslateX = correctedX / taW;
-
-  float uWidth = (sW / taW);
-  float vHeight = (sH / taH);
-  
-  // Reset to identity
-  AEMtx33Identity(pTexMtx);
-
-  // Scale
-  AEMtx33ScaleApply(pTexMtx, pTexMtx, uWidth, vHeight);
-
-  // Translate
-  AEMtx33TransApply(pTexMtx, pTexMtx, uTranslateX, vTranslateY);
+  texMtx = glm::mat3(1.0f);
+  glm::scale(texMtx, UVs);
+  glm::translate(texMtx, translate);
 }
 
-
-void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, Frame* frame, TextureAtlas* atlas)
+void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
 {
-  BuildTextureTransform(pTexMtx, frame->framePosition.x, frame->framePosition.y, frame->frameSize.x, frame->frameSize.y, atlas->size.x, atlas->size.y);
+  BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }
 

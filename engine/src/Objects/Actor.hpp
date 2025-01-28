@@ -54,9 +54,9 @@ public:
    */
   void SetTexture(const char* path);
 
-  void SetTextureTransform(AEMtx33 NewTxT);
+  void SetTextureTransform(glm::mat3& newTexMtx);
   
-  virtual AEMtx33* GetTextureTransform();
+  virtual glm::mat3& GetTextureTransform();
 
   bool IsInViewport();
 
@@ -67,7 +67,7 @@ private:
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
 
-  AEMtx33 m_tMtx;
+  glm::mat3 m_tMtx; ///< @brief Texxure Matrix
 };
 
 }
