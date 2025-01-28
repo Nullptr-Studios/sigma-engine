@@ -16,6 +16,8 @@
 
 #define AEMtx33RowCol(pMtx, row, col) (pMtx)->m[(row)][(col)]
 
+#include "AEVec2.h"
+
 // ---------------------------------------------------------------------------
 // Struct/Class definitions
 #pragma warning(disable : 4201)
