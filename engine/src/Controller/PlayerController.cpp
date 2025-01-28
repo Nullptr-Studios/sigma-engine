@@ -2,7 +2,7 @@
 #include "InputSystem.hpp"
 #include "Objects/Character.hpp"
 #include "Objects/Object.hpp"
-#include "../../../../src/Player.hpp"
+// #include "../../../../src/Player.hpp"
 
 namespace FNFE {
 
@@ -36,7 +36,7 @@ void PlayerController::Update() {
 }
 
 void PlayerController::UpdateMovement() {
-  maxVelocity = dynamic_cast<GGJ::Player *>(m_character)->m_maxVelocity;
+  maxVelocity = 100.0f;
 
   AEVec2 movement = m_inputSystem.GetMovement();
 

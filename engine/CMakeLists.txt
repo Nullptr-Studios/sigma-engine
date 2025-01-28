@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 project(fnf_E)
 
-
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
         "src/*.cpp"
         "src/*.hpp"
@@ -42,3 +41,7 @@ target_include_directories(fnf_E PUBLIC lib/json/single_include/nlohmann/)
 # precompiled header
 target_precompile_headers(fnf_E PRIVATE src/pch.hpp)
         
+# glm library
+add_subdirectory(lib/glm/glm)
+target_link_libraries(fnf_E PUBLIC glm::glm)
+target_include_directories(fnf_E PUBLIC lib/glm)

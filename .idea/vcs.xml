@@ -4,6 +4,5 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/engine/lib/glm" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/engine/lib/json" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/json" vcs="Git" />
   </component>
 </project>

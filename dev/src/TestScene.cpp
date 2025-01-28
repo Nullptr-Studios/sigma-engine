@@ -7,12 +7,13 @@
  */
 
 #include "TestScene.hpp"
-
 #include <iostream>
 
 void TestScene::Load() {
   Scene::Load();
   std::cout << "TestScene::Load()" << std::endl;
+  
+  
 }
 void TestScene::Update(double delta) {
   Scene::Update(delta);

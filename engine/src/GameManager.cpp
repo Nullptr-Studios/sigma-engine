@@ -9,6 +9,7 @@
 #include "Collision/Collider.hpp"
 #include "Objects/Camera.hpp"
 #include "Collision/Collision.hpp"
+#include "GlmAlphaTools.hpp"
 
 namespace FNFE {
 
@@ -63,6 +64,13 @@ void GameManager::GameInit()
     object->Start();
     object->SetStartHandled();
   }
+
+  glm::mat4 glmMatrix = {1, 2, 3, 4, 5, 6, 7,8, 9, 10, 11, 12, 13, 14, 15, 16};
+  AEMtx44 alphaMatrix = {1, 2, 3, 4, 5, 6, 7,8, 9, 10, 11, 12, 13, 14, 15, 16};
+
+  glm::ToAEX(glmMatrix).Print();
+  alphaMatrix.Print();
+  AEMtx44(glmMatrix).Print();
 }
 
 

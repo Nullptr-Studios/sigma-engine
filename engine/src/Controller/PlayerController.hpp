@@ -4,7 +4,7 @@
  * @date 1/22/2025
  *
  * @brief Manages and interprets input to action
- * TODO: ALEXEY DO THESE FILES PlayerController and ControllerComponent
+ * TODO: This should NOT be in here
  */
 #pragma once
 #include "ControllerComponent.hpp"
