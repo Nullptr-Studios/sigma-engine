@@ -19,8 +19,8 @@ target_include_directories(fnf_E PUBLIC src)
 target_include_directories(fnf_E PUBLIC inc)
 target_link_directories(fnf_E PUBLIC lib)
 
-    target_link_libraries(fnf_E PUBLIC fmodL_vc)
-    target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
+target_link_libraries(fnf_E PUBLIC fmodL_vc)
+target_link_libraries(fnf_E PUBLIC fmodstudioL_vc)
 
 if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
     message("debug mode")

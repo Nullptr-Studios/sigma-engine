@@ -70,8 +70,11 @@ void GameManager::GameInit()
     object->Start();
     object->SetStartHandled();
   }
+<<<<<<< Updated upstream
+=======
 
   PROFILER_END("GameManager::GameInit")
+>>>>>>> Stashed changes
 }
 
 
@@ -107,8 +110,7 @@ void GameManager::Run() {
       AEMtx44 viewMatrix = camera * transform;
       AEGfxSetTransform(&viewMatrix);
       AEGfxTextureSet(actor->GetTexture());
-      auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
-      AEGfxSetTextureTransform(&textureTransform);
+      AEGfxSetTextureTransform(actor->GetTextureTransform());
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 

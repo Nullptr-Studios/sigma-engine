@@ -33,7 +33,7 @@ public:
     lengthMS = 0;
     uniqueID = filePath;
   }
-  ~AudioData();
+  ~AudioData() = default;
 
   std::string GetUniqueID() const { return uniqueID; };
   const char* GetFilePath() const { return filePath; }
