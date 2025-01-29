@@ -122,6 +122,31 @@ void GameManager::Run() {
   m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x,m_activeCamera->transform.position.y,0,0,1,0,0,0,1);
   m_audioEngine->Update();
 
+#if _DEBUG
+
+  if (m_debug) {
+    std::string loadedTextures = "Loaded Textures: ";
+    loadedTextures.append(std::to_string(AEGfxGetAllocatedTexturesCount()));
+    AEGfxPrint(10, 10, 0xFFFFFFFF, loadedTextures.c_str());
+
+    std::string loadedTriLists = "Loaded Tri Lists: ";
+    loadedTriLists.append(std::to_string(AEGfxGetAllocatedTrilistCount()));
+    AEGfxPrint(10, 20, 0xFFFFFFFF, loadedTriLists.c_str());
+
+    std::string loadedFonts = "Loaded Fonts: ";
+    loadedFonts.append(std::to_string(AEGfxGetAllocatedFontCount()));
+    AEGfxPrint(10, 30, 0xFFFFFFFF, loadedFonts.c_str());
+
+    std::string FPS = "FPS: ";
+    FPS.append(std::to_string(AEGetFrameRate()));
+    AEGfxPrint(600, 10, 0xFFFFFFFF, FPS.c_str());
+    
+    std::string SPF = "SPF: ";
+    SPF.append(std::to_string(AEGetFrameTime()));
+    AEGfxPrint(600, 20, 0xFFFFFFFF, SPF.c_str());
+  }
+#endif
+  
   // AE Shit
   AESysFrameEnd();
 
