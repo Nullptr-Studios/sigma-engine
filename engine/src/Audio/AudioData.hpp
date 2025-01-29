@@ -6,7 +6,7 @@
 /// Holds and provides data to be used by the AudioEngine.
 
 #pragma once
-#include <aecore/AEVec3.h>
+#include <glm/vec3.hpp>
 #include <string>
 
 class AudioData
@@ -21,12 +21,12 @@ private:
   bool is3D;
   unsigned int lengthMS;
   float reverbAmount;
-  AEVec3 position;
+  glm::vec3 position;
     
 public:
 
 
-  AudioData(const char* filePath, bool loop = false, bool is3D = false, float reverbAmount = 0.0f, AEVec3 position = { 0.0f, 0.0f, 0.0f }) : filePath(filePath), loop(loop), is3D(is3D), reverbAmount(reverbAmount), position(position)
+  AudioData(const char* filePath, bool loop = false, bool is3D = false, float reverbAmount = 0.0f, glm::vec3 position = { 0.0f, 0.0f, 0.0f }) : filePath(filePath), loop(loop), is3D(is3D), reverbAmount(reverbAmount), position(position)
   {
     volume = 1.0f;
     loaded = false;
@@ -42,7 +42,7 @@ public:
   bool Loop() const { return loop; };
   bool Is3D() const { return is3D; };
   float GetReverbAmount() const { return reverbAmount; }
-  AEVec3 GetPosition() const { return position; }
+  glm::vec3 GetPosition() const { return position; }
 
   void SetLoaded(bool isLoaded) { loaded = isLoaded; }
   void SetLengthMS(unsigned int length) { lengthMS = length; }

@@ -12,7 +12,7 @@ TODO:
   IK you can just call this at object creation but if you do that you can't hotswap it :( -a
  */
 void PlayerController::CheckControllers() {
-  for (int i = 0; i<=3; i++) {
+  for (int i = 0; i <= 3; i++) {
     if (AEInputGamepadConnected(i)) {
       m_controllerId = i;
       return;
@@ -51,7 +51,7 @@ void PlayerController::UpdateMovement() {
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
   if (isMovingX) {
     // Apply acceleration and clamp velocity
-    velocityX = std::clamp(velocityX + acceleration * movement.x , -maxVelocity, maxVelocity);
+    velocityX = std::clamp(velocityX + acceleration * movement.x, -maxVelocity, maxVelocity);
     // Ensure velocity doesn't exceed max speed if necessary (optional)
     // velocityX = std::clamp(velocityX, -MAX_VELOCITY, MAX_VELOCITY);
   } else {
@@ -60,10 +60,12 @@ void PlayerController::UpdateMovement() {
       // Apply deceleration towards zero
       if (velocityX > 0.f) {
         velocityX -= acceleration;
-        if (velocityX < 0.f) velocityX = 0.f;  // Clamp to zero if overshooting
+        if (velocityX < 0.f)
+          velocityX = 0.f; // Clamp to zero if overshooting
       } else if (velocityX < 0.f) {
         velocityX += acceleration;
-        if (velocityX > 0.f) velocityX = 0.f;  // Clamp to zero if overshooting
+        if (velocityX > 0.f)
+          velocityX = 0.f; // Clamp to zero if overshooting
       }
     }
   }
@@ -78,16 +80,18 @@ void PlayerController::UpdateMovement() {
       // Apply deceleration towards zero
       if (velocityY > 0.f) {
         velocityY -= acceleration;
-        if (velocityY < 0.f) velocityY = 0.f;  // Clamp to zero if overshooting
+        if (velocityY < 0.f)
+          velocityY = 0.f; // Clamp to zero if overshooting
       } else if (velocityY < 0.f) {
         velocityY += acceleration;
-        if (velocityY > 0.f) velocityY = 0.f;  // Clamp to zero if overshooting
+        if (velocityY > 0.f)
+          velocityY = 0.f; // Clamp to zero if overshooting
       }
     }
   }
 
   // Update position based on movement direction and velocity
-  m_position = {(float)(velocityX * AEGetFrameTime()), (float)(velocityY * AEGetFrameTime()), 0};
+  m_position = {(float) (velocityX * AEGetFrameTime()), (float) (velocityY * AEGetFrameTime()), 0};
   m_character->transform.position += m_position;
 
   // Transition to MOVING state if velocity is above a small threshold
@@ -108,16 +112,15 @@ void PlayerController::UpdateMovement() {
       m_character->m_animComp->SetCurrentAnim("ToastWalkingDown");
     }
 
-    if (velocityX > 0.f) {}
+    if (velocityX > 0.f) {
+    }
   } else {
     m_state = IDLE; // Transition to IDLE when velocity is 0
     m_character->m_animComp->StopAnim();
   }
-
 }
 
-
-void PlayerController::PlayAction(std::string action) {
+void PlayerController::PlayAction(const std::string &action) {
   m_state = ACTION;
   std::cout << "Action: " << action << "\n";
   // TODO: Do Animation
@@ -125,6 +128,6 @@ void PlayerController::PlayAction(std::string action) {
   EndAction(action);
 }
 
-void PlayerController::EndAction(std::string action) { m_state = IDLE; }
+void PlayerController::EndAction(const std::string &action) { m_state = IDLE; }
 
 } // namespace FNFE

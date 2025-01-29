@@ -7,8 +7,11 @@
  */
 
 #pragma once
-#include <aecore/AEVec2.h>
-#include <aecore/AEVec3.h>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
 #include <memory>
 #include <string>
 
@@ -17,39 +20,36 @@
 namespace FNFE {
 
 struct Transform {
-  AEVec3 position = AEVec3(0.0f);
-  AEVec2 scale = AEVec2(100.0f);
+  glm::vec3 position = glm::vec3(0.0f);
+  glm::vec2 scale = glm::vec2(100.0f);
   float rotation = 0.0f;
 
   /**
    * @brief Calculates the matrix of the transform
    * Uses translate * rotate * scale
-   * @return AEMtx33
+   * @return glm::mat3
    */
-  [[nodiscard]] AEMtx33& GetMatrix() const {
+  [[nodiscard]] glm::mat3& GetMatrix() const {
     //Changed this to use only one matrix -m
-    AEMtx33 world;
-    AEMtx33ScaleApply(&world,&world, scale.x, scale.y);
-    AEMtx33RotApply(&world, &world, rotation);
-    AEMtx33TransApply(&world, &world, position.x, position.y);
-
-    return world;
+    glm::mat3 matrix;
+    matrix = glm::scale(matrix, scale);
+    matrix = glm::rotate(matrix, rotation);
+    matrix = glm::translate(matrix, glm::vec2(position.x, position.y));
+    return matrix;
   }
 
   /**
    * @brief Calculates a 4x4 Transform matrix
    * This is used in order to have a camera instead of screen coordinates
-   * @return AEMtx44
+   * @return glm::mat4
    */
-  [[nodiscard]] AEMtx44 GetMatrix4() const {
+  [[nodiscard]] glm::mat4 GetMatrix4() const {
     // Thy the fuck are Mtx33 and Mtx44 so different -x
-    AEMtx44 world = AEMtx44::Identity();
-    AEMtx44 scaleMat, rotateMat, translateMat;
-    scaleMat = AEMtx44::Scale(scale.x, scale.y, 1.0f);
-    rotateMat = AEMtx44::Rotate(0.0f, 0.0f, rotation);
-    translateMat = AEMtx44::Translate(position.x, position.y, 0.0f);
-    world = translateMat * rotateMat * scaleMat;
-    return world;
+    glm::mat4 matrix = glm::mat4(1.0f);
+    matrix = glm::scale(matrix, glm::vec3(scale.x, scale.y, 1.0f));
+    matrix = glm::rotate(matrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    matrix = glm::translate(matrix, position);
+    return matrix;
   }
 };
 
@@ -123,4 +123,6 @@ private:
 
 typedef std::unordered_map<id_t, std::shared_ptr<Object>> ObjectMap;
 
-} // FNFE
+}
+
+#undef GLM_ENABLE_EXPERIMENTAL

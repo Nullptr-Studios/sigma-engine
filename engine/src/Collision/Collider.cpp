@@ -1,7 +1,9 @@
 #include "Collider.hpp"
 #include <Objects/Actor.hpp>
 #include "Collision.hpp"
+
 namespace FNFE {
+
 bool Collision::CollideObject(FNFE::Actor *objA, FNFE::Actor *objB) {
   RectCollider *colliderA = objA->GetCollider();
   RectCollider *colliderB = objB->GetCollider();
@@ -18,10 +20,10 @@ bool Collision::CollideObject(FNFE::Actor *objA, FNFE::Actor *objB) {
   }
   for (int a = 0; a < rectsA; a++) {
     for (int b = 0; b < rectsB; b++) {
-      AEVec3 posA = colliderA->m_boxPoints[a] + objA->transform.position;
-      AEVec3 scaleA = colliderA->m_boxScales[a];
-      AEVec3 posB = colliderB->m_boxPoints[b] + objB->transform.position;
-      AEVec3 scaleB = colliderB->m_boxScales[b];
+      glm::vec3 posA = colliderA->m_boxPoints[a] + objA->transform.position;
+      glm::vec3 scaleA = colliderA->m_boxScales[a];
+      glm::vec3 posB = colliderB->m_boxPoints[b] + objB->transform.position;
+      glm::vec3 scaleB = colliderB->m_boxScales[b];
       if (RectOnRect(posA, scaleA, posB, scaleB)) {
         AddCollision(objA, objB);
         return true;
@@ -30,7 +32,6 @@ bool Collision::CollideObject(FNFE::Actor *objA, FNFE::Actor *objB) {
   }
   return false;
 }
-
 
 void Collision::AddCollision(FNFE::Actor *objA, FNFE::Actor *objB) {
   RectCollider *colliderA = objA->GetCollider();
@@ -45,8 +46,9 @@ void Collision::AddCollision(FNFE::Actor *objA, FNFE::Actor *objB) {
 }
 
 void Collision::UpdateCollisionList(RectCollider *obj) {
-  if(obj == nullptr)
+  if (obj == nullptr)
     return;
+
   for (auto it = obj->m_boxCollisionDataMap.begin(); it != obj->m_boxCollisionDataMap.end();) {
     if (it->second.m_type != CollisionType::STAY) {
       it->second.m_type = CollisionType::EXIT;
@@ -55,27 +57,30 @@ void Collision::UpdateCollisionList(RectCollider *obj) {
       it->second.m_type = CollisionType::EXIT;
       ++it;
     } else if (it->second.m_type == CollisionType::EXIT) {
-      it = obj->m_boxCollisionDataMap.erase(it); // Erase and update iterator
+      // Erase and update iterator
+      it = obj->m_boxCollisionDataMap.erase(it);
     } else {
       ++it;
     }
   }
 }
 
-
 #pragma region TEST
+
 void Collision::DrawRectCollider(const FNFE::Actor *obj, unsigned color) {
   RectCollider *collider = obj->GetCollider();
-  if (!collider) {
-    return;
-  }
+  if (!collider)
+    return; // Sanity check -x
+
   int rectangles = collider->m_boxPoints.size();
   for (int i = 0; i < rectangles; i++) {
-    AEVec2 pos = {obj->transform.position.x/2, -obj->transform.position.y/2};
-    pos += {collider->m_boxScales[i].x/2, -collider->m_boxScales[i].y/2};
-    AEVec2 scale = {collider->m_boxScales[i].x, collider->m_boxScales[i].y};
+    glm::vec2 pos = {obj->transform.position.x / 2, -obj->transform.position.y / 2};
+    pos += glm::vec2(collider->m_boxScales[i].x / 2, -collider->m_boxScales[i].y / 2);
+    glm::vec2 scale = {collider->m_boxScales[i].x, collider->m_boxScales[i].y};
     DrawRectangleAt(pos, scale, color);
   }
 }
+
 #pragma endregion
+
 } // namespace FNFE

@@ -55,7 +55,7 @@ void InputSystem::UpdateDirection(int controllerId) {
     if(AEInputKeyPressed(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
   } else {
     if (m_movementStick == 0) { // if left stick
-      // m_movementBuffer = AEInputGamepadStickLeft(controllerId); TODO: FIX WHEN AEVEC2->GLM::VEC2
+      // m_movementBuffer = AEInputGamepadStickLeft(controllerId); TODO: FIX WHEN glm::vec2->GLM::VEC2
     } else if (m_movementStick == 1) { //if right stick
       // m_movementBuffer = AEInputGamepadStickRight(controllerId);
     }

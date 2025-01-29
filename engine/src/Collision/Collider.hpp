@@ -5,24 +5,25 @@
  *
  * @brief File to manage collisions between objects
  */
+
 #pragma once
-#include "Core.hpp"
+#include <glm/vec3.hpp>
+#include "core.hpp"
 
 /**
  * @enum ColliderFlag bitwise enum for detecting collisions
  */
 enum ColliderFlag {
-    PLAYER = BIT(0), ///<@brief binary 0001
-    ENEMY = BIT(1), ///<@brief binary 0010
-    UI = BIT(2), ///<@brief binary 0100
-	BULLET = BIT(3) ///<@brief binary 1000
+  PLAYER = BIT(0), ///< @brief binary 0001
+  ENEMY = BIT(1), ///< @brief binary 0010
+  UI = BIT(2), ///< @brief binary 0100
+  BULLET = BIT(3) ///< @brief binary 1000
 };
 
 namespace FNFE {
 class Actor;
-}
-struct AEVec3;
-namespace FNFE::Collision {
+
+namespace Collision {
 struct Collision;
 
 /**
@@ -30,9 +31,10 @@ struct Collision;
  */
 struct RectCollider {
   unsigned flag; ///<@brief bitwise enum for what can the collider collide with
-  std::vector<AEVec3> m_boxPoints; ///<@brief all the offsets for each box collider in the collider
-  std::vector<AEVec3> m_boxScales; ///<@brief all the scales for each box collider in the collider
-  std::unordered_map<id_t, Collision> m_boxCollisionDataMap; ///<@brief all the collision that are happening on this frame
+  std::vector<glm::vec3> m_boxPoints; ///<@brief all the offsets for each box collider in the collider
+  std::vector<glm::vec3> m_boxScales; ///<@brief all the scales for each box collider in the collider
+  std::unordered_map<id_t, Collision>
+      m_boxCollisionDataMap; ///<@brief all the Collision that are happening on this frame
 };
 
 
@@ -64,7 +66,10 @@ void AddCollision(Actor *objA, FNFE::Actor *objB);
 void UpdateCollisionList(RectCollider *objA);
 
 // DEBUG
+// idk if i like this not being on a class -x
 void TestCollider();
 void TestCollisionChecks();
 void DrawRectCollider(const Actor *obj, unsigned color);
-} // namespace FNFE::Collision
+
+} // namespace Collision
+} // namespace FNFE

@@ -1,30 +1,26 @@
 #include "GameManager.hpp"
-#include "StateManager.hpp"
+#include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
+#include "Collision/Collider.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
-#include "Scene.hpp"
-#include "AnimationSystem/AnimationSystem.hpp"
-#include "Collision/Collider.hpp"
-#include "Objects/Camera.hpp"
-#include "Collision/Collision.hpp"
 #include "GlmAlphaTools.hpp"
+#include "Objects/Camera.hpp"
+#include "Scene.hpp"
+#include "StateManager.hpp"
 
 namespace FNFE {
 
-GameManager* GameManager::m_instance = nullptr;
+GameManager *GameManager::m_instance = nullptr;
 EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
-GameManager::GameManager(const char *title, int width, int height)
-    : m_title(title), m_width(width), m_height(height) {
+GameManager::GameManager(const char *title, int width, int height) : m_title(title), m_width(width), m_height(height) {
   m_instance = this;
   GameInit();
 }
 
-GameManager::~GameManager() {
-  m_instance = nullptr;
-}
+GameManager::~GameManager() { m_instance = nullptr; }
 
 void GameManager::Uninitialize() {
 
@@ -33,7 +29,7 @@ void GameManager::Uninitialize() {
   m_factory->DestroyAllObjects();
 
   m_factory->FreeAllTextures();
-  
+
   AEGfxTriFree(m_factory->GetSharedTriList());
 
   // The crash was due to LIVEUPDATE -d
@@ -42,11 +38,10 @@ void GameManager::Uninitialize() {
   PROFILER_END("GameManager::Uninitialize")
 }
 
-void GameManager::GameInit()
-{
+void GameManager::GameInit() {
 
   PROFILER_START
-  
+
   StateManager::SetEngineState(ENGINE_INIT);
 
   // Initialize alpha engine
@@ -54,7 +49,7 @@ void GameManager::GameInit()
 
   // Initialize factory
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
-  
+
   // Initialize audio engine
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
@@ -66,7 +61,7 @@ void GameManager::GameInit()
 
 
   // Start
-  for (const auto& [id, object] : m_factory->GetObjects()) {
+  for (const auto &[id, object]: m_factory->GetObjects()) {
     object->Start();
     object->SetStartHandled();
   }
@@ -81,13 +76,13 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-  if (m_currentScene != nullptr)
-  {
+  if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
     auto a = m_factory->GetObjects();
-    for (const auto& [id, object] : m_factory->GetObjects()) {
-      if (object == nullptr) continue;
+    for (const auto &[id, object]: m_factory->GetObjects()) {
+      if (object == nullptr)
+        continue;
       if (!object->GetStartHandled()) {
         object->Start();
         object->SetStartHandled();
@@ -98,14 +93,17 @@ void GameManager::Run() {
     m_currentScene->Update(AEGetFrameTime());
 
     // Render
-    for (const auto& renderableId : m_factory->GetRenderables()) {
-      auto actor = dynamic_cast<Actor*>(m_factory->GetObjectAt(renderableId));
-      if (!actor->GetStartHandled()) continue; // We do this because the object has not had its Start method done yet
-      
-      AEMtx44 camera = m_activeCamera->GetCameraMatrix();
-      AEMtx44 transform = actor->transform.GetMatrix4();
-      AEMtx44 viewMatrix = camera * transform;
-      AEGfxSetTransform(&viewMatrix);
+    for (const auto &renderableId: m_factory->GetRenderables()) {
+      auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
+      if (!actor->GetStartHandled())
+        continue; // We do this because the object has not had its Start method done yet
+
+      glm::mat4 camera = m_activeCamera->GetCameraMatrix();
+      glm::mat4 transform = actor->transform.GetMatrix4();
+      glm::mat4 viewMatrix = camera * transform;
+      auto viewMatrixAlpha = ToAEX(viewMatrix);
+      AEGfxSetTransform(&viewMatrixAlpha);
+
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
@@ -113,18 +111,17 @@ void GameManager::Run() {
     }
 
     m_currentScene->Draw();
-    
   }
 
   auto textures = m_factory->GetTextures();
-  
+
   // Audio
-  m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x,m_activeCamera->transform.position.y,0,0,1,0,0,0,1);
+  m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
+                                       1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
   // AE Shit
   AESysFrameEnd();
-
 }
 
 // Scene Management
@@ -133,7 +130,7 @@ void GameManager::Run() {
 void GameManager::LoadScene(Scene *scene) {
 
   PROFILER_START
-  
+
   if (scene == nullptr) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
@@ -143,7 +140,7 @@ void GameManager::LoadScene(Scene *scene) {
     m_currentScene->Free();
     m_currentScene->Unload();
 
-    m_factory->DestroyAllObjects(); 
+    m_factory->DestroyAllObjects();
 
     delete m_currentScene;
   }
@@ -164,19 +161,20 @@ void GameManager::LoadScene(Scene *scene) {
 void GameManager::OnEvent(Event &e) {
 
   PROFILER_START
-  
+
   EventDispatcher dispatcher(e);
 
-  for (const auto& [id, object] : m_factory->GetObjects()) {
-    dispatcher.Dispatch<MessageEvent>([object](MessageEvent& e)->bool{
-      if(object->GetName() == e.GetReceiver()) return object->OnMessage(e.GetSender());
-      return false;
-    });
+  for (const auto &[id, object]: m_factory->GetObjects()) {
+    dispatcher.Dispatch<MessageEvent>(
+        [object](MessageEvent &e) -> bool
+        {
+          if (object->GetName() == e.GetReceiver())
+            return object->OnMessage(e.GetSender());
+          return false;
+        });
   }
 
   PROFILER_END("GameManager::OnEvent")
-
 }
 
-
-} 
+} // namespace FNFE
