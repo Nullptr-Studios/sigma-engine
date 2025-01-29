@@ -39,7 +39,7 @@ public:
    * This is like the direction the player is moving, but it never returns a zero value
    * @return The direction the player last moved
    */
-  AEVec2 GetFacingDirection() const { return m_facingDirection; }
+  glm::vec2 GetFacingDirection() const { return m_facingDirection; }
 
   float maxVelocity = 500.0f; ///@brief max player acceleration
 
@@ -87,7 +87,7 @@ void CheckControllers();
    */
   PlayerState m_state = IDLE;
   
-  AEVec2 m_facingDirection = AEVec2(1.0f, 0.0f); ///< @brief Direction the player last moved
+  glm::vec2 m_facingDirection = glm::vec2(1.0f, 0.0f); ///< @brief Direction the player last moved
   
 };
 

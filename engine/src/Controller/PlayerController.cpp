@@ -38,14 +38,14 @@ void PlayerController::Update() {
 void PlayerController::UpdateMovement() {
   maxVelocity = 100.0f;
 
-  AEVec2 movement = m_inputSystem.GetMovement();
+  glm::vec2 movement = m_inputSystem.GetMovement();
 
   // Check for movement input
   bool isMovingX = movement.x != 0.f;
   bool isMovingY = movement.y != 0.f;
 
   if (isMovingX || isMovingY) {
-    m_facingDirection = AEVec2(movement.x, movement.y);
+    m_facingDirection = glm::vec2(movement.x, movement.y);
   }
 
   // Acceleration: When the player is moving, increase velocity up to the maximum velocity
