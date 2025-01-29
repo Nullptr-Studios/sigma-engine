@@ -7,8 +7,8 @@
  */
 #pragma once
 #include "Core.hpp"
-#include <glm/vec3.hpp>
-#include <glm/vec2.hpp>
+#include "aecore/AEVec3.h"
+#include "aecore/AEVec2.h"
 
 namespace FNFE::Collision {
 
@@ -21,7 +21,7 @@ namespace FNFE::Collision {
  * @param scaleB Width and Height and Depth of Rectangle B
  * @return if the rectangles collide
  */
-bool RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, glm::vec3 &scaleB);
+bool RectOnRect(AEVec3 &posA, AEVec3 &scaleA, AEVec3 &posB, AEVec3 &scaleB);
 
 /**
  * @enum CollisionType Collision Types
@@ -33,7 +33,7 @@ enum CollisionType {
 };
 
 /**
- * @struct Collision holds all the information of a Collision
+ * @struct Collision holds all the information of a collision
  */
 struct Collision {
   /**
@@ -49,6 +49,6 @@ struct Collision {
 // DEBUG
 void TestRect();
 void Print(CollisionType type);
-void DrawRectangleAt(glm::vec2 pos, glm::vec2 scale, unsigned color);
-void DrawRectangleAt(glm::vec3 pos, glm::vec3 scale, unsigned color);
+void DrawRectangleAt(AEVec2 pos, AEVec2 scale, unsigned color);
+void DrawRectangleAt(AEVec3 pos, AEVec3 scale, unsigned color);
 } // namespace FNFE::Collision
