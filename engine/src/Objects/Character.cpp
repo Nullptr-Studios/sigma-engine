@@ -13,7 +13,7 @@ void Character::Start() { Actor::Start(); }
 void Character::Update(double delta) { Actor::Update(delta); }
 void Character::Destroy() { Actor::Destroy(); }
 
-AEMtx33* Character::GetTextureTransform() {
+glm::mat3& Character::GetTextureTransform() {
   return m_animComp->GetTextureMatrix();
 }
 

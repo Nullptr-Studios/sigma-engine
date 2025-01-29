@@ -1,5 +1,6 @@
 #include "InputSystem.hpp"
 #include <fstream>
+#include "GlmAlphaTools.hpp"
 
 namespace FNFE {
 
@@ -55,9 +56,11 @@ void InputSystem::UpdateDirection(int controllerId) {
     if(AEInputKeyPressed(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
   } else {
     if (m_movementStick == 0) { // if left stick
-      m_movementBuffer = AEInputGamepadStickLeft(controllerId);
+      auto input = AEInputGamepadStickLeft(controllerId);
+      m_movementBuffer = glm::FromAEX(input);
     } else if (m_movementStick == 1) { //if right stick
-      m_movementBuffer = AEInputGamepadStickRight(controllerId);
+      auto input = AEInputGamepadStickRight(controllerId);
+      m_movementBuffer = glm::FromAEX(input);
     }
   }
 }

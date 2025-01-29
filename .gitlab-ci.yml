@@ -48,5 +48,5 @@ build-job:       # This job runs in the build stage, which runs first.
     - mkdir bin 
     - cd bin
     - cmake ../ -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Debug
-    - cmake --build . --config Debug --target fnf_E
+    - cmake --build . --config Debug --target engine_test
     - echo "Compile sucesfull."

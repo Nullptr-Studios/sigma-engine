@@ -5,13 +5,14 @@ namespace FNFE {
 void Camera::Start() {
   Object::Start();
 
-  AEVec2 viewport;
+  glm::vec2 viewport;
   AEGfxSetFullscreen(false);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   m_ratio = viewport.x / viewport.y;
-  
+
   m_oldTransform = transform;
   UpdateMatrix();
+  // hi
 }
 
 void Camera::Update(double deltaTime) {
@@ -23,23 +24,27 @@ void Camera::Update(double deltaTime) {
   }
 
   // Check for rescaling
-  RECT rect; AEVec2 viewport;
+  RECT rect;
+  glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   m_ratio = viewport.x / viewport.y;
   GetClientRect(AEGetWindowHandler(), &rect);
-  AEVec2 client = AEVec2(rect.right - rect.left, rect.bottom - rect.top);
-  if (viewport != client) AEGfxSetViewRectangle(client.x, client.y);
+  glm::vec2 client = glm::vec2(rect.right - rect.left, rect.bottom - rect.top);
+  if (viewport != client)
+    AEGfxSetViewRectangle(client.x, client.y);
 }
 
 void Camera::UpdateMatrix() {
   // View Space
-  auto rotation = AEMtx44::Rotate(0, 0, transform.rotation);
-  auto translation = AEMtx44::Translate(-transform.position.x, -transform.position.y, 0);
-  auto view = rotation * translation;
+  auto viewMatrix = glm::mat4(1.0f);
+  viewMatrix = glm::translate(glm::mat4(1.0f), transform.position);
+  viewMatrix = glm::rotate(m_cameraMatrix, transform.rotation, glm::vec3(0, 0, 1));
 
   // Clip Space
-  AEMtx44 clip = AEMtx44::OrthoProjGL(1/m_size, 1/m_size, m_near, m_far);
-  m_cameraMatrix = clip.MultThis(view);
+  glm::vec2 viewport;
+  AEGfxGetViewRectangle(&viewport.x, &viewport.y);
+  auto clipMatrix = glm::ortho(0.0f, viewport.x, viewport.y, 0.0f, m_near, m_far);
+  m_cameraMatrix = clipMatrix * viewMatrix;
 }
 
-}
+} // namespace FNFE

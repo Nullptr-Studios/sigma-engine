@@ -36,14 +36,14 @@ void Actor::SetTexture(const char* path) {
   m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
 }
 
-void Actor::SetTextureTransform(AEMtx33 NewTxT)
+void Actor::SetTextureTransform(glm::mat3& newTexMtx)
 {
-  m_tMtx = NewTxT;
+  m_tMtx = newTexMtx;
 }
 
-AEMtx33* Actor::GetTextureTransform() {
+glm::mat3& Actor::GetTextureTransform() {
 
-  return &m_tMtx;
+  return m_tMtx;
 }
 
 bool Actor::IsInViewport()

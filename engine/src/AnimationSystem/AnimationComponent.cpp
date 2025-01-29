@@ -23,11 +23,11 @@ void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas
 void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
 {
   if (m_currentAnimation!=nullptr)
-    if (m_currentAnimation->animationName == animName)
+    if (m_currentAnimation->name == animName)
       return;
 
   for (auto &anim: m_texAtlas->animations) {
-    if (anim.animationName == animName) {
+    if (anim.name == animName) {
       m_currentAnimation = &anim;
       return;
     }
@@ -82,5 +82,5 @@ void FNFE::ANIMATION::AnimationComponent::UpdateTextureMatrix()
 {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
-  FNFE_ANIMATION->BuildTextureTransform(&m_texMtx, m_currentFrame, m_texAtlas);
+  FNFE_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
 }

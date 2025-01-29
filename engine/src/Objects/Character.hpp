@@ -27,7 +27,7 @@ public:
   void Start() override;
   void Update(double delta) override;
   void Destroy() override;
-  AEMtx33* GetTextureTransform() override;
+  glm::mat3& GetTextureTransform() override;
 
   ANIMATION::AnimationComponent* m_animComp = nullptr;
 

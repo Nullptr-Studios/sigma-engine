@@ -16,6 +16,8 @@
 
 #define AEMtx33RowCol(pMtx, row, col) (pMtx)->m[(row)][(col)]
 
+#include "AEVec2.h"
+
 // ---------------------------------------------------------------------------
 // Struct/Class definitions
 #pragma warning(disable : 4201)
@@ -37,10 +39,12 @@ struct AEMtx33
 
     // ------------------------------------------------------------------------
     // AEMtx33(): Default Constructor - Sets the matrix to identity.
+    [[deprecated("Use glm::mat3 instead")]]
     AEMtx33();
 
     // ------------------------------------------------------------------------
     // AEMtx33(): Custom Constructor - Sets the elements as the one specified.
+    [[deprecated("Use glm::mat3 instead")]]
     AEMtx33(float a11, float a12, float a13,
             float a21, float a22, float a23,
             float a31, float a32, float a33);

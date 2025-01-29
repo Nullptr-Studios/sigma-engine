@@ -5,14 +5,14 @@
  *
  * @brief The Actor class is a type of Object that can be rendered
  *
- * TODO: Dante add collision things here
+ * TODO: Dante add Collision things here
  * Maybe use it as a std::unique_ptr<CollisionComponent>, you have to create the CollisionComponent struct by yourself
  */
 
 #pragma once
+#include "AnimationSystem/AnimationComponent.hpp"
 #include "Collision/Collision.hpp"
 #include "Object.hpp"
-#include "AnimationSystem/AnimationComponent.hpp"
 
 
 namespace FNFE::ANIMATION {
@@ -45,7 +45,7 @@ public:
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
   [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
-  [[nodiscard]] void SetCollider(Collision::RectCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
+  void SetCollider(Collision::RectCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
   
   /**
    * @brief Sets the texture of the object
@@ -54,9 +54,9 @@ public:
    */
   void SetTexture(const char* path);
 
-  void SetTextureTransform(AEMtx33 NewTxT);
+  void SetTextureTransform(glm::mat3& newTexMtx);
   
-  virtual AEMtx33* GetTextureTransform();
+  virtual glm::mat3& GetTextureTransform();
 
   bool IsInViewport();
 
@@ -67,7 +67,7 @@ private:
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
 
-  AEMtx33 m_tMtx;
+  glm::mat3 m_tMtx; ///< @brief Texxure Matrix
 };
 
 }
