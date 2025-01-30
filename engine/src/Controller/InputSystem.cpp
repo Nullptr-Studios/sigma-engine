@@ -1,27 +1,32 @@
 #include "InputSystem.hpp"
-#include <fstream>
 #include "GlmAlphaTools.hpp"
 
 namespace FNFE {
 
-InputSystem::InputSystem(const std::string& keybindPath) {
+InputSystem::InputSystem(const std::string& keybindPath)
+{
+  
   m_inputBuffer = {};
   std::ifstream file(keybindPath);
+  if (!file.is_open()) {
+    std::cout << "[InputSystem] failed to open JSON file " << keybindPath << '\n';
+    return;
+  }
+
+  // Parse json file
   auto keybinds =  nlohmann::json::parse(file);
+
+  // Debug log
   std::cout << keybinds << std::endl;
   std::string moveStick = keybinds["gamepad"]["sticks"]["movement"];
-  if (moveStick == "left") {
-    m_movementStick = 0;//left
-  } else {
-    m_movementStick = 1;//right
-  }
+
+  m_movementStick = moveStick == "left" ? 0 : 1;
+  
   auto kMovement = keybinds["keyboard"]["movement"];
   auto kActions = keybinds["keyboard"]["actions"];
   auto gActions = keybinds["gamepad"]["action"];
   for (auto &item: kMovement.items()) {
-    std::basic_string<char> key = item.key();
-    std::basic_string<char> value = item.value();
-    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_keyboardMovement.insert(pair);
   }
 

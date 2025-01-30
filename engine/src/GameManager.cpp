@@ -79,6 +79,10 @@ void GameManager::Run() {
   if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
+    
+    m_currentScene->Update(AEGetFrameTime());
+
+    // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
       if (object == nullptr)
         continue;
@@ -89,9 +93,7 @@ void GameManager::Run() {
       object->Update(AEGetFrameTime());
     }
 
-    m_currentScene->Update(AEGetFrameTime());
-
-    // Render
+    // Render Objects
     for (const auto &renderableId: *m_factory->GetRenderables()) {
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
       if (!actor->GetStartHandled())
@@ -139,6 +141,24 @@ void GameManager::Run() {
     std::string SPF = "SPF: ";
     SPF.append(std::to_string(AEGetFrameTime()));
     AEGfxPrint(600, 20, 0xFFFFFFFF, SPF.c_str());
+
+    std::string CurrentObjects = "Current Objects: ";
+    CurrentObjects.append(std::to_string(m_factory->GetObjects()->size()));
+    AEGfxPrint(10, 50, 0xFFFFFFFF, CurrentObjects.c_str());
+
+    std::string CurrentActors = "Current Actors: ";
+    CurrentActors.append(std::to_string(m_factory->GetRenderables()->size()));
+    AEGfxPrint(10, 60, 0xFFFFFFFF, CurrentActors.c_str());
+
+    std::string CurrentObjectsList = "Current Objects List: \n";
+
+    for (auto &m_object: *m_factory->GetObjects()) {
+        CurrentObjectsList.append(m_object.second->GetName());
+        CurrentObjectsList.append("\n");
+    }
+    
+    CurrentObjectsList.append(std::to_string(m_factory->GetRenderables()->size()));
+    AEGfxPrint(10, 80, 0xFFFFFFFF, CurrentObjectsList.c_str());
   }
 #endif
   
