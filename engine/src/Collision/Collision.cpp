@@ -12,7 +12,6 @@ bool Collision::RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, 
   return false;
 }
 
-
 #pragma region TEST
 
 void Collision::TestRect() {
@@ -32,13 +31,13 @@ void Collision::TestRect() {
 void Collision::Print(CollisionType type) {
   switch (type) {
     case CollisionType::ENTER:
-      std::cout << "Enter\n";
+      std::cout << "[Collision] Type enter\n";
       break;
     case CollisionType::EXIT:
-      std::cout << "Exit\n";
+      std::cout << "[Collision] Type exit\n";
       break;
     case CollisionType::STAY:
-      std::cout << "Stay\n";
+      std::cout << "[Collision] Type stay\n";
       break;
   }
 }
@@ -53,5 +52,7 @@ void Collision::DrawRectangleAt(glm::vec2 pos, glm::vec2 scale, unsigned color) 
 void Collision::DrawRectangleAt(glm::vec3 pos, glm::vec3 scale, unsigned color) {
   DrawRectangleAt({pos.x, pos.y}, {scale.x, scale.y}, color);
 }
+
 #pragma endregion
+
 } // namespace FNFE

@@ -15,6 +15,7 @@ namespace FNFE {
 typedef unsigned int id_t;     ///< @typedef id_t     @brief Type definition for object IDs
 typedef nlohmann::json json_t; ///< @typedef json_t   @brief Type definition for json files
 typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def for the sigma engine
+typedef unsigned color_t;      ///< @typedef color_t  @brief Color type for Alpha Engine
 
 #define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 #define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
@@ -24,8 +25,7 @@ typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def f
 #define PROFILER_START auto start = std::chrono::high_resolution_clock::now();
 #define PROFILER_END(FunctionName) auto end = std::chrono::high_resolution_clock::now();\
 std::chrono::duration<double> elapsed = end - start;\
-std::cout << "[Profiler] [" << FunctionName << "] Elapsed time " << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() << " ms\n";
-
+std::cout << "[Profiler] [" << (FunctionName) << "] Elapsed time " << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() << " ms\n";
 
 /**
  * @enum EngineState

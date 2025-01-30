@@ -21,7 +21,7 @@ class AnimationComponent;
 
 namespace FNFE {
 namespace Collision {
-struct RectCollider;
+struct BoxCollider;
 }
 
 /**
@@ -44,8 +44,8 @@ public:
 
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
-  [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
-  void SetCollider(Collision::RectCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
+  [[nodiscard]] Collision::BoxCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
+  void SetCollider(Collision::BoxCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
   
   /**
    * @brief Sets the texture of the object
@@ -61,7 +61,7 @@ public:
   bool IsInViewport();
 
 protected:
-  Collision::RectCollider * m_collider = nullptr;
+  Collision::BoxCollider * m_collider = nullptr;
 private:
 
   const char* m_texturePath = nullptr;

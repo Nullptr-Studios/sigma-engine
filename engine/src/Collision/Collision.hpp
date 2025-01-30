@@ -24,26 +24,22 @@ namespace FNFE::Collision {
 bool RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, glm::vec3 &scaleB);
 
 /**
- * @enum CollisionType Collision Types
+ * @enum CollisionType 
+ * @brief Stores all the different collision types
  */
 enum CollisionType {
   ENTER, ///< @brief The object has collider with this object
-  STAY, ///< @brief the object has been colliding with this object
-  EXIT ///< @brief the object has just exited colliding with the object
+  STAY,  ///< @brief the object has been colliding with this object
+  EXIT,  ///< @brief the object has just exited colliding with the object
 };
 
 /**
- * @struct Collision holds all the information of a Collision
+ * @struct Collision 
+ * @brief Holds all the information of a Collision
  */
 struct Collision {
-  /**
-   * @brief the type of collision
-   */
-  CollisionType m_type;
-  /**
-   * @brief the id of the object of collision
-   */
-  FNFE::id_t m_object;
+  CollisionType m_type; ///< @brief Type of the collision
+  FNFE::id_t m_object; ///< @brief ID of the colliding object
 };
 
 // DEBUG

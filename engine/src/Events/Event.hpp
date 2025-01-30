@@ -29,7 +29,8 @@ namespace FNFE {
  */
 enum class EventType {
   NONE = 0,
-  MESSAGE
+  MESSAGE,
+  COLLISION
 };
 
 /**
