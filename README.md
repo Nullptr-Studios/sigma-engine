@@ -8,6 +8,13 @@ GAM150 project engine
 - Variables use `camelCase`
     - Private and Protected variables must be prefixed with `m_variableName`
 
+### GameObjects conventions
+- Init() -> Used for initializing pointers of the object
+- Start() -> Initialize variables (transform, texture...)
+- Update() -> Update Logic
+- Draw() -> Custom draw Logic
+- Destroy() -> Uninitialize logic (Only uninitialize textures if the texture is not going to be used again)
+
 ### Code style
 - NO TABS, 2 spaces
 - Soft line limit of 120 characters
