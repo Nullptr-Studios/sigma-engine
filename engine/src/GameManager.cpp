@@ -61,7 +61,7 @@ void GameManager::GameInit() {
 
 
   // Start
-  for (const auto &[id, object]: m_factory->GetObjects()) {
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     object->Start();
     object->SetStartHandled();
   }
@@ -79,8 +79,7 @@ void GameManager::Run() {
   if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
-    auto a = m_factory->GetObjects();
-    for (const auto &[id, object]: m_factory->GetObjects()) {
+    for (const auto &object: *m_factory->GetObjects() | std::views::values) {
       if (object == nullptr)
         continue;
       if (!object->GetStartHandled()) {
@@ -93,7 +92,7 @@ void GameManager::Run() {
     m_currentScene->Update(AEGetFrameTime());
 
     // Render
-    for (const auto &renderableId: m_factory->GetRenderables()) {
+    for (const auto &renderableId: *m_factory->GetRenderables()) {
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
@@ -112,8 +111,7 @@ void GameManager::Run() {
 
     m_currentScene->Draw();
   }
-
-
+  
   // Audio
   m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
@@ -188,7 +186,7 @@ void GameManager::OnEvent(Event &e) {
 
   EventDispatcher dispatcher(e);
 
-  for (const auto &[id, object]: m_factory->GetObjects()) {
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
         [object](MessageEvent &e) -> bool
         {
