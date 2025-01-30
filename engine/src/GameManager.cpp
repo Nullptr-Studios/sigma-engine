@@ -113,7 +113,6 @@ void GameManager::Run() {
     m_currentScene->Draw();
   }
 
-  auto textures = m_factory->GetTextures();
 
   // Audio
   m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
