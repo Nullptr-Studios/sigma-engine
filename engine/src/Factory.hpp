@@ -180,6 +180,8 @@ T* Factory::CreateObject(const std::string& name) {
   if (m_log)
     std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
+  obj->Init();
+
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
   // if (StateManager::GetEngineState() == IN_GAME) obj->Start();
