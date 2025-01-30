@@ -43,7 +43,8 @@ void Camera::UpdateMatrix() {
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  auto clipMatrix = glm::ortho(0.0f, viewport.x, viewport.y, 0.0f, m_near, m_far);
+  //auto clipMatrix = glm::ortho(0.0f, viewport.x, viewport.y, 0.0f, m_near, m_far);
+  auto clipMatrix = glm::mat4(1.0f);
   m_cameraMatrix = clipMatrix * viewMatrix;
 }
 

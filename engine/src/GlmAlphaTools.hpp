@@ -17,11 +17,16 @@
 namespace glm {
 
 inline AEMtx33 ToAEX(mat3 &m) {
+  return AEMtx33::Identity();
+
+  // TODO: check this shit
+  /*if (!m[0][0]) return AEMtx33::Identity();
+
   return AEMtx33 {
     m[0][0], m[0][1], m[0][2], 
     m[1][0], m[1][1], m[1][2],
     m[2][0], m[2][1], m[2][2]
-  };
+  };*/
 }
 
 inline AEMtx44 ToAEX(mat4 &m) {
