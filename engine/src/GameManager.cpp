@@ -151,12 +151,10 @@ void GameManager::Run() {
     AEGfxPrint(10, 60, 0xFFFFFFFF, CurrentActors.c_str());
 
     std::string CurrentObjectsList = "Current Objects List: \n";
-
     for (auto &m_object: *m_factory->GetObjects()) {
-        CurrentObjectsList.append(m_object.second->GetName());
-        CurrentObjectsList.append("\n");
+      CurrentObjectsList.append(m_object.second->GetName());
+      CurrentObjectsList.append("\n");
     }
-    
     CurrentObjectsList.append(std::to_string(m_factory->GetRenderables()->size()));
     AEGfxPrint(10, 80, 0xFFFFFFFF, CurrentObjectsList.c_str());
   }

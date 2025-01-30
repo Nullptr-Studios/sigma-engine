@@ -8,21 +8,6 @@
 
 namespace FNFE {
 
-// Init
-void Actor::Init() {
-  Object::Init();
-  //
-  // AEGfxTriStart();
-  // AEGfxTriAdd(-0.5f, -0.5f, AE_COLORS_WHITE, 0.0f, 0.0f, -0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, -0.5f,
-  //             AE_COLORS_WHITE, 1.0f, 0.0f);
-  // AEGfxTriAdd(-0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, 0.5f, AE_COLORS_WHITE, 1.0f, 1.0f, 0.5f, -0.5f,
-  //             AE_COLORS_WHITE, 1.0f, 0.0f);
-  //
-  // m_triangleList = AEGfxTriEnd();
-  //
-  // m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
-
-}
 
 void Actor::Destroy() {
   Object::Destroy();

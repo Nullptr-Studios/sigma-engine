@@ -60,7 +60,7 @@ class Event;
 class Object {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
-  explicit Object(const uint32_t id) : m_id(id) { Init(); }
+  explicit Object(const uint32_t id) : m_id(id) { Object::Init(); }
   virtual ~Object() = default;
 
 public:
@@ -73,7 +73,7 @@ public:
   Transform transform;
 
 
-  virtual void Init() {}
+  virtual void Init() { std::cout << "Init called \n"; }
   virtual void Start() {}
   virtual void Update(double deltaTime) {}
   virtual void Draw() {}

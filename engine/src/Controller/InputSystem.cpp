@@ -7,6 +7,7 @@ InputSystem::InputSystem(const std::string& keybindPath)
 {
   
   m_inputBuffer = {};
+  
   std::ifstream file(keybindPath);
   if (!file.is_open()) {
     std::cout << "[InputSystem] failed to open JSON file " << keybindPath << '\n';
@@ -20,27 +21,24 @@ InputSystem::InputSystem(const std::string& keybindPath)
   std::cout << keybinds << std::endl;
   std::string moveStick = keybinds["gamepad"]["sticks"]["movement"];
 
-  m_movementStick = moveStick == "left" ? 0 : 1;
+  m_movementStick = moveStick != "left";
   
   auto kMovement = keybinds["keyboard"]["movement"];
   auto kActions = keybinds["keyboard"]["actions"];
   auto gActions = keybinds["gamepad"]["action"];
+  
   for (auto &item: kMovement.items()) {
     std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_keyboardMovement.insert(pair);
   }
 
   for (auto &item: kActions.items()) {
-    std::basic_string<char> key = item.key();
-    std::basic_string<char> value = item.value();
-    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_keyboardActions.insert(pair);
   }
 
   for (auto &item: gActions.items()) {
-    std::basic_string<char> key = item.key();
-    std::basic_string<char> value = item.value();
-    std::pair<std::string, std::string> pair = std::make_pair(key, value);
+    std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_gamepadActions.insert(pair);
   }
 
@@ -65,7 +63,7 @@ void InputSystem::UpdateDirection(int controllerId) {
     if (m_movementStick == 0) { // if left stick
       auto input = AEInputGamepadStickLeft(controllerId);
       m_movementBuffer = glm::FromAEX(input);
-    } else if (m_movementStick == 1) { //if right stick
+    }else{ //if right stick
       auto input = AEInputGamepadStickRight(controllerId);
       m_movementBuffer = glm::FromAEX(input);
     }
@@ -74,7 +72,7 @@ void InputSystem::UpdateDirection(int controllerId) {
 
 void InputSystem::UpdateActions(int controllerId) {
   if (controllerId == -1 ) {
-    for (auto action : m_keyboardActions) {
+    for (auto &action : m_keyboardActions) {
       if (AEInputKeyTriggered(action.second[0])) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
@@ -83,7 +81,7 @@ void InputSystem::UpdateActions(int controllerId) {
       }
     }
   } else {
-    for (auto action : m_gamepadActions) {
+    for (auto &action : m_gamepadActions) {
       if (AEInputGamepadButtonTriggered(controllerId,ToGamepadKey(action.second[0]))) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);

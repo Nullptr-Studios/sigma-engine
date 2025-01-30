@@ -33,10 +33,13 @@ struct RectCollider;
  */
 class Actor : public Object {
 public:
-  Actor(id_t id) : Object(id) { Init(); }
+  Actor(id_t id) : Object(id) {}
   ~Actor() override = default;
 
-  void Init() override;
+  void Init() override {
+    Object::Init();
+    std::cout << "Init called \n";
+  };
   void Start() override {}
   void Update(double delta) override {}
   void Draw() override {}
