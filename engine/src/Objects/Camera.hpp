@@ -38,7 +38,7 @@ public:
 
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)
-  
+
   Transform m_oldTransform;
   glm::mat4 m_cameraMatrix = glm::mat4(1.0f);
 
