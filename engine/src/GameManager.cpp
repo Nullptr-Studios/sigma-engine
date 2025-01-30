@@ -59,6 +59,12 @@ void GameManager::GameInit() {
 
   StateManager::SetEngineState(IN_GAME);
 
+#ifdef _DEBUG
+ 
+  // Disables 60fps lock in Debug mode
+  AESetFrameRateMax(20000); 
+  
+#endif // _DEBUG
 
   // Start
   for (const auto &[id, object]: m_factory->GetObjects()) {

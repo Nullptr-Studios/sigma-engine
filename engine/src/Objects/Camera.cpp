@@ -4,7 +4,6 @@ namespace FNFE {
 
 void Camera::Start() {
   Object::Start();
-  AESetFrameRateMax(30000);
 
   glm::vec2 viewport;
   AEGfxSetFullscreen(false);
