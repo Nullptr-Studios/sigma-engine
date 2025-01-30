@@ -68,7 +68,7 @@ private:
    */
   void UpdateTextureMatrix();
   
-  glm::mat3 m_texMtx;
+  glm::mat3 m_texMtx = glm::mat3(1.0f);
   TextureAtlas* m_texAtlas;
   int m_currentFrameIndex = 0;
   double m_frameTime = 0.0;
