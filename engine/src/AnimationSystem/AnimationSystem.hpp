@@ -46,7 +46,7 @@ class AnimationSystem {
 public:
 
   AnimationSystem() { m_AnimSysinstance = this; }
-  ~AnimationSystem() { };
+  ~AnimationSystem() = default;
 
   /**
    * @brief Load a texture atlas from a json file
@@ -68,14 +68,8 @@ public:
   /**
    * @brief Build a texture transform matrix
    * @param texMtx Texture matrix
-   * @param sX X position of the frame
-   * @param sY Y position of the frame
    * @param framePosition Position of the animation frame in the atlas
-   * @param sW Width of the frame
-   * @param sH Height of the frame
    * @param frameSize Size of the animation frame in the atlas
-   * @param taW Width of the texture atlas
-   * @param taH Height of the texture atlas
    * @param atlasSize Size of the texture atlas
    *
    * @todo Add Support for trimmed sprites

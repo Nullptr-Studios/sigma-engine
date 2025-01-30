@@ -38,6 +38,8 @@ InputSystem::InputSystem(const std::string& keybindPath) {
     std::pair<std::string, std::string> pair = std::make_pair(key, value);
     m_gamepadActions.insert(pair);
   }
+
+  file.close();
 }
   
 void InputSystem::UpdateInput(int controllerId) {

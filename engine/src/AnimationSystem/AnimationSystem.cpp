@@ -20,6 +20,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
   std::fstream file(jsonFilePath);
   if (!file.is_open()) {
     std::cout << "[AnimationSystem] failed to open JSON file " << jsonFilePath << '\n';
+    file.close();
     return nullptr;
   }
   
@@ -29,6 +30,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(J["meta"]["image"])) {
     std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
+    file.close();
     return &m_loadedTextureAtlases[J["meta"]["image"]];
   }
 
@@ -92,6 +94,8 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
 
   ta.texture = FNFE_FACTORY->LoadTexture(ta.filePath.c_str());
   std::cout << "[AnimationSystem] Texture Atlas loaded\n";
+
+  file.close();
   
   PROFILER_END("AnimationSystem::LoadTextureAtlas");
   
