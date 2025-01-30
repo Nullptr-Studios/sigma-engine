@@ -10,8 +10,9 @@
 
 FNFE::ANIMATION::AnimationSystem* FNFE::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
 
-// TODO: support for multiple animations
 // TODO: cleanup
+// TODO: Add callback string implementation
+// TODO: Support for trimmed sprites
 FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
 {
   //Profiler time

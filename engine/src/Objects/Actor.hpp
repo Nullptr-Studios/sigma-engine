@@ -40,10 +40,10 @@ public:
     Object::Init();
     std::cout << "Init called \n";
   };
-  void Start() override {}
-  void Update(double delta) override {}
-  void Draw() override {}
-  void Destroy() override;
+  void Start() override { Object::Start(); };
+  void Update(double delta) override { Object::Update(delta); };
+  void Draw() override { Object::Draw(); };
+  void Destroy() override { Object::Destroy(); };
 
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit

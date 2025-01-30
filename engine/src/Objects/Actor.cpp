@@ -8,14 +8,6 @@
 
 namespace FNFE {
 
-
-void Actor::Destroy() {
-  Object::Destroy();
-  /*FNFE_FACTORY->FreeTexture(m_texturePath);
-  m_texture = nullptr;*/
-
-}
-
 void Actor::SetTexture(const char* path) {
   m_texturePath = path;
   m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);

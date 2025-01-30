@@ -12,7 +12,9 @@
 
 namespace FNFE::ANIMATION {
 
-//* @brief Struct to hold the frame data
+typedef std::unordered_map<std::string, std::function<void()>> AnimationCallbackMap; ///< @typedef AnimationCallbackMap @brief Type definition for the animation callback map
+
+/// @brief Struct to hold the frame data
 struct Frame {
   std::string name;
   glm::vec2 size;
@@ -20,16 +22,17 @@ struct Frame {
   glm::vec2 sourceSize;
   glm::vec2 sourcePosition;
   glm::vec2 pivot;
+  std::string AnimCallbackString;
 };
 
-//* @brief Struct to hold the animation data
+/// @brief Struct to hold the animation data
 struct Animation {
   std::string name;
   float frameRate;
   std::vector<Frame> frames;
 };
 
-//* @brief Struct to hold the texture atlas data
+/// @brief Struct to hold the texture atlas data
 struct TextureAtlas {
   std::string name;
   std::string filePath;
