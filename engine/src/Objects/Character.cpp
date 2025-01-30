@@ -5,8 +5,9 @@ namespace FNFE {
 void Character::Init() {
   Actor::Init();
 
-  if (m_animComp == nullptr)
-    m_animComp = new ANIMATION::AnimationComponent();
+  //TODO: fix animation stuff (Acess Violation)
+    //if (m_animComp == nullptr)
+  //m_animComp = new ANIMATION::AnimationComponent();
 
 }
 
