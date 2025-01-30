@@ -11,7 +11,6 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 
 add_library(sigma STATIC 
         ${SRC}
-        src/UI/UIImage.hpp
 )
 
 target_include_directories(sigma PUBLIC src)

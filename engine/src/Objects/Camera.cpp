@@ -12,7 +12,6 @@ void Camera::Start() {
 
   m_oldTransform = transform;
   UpdateMatrix();
-  // hi
 }
 
 void Camera::Update(double deltaTime) {
