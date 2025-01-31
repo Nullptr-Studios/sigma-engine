@@ -1,6 +1,6 @@
 #include "Character.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 void Character::Init() {
   Actor::Init();

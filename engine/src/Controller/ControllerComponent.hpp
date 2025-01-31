@@ -8,7 +8,7 @@
 #pragma once
 #include <glm/vec3.hpp>
 
-namespace FNFE {
+namespace sigma {
 
 struct Transform;
 class Character;
@@ -32,4 +32,4 @@ protected:
   Character *m_character = nullptr; ///< @brief Pointer to the transform of the object
   virtual void Update() = 0; ///< @brief update function to update the player/AI
 };
-} // namespace FNFE
+} // namespace sigma

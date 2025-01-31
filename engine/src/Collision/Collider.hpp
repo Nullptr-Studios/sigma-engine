@@ -10,7 +10,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
-namespace FNFE {
+namespace sigma {
 class Actor;
 
 namespace Collision {
@@ -105,4 +105,4 @@ struct BoxCollider {
 };
 
 } // namespace Collision
-} // namespace FNFE
+} // namespace sigma

@@ -2,7 +2,7 @@
 #include <aecore/AEGraphics.h>
 #include <iostream>
 
-namespace FNFE {
+namespace sigma {
 bool Collision::RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, glm::vec3 &scaleB) {
   glm::vec3 distance = (posA - posB) * 2.0f;
   if ((fabs(distance.x) <= scaleA.x + scaleB.x) && (fabs(distance.y) <= scaleA.y + scaleB.y) &&
@@ -55,4 +55,4 @@ void Collision::DrawRectangleAt(glm::vec3 pos, glm::vec3 scale, unsigned color) 
 
 #pragma endregion
 
-} // namespace FNFE
+} // namespace sigma

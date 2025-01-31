@@ -10,14 +10,14 @@
 #include <Factory.hpp>
 #include <pch.hpp>
 
-namespace FNFE::ANIMATION {
+namespace sigma::ANIMATION {
 class AnimationSystem;
 }
 
-namespace FNFE {
+namespace sigma {
 class Camera;
 }
-namespace FNFE {
+namespace sigma {
 
 class AudioEngine;
 class Scene;
@@ -92,4 +92,4 @@ private:
   Camera* m_activeCamera;
 };
 
-} // FNFE
+} // sigma

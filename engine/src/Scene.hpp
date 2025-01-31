@@ -9,7 +9,7 @@
 #pragma once
 
 
-namespace FNFE {
+namespace sigma {
 
 class Scene {
 public:
@@ -54,5 +54,5 @@ private:
 
 };
 
-} // FNFE
+} // sigma
 

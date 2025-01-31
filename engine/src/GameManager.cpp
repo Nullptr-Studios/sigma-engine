@@ -10,7 +10,7 @@
 #include "Scene.hpp"
 #include "StateManager.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 GameManager *GameManager::m_instance = nullptr;
 EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
@@ -202,4 +202,4 @@ void GameManager::OnEvent(Event &e) {
   PROFILER_END("GameManager::OnEvent")
 }
 
-} // namespace FNFE
+} // namespace sigma

@@ -10,7 +10,7 @@
 #include "glm/fwd.hpp"
 #include "glm/vec2.hpp"
 
-namespace FNFE::ANIMATION {
+namespace sigma::ANIMATION {
 
 //* @brief Struct to hold the frame data
 struct Frame {

@@ -10,7 +10,7 @@
 #include "ControllerComponent.hpp"
 #include "InputSystem.hpp"
 
-namespace FNFE {
+namespace sigma {
 class InputSystem;
 
 /**
@@ -80,4 +80,4 @@ private:
   glm::vec2 m_facingDirection = glm::vec2(1.0f, 0.0f); ///< @brief Direction the player last moved
 };
 
-} // namespace FNFE
+} // namespace sigma

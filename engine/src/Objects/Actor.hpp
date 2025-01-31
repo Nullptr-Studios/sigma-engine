@@ -15,11 +15,11 @@
 #include "Object.hpp"
 
 
-namespace FNFE::ANIMATION {
+namespace sigma::ANIMATION {
 class AnimationComponent;
 }
 
-namespace FNFE {
+namespace sigma {
 namespace Collision {
 struct BoxCollider;
 }

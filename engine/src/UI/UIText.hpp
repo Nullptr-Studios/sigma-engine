@@ -7,7 +7,7 @@
  */
 #include "Objects/Object.hpp"
 
-namespace FNFE {
+namespace sigma {
   class UIText final : public Object {
   public:
     explicit UIText(uint32_t id)

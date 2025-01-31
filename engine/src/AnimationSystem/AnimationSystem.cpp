@@ -8,11 +8,11 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/matrix_transform_2d.hpp"
 
-FNFE::ANIMATION::AnimationSystem* FNFE::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
+sigma::ANIMATION::AnimationSystem* sigma::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
 
 // TODO: support for multiple animations
 // TODO: cleanup
-FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
+sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
 {
   //Profiler time
   PROFILER_START;
@@ -99,7 +99,7 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
 
 }
 
-FNFE::ANIMATION::TextureAtlas *FNFE::ANIMATION::AnimationSystem::GetTextureAtlas(const char *name) {
+sigma::ANIMATION::TextureAtlas *sigma::ANIMATION::AnimationSystem::GetTextureAtlas(const char *name) {
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(name)) {
     // std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
@@ -109,7 +109,7 @@ FNFE::ANIMATION::TextureAtlas *FNFE::ANIMATION::AnimationSystem::GetTextureAtlas
   std::cout << "[AnimationSystem] Texture Atlas not found\n";
   return nullptr;
 }
-void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
+void sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
                                                              const glm::vec2 frameSize, const glm::vec2 atlasSize) {
   glm::vec2 UVs = framePosition / atlasSize;
 
@@ -121,7 +121,7 @@ void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, 
   glm::translate(texMtx, translate);
 }
 
-void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
+void sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
 {
   BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }

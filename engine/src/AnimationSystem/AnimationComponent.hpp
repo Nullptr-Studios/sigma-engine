@@ -9,11 +9,11 @@
 #pragma once
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE::ANIMATION {
+namespace sigma::ANIMATION {
 struct Animation;
 }
 
-namespace FNFE::ANIMATION {
+namespace sigma::ANIMATION {
 
 struct Frame;
 struct TextureAtlas;

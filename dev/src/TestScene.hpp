@@ -10,7 +10,7 @@
 
 #include "Scene.hpp"
 
-class TestScene : public FNFE::Scene
+class TestScene : public sigma::Scene
 {
 public:
 

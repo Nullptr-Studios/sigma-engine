@@ -1,3 +1,3 @@
 #include "UIImage.hpp"
-namespace FNFE {
+namespace sigma {
 }

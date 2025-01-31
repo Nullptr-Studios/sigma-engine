@@ -10,16 +10,16 @@
 #include <json.hpp>
 #include <pch.hpp>
 
-namespace FNFE {
+namespace sigma {
 
 typedef unsigned int id_t;     ///< @typedef id_t     @brief Type definition for object IDs
 typedef nlohmann::json json_t; ///< @typedef json_t   @brief Type definition for json files
 typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def for the sigma engine
 typedef unsigned color_t;      ///< @typedef color_t  @brief Color type for Alpha Engine
 
-#define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
-#define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
-#define FNFE_ANIMATION FNFE::ANIMATION::AnimationSystem::GetAnimationSysInstance()
+#define GET_MANAGER sigmasigma::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
+#define GET_FACTORY sigmasigma::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
+#define GET_ANIMATION sigmasigma::ANIMATION::AnimationSystem::GetAnimationSysInstance()
 
 // profiler
 #define PROFILER_START auto start = std::chrono::high_resolution_clock::now();

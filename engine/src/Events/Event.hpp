@@ -16,7 +16,7 @@
 #pragma once
 #include <pch.hpp>
 
-namespace FNFE {
+namespace sigma {
 
 /**
  * @enum EventType

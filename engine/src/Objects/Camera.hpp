@@ -9,7 +9,7 @@
 #pragma once
 #include "Objects/Object.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 /**
  * @class Camera

@@ -4,7 +4,7 @@
 #include "Objects/Object.hpp"
 // #include "../../../../src/Player.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 /*
 TODO:
@@ -130,4 +130,4 @@ void PlayerController::PlayAction(const std::string &action) {
 
 void PlayerController::EndAction(const std::string &action) { m_state = IDLE; }
 
-} // namespace FNFE
+} // namespace sigma

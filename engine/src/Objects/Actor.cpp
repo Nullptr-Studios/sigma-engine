@@ -6,7 +6,7 @@
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "Collision/Collider.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 // Init
 void Actor::Init() {

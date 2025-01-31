@@ -2,7 +2,7 @@
 #include <fstream>
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 InputSystem::InputSystem(const std::string& keybindPath) {
   m_inputBuffer = {};
@@ -111,4 +111,4 @@ int ToGamepadKey(char button) {
   }
 }
 
-} // namespace FNFE
+} // namespace sigma

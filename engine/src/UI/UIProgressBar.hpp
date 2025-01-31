@@ -8,7 +8,7 @@
 
 #include "UIImage.hpp"
 
-namespace FNFE {
+namespace sigma {
 
 
 class UIProgressBar final : public UIImage{

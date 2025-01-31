@@ -6,7 +6,7 @@
 #include <FMOD/fmod_errors.h>
 #include <iostream>
 
-FNFE::AudioEngine::AudioEngine()
+sigma::AudioEngine::AudioEngine()
   : sounds()
   , loopsPlaying()
   , soundBanks()
@@ -15,7 +15,7 @@ FNFE::AudioEngine::AudioEngine()
 {
 }
 
-void FNFE::AudioEngine::Init()
+void sigma::AudioEngine::Init()
 {
   ERRCHECK(FMOD::Studio::System::create(&studioSystem));
   ERRCHECK(studioSystem->getCoreSystem(&lowLevelSystem));
@@ -30,17 +30,17 @@ void FNFE::AudioEngine::Init()
   InitializeReverb();
 }
 
-void FNFE::AudioEngine::Terminate()
+void sigma::AudioEngine::Terminate()
 {
   lowLevelSystem->close();
   studioSystem->release();
 }
 
-void FNFE::AudioEngine::Update() {
+void sigma::AudioEngine::Update() {
   ERRCHECK(studioSystem->update()); // also updates the low level system
 }
 
-void FNFE::AudioEngine::Load(AudioData audioData)
+void sigma::AudioEngine::Load(AudioData audioData)
 {
   PROFILER_START
   if (!audioData.IsLoaded())
@@ -62,7 +62,7 @@ void FNFE::AudioEngine::Load(AudioData audioData)
   PROFILER_END("AudioEngine::Load")
 }
 
-void FNFE::AudioEngine::Play(AudioData audioData)
+void sigma::AudioEngine::Play(AudioData audioData)
 {
   if (!audioData.IsLoaded()) {
     std::cout << " [AudioEngine] Playing Sound: " << audioData.GetUniqueID() << "\n";
@@ -92,7 +92,7 @@ void FNFE::AudioEngine::Play(AudioData audioData)
 
 }
 
-void FNFE::AudioEngine::Stop(AudioData audioData)
+void sigma::AudioEngine::Stop(AudioData audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -104,7 +104,7 @@ void FNFE::AudioEngine::Stop(AudioData audioData)
     std::cout << "[AudioEngine] Can't stop a looping sound that's not playing!\n";
 }
 
-void FNFE::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, unsigned int fadeSampleLength)
+void sigma::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, unsigned int fadeSampleLength)
 {
   if (IsPlaying(audioData))
   {
@@ -134,7 +134,7 @@ void FNFE::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, unsi
 
 
 
-void FNFE::AudioEngine::Update3DPosition(AudioData audioData)
+void sigma::AudioEngine::Update3DPosition(AudioData audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -145,12 +145,12 @@ void FNFE::AudioEngine::Update3DPosition(AudioData audioData)
 
 }
 
-bool FNFE::AudioEngine::IsPlaying(AudioData audioData)
+bool sigma::AudioEngine::IsPlaying(AudioData audioData)
 {
 return audioData.Loop() && loopsPlaying.count(audioData.GetUniqueID());
 }
 
-void FNFE::AudioEngine::Set3DListenerPosition
+void sigma::AudioEngine::Set3DListenerPosition
 (
   float posX, float posY, float posZ,
   float forwardX, float forwardY, float forwardZ,
@@ -163,7 +163,7 @@ void FNFE::AudioEngine::Set3DListenerPosition
   ERRCHECK(lowLevelSystem->set3DListenerAttributes(0, &listenerPosition, 0, &forward, &up));
 }
 
-unsigned int FNFE::AudioEngine::GetLengthMS(AudioData audioData)
+unsigned int sigma::AudioEngine::GetLengthMS(AudioData audioData)
 {
   unsigned int length = 0;
   if (sounds.count(audioData.GetUniqueID()))
@@ -171,7 +171,7 @@ unsigned int FNFE::AudioEngine::GetLengthMS(AudioData audioData)
   return length;
 }
 
-void FNFE::AudioEngine::LoadBank(const char* filepath)
+void sigma::AudioEngine::LoadBank(const char* filepath)
 {
   PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Sound Bank " << filepath << '\n';
@@ -181,7 +181,7 @@ void FNFE::AudioEngine::LoadBank(const char* filepath)
   PROFILER_END("AudioEngine::LoadBank")
 }
 
-void FNFE::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
+void sigma::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
 {
   PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Event " << eventName << '\n';
@@ -200,7 +200,7 @@ void FNFE::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<c
   PROFILER_END("AudioEngine::LoadEvent")
 }
 
-void FNFE::AudioEngine::SetEventParamValue(const char* eventName, const char* parameterName, float value)
+void sigma::AudioEngine::SetEventParamValue(const char* eventName, const char* parameterName, float value)
 {
   if (eventInstances.count(eventName) > 0)
       ERRCHECK(eventInstances[eventName]->setParameterByName(parameterName, value));
@@ -209,7 +209,7 @@ void FNFE::AudioEngine::SetEventParamValue(const char* eventName, const char* pa
 
 }
 
-void FNFE::AudioEngine::PlayEvent(const char* eventName, int instanceIndex) {
+void sigma::AudioEngine::PlayEvent(const char* eventName, int instanceIndex) {
   // printEventInfo(eventDescriptions[eventName]);
   auto eventInstance = eventInstances[eventName];
   if (eventInstances.count(eventName) > 0)
@@ -218,49 +218,49 @@ void FNFE::AudioEngine::PlayEvent(const char* eventName, int instanceIndex) {
       std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot play \n";
 }
 
-void FNFE::AudioEngine::StopEvent(const char* eventName, int instanceIndex) {
+void sigma::AudioEngine::StopEvent(const char* eventName, int instanceIndex) {
   if (eventInstances.count(eventName) > 0)
       ERRCHECK(eventInstances[eventName]->stop(FMOD_STUDIO_STOP_ALLOWFADEOUT));
   else
       std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot stop \n";
 }
 
-void FNFE::AudioEngine::SetEventVolume(const char* eventName, float volume0to1)
+void sigma::AudioEngine::SetEventVolume(const char* eventName, float volume0to1)
 {
   std::cout << "AudioEngine: Setting Event Volume\n";
   ERRCHECK(eventInstances[eventName]->setVolume(volume0to1));
   std::cout << "[AudioEngine] Setting Event Volume\n";
 }
 
-bool FNFE::AudioEngine::IsPlaying(const char* eventName, int instance /*= 0*/)
+bool sigma::AudioEngine::IsPlaying(const char* eventName, int instance /*= 0*/)
 {
   FMOD_STUDIO_PLAYBACK_STATE playbackState;
   ERRCHECK(eventInstances[eventName]->getPlaybackState(&playbackState));
   return playbackState == FMOD_STUDIO_PLAYBACK_PLAYING;
 }
 
-void FNFE::AudioEngine::MuteAll()
+void sigma::AudioEngine::MuteAll()
 {
   ERRCHECK(mastergroup->setMute(true));
   muted = true;
 }
 
-void FNFE::AudioEngine::UnmuteAll()
+void sigma::AudioEngine::UnmuteAll()
 {
   ERRCHECK(mastergroup->setMute(false));
   muted = false;
 }
 
-bool FNFE::AudioEngine::IsMute() { return muted; }
+bool sigma::AudioEngine::IsMute() { return muted; }
 
 // Private definitions
-bool FNFE::AudioEngine::IsLoaded(AudioData audioData)
+bool sigma::AudioEngine::IsLoaded(AudioData audioData)
 {
   //std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
   return sounds.count(audioData.GetUniqueID()) > 0;
 }
 
-void FNFE::AudioEngine::Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel)
+void sigma::AudioEngine::Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel)
 {
   FMOD_VECTOR position =
   {
@@ -279,7 +279,7 @@ void FNFE::AudioEngine::Set3DChannelPosition(AudioData audioData, FMOD::Channel*
   ERRCHECK(channel->set3DAttributes(&position, &velocity));
 }
 
-void FNFE::AudioEngine::InitializeReverb()
+void sigma::AudioEngine::InitializeReverb()
 {
   ERRCHECK(lowLevelSystem->createReverb3D(&reverb));
   FMOD_REVERB_PROPERTIES prop2 = FMOD_PRESET_CONCERTHALL;
@@ -295,7 +295,7 @@ void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line)
     std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
 }
 
-void FNFE::AudioEngine::DebugEventInfo(FMOD::Studio::EventDescription* eventDescription)
+void sigma::AudioEngine::DebugEventInfo(FMOD::Studio::EventDescription* eventDescription)
 {
   int params;
   bool is3D, isOneshot;

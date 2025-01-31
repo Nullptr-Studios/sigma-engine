@@ -11,7 +11,7 @@
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
 
-void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
+void sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
 {
   m_texAtlas = texAtlas;
   m_frameTime = 1.0f / m_texAtlas->animations[0].frameRate;
@@ -20,7 +20,7 @@ void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas
   
 }
 
-void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+void sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
@@ -35,7 +35,7 @@ void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
   m_currentAnimation = nullptr;
 }
 
-void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime)
+void sigma::ANIMATION::AnimationComponent::Update(double DeltaTime)
 {
   if (!m_isPlaying || m_currentAnimation == nullptr) return;
 
@@ -56,7 +56,7 @@ void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime)
   }
 }
 
-void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
+void sigma::ANIMATION::AnimationComponent::PlayAnim() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
   // playing from the fist frame
@@ -71,14 +71,14 @@ void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
   m_isPlaying = true;
 }
 
-void FNFE::ANIMATION::AnimationComponent::StopAnim()
+void sigma::ANIMATION::AnimationComponent::StopAnim()
 {
   if (m_currentAnimation == nullptr) return;
 
   m_isPlaying = false;
 }
 
-void FNFE::ANIMATION::AnimationComponent::UpdateTextureMatrix()
+void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix()
 {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
