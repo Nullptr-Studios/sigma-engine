@@ -23,7 +23,12 @@ struct TextureAtlas;
 class AnimationComponent {
 public:
   AnimationComponent() = default;
-  ~AnimationComponent() { ClearCallbacks(); }
+  ~AnimationComponent() {
+    ClearCallbacks();
+    delete m_texAtlas;
+    delete m_currentAnimation;
+    delete m_currentFrame;
+  }
 
   /**
    * @brief Set the texture atlas for the animation component
