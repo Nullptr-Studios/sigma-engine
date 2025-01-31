@@ -19,6 +19,7 @@ typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def f
 #define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
 #define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
 #define FNFE_ANIMATION FNFE::ANIMATION::AnimationSystem::GetAnimationSysInstance()
+#define FNFE_CAMERA FNFE::CameraController::GetCameraControllerInstance()
 
 // profiler
 #define PROFILER_START auto start = std::chrono::high_resolution_clock::now();

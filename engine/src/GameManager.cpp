@@ -2,6 +2,7 @@
 #include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
 #include "Collision/Collider.hpp"
+#include "Controller/CameraController.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -55,8 +56,8 @@ void GameManager::GameInit() {
   m_audioEngine->Init();
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_activeCamera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
-
+  m_cameraController = std::make_unique<FNFE::CameraController>(0); // idk if this is fine
+  m_cameraController->SetCurrentCamera(FNFE_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 
@@ -99,7 +100,7 @@ void GameManager::Run() {
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
 
-      glm::mat4 camera = m_activeCamera->GetCameraMatrix();
+      glm::mat4 camera = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
       glm::mat4 transform = actor->transform.GetMatrix4();
       glm::mat4 viewMatrix = camera * transform;
       auto viewMatrixAlpha = ToAEX(viewMatrix);
@@ -115,7 +116,7 @@ void GameManager::Run() {
   }
   
   // Audio
-  m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
+  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
