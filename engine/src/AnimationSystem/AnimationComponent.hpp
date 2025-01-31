@@ -33,7 +33,7 @@ public:
    */
   void SetTextureAtlas(TextureAtlas* texAtlas);
 
-  void SetCurrentAnim(std::string animName);
+  void SetCurrentAnim(const std::string &animName);
   
   void Update(double DeltaTime);
 

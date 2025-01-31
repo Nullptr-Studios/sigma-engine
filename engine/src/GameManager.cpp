@@ -124,7 +124,7 @@ void GameManager::Run() {
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
-    
+
   }
   
   // Audio
@@ -132,9 +132,7 @@ void GameManager::Run() {
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
-
   DebugProfiler();
-  
   // AE Shit
   AESysFrameEnd();
 }
@@ -155,7 +153,14 @@ void GameManager::LoadScene(Scene *scene) {
     m_currentScene->Free();
     m_currentScene->Unload();
 
+    // TODO: Do Scene object ownership
     m_factory->DestroyAllObjects();
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Free();
+      val->Unload();
+      delete val;
+    }
 
     delete m_currentScene;
   }

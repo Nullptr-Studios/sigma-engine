@@ -20,7 +20,7 @@ void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas
   
 }
 
-void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(const std::string &animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
