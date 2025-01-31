@@ -9,6 +9,7 @@
 #pragma once
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include "GlmAlphaTools.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -32,9 +33,9 @@ struct Transform {
   [[nodiscard]] glm::mat3& GetMatrix() const {
     //Changed this to use only one matrix -m
     glm::mat3 matrix;
-    matrix = glm::scale(matrix, scale);
-    matrix = glm::rotate(matrix, rotation);
     matrix = glm::translate(matrix, glm::vec2(position.x, position.y));
+    matrix = glm::rotate(matrix, rotation);
+    matrix = glm::scale(matrix, scale);
     return matrix;
   }
 
@@ -46,9 +47,9 @@ struct Transform {
   [[nodiscard]] glm::mat4 GetMatrix4() const {
     // Thy the fuck are Mtx33 and Mtx44 so different -x
     glm::mat4 matrix = glm::mat4(1.0f);
-    matrix = glm::scale(matrix, glm::vec3(scale.x, scale.y, 1.0f));
-    matrix = glm::rotate(matrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     matrix = glm::translate(matrix, position);
+    matrix = glm::rotate(matrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    matrix = glm::scale(matrix, glm::vec3(scale.x, scale.y, 1.0f));
     return matrix;
   }
 };

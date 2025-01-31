@@ -9,6 +9,7 @@
 #pragma once
 #include "glm/fwd.hpp"
 #include "glm/vec2.hpp"
+#include <aecore/AEEngine.h>
 
 namespace FNFE::ANIMATION {
 
