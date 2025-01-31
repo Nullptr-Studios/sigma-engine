@@ -42,7 +42,10 @@ void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   if (m_timeSinceLastFrame > m_frameTime) {
     m_currentFrameIndex++;
     if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
-      m_currentFrameIndex = 0;
+      if (m_loop)
+        m_currentFrameIndex = 0;
+      else 
+        m_isPlaying = false;
     }
     m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
     m_timeSinceLastFrame = 0;
@@ -53,11 +56,38 @@ void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   }
 }
 
-// TODO: Implement
-void FNFE::ANIMATION::AnimationComponent::PlayAndStop() {}
+void FNFE::ANIMATION::AnimationComponent::PlayAndStop() {
+  if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
-// TODO: Implement
-void FNFE::ANIMATION::AnimationComponent::GotoFrame(int frame) {}
+  // playing from the fist frame
+  m_currentFrameIndex = 0;
+
+  m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+
+  UpdateTextureMatrix();
+
+  m_timeSinceLastFrame = 0;
+
+  m_isPlaying = true;
+  
+  m_loop = false;
+}
+
+void FNFE::ANIMATION::AnimationComponent::GotoFrame(const int frame)
+{
+  if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
+  
+  // playing from the fist frame
+  m_currentFrameIndex = frame;
+
+  m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+  
+  UpdateTextureMatrix();
+
+  m_timeSinceLastFrame = 0;
+  
+}
+
 
 void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
@@ -72,6 +102,8 @@ void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
   m_timeSinceLastFrame = 0;
 
   m_isPlaying = true;
+
+  m_loop = true;
 }
 
 void FNFE::ANIMATION::AnimationComponent::StopAnim() {

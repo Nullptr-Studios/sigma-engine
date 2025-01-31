@@ -21,7 +21,7 @@ namespace FNFE {
 class Character : public Actor {
 public:
   explicit Character(id_t id) : Actor(id) {}
-  ~Character() override = default;
+  ~Character() override;
 
   void Init() override;
   void Start() override { Actor::Start(); };
