@@ -85,7 +85,7 @@ public:
    * @param frame Pointer to the frame
    * @param atlas Pointer to the texture atlas
    */
-  void BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas);
+  void BuildTextureTransform(glm::mat3& texMtx, const Frame * frame, const TextureAtlas * atlas);
 
   
   static AnimationSystem* GetAnimationSysInstance() {
