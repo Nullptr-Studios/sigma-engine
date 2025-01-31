@@ -62,12 +62,11 @@ public:
 
 protected:
   Collision::RectCollider * m_collider = nullptr;
-private:
+  glm::mat3 m_tMtx; ///< @brief Texture Matrix
 
+private:
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
-
-  glm::mat3 m_tMtx; ///< @brief Texxure Matrix
 };
 
 }

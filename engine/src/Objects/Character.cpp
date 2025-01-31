@@ -14,6 +14,10 @@ void Character::Update(double delta) { Actor::Update(delta); }
 void Character::Destroy() { Actor::Destroy(); }
 
 glm::mat3& Character::GetTextureTransform() {
+  if (m_animComp == nullptr) {
+    m_tMtx = glm::mat3(1.0f);
+    return m_tMtx;
+  }
   return m_animComp->GetTextureMatrix();
 }
 

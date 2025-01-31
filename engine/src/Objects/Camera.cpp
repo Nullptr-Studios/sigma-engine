@@ -37,14 +37,13 @@ void Camera::Update(double deltaTime) {
 void Camera::UpdateMatrix() {
   // View Space
   auto viewMatrix = glm::mat4(1.0f);
-  viewMatrix = glm::translate(glm::mat4(1.0f), transform.position);
+  viewMatrix = glm::translate(viewMatrix, transform.position);
   viewMatrix = glm::rotate(m_cameraMatrix, transform.rotation, glm::vec3(0, 0, 1));
 
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  // TODO: Look how to use glm::ortho
-  auto clipMatrix = glm::ortho(-1.0f, 1.0f, -1.0f,  1.0f, 1.0f, -1.0f);
+  auto clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
   m_cameraMatrix = clipMatrix * viewMatrix;
   int i = 0;
 }
