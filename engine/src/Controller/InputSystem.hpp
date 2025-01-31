@@ -62,7 +62,7 @@ private:
   std::unordered_map<std::string, std::string> m_gamepadActions{};
   std::string m_inputBuffer{}; ///<@brief action input buffer
   glm::vec2 m_movementBuffer{}; ///<@brief directinal input buffer
-  int m_movementStick{};
+  bool m_movementStick{};
   time_t m_timeBuffer{}; ///<@brief timeout buffer for the input buffers
 };
 

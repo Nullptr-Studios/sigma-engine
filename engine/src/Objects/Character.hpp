@@ -24,9 +24,10 @@ public:
   ~Character() override = default;
 
   void Init() override;
-  void Start() override;
-  void Update(double delta) override;
-  void Destroy() override;
+  void Start() override { Actor::Start(); };
+  void Update(double delta) override { Actor::Update(delta); };
+  void Destroy() override { Actor::Destroy(); };
+  
   glm::mat3& GetTextureTransform() override;
 
   ANIMATION::AnimationComponent* m_animComp = nullptr;

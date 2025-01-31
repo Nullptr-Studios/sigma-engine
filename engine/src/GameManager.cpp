@@ -67,7 +67,7 @@ void GameManager::GameInit() {
 #endif // _DEBUG
 
   // Start
-  for (const auto &[id, object]: m_factory->GetObjects()) {
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     object->Start();
     object->SetStartHandled();
   }
@@ -85,8 +85,11 @@ void GameManager::Run() {
   if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
-    auto a = m_factory->GetObjects();
-    for (const auto &[id, object]: m_factory->GetObjects()) {
+    
+    m_currentScene->Update(AEGetFrameTime());
+
+    // Tick Objects
+    for (const auto &object: *m_factory->GetObjects() | std::views::values) {
       if (object == nullptr)
         continue;
       if (!object->GetStartHandled()) {
@@ -96,10 +99,8 @@ void GameManager::Run() {
       object->Update(AEGetFrameTime());
     }
 
-    m_currentScene->Update(AEGetFrameTime());
-
-    // Render
-    for (const auto &renderableId: m_factory->GetRenderables()) {
+    // Render Objects
+    for (const auto &renderableId: *m_factory->GetRenderables()) {
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
@@ -121,38 +122,14 @@ void GameManager::Run() {
 
     m_currentScene->Draw();
   }
-
-  auto textures = m_factory->GetTextures();
-
+  
   // Audio
   m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
-#if _DEBUG
 
-  if (m_debug) {
-    std::string loadedTextures = "Loaded Textures: ";
-    loadedTextures.append(std::to_string(AEGfxGetAllocatedTexturesCount()));
-    AEGfxPrint(10, 10, 0xFFFFFFFF, loadedTextures.c_str());
-
-    std::string loadedTriLists = "Loaded Tri Lists: ";
-    loadedTriLists.append(std::to_string(AEGfxGetAllocatedTrilistCount()));
-    AEGfxPrint(10, 20, 0xFFFFFFFF, loadedTriLists.c_str());
-
-    std::string loadedFonts = "Loaded Fonts: ";
-    loadedFonts.append(std::to_string(AEGfxGetAllocatedFontCount()));
-    AEGfxPrint(10, 30, 0xFFFFFFFF, loadedFonts.c_str());
-
-    std::string FPS = "FPS: ";
-    FPS.append(std::to_string(AEGetFrameRate()));
-    AEGfxPrint(600, 10, 0xFFFFFFFF, FPS.c_str());
-    
-    std::string SPF = "SPF: ";
-    SPF.append(std::to_string(AEGetFrameTime()));
-    AEGfxPrint(600, 20, 0xFFFFFFFF, SPF.c_str());
-  }
-#endif
+  DebugProfiler();
   
   // AE Shit
   AESysFrameEnd();
@@ -198,7 +175,7 @@ void GameManager::OnEvent(Event &e) {
 
   EventDispatcher dispatcher(e);
 
-  for (const auto &[id, object]: m_factory->GetObjects()) {
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
         [object](MessageEvent &e) -> bool
         {
@@ -209,6 +186,61 @@ void GameManager::OnEvent(Event &e) {
   }
 
   PROFILER_END("GameManager::OnEvent")
+}
+void GameManager::DebugProfiler()
+{
+#if _DEBUG
+
+  if (m_debug) {
+    std::string loadedTextures = "Loaded Textures: ";
+    loadedTextures.append(std::to_string(AEGfxGetAllocatedTexturesCount()));
+    AEGfxPrint(10, 10, 0xFFFFFFFF, loadedTextures.c_str());
+
+    std::string loadedTriLists = "Loaded Tri Lists: ";
+    loadedTriLists.append(std::to_string(AEGfxGetAllocatedTrilistCount()));
+    AEGfxPrint(10, 20, 0xFFFFFFFF, loadedTriLists.c_str());
+
+    std::string loadedFonts = "Loaded Fonts: ";
+    loadedFonts.append(std::to_string(AEGfxGetAllocatedFontCount()));
+    AEGfxPrint(10, 30, 0xFFFFFFFF, loadedFonts.c_str());
+    
+    
+    std::string FPS = "FPS: ";
+    float fps = AEGetFrameRate();
+    
+    unsigned colorFPS = 0xFFFFFFFF;
+    if (fps >= 59) {
+      colorFPS = 0xFF00FF00;
+    } else if (fps >= 29) {
+      colorFPS = 0xFFFFFF00;
+    } else {
+      colorFPS = 0xFFFF0000;
+    }
+    
+    FPS.append(std::to_string(fps));
+    AEGfxPrint(600, 10, colorFPS, FPS.c_str());
+    
+    std::string SPF = "SPF: ";
+    SPF.append(std::to_string(AEGetFrameTime()));
+    AEGfxPrint(600, 20, colorFPS, SPF.c_str());
+
+    std::string CurrentObjects = "Current Objects: ";
+    CurrentObjects.append(std::to_string(m_factory->GetObjects()->size()));
+    AEGfxPrint(10, 50, 0xFFFFFFFF, CurrentObjects.c_str());
+
+    std::string CurrentActors = "Current Actors: ";
+    CurrentActors.append(std::to_string(m_factory->GetRenderables()->size()));
+    AEGfxPrint(10, 60, 0xFFFFFFFF, CurrentActors.c_str());
+
+    std::string CurrentObjectsList = "Current Objects List: \n";
+    for (auto &val: *m_factory->GetObjects() | std::views::values) {
+      CurrentObjectsList.append(val->GetName());
+      CurrentObjectsList.append("\n");
+    }
+    CurrentObjectsList.append(std::to_string(m_factory->GetRenderables()->size()));
+    AEGfxPrint(10, 80, 0xFFFFFFFF, CurrentObjectsList.c_str());
+  }
+#endif
 }
 
 } // namespace FNFE

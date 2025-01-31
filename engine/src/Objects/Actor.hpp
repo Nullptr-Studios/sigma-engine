@@ -33,14 +33,17 @@ struct RectCollider;
  */
 class Actor : public Object {
 public:
-  Actor(id_t id) : Object(id) { Init(); }
+  Actor(id_t id) : Object(id) {}
   ~Actor() override = default;
 
-  void Init() override;
-  void Start() override {}
-  void Update(double delta) override {}
-  void Draw() override {}
-  void Destroy() override;
+  void Init() override {
+    Object::Init();
+    std::cout << "Init called \n";
+  };
+  void Start() override { Object::Start(); };
+  void Update(double delta) override { Object::Update(delta); };
+  void Draw() override { Object::Draw(); };
+  void Destroy() override { Object::Destroy(); };
 
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit

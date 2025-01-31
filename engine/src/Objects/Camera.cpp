@@ -45,7 +45,6 @@ void Camera::UpdateMatrix() {
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   auto clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
   m_cameraMatrix = clipMatrix * viewMatrix;
-  int i = 0;
 }
 
 } // namespace FNFE

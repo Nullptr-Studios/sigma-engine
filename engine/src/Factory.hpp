@@ -78,10 +78,10 @@ public:
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
-  ObjectMap GetObjects() { return m_objects; } ///< @brief Returns the Object map
+  ObjectMap* GetObjects() { return &m_objects; } ///< @brief Returns the Object map
   Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
   
-  ActorList GetRenderables() { return m_renderables; } ///< @brief Returns the Renderables map
+  ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 
@@ -179,6 +179,8 @@ T* Factory::CreateObject(const std::string& name) {
   
   if (m_log)
     std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
+
+  obj->Init();
 
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
