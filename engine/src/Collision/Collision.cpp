@@ -1,58 +1,37 @@
 #include "Collision.hpp"
-#include <aecore/AEGraphics.h>
-#include <iostream>
 
-namespace sigma {
-bool Collision::RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, glm::vec3 &scaleB) {
-  glm::vec3 distance = (posA - posB) * 2.0f;
-  if ((fabs(distance.x) <= scaleA.x + scaleB.x) && (fabs(distance.y) <= scaleA.y + scaleB.y) &&
-      (fabs(distance.z) <= scaleA.z + scaleB.z)) {
-    return true;
-  }
-  return false;
-}
+namespace sigma::Collision {
 
-#pragma region TEST
+// Every day i think i prefer femboys a bit more than woman -d(probably)
+void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
+  for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
+    auto obj1 = it1->second;
+    auto obj1collider = obj1->GetCollider();
+    if (!obj1collider) continue; // Avoids if objects doesn't have a collider -x
 
-void Collision::TestRect() {
-  glm::vec3 posA = {0, 0, 0};
-  MousePositionData data = AEGetMouseData();
-  glm::vec3 posB = {data.position.x, data.position.y, 0};
-  glm::vec3 scaleA = {100, 200, 0};
-  glm::vec3 scaleB = {200, 100, 0};
-  unsigned color = AE_COLORS_BLUE;
-  if (RectOnRect(posA, scaleA, posB, scaleB)) {
-    color = AE_COLORS_RED;
-  }
-  DrawRectangleAt({posA.x, posA.y}, {scaleA.x, scaleA.y}, color);
-  DrawRectangleAt({posB.x, posB.y}, {scaleB.x, scaleB.y}, color);
-}
+    // Start the inner loop from the next element to avoid redundant checks -x
+    for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
+      auto obj2 = it2->second;
+      auto obj2collider = obj2->GetCollider();
+      if (!obj2collider) continue;
+      
+      // Depth check -x
+      float z_distance = std::fabs(obj1->transform.position.z - obj2->transform.position.z);
+      if (z_distance > obj1collider->depth + obj2collider->depth) continue;
+      
+      // index 0 is left, index 1 is right, index 2 is top, index 3 is bottom -x
+      // TODO: This could be optimized so that if x fails it doesn't calculate y -x
+      auto obj1bounds = obj1collider->box.GetSides(obj1->transform.position);
+      auto obj2bounds = obj2collider->box.GetSides(obj2->transform.position);
 
-void Collision::Print(CollisionType type) {
-  switch (type) {
-    case CollisionType::ENTER:
-      std::cout << "[Collision] Type enter\n";
-      break;
-    case CollisionType::EXIT:
-      std::cout << "[Collision] Type exit\n";
-      break;
-    case CollisionType::STAY:
-      std::cout << "[Collision] Type stay\n";
-      break;
+      bool collisionX = (obj1bounds[0] <= obj2bounds[1]) && (obj1bounds[1] >= obj2bounds[0]);
+      bool collisionY = (obj1bounds[3] <= obj2bounds[2]) && (obj1bounds[2] >= obj2bounds[3]);
+
+      if (collisionX && collisionY) {
+        // Collision stuff -x
+      }
+    }
   }
 }
-
-// Debug drawing
-void Collision::DrawRectangleAt(glm::vec2 pos, glm::vec2 scale, unsigned color) {
-  pos.x -= scale.x / 2;
-  pos.y += scale.y / 2;
-  AEGfxRect(pos.x,pos.y,0,scale.x,scale.y,color);
-}
-
-void Collision::DrawRectangleAt(glm::vec3 pos, glm::vec3 scale, unsigned color) {
-  DrawRectangleAt({pos.x, pos.y}, {scale.x, scale.y}, color);
-}
-
-#pragma endregion
 
 } // namespace sigma

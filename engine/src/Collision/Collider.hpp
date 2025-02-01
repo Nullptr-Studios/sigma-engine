@@ -50,28 +50,49 @@ struct BoxCollider {
    * @c GetPoints can be used to get the actual coordinates of the 4 points of the square
    */ 
   struct Box {
+  private:
     float left = 0.5f; 
     float right = 0.5f; 
     float top = 0.5f; 
     float bottom = 0.5f;
 
+    glm::vec2 offset = glm::vec2();
+    
+  public:
     /**
-     * @brief Returns the coordinates of the rectangle
-     * The coordinates are returned in this order: 
-     *   - @c [0] Top Left
-     *   - @c [1] Top Right
-     *   - @c [2] Bottom Left
-     *   - @c [3] Bottom Right
+     * @brief Returns the sides of the box relative to a position
+     * The values returned go as follow 
+     *   - @c [0] left
+     *   - @c [1] right
+     *   - @c [2] top
+     *   - @c [3] bottom
      */ 
-    std::array<glm::vec2, 4> GetPoints(const glm::vec3& position) const {
-      std::array<glm::vec2, 4> vertices = {
-        glm::vec2(position.x - fabs(left), position.y + fabs(top)),
-        glm::vec2(position.x + fabs(right), position.y + fabs(top)),
-        glm::vec2(position.x - left, position.y - bottom),
-        glm::vec2(position.x + right, position.y - bottom)
+    std::array<float, 4> GetSides(const glm::vec3& position) const {
+      std::array<float, 4> vertices = {
+        -left + position.x + offset.x,
+         right + position.x + offset.x,
+         top + position.y + offset.y,
+        -bottom + position.y + offset.y
       };
 
       return vertices;
+    }
+    
+    /**
+     * @brief Sets the box colliders boundaries
+     *
+     * @param left_ Left side of the box
+     * @param right_ Right side of the box
+     * @param top_ Top part of the box
+     * @param bottom_ Bottom part of the box
+     * @param offset_ Offset to move the center of the box outside the center of the object
+     */
+    void Set(float left_, float right_, float top_, float bottom_, glm::vec2 offset_ = {0.0f, 0.0f}) {
+      left = std::abs(left_);
+      right = std::abs(right_);
+      top = std::abs(top_);
+      bottom = std::abs(bottom_);
+      offset = offset_;
     }
   } box;
   float depth = 0.1f;
@@ -92,13 +113,11 @@ struct BoxCollider {
    * @param flag_ sets with which colliders it should interact
    * @param type_ sets the collider type (collision or damage)
    * @param size  sets the 4 floats that define the size of the collider (l, r, t, b)
+   * @param offset_ Offset to move the center of the box outside the center of the object
    */
-  BoxCollider(ColliderFlag flag_, ColliderType type_, std::array<float, 4> size) 
+  BoxCollider(ColliderFlag flag_, ColliderType type_, std::array<float, 4> size, glm::vec2 offset = {0.0f, 0.0f}) 
       : flag(flag_), type(type_) {
-    box.left   = size[0];
-    box.right  = size[1];
-    box.top    = size[2];
-    box.bottom = size[3];
+    box.Set(size[0], size[1], size[2], size[3], offset);
   }
 
   void DebugDraw(Actor* parent, color_t color) const;

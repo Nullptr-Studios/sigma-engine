@@ -12,10 +12,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-#include <memory>
-#include <string>
-
-#include "Core.hpp"
+#include <core.hpp>
+#include "Collision/Collider.hpp"
 
 namespace sigma {
 
@@ -100,14 +98,19 @@ public:
   void SendEvent(Event& e) const { m_callback(e); }
 
   [[nodiscard]] id_t GetId() const { return m_id; }
-  [[nodiscard]] std::string GetName() const { return m_name; }
 
+  [[nodiscard]] std::string GetName() const { return m_name; }
   void SetName(const std::string& name) { m_name = name; }
 
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
   [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
   void SetStartHandled() { m_startHandled = true; }
+
+  [[nodiscard]] Collision::BoxCollider* GetCollider() { return m_collider.get(); }
+
+protected:
+  std::unique_ptr<Collision::BoxCollider> m_collider = nullptr;
 
 private:
   id_t m_id = -1;

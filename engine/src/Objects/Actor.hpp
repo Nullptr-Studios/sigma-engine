@@ -4,9 +4,6 @@
  * @date 14/01/2025
  *
  * @brief The Actor class is a type of Object that can be rendered
- *
- * TODO: Dante add Collision things here
- * Maybe use it as a std::unique_ptr<CollisionComponent>, you have to create the CollisionComponent struct by yourself
  */
 
 #pragma once
@@ -44,8 +41,6 @@ public:
 
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
-  [[nodiscard]] Collision::BoxCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
-  void SetCollider(Collision::BoxCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
   
   /**
    * @brief Sets the texture of the object
@@ -60,8 +55,6 @@ public:
 
   bool IsInViewport();
 
-protected:
-  Collision::BoxCollider * m_collider = nullptr;
 private:
 
   const char* m_texturePath = nullptr;
