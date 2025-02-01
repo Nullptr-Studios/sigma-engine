@@ -91,7 +91,7 @@ public:
   void BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas);
 
   
-  static AnimationSystem* GetAnimationSysInstance() {
+  static AnimationSystem* GetInstance() {
     if (m_AnimSysinstance == nullptr) {
       throw std::runtime_error("Animation System instance not created");
     }

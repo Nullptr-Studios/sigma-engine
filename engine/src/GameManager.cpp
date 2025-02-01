@@ -55,7 +55,7 @@ void GameManager::GameInit() {
   m_audioEngine->Init();
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_activeCamera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
+  m_activeCamera = GET_FACTORY->CreateObject<Camera>("Main Camera");
 
   StateManager::SetEngineState(IN_GAME);
 

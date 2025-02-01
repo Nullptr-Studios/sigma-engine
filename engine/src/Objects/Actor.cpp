@@ -20,20 +20,20 @@ void Actor::Init() {
   //
   // m_triangleList = AEGfxTriEnd();
   //
-  // m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
+  // m_texture = GET_FACTORY->LoadTexture(m_texturePath);
 
 }
 
 void Actor::Destroy() {
   Object::Destroy();
-  /*FNFE_FACTORY->FreeTexture(m_texturePath);
+  /*GET_FACTORY->FreeTexture(m_texturePath);
   m_texture = nullptr;*/
 
 }
 
 void Actor::SetTexture(const char* path) {
   m_texturePath = path;
-  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
+  m_texture = GET_FACTORY->LoadTexture(m_texturePath);
 }
 
 void Actor::SetTextureTransform(glm::mat3& newTexMtx)
@@ -48,7 +48,7 @@ glm::mat3& Actor::GetTextureTransform() {
 
 bool Actor::IsInViewport()
 {
-  auto c = FNFE_MANAGER->GetActiveCamera();
+  auto c = GET_MANAGER->GetActiveCamera();
   int w = AEGetSysWindowWidth();
   int h = AEGetSysWindowHeight();
 

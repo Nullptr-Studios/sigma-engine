@@ -7,18 +7,25 @@
  */
 
 #pragma once
+#include <utility>
 #include "Objects/Object.hpp"
 
 namespace sigma::Collision {
 
 class CollisionSystem {
+  using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 public:
-  CollisionSystem() = default;
+  explicit CollisionSystem(EventCallbackFn callback) : m_callback(std::move(callback)) {}
 
   CollisionSystem(const CollisionSystem &) = delete;
   CollisionSystem &operator=(const CollisionSystem &) = delete;
 
   void UpdateCollisions(ObjectMap* objects);
+
+private:
+  void SendEvent(Event& e) { m_callback(e); }
+  EventCallbackFn m_callback = nullptr;
+
 };
 
 } // namespace sigma::Collision

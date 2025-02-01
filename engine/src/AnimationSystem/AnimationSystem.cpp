@@ -90,7 +90,7 @@ sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAt
   ta.size = {J["meta"]["size"]["w"], J["meta"]["size"]["h"]};
   ta.animations = m_animations;
 
-  ta.texture = FNFE_FACTORY->LoadTexture(ta.filePath.c_str());
+  ta.texture = GET_FACTORY->LoadTexture(ta.filePath.c_str());
   std::cout << "[AnimationSystem] Texture Atlas loaded\n";
   
   PROFILER_END("AnimationSystem::LoadTextureAtlas");

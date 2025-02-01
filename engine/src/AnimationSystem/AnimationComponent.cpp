@@ -82,5 +82,5 @@ void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix()
 {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
-  FNFE_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
+  GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
 }

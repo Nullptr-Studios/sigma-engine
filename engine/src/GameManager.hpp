@@ -34,7 +34,7 @@ class GameManager
 {
 public:
   /**
-   * @brief Initialization of alpha engine and base FNFE classes
+   * @brief Initialization of alpha engine and base sigma classes
    *
    * @param title window title
    * @param width window width

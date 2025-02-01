@@ -15,7 +15,8 @@ void UIButton::Update(double delta) {
 
   bool pressed = AEInputMousePressed(AE_MOUSE_LEFT);
   glm::vec3 scale = {transform.scale.x, transform.scale.y, 0};
-  bool hovered = Collision::RectOnRect(transform.position, scale, mousePos, mouseScale);
+  // TODO: The collision system doesn't work for this anymore
+  const bool hovered = false; /* Collision::RectOnRect(transform.position, scale, mousePos, mouseScale); */
   if (!m_pressed && pressed && hovered) {
     OnPress();
   } else if (m_pressed && pressed && hovered) {

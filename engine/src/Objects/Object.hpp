@@ -55,6 +55,10 @@ struct Transform {
 
 class Event;
 
+namespace Collision {
+  class CollisionEvent;
+}
+
 class Object {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
@@ -81,9 +85,15 @@ public:
    * @brief This function is called whenever you send a message to any Object
    * The simple and incredible FNF Event System (tm) is used for sending messages between objects
    * @param sender Object that sent the original message
-      * @return A bool telling if the message has been handled and shouldn't propagate
+   * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnMessage(Object* sender) { return false; }
+  /**
+   * @brief This function is called whenever the object collides with another one
+   * @param e The CollisionEvent sent by the Collision System
+   * @return A bool telling if the message has been handled and shouldn't propagate
+   */ 
+  virtual bool OnCollision(Collision::CollisionEvent& e) { return false; }
   /**
    * @brief This function sets up the callback for the events
    * This is used when setting up the object, and it's needed for the events to propagate to other objects
@@ -94,6 +104,25 @@ public:
   /**
    * @brief Sends an @c Event to the specified callback function
    * @param e Event to send
+   *
+   * The callback should have been set up by the factory. Example of usage
+   * @code
+   * // We create a message event that asks for a pointer of this object (using 'this' keyword) and the name of the
+   * // object we want to send the event to
+   * MessageEvent eventTest(this, "Object2");
+   * // Then we use the SendEvent function to send it to the OnEvent buffer
+   * SendEvent(testEvent);
+   *
+   * 
+   * // On the receiver, we call the @c OnMessage function and we do the logic we want to do whenever we recive 
+   * // a message
+   * // Note that the sender is a pointer to the object that sent the message
+   * // The return tells the system if the event has been handled; if not, it will continue to propagate down
+   * bool Object2::OnMessage(Object* sender) {
+   *   std::cout << "Message received! (from: " << sender->GetName() << ")\n";
+   *   return true;
+   * }
+   * @endcode
    */
   void SendEvent(Event& e) const { m_callback(e); }
 
