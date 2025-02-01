@@ -9,7 +9,7 @@
 #pragma once
 #include "Actor.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 /**
  * @class Character

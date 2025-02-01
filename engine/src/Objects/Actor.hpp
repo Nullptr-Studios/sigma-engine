@@ -10,11 +10,11 @@
 #include "Object.hpp"
 
 
-namespace sigma::ANIMATION {
+namespace Sigma::ANIMATION {
 class AnimationComponent;
 }
 
-namespace sigma {
+namespace Sigma {
 namespace Collision {
 struct BoxCollider;
 }

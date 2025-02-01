@@ -9,7 +9,7 @@
 #pragma once
 
 
-namespace sigma {
+namespace Sigma {
 
 class Scene {
 public:
@@ -54,5 +54,5 @@ private:
 
 };
 
-} // sigma
+} // Sigma
 

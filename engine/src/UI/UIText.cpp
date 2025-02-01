@@ -2,7 +2,7 @@
 #include "GlmAlphaTools.hpp"
 #include "aecore/AEGraphics.h"
 
-namespace sigma {
+namespace Sigma {
 
 void UIText::Init(const char *txt, unsigned color) {
   Object::Init();
@@ -29,4 +29,4 @@ void UIText::Destroy() {
   AEGfxFontFree(m_font);
 }
 
-} // namespace sigma
+} // namespace Sigma

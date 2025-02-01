@@ -11,7 +11,7 @@
 #include "Collider.hpp"
 #include "Objects/Object.hpp"
 
-namespace sigma::Collision {
+namespace Sigma::Collision {
 
 class CollisionEvent : public Event {
 public:

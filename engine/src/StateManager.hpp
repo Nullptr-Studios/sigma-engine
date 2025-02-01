@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace sigma {
+namespace Sigma {
 
 enum EngineState : unsigned char; 
 

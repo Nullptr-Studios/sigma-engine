@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 void Camera::Start() {
   Object::Start();
@@ -47,4 +47,4 @@ void Camera::UpdateMatrix() {
   m_cameraMatrix = clipMatrix * viewMatrix;
 }
 
-} // namespace sigma
+} // namespace Sigma

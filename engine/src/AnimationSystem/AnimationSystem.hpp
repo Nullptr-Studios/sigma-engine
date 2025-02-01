@@ -11,7 +11,7 @@
 #include "glm/vec2.hpp"
 #include <aecore/AEEngine.h>
 
-namespace sigma::ANIMATION {
+namespace Sigma::ANIMATION {
 
 typedef std::unordered_map<std::string, std::function<void()>> AnimationCallbackMap; ///< @typedef AnimationCallbackMap @brief Type definition for the animation callback map
 

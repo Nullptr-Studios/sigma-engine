@@ -2,7 +2,7 @@
 #include "Collision/Collision.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 void UIButton::Init() { UIImage::Init(); }
 
@@ -35,4 +35,4 @@ void UIButton::Update(double delta) {
   m_hovered = hovered;
 }
 
-} // namespace sigma
+} // namespace Sigma

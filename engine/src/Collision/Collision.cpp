@@ -1,7 +1,7 @@
 #include "Collision.hpp"
 #include "CollisionEvent.hpp"
 
-namespace sigma::Collision {
+namespace Sigma::Collision {
 
 // Every day i think i prefer femboys a bit more than woman -d(probably)
 void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
@@ -42,4 +42,4 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
   }
 }
 
-} // namespace sigma
+} // namespace Sigma

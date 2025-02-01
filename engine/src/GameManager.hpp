@@ -10,7 +10,7 @@
 #include <Factory.hpp>
 #include <pch.hpp>
 
-namespace sigma {
+namespace Sigma {
 
 class Camera;
 class AudioEngine;
@@ -98,4 +98,4 @@ private:
   Camera* m_activeCamera;
 };
 
-} // sigma
+} // Sigma

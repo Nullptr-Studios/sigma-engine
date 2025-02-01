@@ -11,7 +11,7 @@
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
 
-void sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
+void Sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
 {
   m_texAtlas = texAtlas;
   m_frameTime = 1.0f / m_texAtlas->animations[0].frameRate;
@@ -20,7 +20,7 @@ void sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtla
   
 }
 
-void sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
@@ -35,7 +35,7 @@ void sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
   m_currentAnimation = nullptr;
 }
 
-void sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
+void Sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   if (!m_isPlaying || m_currentAnimation == nullptr)
     return;
 
@@ -54,12 +54,12 @@ void sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
 }
 
 // TODO: Implement
-void sigma::ANIMATION::AnimationComponent::PlayAndStop() {}
+void Sigma::ANIMATION::AnimationComponent::PlayAndStop() {}
 
 // TODO: Implement
-void sigma::ANIMATION::AnimationComponent::GotoFrame(int frame) {}
+void Sigma::ANIMATION::AnimationComponent::GotoFrame(int frame) {}
 
-void sigma::ANIMATION::AnimationComponent::PlayAnim() {
+void Sigma::ANIMATION::AnimationComponent::PlayAnim() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
   // playing from the fist frame
@@ -74,13 +74,13 @@ void sigma::ANIMATION::AnimationComponent::PlayAnim() {
   m_isPlaying = true;
 }
 
-void sigma::ANIMATION::AnimationComponent::StopAnim() {
+void Sigma::ANIMATION::AnimationComponent::StopAnim() {
   if (m_currentAnimation == nullptr)
     return;
 
   m_isPlaying = false;
 }
-bool sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
+bool Sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
                                                       const std::function<void()> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
     std::cout << "[AnimationComponent] Callback name already exists\n";
@@ -90,11 +90,11 @@ bool sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callba
   m_animCallbacks.emplace(callbackName, callback);
   return true;
 }
-void sigma::ANIMATION::AnimationComponent::ClearCallbacks() {
+void Sigma::ANIMATION::AnimationComponent::ClearCallbacks() {
   m_animCallbacks.clear();
 }
 
-void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
+void Sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
   GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
@@ -102,7 +102,7 @@ void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
 
 
 
-void sigma::ANIMATION::AnimationComponent::UpdateCallbacks()
+void Sigma::ANIMATION::AnimationComponent::UpdateCallbacks()
 {
   if (m_currentFrame->AnimCallbackString.empty())
     return;

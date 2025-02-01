@@ -12,11 +12,11 @@
 #pragma once
 #include "Objects/Actor.hpp"
 
-namespace sigma {
+namespace Sigma {
   class UIImage : public Actor {
   public:
     UIImage(id_t id): Actor(id) {}
 
     unsigned m_uiLayer{};
   };
-} // sigma
+} // Sigma

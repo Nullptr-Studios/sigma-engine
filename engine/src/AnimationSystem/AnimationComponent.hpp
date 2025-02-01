@@ -10,7 +10,7 @@
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace sigma::ANIMATION {
+namespace Sigma::ANIMATION {
 
 struct Animation;
 struct Frame;

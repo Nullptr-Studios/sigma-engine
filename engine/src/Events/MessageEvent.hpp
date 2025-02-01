@@ -9,7 +9,7 @@
 #pragma once
 #include "Event.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 class Object;
 

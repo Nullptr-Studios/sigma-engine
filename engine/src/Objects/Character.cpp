@@ -1,7 +1,7 @@
 #include "Character.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 void Character::Init() {
   Actor::Init();

@@ -16,7 +16,7 @@ void TestScene::Load() {
   Scene::Load();
   std::cout << "TestScene::Load()" << std::endl;
 
-  GET_FACTORY->CreateObject<sigma::Actor>("TestActor");
+  GET_FACTORY->CreateObject<Sigma::Actor>("TestActor");
 
 }
 void TestScene::Update(double delta) {

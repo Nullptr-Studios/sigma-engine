@@ -10,7 +10,7 @@
 #include <utility>
 #include "Objects/Object.hpp"
 
-namespace sigma::Collision {
+namespace Sigma::Collision {
 
 class CollisionSystem {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
@@ -28,4 +28,4 @@ private:
 
 };
 
-} // namespace sigma::Collision
+} // namespace Sigma::Collision

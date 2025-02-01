@@ -1,3 +1,3 @@
 #include "UIImage.hpp"
-namespace sigma {
+namespace Sigma {
 }

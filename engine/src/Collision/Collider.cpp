@@ -1,10 +1,10 @@
 #include "Collider.hpp"
 #include <Objects/Actor.hpp>
 
-namespace sigma::Collision {
+namespace Sigma::Collision {
 
 void BoxCollider::DebugDraw(Actor* parent, unsigned color = AE_COLORS_GREEN) const {
   // TODO: Do the debug draw
 }
 
-} // namespace sigma
+} // namespace Sigma

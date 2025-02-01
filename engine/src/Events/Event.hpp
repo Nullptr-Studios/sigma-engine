@@ -16,7 +16,7 @@
 #pragma once
 #include <pch.hpp>
 
-namespace sigma {
+namespace Sigma {
 
 /**
  * @enum EventType

@@ -11,7 +11,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
-namespace sigma {
+namespace Sigma {
 class Actor;
 
 namespace Collision {
@@ -125,4 +125,4 @@ struct BoxCollider {
 };
 
 } // namespace Collision
-} // namespace sigma
+} // namespace Sigma

@@ -16,7 +16,7 @@
 #include <core.hpp>
 #include "Collision/Collider.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 struct Transform {
   glm::vec3 position = glm::vec3(0.0f);

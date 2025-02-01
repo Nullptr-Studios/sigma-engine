@@ -12,7 +12,7 @@
 #include "Scene.hpp"
 #include "StateManager.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 GameManager *GameManager::m_instance = nullptr;
 EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
@@ -260,4 +260,4 @@ void GameManager::DebugProfiler()
 #endif
 }
 
-} // namespace sigma
+} // namespace Sigma

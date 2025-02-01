@@ -6,7 +6,7 @@
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "Collision/Collider.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 void Actor::SetTexture(const char* path) {
   m_texturePath = path;

@@ -9,7 +9,7 @@
 #pragma once
 #include "Objects/Object.hpp"
 
-namespace sigma {
+namespace Sigma {
 
 /**
  * @class Camera
