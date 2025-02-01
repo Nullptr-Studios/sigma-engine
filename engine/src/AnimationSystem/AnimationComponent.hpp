@@ -7,16 +7,15 @@
  */
 
 #pragma once
+#include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
 namespace sigma::ANIMATION {
+
 struct Animation;
-}
-
-namespace sigma::ANIMATION {
-
 struct Frame;
 struct TextureAtlas;
+
 
 /**
  * @class AnimationComponent
@@ -26,7 +25,7 @@ class AnimationComponent
 public:
 
   AnimationComponent() = default;
-  ~AnimationComponent() = default;
+  ~AnimationComponent() { ClearCallbacks(); }
 
   /**
    * @brief Set the texture atlas for the animation component
@@ -38,10 +37,17 @@ public:
   
   void Update(double DeltaTime);
 
-  
+  void PlayAndStop();
+
+  void GotoFrame(int frame);
+
   void PlayAnim();
 
   void StopAnim();
+
+  bool AddCallback(const std::string& callbackName, const std::function<void()>& callback);
+
+  void ClearCallbacks();
 
   /**
    * @brief Get the texture matrix
@@ -67,8 +73,12 @@ private:
    * @brief Update the texture matrix
    */
   void UpdateTextureMatrix();
-  
-  glm::mat3 m_texMtx;
+
+  void UpdateCallbacks();
+
+  AnimationCallbackMap m_animCallbacks;
+
+  glm::mat3 m_texMtx = glm::mat3(1.0f);
   TextureAtlas* m_texAtlas;
   int m_currentFrameIndex = 0;
   double m_frameTime = 0.0;

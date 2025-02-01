@@ -35,26 +35,29 @@ void sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
   m_currentAnimation = nullptr;
 }
 
-void sigma::ANIMATION::AnimationComponent::Update(double DeltaTime)
-{
-  if (!m_isPlaying || m_currentAnimation == nullptr) return;
+void sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
+  if (!m_isPlaying || m_currentAnimation == nullptr)
+    return;
 
-  if (m_timeSinceLastFrame > m_frameTime)
-  {
+  if (m_timeSinceLastFrame > m_frameTime) {
     m_currentFrameIndex++;
-    if (m_currentFrameIndex >= m_currentAnimation->frames.size())
-    {
+    if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
       m_currentFrameIndex = 0;
     }
     m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
     m_timeSinceLastFrame = 0;
     UpdateTextureMatrix();
-  }
-  else
-  {
+    UpdateCallbacks();
+  } else {
     m_timeSinceLastFrame += DeltaTime;
   }
 }
+
+// TODO: Implement
+void sigma::ANIMATION::AnimationComponent::PlayAndStop() {}
+
+// TODO: Implement
+void sigma::ANIMATION::AnimationComponent::GotoFrame(int frame) {}
 
 void sigma::ANIMATION::AnimationComponent::PlayAnim() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
@@ -71,16 +74,46 @@ void sigma::ANIMATION::AnimationComponent::PlayAnim() {
   m_isPlaying = true;
 }
 
-void sigma::ANIMATION::AnimationComponent::StopAnim()
-{
-  if (m_currentAnimation == nullptr) return;
+void sigma::ANIMATION::AnimationComponent::StopAnim() {
+  if (m_currentAnimation == nullptr)
+    return;
 
   m_isPlaying = false;
 }
+bool FNFE::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
+                                                      const std::function<void()> &callback) {
+  if (m_animCallbacks.contains(callbackName)) {
+    std::cout << "[AnimationComponent] Callback name already exists\n";
+    return false;
+  }
 
-void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix()
-{
+  m_animCallbacks.emplace(callbackName, callback);
+  return true;
+}
+void sigma::ANIMATION::AnimationComponent::ClearCallbacks() {
+  m_animCallbacks.clear();
+}
+
+void sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
   GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
+}
+
+
+
+void sigma::ANIMATION::AnimationComponent::UpdateCallbacks()
+{
+  if (m_currentFrame->AnimCallbackString.empty())
+    return;
+
+  if (m_animCallbacks.contains(m_currentFrame->AnimCallbackString))
+  {
+    m_animCallbacks[m_currentFrame->AnimCallbackString]();
+    std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " called\n";
+    return;
+  }
+
+  std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " not found\n";
+
 }

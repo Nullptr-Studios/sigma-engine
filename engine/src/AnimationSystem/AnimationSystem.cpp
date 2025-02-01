@@ -3,15 +3,16 @@
 
 #include <Core.hpp>
 #include <Factory.hpp>
-#include <fstream>
+
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/matrix_transform_2d.hpp"
 
 sigma::ANIMATION::AnimationSystem* sigma::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
 
-// TODO: support for multiple animations
 // TODO: cleanup
+// TODO: Add callback string implementation
+// TODO: Support for trimmed sprites
 sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
 {
   //Profiler time
@@ -20,6 +21,7 @@ sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAt
   std::fstream file(jsonFilePath);
   if (!file.is_open()) {
     std::cout << "[AnimationSystem] failed to open JSON file " << jsonFilePath << '\n';
+    file.close();
     return nullptr;
   }
   
@@ -29,6 +31,7 @@ sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAt
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(J["meta"]["image"])) {
     std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
+    file.close();
     return &m_loadedTextureAtlases[J["meta"]["image"]];
   }
 
@@ -92,7 +95,9 @@ sigma::ANIMATION::TextureAtlas* sigma::ANIMATION::AnimationSystem::LoadTextureAt
 
   ta.texture = GET_FACTORY->LoadTexture(ta.filePath.c_str());
   std::cout << "[AnimationSystem] Texture Atlas loaded\n";
-  
+
+  file.close();
+
   PROFILER_END("AnimationSystem::LoadTextureAtlas");
   
   return &m_loadedTextureAtlases.emplace(ta.filePath, ta).first->second;

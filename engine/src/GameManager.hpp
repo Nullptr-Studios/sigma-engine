@@ -73,6 +73,8 @@ public:
   Camera* GetActiveCamera() { return m_activeCamera; }
 private:
 
+  void DebugProfiler();
+
   bool m_debug = true;
   
   static GameManager* m_instance;
