@@ -165,10 +165,7 @@ T* Factory::CreateObject(const std::string& name) {
   std::shared_ptr<T> obj = std::make_shared<T>(m_currentId);
   obj->SetName(name);
   // dont even ask about this -x
-  obj->SetCallback([this](Event &e)
-    {
-      m_managerInstance->*m_managerCallback(e);
-    });
+  obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));
   m_currentId++;
 
   // This crashes the program, it will work for now -x
