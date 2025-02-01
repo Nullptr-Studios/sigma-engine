@@ -116,4 +116,13 @@ int ToGamepadKey(char button) {
   }
 }
 
+int InputSystem::CheckControllers() {
+  for (int i = 0; i<=3; i++) {
+    if (AEInputGamepadConnected(i)){
+      return i;
+    }
+  }
+  return -1;
+}
+
 } // namespace FNFE
