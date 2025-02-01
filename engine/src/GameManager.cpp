@@ -3,6 +3,7 @@
 #include "Audio/AudioEngine.hpp"
 #include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
+#include "Collision/CollisionEvent.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -182,6 +183,14 @@ void GameManager::OnEvent(Event &e) {
   PROFILER_START
 
   EventDispatcher dispatcher(e);
+
+  dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
+    {
+      auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
+      if (obj) return obj->OnCollision(collision);
+
+      return false;
+    });
 
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
