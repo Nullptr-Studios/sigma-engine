@@ -80,7 +80,7 @@ void sigma::ANIMATION::AnimationComponent::StopAnim() {
 
   m_isPlaying = false;
 }
-bool FNFE::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
+bool sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
                                                       const std::function<void()> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
     std::cout << "[AnimationComponent] Callback name already exists\n";

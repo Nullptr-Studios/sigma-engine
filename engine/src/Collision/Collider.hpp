@@ -7,6 +7,7 @@
  */
 
 #pragma once
+#include "Core.hpp"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
@@ -95,7 +96,7 @@ struct BoxCollider {
       offset = offset_;
     }
   } box;
-  float depth = 0.1f;
+  float depth = 10.0f;
   
   /**
    * @brief Initializes collider by setting the flags and the type

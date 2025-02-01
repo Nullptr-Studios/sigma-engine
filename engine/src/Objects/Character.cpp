@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include "AnimationSystem/AnimationComponent.hpp"
 
 namespace sigma {
 

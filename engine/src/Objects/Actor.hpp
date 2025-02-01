@@ -4,14 +4,9 @@
  * @date 14/01/2025
  *
  * @brief The Actor class is a type of Object that can be rendered
- *
- * TODO: Dante add Collision things here
- * Maybe use it as a std::unique_ptr<CollisionComponent>, you have to create the CollisionComponent struct by yourself
  */
 
 #pragma once
-#include "AnimationSystem/AnimationComponent.hpp"
-#include "Collision/Collision.hpp"
 #include "Object.hpp"
 
 
@@ -33,7 +28,7 @@ struct BoxCollider;
  */
 class Actor : public Object {
 public:
-  Actor(id_t id) : Object(id) {}
+  explicit Actor(id_t id) : Object(id) {}
   ~Actor() override = default;
 
   void Init() override {
@@ -62,7 +57,7 @@ public:
   bool IsInViewport();
 
 protected:
-  glm::mat3 m_tMtx; ///< @brief Texture Matrix
+  glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix
 
 private:
   const char* m_texturePath = nullptr;

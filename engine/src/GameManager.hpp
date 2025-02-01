@@ -10,18 +10,21 @@
 #include <Factory.hpp>
 #include <pch.hpp>
 
-namespace sigma::ANIMATION {
-class AnimationSystem;
-}
-
 namespace sigma {
+
 class Camera;
-}
-namespace sigma {
-
 class AudioEngine;
 class Scene;
 class Event;
+
+namespace ANIMATION {
+class AnimationSystem;
+}
+
+namespace Collision {
+class CollisionSystem;
+}
+
 
 /**
  * @class GameManager
@@ -88,6 +91,7 @@ private:
   std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
+  std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
 
   Scene* m_currentScene = nullptr;
 

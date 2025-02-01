@@ -2,6 +2,7 @@
 #include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
 #include "Collision/Collider.hpp"
+#include "Collision/Collision.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -54,6 +55,11 @@ void GameManager::GameInit() {
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
 
+  m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
+    {
+      this->OnEvent(e);
+    });
+
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
   m_activeCamera = GET_FACTORY->CreateObject<Camera>("Main Camera");
 
@@ -81,6 +87,8 @@ void GameManager::Run() {
   // AE Shit
   AESysFrameStart();
   AESysUpdate();
+
+  m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
 
   if (m_currentScene != nullptr) {
 
