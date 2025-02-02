@@ -62,7 +62,9 @@ class Object {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
   explicit Object(const uint32_t id) : m_id(id) {}
-  virtual ~Object() = default;
+
+public:
+  virtual ~Object() {};
 
 public:
   //copy constructors
@@ -122,7 +124,7 @@ private:
 
 };
 
-typedef std::unordered_map<id_t, std::shared_ptr<Object>> ObjectMap;
+typedef std::unordered_map<id_t, Object*> ObjectMap;
 
 }
 

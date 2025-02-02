@@ -15,6 +15,8 @@
 /**
  * @brief Error Handling Function for FMOD Errors
  * @param result - the FMOD_RESULT generated during every FMOD function call
+ * @param file - the file in which the error occurred
+ * @param line - the line in which the error occurred
  */
 void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
 #define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
@@ -63,16 +65,18 @@ public:
   * @brief Plays a sound file using FMOD's low level audio system. If the sound file has not been
   * previously loaded using Load(), a console message is displayed.
   */
-  void Play(AudioData audioData);
+  void Play(const AudioData &audioData);
 
   /**
    * @brief Stops a looping sound if it's currently playing.
    */
-  void Stop(AudioData audioData);
+  void Stop(const AudioData &audioData);
 
   /**
    * Method that updates the volume of a soundloop that is playing. This can be used to create audio 'fades'
    * where the volume ramps up or down to the provided new volume.
+   * @param audioData the AudioData object of the sound to update
+   * @param newVolume the new volume to set the sound to
    * @param fadeSampleLength the length in samples of the intended volume sample. If less than 64 samples, the default
    *                         FMOD fade out is used
    */
@@ -83,12 +87,12 @@ public:
   * The AudioData object's position coordinates will be used for the new sound position, so
   * SoundInfo::set3DCoords(x,y,z) should be called before this method to set the new desired location.
   */
-  void Update3DPosition(AudioData audioData);
+  void Update3DPosition(const AudioData &audioData);
 
   /**
    * @return Checks if a looping sound is playing.
    */
-  bool IsPlaying(AudioData audioData);
+  bool IsPlaying(const AudioData &audioData);
 
   /**
    * @brief Sets the position of the listener in the 3D scene.
@@ -104,7 +108,7 @@ public:
   * @brief Utility method that returns the length of a AudioData's audio file in milliseconds
   * @return If the sound hasn't been loaded, returns 0
   */
-  unsigned int GetLengthMS(AudioData audioData);
+  unsigned int GetLengthMS(const AudioData &audioData);
 
   /**
    * @brief Loads an FMOD Studio soundbank (*.bank) file.
@@ -114,7 +118,7 @@ public:
   /**
    * @brief Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method.
    */
-  void LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues = { });
+  void LoadEvent(const char* eventName, const std::vector<std::pair<const char *, float>> &paramsValues = { });
 
   /**
    * @brief Sets the parameter of an FMOD Soundbank Event Instance.
@@ -135,6 +139,7 @@ public:
 
   /**
    * @brief Sets the volume of an event.
+   * @param eventName - name of the event to set the volume of
    * @param normalizedVolume - volume of the event, from 0 (min vol) to 1 (max vol)
    */
   void SetEventVolume(const char* eventName, float normalizedVolume = 0.75f);
@@ -157,22 +162,22 @@ public:
   /**
    *  @brief Returns true if the audio engine is muted, false if not
    */
-  bool IsMute();
+  [[nodiscard]] bool IsMute() const;
 
   // The audio sampling rate of the audio engine
-  static const int AUDIO_SAMPLE_RATE = 44100;
+  static constexpr int AUDIO_SAMPLE_RATE = 44100;
 
 private:
 
   /**
    *  @brief Checks if a sound file is in the soundCache
    */
-  bool IsLoaded(AudioData audioData);
+  bool IsLoaded(const AudioData &audioData);
 
   /**
    *  @brief Sets the 3D position of a sound
    */
-  void Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel);
+  void Set3DChannelPosition(const AudioData &audioData, FMOD::Channel* channel) const;
 
   /**
    *  @brief Initializes the reverb effect
@@ -182,7 +187,7 @@ private:
   /**
    *  @brief Prints debug info about an FMOD event description
    */
-  void DebugEventInfo(FMOD::Studio::EventDescription* eventDescription);
+  void DebugEventInfo(const FMOD::Studio::EventDescription* eventDescription);
 
   // FMOD Studio API system, which can play FMOD sound banks (*.bank)
   FMOD::Studio::System* studioSystem = nullptr;
@@ -191,7 +196,7 @@ private:
   FMOD::System* lowLevelSystem = nullptr;
 
   // Max FMOD::Channels for the audio engine
-  static const unsigned int MAX_AUDIO_CHANNELS = 255;
+  static constexpr unsigned int MAX_AUDIO_CHANNELS = 255;
 
   // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
   const float DISTANCEFACTOR = 1.0f;

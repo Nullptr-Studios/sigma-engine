@@ -2,6 +2,10 @@
 
 namespace FNFE {
 
+Character::~Character() {
+  delete m_animComp;
+}
+
 void Character::Init() {
   Actor::Init();
 

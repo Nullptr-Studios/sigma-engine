@@ -55,15 +55,24 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
     // f.rotated = frame["rotated"];
     f.sourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
     f.sourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
+
+    if (frame.contains("pivot")) {
+      f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
+    }
+    
     // f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
     // f.trimmed = frame["trimmed"];
     // m_frames.emplace_back(f);
 
+    if (frame.contains("callback")) {
+      f.AnimCallbackString = frame["callback"];
+    }
+
+    // Animation frame ownership
     auto index = f.name.find_last_of('_');
     std::string animName = f.name.substr(0, index);
     bool found = false;
-
-    // TODO FIX SHITTY CODE
+    
     if (animName.contains(".png")) {
       // default animation
       m_animations[0].frames.emplace_back(f);
@@ -79,11 +88,11 @@ FNFE::ANIMATION::TextureAtlas* FNFE::ANIMATION::AnimationSystem::LoadTextureAtla
       }
       
       if (!found) {
-        Animation a;
-        a.frameRate = 12; // for now hard coded
-        a.name = animName;
-        a.frames.emplace_back(f);
-        m_animations.emplace_back(a);
+        Animation m_animation;
+        m_animation.frameRate = 12; // for now hard coded
+        m_animation.name = animName;
+        m_animation.frames.emplace_back(f);
+        m_animations.emplace_back(m_animation);
       }
     }
   }
@@ -126,7 +135,8 @@ void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, 
   glm::translate(texMtx, translate);
 }
 
-void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
+void FNFE::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, const Frame * frame,
+                                                             const TextureAtlas * atlas)
 {
   BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }

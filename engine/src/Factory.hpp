@@ -74,7 +74,7 @@ public:
    * Destroys an object by its reference
    * @param object Object reference
    */
-  void DestroyObject(Object* object);
+  void DestroyObject(const Object * object);
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
@@ -162,7 +162,7 @@ private:
 //
 template<typename T, typename>
 T* Factory::CreateObject(const std::string& name) {
-  std::shared_ptr<T> obj = std::make_shared<T>(m_currentId);
+  T* obj = new T(m_currentId);
   obj->SetName(name);
   // dont even ask about this -x
   obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));
@@ -173,7 +173,7 @@ T* Factory::CreateObject(const std::string& name) {
     throw std::runtime_error("Object ID overflow");
   }
 
-  m_objects.emplace(obj->GetId(), std::static_pointer_cast<Object>(obj));
+  m_objects.emplace(obj->GetId(), dynamic_cast<Object*>(obj));
 
   if constexpr (std::is_base_of_v<Actor, T>) m_renderables.emplace_back(obj->GetId());
   
@@ -186,7 +186,7 @@ T* Factory::CreateObject(const std::string& name) {
   // If not, we will call it when every object is called at the Invoke Begin phase -x
   // if (StateManager::GetEngineState() == IN_GAME) obj->Start();
   
-  return obj.get();
+  return obj;
 }
 
 }

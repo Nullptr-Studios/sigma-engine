@@ -18,6 +18,7 @@ EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height) : m_title(title), m_width(width), m_height(height) {
   m_instance = this;
+  m_activeCamera = nullptr;
   GameInit();
 }
 
@@ -86,8 +87,13 @@ void GameManager::Run() {
   if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
-    
+
+    // Scene and subscene update
     m_currentScene->Update(AEGetFrameTime());
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Update(AEGetFrameTime());
+    }
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
@@ -98,6 +104,13 @@ void GameManager::Run() {
         object->SetStartHandled();
       }
       object->Update(AEGetFrameTime());
+    }
+
+    // Scene and SubScene draw
+    m_currentScene->Draw();
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Draw();
     }
 
     // Render Objects
@@ -121,7 +134,7 @@ void GameManager::Run() {
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
-    m_currentScene->Draw();
+
   }
   
   // Audio
@@ -129,9 +142,7 @@ void GameManager::Run() {
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
-
   DebugProfiler();
-  
   // AE Shit
   AESysFrameEnd();
 }
@@ -152,20 +163,68 @@ void GameManager::LoadScene(Scene *scene) {
     m_currentScene->Free();
     m_currentScene->Unload();
 
+    // TODO: Do Scene object ownership
     m_factory->DestroyAllObjects();
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Free();
+      val->Unload();
+      delete val;
+    }
 
     delete m_currentScene;
   }
 
   m_currentScene = scene;
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loading..."
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loading..."
             << std::endl;
   m_currentScene->Load();
   m_currentScene->Init();
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!"
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loaded!"
             << std::endl;
 
   PROFILER_END("GameManager::LoadScene")
+}
+void GameManager::LoadSubScene(Scene *scene) {
+
+  PROFILER_START
+
+  if (m_subScenes.contains(scene->GetID())) {
+    std::cout << "[GameManager]: SubScene already loaded \n";
+    return;
+  }
+
+  scene->Load();
+  scene->Init();
+
+  m_subScenes.emplace(scene->GetID(), scene);
+
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded as a SubScene!"
+            << std::endl;
+
+  PROFILER_END("GameManager::LoadSubScene")
+}
+void GameManager::UnloadSubScene(Scene *scene) {
+  if (m_subScenes.contains(scene->GetID())) {
+    scene->Free();
+    scene->Unload();
+    m_subScenes.erase(scene->GetID());
+    delete scene;
+    return;
+  }
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
+            << " not found in SubScenes!" << std::endl;
+}
+void GameManager::UnloadSubScene(const int id) {
+  if (m_subScenes.contains(id)) {
+    Scene *scene = m_subScenes[id];
+    scene->Free();
+    scene->Unload();
+    m_subScenes.erase(id);
+    delete scene;
+    return;
+  }
+  std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
 }
 
 #pragma endregion

@@ -9,19 +9,19 @@
 #pragma once
 #include <Factory.hpp>
 #include <pch.hpp>
-// #include "Controller/CameraController.hpp"
 
 namespace FNFE::ANIMATION {
 class AnimationSystem;
 }
 
 namespace FNFE {
+class Camera;
+}
+namespace FNFE {
 
 class AudioEngine;
 class Scene;
 class Event;
-class CameraController;
-class Camera;
 
 /**
  * @class GameManager
@@ -30,7 +30,8 @@ class Camera;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager {
+class GameManager
+{
 public:
   /**
    * @brief Initialization of alpha engine and base FNFE classes
@@ -39,10 +40,10 @@ public:
    * @param width window width
    * @param height window height
    */
-  GameManager(const char *title, int width, int height);
+  GameManager(const char* title, int width, int height);
   ~GameManager();
 
-  static GameManager *GetInstance() { return m_instance; }
+  static GameManager* GetInstance() { return m_instance; }
 
 
   /**
@@ -62,6 +63,12 @@ public:
    */
   void LoadScene(Scene *scene);
 
+  void LoadSubScene(Scene *scene);
+
+  void UnloadSubScene(Scene* scene);
+
+  void UnloadSubScene(int id);
+
   Scene *GetCurrentScene() { return m_currentScene; }
 
   void OnEvent(Event &e);
@@ -69,14 +76,14 @@ public:
 private:
 
   void DebugProfiler();
-  
-  bool m_debug = true;
 
-  static GameManager *m_instance;
+  bool m_debug = true;
+  
+  static GameManager* m_instance;
 
   void GameInit();
 
-  const char *m_title;
+  const char* m_title;
   int m_width;
   int m_height;
 
@@ -87,4 +94,7 @@ private:
   Scene *m_currentScene = nullptr;
 };
 
-} // namespace FNFE
+  std::unordered_map<int, Scene*> m_subScenes;
+
+};
+} // FNFE
