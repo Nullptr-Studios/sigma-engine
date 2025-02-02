@@ -127,11 +127,6 @@ private:
 
   Animation* m_currentAnimation;
 
-  Frame *m_currentFrame{};
-  Animation *m_currentAnimation{};
-
-  int m_currentFrameIndex = 0;
-  double m_frameTime = 0.0;
   double m_timeSinceLastFrame = 0.0;
 
   bool m_isPlaying = false;

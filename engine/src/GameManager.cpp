@@ -18,7 +18,6 @@ EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
 GameManager::GameManager(const char *title, int width, int height) : m_title(title), m_width(width), m_height(height) {
   m_instance = this;
-  m_activeCamera = nullptr;
   GameInit();
 }
 

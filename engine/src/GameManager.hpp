@@ -15,10 +15,8 @@ class AnimationSystem;
 }
 
 namespace FNFE {
+class CameraController;
 class Camera;
-}
-namespace FNFE {
-
 class AudioEngine;
 class Scene;
 class Event;
@@ -92,9 +90,9 @@ private:
   std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
   std::unique_ptr<CameraController> m_cameraController;
   Scene *m_currentScene = nullptr;
+  
+  std::unordered_map<int, Scene *> m_subScenes;
 };
 
-  std::unordered_map<int, Scene*> m_subScenes;
 
 };
-} // FNFE
