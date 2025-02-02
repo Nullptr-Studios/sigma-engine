@@ -56,6 +56,14 @@ public:
    */
   glm::vec2 GetMovement() { return m_movementBuffer; };
 
+
+  //TODO: make this controller thing work in multiplayer
+/**
+   * @brief returns controller id
+   * @return controller id for player controller
+   */
+  int CheckControllers();
+
 private:
   std::unordered_map<std::string, std::string> m_keyboardActions{};
   std::unordered_map<std::string, std::string> m_keyboardMovement{};
