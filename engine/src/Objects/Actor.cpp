@@ -1,10 +1,11 @@
 #include "Actor.hpp"
 
+#include "AnimationSystem/AnimationComponent.hpp"
 #include "Camera.hpp"
+#include "Collision/Collider.hpp"
+#include "Controller/CameraController.hpp"
 #include "Factory.hpp"
 #include "GameManager.hpp"
-#include "AnimationSystem/AnimationComponent.hpp"
-#include "Collision/Collider.hpp"
 
 namespace FNFE {
 
@@ -25,7 +26,7 @@ glm::mat3& Actor::GetTextureTransform() {
 
 bool Actor::IsInViewport()
 {
-  auto c = FNFE_MANAGER->GetActiveCamera();
+ auto c = FNFE_CAMERA->GetCurrentCamera();
   int w = AEGetSysWindowWidth();
   int h = AEGetSysWindowHeight();
 
