@@ -25,15 +25,45 @@ public:
 
   void Init() override;
   void Start() override { Actor::Start(); };
-  void Update(double delta) override { Actor::Update(delta); };
+  void Update(double delta) override {
+    Actor::Update(delta);
+    Character::UpdateMovement(delta);
+  };
   void Destroy() override { Actor::Destroy(); };
+
+#pragma region MovementSystem
+  
+  void Move(glm::vec2 direction);
+
+  void Jump();
+
+  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
+
+  float maxSpeed = 400.0f; ///< @brief character max velocity
+  float accelerationRate = 25.0f; ///< @brief character acceleration
+  float gravity = -3.f;
+  float friction = .9f; ///< @brief character friction
+  float jumpVel = 2500.0f; ///< @brief character jump velocity
+  float terminalVel = 1000.0f; ///< @brief character terminal velocity
+  bool isJumping = false; ///< @brief character jump status
+
+#pragma endregion
+  
   
   glm::mat3& GetTextureTransform() override;
 
   ANIMATION::AnimationComponent* m_animComp = nullptr;
 
+  
+
 private:
-  // Prob move this somewhere else -x
+
+  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
+
+  void UpdateMovement(double delta);
+  void PrintStatus() {};
+  
+  // TODO: Prob move this somewhere else -x
   unsigned char m_defCombo = 0;    ///< @brief Combo status for default attack
   unsigned char m_superCombo = 0;  ///< @brief Combo status for super attack
   unsigned char m_ultCombo = 0;    ///< @brief Combo status for ultimate attack
