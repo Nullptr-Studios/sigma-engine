@@ -50,6 +50,14 @@ void GameManager::GameInit() {
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
 
+  AEGfxSetDepthBufferEnabled(true);
+  // AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+  AEGfxSetDestBlendArgument(AE_GFX_BA_DESTALPHA);
+  AEGfxSetSourceBlendArgument(AE_GFX_BA_DESTALPHA);
+  auto a1 = AEGfxGetBlendMode();
+  auto a = AEGfxGetDestBlendArgument();
+  auto b= AEGfxGetSourceBlendArgument();
+
   // Initialize factory
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
 
@@ -63,8 +71,8 @@ void GameManager::GameInit() {
     });
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_cameraController = std::make_unique<FNFE::CameraController>(0); // idk if this is fine
-  m_cameraController->SetCurrentCamera(FNFE_FACTORY->CreateObject<Camera>("Main Camera"));
+  m_cameraController = std::make_unique<Sigma::CameraController>(0); // idk if this is fine
+  m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 #ifdef _DEBUG

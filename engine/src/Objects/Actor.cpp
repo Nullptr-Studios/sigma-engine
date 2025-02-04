@@ -26,7 +26,7 @@ glm::mat3& Actor::GetTextureTransform() {
 
 bool Actor::IsInViewport()
 {
-  auto c = GET_MANAGER->GetActiveCamera();
+  auto c = GET_CAMERA->GetCurrentCamera();
   int w = AEGetSysWindowWidth();
   int h = AEGetSysWindowHeight();
 

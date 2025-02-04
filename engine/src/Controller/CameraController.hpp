@@ -15,7 +15,7 @@
 #pragma once
 #include "Objects/Object.hpp"
 
-namespace FNFE {
+namespace Sigma {
 class Camera;
 class CameraController : Object {
 public:

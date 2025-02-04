@@ -135,7 +135,7 @@ void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx,
   glm::translate(texMtx, translate);
 }
 
-void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
+void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, const Frame* frame, const TextureAtlas* atlas)
 {
   BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }

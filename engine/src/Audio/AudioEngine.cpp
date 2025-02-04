@@ -65,7 +65,7 @@ void Sigma::AudioEngine::Load(AudioData audioData)
   PROFILER_END("AudioEngine::Load")
 }
 
-void Sigma::AudioEngine::Play(AudioData audioData)
+void Sigma::AudioEngine::Play (const AudioData& audioData)
 {
   if (!audioData.IsLoaded()) {
     std::cout << " [AudioEngine] Playing Sound: " << audioData.GetUniqueID() << "\n";
@@ -95,7 +95,7 @@ void Sigma::AudioEngine::Play(AudioData audioData)
 
 }
 
-void Sigma::AudioEngine::Stop(AudioData audioData)
+void Sigma::AudioEngine::Stop(const AudioData& audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -137,7 +137,7 @@ void Sigma::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, uns
 
 
 
-void Sigma::AudioEngine::Update3DPosition(AudioData& audioData)
+void Sigma::AudioEngine::Update3DPosition(const AudioData& audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -148,7 +148,7 @@ void Sigma::AudioEngine::Update3DPosition(AudioData& audioData)
 
 }
 
-bool Sigma::AudioEngine::IsPlaying(AudioData& audioData)
+bool Sigma::AudioEngine::IsPlaying(const AudioData& audioData)
 {
 return audioData.Loop() && loopsPlaying.contains(audioData.GetUniqueID());
 }
@@ -166,7 +166,7 @@ void Sigma::AudioEngine::Set3DListenerPosition
   ERRCHECK(lowLevelSystem->set3DListenerAttributes(0, &listenerPosition, 0, &forward, &up));
 }
 
-unsigned int Sigma::AudioEngine::GetLengthMS(AudioData& audioData)
+unsigned int Sigma::AudioEngine::GetLengthMS(const AudioData& audioData)
 {
   unsigned int length = 0;
   if (sounds.contains(audioData.GetUniqueID()))
@@ -184,7 +184,7 @@ void Sigma::AudioEngine::LoadBank(const char* filepath)
   PROFILER_END("AudioEngine::LoadBank")
 }
 
-void Sigma::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>>& paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
+void Sigma::AudioEngine::LoadEvent (const char* eventName, const std::vector<std::pair<const char*, float>>& paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
 {
   PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Event " << eventName << '\n';
@@ -248,22 +248,20 @@ void Sigma::AudioEngine::MuteAll()
   muted = true;
 }
 
-void Sigma::AudioEngine::UnmuteAll()
-{
+void Sigma::AudioEngine::UnmuteAll() {
   ERRCHECK(mastergroup->setMute(false));
   muted = false;
 }
-
-bool Sigma::AudioEngine::IsMute() { return muted; }
+bool Sigma::AudioEngine::IsMute() const { return muted; }
 
 // Private definitions
-bool Sigma::AudioEngine::IsLoaded(AudioData audioData)
+bool Sigma::AudioEngine::IsLoaded (const AudioData& audioData)
 {
   //std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
   return sounds.contains(audioData.GetUniqueID());
 }
 
-void Sigma::AudioEngine::Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel)
+void Sigma::AudioEngine::Set3DChannelPosition (const AudioData& audioData, FMOD::Channel* channel) const
 {
   FMOD_VECTOR position =
   {
@@ -298,7 +296,7 @@ void ERRCHECK_fn(const FMOD_RESULT result, const char* file, const int line)
     std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
 }
 
-void Sigma::AudioEngine::DebugEventInfo(FMOD::Studio::EventDescription* eventDescription)
+void Sigma::AudioEngine::DebugEventInfo(const FMOD::Studio::EventDescription* eventDescription)
 {
   int params;
   bool is3D, isOneshot;

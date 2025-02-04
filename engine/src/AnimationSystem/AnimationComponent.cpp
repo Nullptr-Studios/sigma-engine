@@ -20,7 +20,7 @@ void Sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtla
   
 }
 
-void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(const std::string& animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
@@ -73,7 +73,7 @@ void Sigma::ANIMATION::AnimationComponent::PlayAndStop() {
   m_loop = false;
 }
 
-void FNFE::ANIMATION::AnimationComponent::GotoFrame(const int frame)
+void Sigma::ANIMATION::AnimationComponent::GotoFrame(const int frame)
 {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
   

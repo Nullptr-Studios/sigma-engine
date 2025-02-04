@@ -33,8 +33,8 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
       if (!collisionY) continue;
 
       // Collision stuff -x
-      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2.get(), obj2_collider->type);
-      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1.get(), obj1_collider->type);
+      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
+      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
 
       SendEvent(obj1_event);
       SendEvent(obj2_event);
