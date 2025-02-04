@@ -32,6 +32,13 @@ public:
   Camera *GetCurrentCamera() { return m_currentCamera; }
   void SetCurrentCamera(Camera *camera);
 
+  /**
+   * @note does not lock z pos so be aware of that
+   * @param position position of target location
+   * @param delta percentange between [0,1]
+   */
+  void LerpCamera(glm::vec3 position, float delta);
+
 private:
   static CameraController *m_instance;
   Camera *m_currentCamera{};
