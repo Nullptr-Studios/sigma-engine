@@ -11,7 +11,7 @@
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
 
-void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
+void Sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
 {
   m_texAtlas = texAtlas;
   m_frameTime = 1.0f / m_texAtlas->animations[0].frameRate;
@@ -20,7 +20,7 @@ void FNFE::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas
   
 }
 
-void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(const std::string &animName)
+void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
@@ -35,7 +35,7 @@ void FNFE::ANIMATION::AnimationComponent::SetCurrentAnim(const std::string &anim
   m_currentAnimation = nullptr;
 }
 
-void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime) {
+void Sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   if (!m_isPlaying || m_currentAnimation == nullptr)
     return;
 
@@ -56,7 +56,7 @@ void FNFE::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   }
 }
 
-void FNFE::ANIMATION::AnimationComponent::PlayAndStop() {
+void Sigma::ANIMATION::AnimationComponent::PlayAndStop() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
   // playing from the fist frame
@@ -89,7 +89,7 @@ void FNFE::ANIMATION::AnimationComponent::GotoFrame(const int frame)
 }
 
 
-void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
+void Sigma::ANIMATION::AnimationComponent::PlayAnim() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
   // playing from the fist frame
@@ -106,13 +106,13 @@ void FNFE::ANIMATION::AnimationComponent::PlayAnim() {
   m_loop = true;
 }
 
-void FNFE::ANIMATION::AnimationComponent::StopAnim() {
+void Sigma::ANIMATION::AnimationComponent::StopAnim() {
   if (m_currentAnimation == nullptr)
     return;
 
   m_isPlaying = false;
 }
-bool FNFE::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
+bool Sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
                                                       const std::function<void()> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
     std::cout << "[AnimationComponent] Callback name already exists\n";
@@ -122,19 +122,19 @@ bool FNFE::ANIMATION::AnimationComponent::AddCallback(const std::string &callbac
   m_animCallbacks.emplace(callbackName, callback);
   return true;
 }
-void FNFE::ANIMATION::AnimationComponent::ClearCallbacks() {
+void Sigma::ANIMATION::AnimationComponent::ClearCallbacks() {
   m_animCallbacks.clear();
 }
 
-void FNFE::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
+void Sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
-  FNFE_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
+  GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
 }
 
 
 
-void FNFE::ANIMATION::AnimationComponent::UpdateCallbacks()
+void Sigma::ANIMATION::AnimationComponent::UpdateCallbacks()
 {
   if (m_currentFrame->AnimCallbackString.empty())
     return;
@@ -147,5 +147,5 @@ void FNFE::ANIMATION::AnimationComponent::UpdateCallbacks()
   }
 
   std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " not found\n";
-  
+
 }

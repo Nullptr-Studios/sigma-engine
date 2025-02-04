@@ -10,16 +10,22 @@
 #include <Factory.hpp>
 #include <pch.hpp>
 
-namespace FNFE::ANIMATION {
-class AnimationSystem;
-}
+namespace Sigma {
 
-namespace FNFE {
 class CameraController;
 class Camera;
 class AudioEngine;
 class Scene;
 class Event;
+
+namespace ANIMATION {
+class AnimationSystem;
+}
+
+namespace Collision {
+class CollisionSystem;
+}
+
 
 /**
  * @class GameManager
@@ -32,7 +38,7 @@ class GameManager
 {
 public:
   /**
-   * @brief Initialization of alpha engine and base FNFE classes
+   * @brief Initialization of alpha engine and base sigma classes
    *
    * @param title window title
    * @param width window width
@@ -88,11 +94,11 @@ private:
   std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
+  std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
   std::unique_ptr<CameraController> m_cameraController;
+
   Scene *m_currentScene = nullptr;
-  
   std::unordered_map<int, Scene *> m_subScenes;
 };
 
-
-};
+} // Sigma

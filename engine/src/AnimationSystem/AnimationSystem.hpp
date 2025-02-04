@@ -11,7 +11,7 @@
 #include "glm/vec2.hpp"
 #include <aecore/AEEngine.h>
 
-namespace FNFE::ANIMATION {
+namespace Sigma::ANIMATION {
 
 typedef std::unordered_map<std::string, std::function<void()>> AnimationCallbackMap; ///< @typedef AnimationCallbackMap @brief Type definition for the animation callback map
 
@@ -89,7 +89,7 @@ public:
   void BuildTextureTransform(glm::mat3& texMtx, const Frame * frame, const TextureAtlas * atlas);
 
   
-  static AnimationSystem* GetAnimationSysInstance() {
+  static AnimationSystem* GetInstance() {
     if (m_AnimSysinstance == nullptr) {
       throw std::runtime_error("Animation System instance not created");
     }

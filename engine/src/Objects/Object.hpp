@@ -13,12 +13,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-#include <memory>
-#include <string>
+#include <core.hpp>
+#include "Collision/Collider.hpp"
 
-#include "Core.hpp"
-
-namespace FNFE {
+namespace Sigma {
 
 struct Transform {
   glm::vec3 position = glm::vec3(0.0f);
@@ -58,6 +56,10 @@ struct Transform {
 
 class Event;
 
+namespace Collision {
+  class CollisionEvent;
+}
+
 class Object {
   using EventCallbackFn = std::function<void(Event&)>; ///< Type alias for the event callback function
 protected:
@@ -86,9 +88,15 @@ public:
    * @brief This function is called whenever you send a message to any Object
    * The simple and incredible FNF Event System (tm) is used for sending messages between objects
    * @param sender Object that sent the original message
-      * @return A bool telling if the message has been handled and shouldn't propagate
+   * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnMessage(Object* sender) { return false; }
+  /**
+   * @brief This function is called whenever the object collides with another one
+   * @param e The CollisionEvent sent by the Collision System
+   * @return A bool telling if the message has been handled and shouldn't propagate
+   */ 
+  virtual bool OnCollision(Collision::CollisionEvent& e) { return false; }
   /**
    * @brief This function sets up the callback for the events
    * This is used when setting up the object, and it's needed for the events to propagate to other objects
@@ -99,18 +107,42 @@ public:
   /**
    * @brief Sends an @c Event to the specified callback function
    * @param e Event to send
+   *
+   * The callback should have been set up by the factory. Example of usage
+   * @code
+   * // We create a message event that asks for a pointer of this object (using 'this' keyword) and the name of the
+   * // object we want to send the event to
+   * MessageEvent eventTest(this, "Object2");
+   * // Then we use the SendEvent function to send it to the OnEvent buffer
+   * SendEvent(testEvent);
+   *
+   * 
+   * // On the receiver, we call the @c OnMessage function and we do the logic we want to do whenever we recive 
+   * // a message
+   * // Note that the sender is a pointer to the object that sent the message
+   * // The return tells the system if the event has been handled; if not, it will continue to propagate down
+   * bool Object2::OnMessage(Object* sender) {
+   *   std::cout << "Message received! (from: " << sender->GetName() << ")\n";
+   *   return true;
+   * }
+   * @endcode
    */
   void SendEvent(Event& e) const { m_callback(e); }
 
   [[nodiscard]] id_t GetId() const { return m_id; }
-  [[nodiscard]] std::string GetName() const { return m_name; }
 
+  [[nodiscard]] std::string GetName() const { return m_name; }
   void SetName(const std::string& name) { m_name = name; }
 
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
   [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
   void SetStartHandled() { m_startHandled = true; }
+
+  [[nodiscard]] Collision::BoxCollider* GetCollider() { return m_collider.get(); }
+
+protected:
+  std::unique_ptr<Collision::BoxCollider> m_collider = nullptr;
 
 private:
   id_t m_id = -1;

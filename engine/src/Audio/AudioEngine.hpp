@@ -21,10 +21,10 @@
 void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
 #define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
 
-namespace FNFE {
+namespace Sigma {
 
 /**
- * @class FNFE
+ * @class Sigma
  *
  * @brief Class that handles the process of loading and playing sounds by wrapping FMOD's functionality.
  * Deals with all FMOD calls so that FMOD-specific code does not need to be used outside this class.

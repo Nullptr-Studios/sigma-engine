@@ -4,24 +4,19 @@
  * @date 14/01/2025
  *
  * @brief The Actor class is a type of Object that can be rendered
- *
- * TODO: Dante add Collision things here
- * Maybe use it as a std::unique_ptr<CollisionComponent>, you have to create the CollisionComponent struct by yourself
  */
 
 #pragma once
-#include "AnimationSystem/AnimationComponent.hpp"
-#include "Collision/Collision.hpp"
 #include "Object.hpp"
 
 
-namespace FNFE::ANIMATION {
+namespace Sigma::ANIMATION {
 class AnimationComponent;
 }
 
-namespace FNFE {
+namespace Sigma {
 namespace Collision {
-struct RectCollider;
+struct BoxCollider;
 }
 
 /**
@@ -33,7 +28,7 @@ struct RectCollider;
  */
 class Actor : public Object {
 public:
-  Actor(id_t id) : Object(id) {}
+  explicit Actor(id_t id) : Object(id) {}
   ~Actor() override = default;
 
   void Init() override {
@@ -47,8 +42,6 @@ public:
 
 
   [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
-  [[nodiscard]] Collision::RectCollider* GetCollider() const { return m_collider; } ///< @brief Gets the collider component
-  void SetCollider(Collision::RectCollider *collider) { m_collider = collider; } ///< @brief Gets the collider component
   
   /**
    * @brief Sets the texture of the object
@@ -64,8 +57,7 @@ public:
   bool IsInViewport();
 
 protected:
-  Collision::RectCollider * m_collider = nullptr;
-  glm::mat3 m_tMtx; ///< @brief Texture Matrix
+  glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix
 
 private:
   const char* m_texturePath = nullptr;

@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 void Camera::Start() {
   Object::Start();
@@ -30,21 +30,24 @@ void Camera::Update(double deltaTime) {
   m_ratio = viewport.x / viewport.y;
   GetClientRect(AEGetWindowHandler(), &rect);
   glm::vec2 client = glm::vec2(rect.right - rect.left, rect.bottom - rect.top);
-  if (viewport != client)
+  if (viewport != client) {
     AEGfxSetViewRectangle(client.x, client.y);
+    UpdateMatrix();
+  }
 }
 
 void Camera::UpdateMatrix() {
   // View Space
   auto viewMatrix = glm::mat4(1.0f);
   viewMatrix = glm::translate(viewMatrix, transform.position);
-  viewMatrix = glm::rotate(m_cameraMatrix, transform.rotation, glm::vec3(0, 0, 1));
+  viewMatrix = glm::rotate(viewMatrix, transform.rotation, glm::vec3(0, 0, 1));
 
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   auto clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
   m_cameraMatrix = clipMatrix * viewMatrix;
+  int i = 0;
 }
 
-} // namespace FNFE
+} // namespace Sigma

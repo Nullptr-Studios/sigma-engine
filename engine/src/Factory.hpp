@@ -14,7 +14,7 @@
 #include "Objects/Object.hpp"
 #include "StateManager.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 class GameManager;
 

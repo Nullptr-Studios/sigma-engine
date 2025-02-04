@@ -16,7 +16,7 @@
 #pragma once
 #include <pch.hpp>
 
-namespace FNFE {
+namespace Sigma {
 
 /**
  * @enum EventType
@@ -29,7 +29,8 @@ namespace FNFE {
  */
 enum class EventType {
   NONE = 0,
-  MESSAGE
+  MESSAGE,
+  COLLISION
 };
 
 /**

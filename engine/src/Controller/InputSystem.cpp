@@ -1,7 +1,7 @@
 #include "InputSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 InputSystem::InputSystem(const std::string& keybindPath)
 {

@@ -1,57 +1,45 @@
 #include "Collision.hpp"
-#include <aecore/AEGraphics.h>
-#include <iostream>
+#include "CollisionEvent.hpp"
 
-namespace FNFE {
-bool Collision::RectOnRect(glm::vec3 &posA, glm::vec3 &scaleA, glm::vec3 &posB, glm::vec3 &scaleB) {
-  glm::vec3 distance = (posA - posB) * 2.0f;
-  if ((fabs(distance.x) <= scaleA.x + scaleB.x) && (fabs(distance.y) <= scaleA.y + scaleB.y) &&
-      (fabs(distance.z) <= scaleA.z + scaleB.z)) {
-    return true;
+namespace Sigma::Collision {
+
+// Every day i think i prefer femboys a bit more than woman -d(probably)
+void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
+  for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
+    auto obj1 = it1->second;
+    auto obj1_collider = obj1->GetCollider();
+    if (!obj1_collider) continue; // Avoids if objects doesn't have a collider -x
+
+    // Start the inner loop from the next element to avoid redundant checks -x
+    for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
+      auto obj2 = it2->second;
+      auto obj2_collider = obj2->GetCollider();
+      if (!obj2_collider) continue;
+      // Skips if the flags don't match -x
+      if ((obj1_collider->flag & obj2_collider->flag) == 0) continue;
+      
+      // Depth check -x
+      float z_distance = std::fabs(obj1->transform.position.z - obj2->transform.position.z);
+      if (z_distance > obj1_collider->depth + obj2_collider->depth) continue;
+      
+      // index 0 is left, index 1 is right, index 2 is top, index 3 is bottom -x
+      auto obj1_bounds = obj1_collider->box.GetSides(obj1->transform.position);
+      auto obj2_bounds = obj2_collider->box.GetSides(obj2->transform.position);
+
+      bool collisionX = (obj1_bounds[0] <= obj2_bounds[1]) && (obj1_bounds[1] >= obj2_bounds[0]);
+      if (!collisionX) continue;
+
+      bool collisionY = (obj1_bounds[3] <= obj2_bounds[2]) && (obj1_bounds[2] >= obj2_bounds[3]);
+      if (!collisionY) continue;
+
+      // Collision stuff -x
+      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2.get(), obj2_collider->type);
+      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1.get(), obj1_collider->type);
+
+      SendEvent(obj1_event);
+      SendEvent(obj2_event);
+    }
   }
-  return false;
 }
 
-
-#pragma region TEST
-
-void Collision::TestRect() {
-  glm::vec3 posA = {0, 0, 0};
-  MousePositionData data = AEGetMouseData();
-  glm::vec3 posB = {data.position.x, data.position.y, 0};
-  glm::vec3 scaleA = {100, 200, 0};
-  glm::vec3 scaleB = {200, 100, 0};
-  unsigned color = AE_COLORS_BLUE;
-  if (RectOnRect(posA, scaleA, posB, scaleB)) {
-    color = AE_COLORS_RED;
-  }
-  DrawRectangleAt({posA.x, posA.y}, {scaleA.x, scaleA.y}, color);
-  DrawRectangleAt({posB.x, posB.y}, {scaleB.x, scaleB.y}, color);
-}
-
-void Collision::Print(CollisionType type) {
-  switch (type) {
-    case CollisionType::ENTER:
-      std::cout << "Enter\n";
-      break;
-    case CollisionType::EXIT:
-      std::cout << "Exit\n";
-      break;
-    case CollisionType::STAY:
-      std::cout << "Stay\n";
-      break;
-  }
-}
-
-// Debug drawing
-void Collision::DrawRectangleAt(glm::vec2 pos, glm::vec2 scale, unsigned color) {
-  pos.x -= scale.x / 2;
-  pos.y += scale.y / 2;
-  AEGfxRect(pos.x,pos.y,0,scale.x,scale.y,color);
-}
-
-void Collision::DrawRectangleAt(glm::vec3 pos, glm::vec3 scale, unsigned color) {
-  DrawRectangleAt({pos.x, pos.y}, {scale.x, scale.y}, color);
-}
-#pragma endregion
-} // namespace FNFE
+} // namespace Sigma

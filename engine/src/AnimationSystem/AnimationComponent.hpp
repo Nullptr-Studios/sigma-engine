@@ -10,7 +10,7 @@
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE::ANIMATION {
+namespace Sigma::ANIMATION {
 
 struct Animation;
 struct Frame;
@@ -118,7 +118,7 @@ private:
    * @brief Map of animation callbacks
    */
   AnimationCallbackMap m_animCallbacks;
-  
+
   glm::mat3 m_texMtx = glm::mat3(1.0f);
   TextureAtlas* m_texAtlas;
   int m_currentFrameIndex = 0;
