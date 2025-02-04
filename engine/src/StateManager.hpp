@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace FNFE {
+namespace Sigma {
 
 enum EngineState : unsigned char; 
 

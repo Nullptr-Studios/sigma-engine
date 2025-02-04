@@ -10,7 +10,7 @@
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE::ANIMATION {
+namespace Sigma::ANIMATION {
 
 struct Animation;
 struct Frame;
@@ -40,7 +40,7 @@ public:
   void PlayAndStop();
 
   void GotoFrame(int frame);
-  
+
   void PlayAnim();
 
   void StopAnim();
@@ -77,7 +77,7 @@ private:
   void UpdateCallbacks();
 
   AnimationCallbackMap m_animCallbacks;
-  
+
   glm::mat3 m_texMtx = glm::mat3(1.0f);
   TextureAtlas* m_texAtlas;
   int m_currentFrameIndex = 0;

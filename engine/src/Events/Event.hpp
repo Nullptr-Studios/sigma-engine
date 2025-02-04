@@ -16,7 +16,7 @@
 #pragma once
 #include <pch.hpp>
 
-namespace FNFE {
+namespace Sigma {
 
 /**
  * @enum EventType
@@ -92,7 +92,11 @@ public:
    *
    * @return A @code std::string @endcode containing the string representation of the event.
    */
-  [[nodiscard]] virtual std::string ToString() const { return GetName(); }
+  [[nodiscard]] virtual std::stringstream ToString() const { 
+    std::stringstream ss;
+    ss << GetName();
+    return ss; 
+  }
 
   /**
    * @brief Indicates whether the event has been handled.

@@ -2,6 +2,8 @@
 #include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
 #include "Collision/Collider.hpp"
+#include "Collision/Collision.hpp"
+#include "Collision/CollisionEvent.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -10,7 +12,7 @@
 #include "Scene.hpp"
 #include "StateManager.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 GameManager *GameManager::m_instance = nullptr;
 EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
@@ -54,8 +56,13 @@ void GameManager::GameInit() {
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
 
+  m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
+    {
+      this->OnEvent(e);
+    });
+
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_activeCamera = FNFE_FACTORY->CreateObject<Camera>("Main Camera");
+  m_activeCamera = GET_FACTORY->CreateObject<Camera>("Main Camera");
 
   StateManager::SetEngineState(IN_GAME);
 
@@ -81,6 +88,8 @@ void GameManager::Run() {
   // AE Shit
   AESysFrameStart();
   AESysUpdate();
+
+  m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
 
   if (m_currentScene != nullptr) {
 
@@ -175,6 +184,14 @@ void GameManager::OnEvent(Event &e) {
 
   EventDispatcher dispatcher(e);
 
+  dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
+    {
+      auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
+      if (obj) return obj->OnCollision(collision);
+
+      return false;
+    });
+
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
         [object](MessageEvent &e) -> bool
@@ -243,4 +260,4 @@ void GameManager::DebugProfiler()
 #endif
 }
 
-} // namespace FNFE
+} // namespace Sigma

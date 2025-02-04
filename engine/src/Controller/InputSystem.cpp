@@ -1,7 +1,7 @@
 #include "InputSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 InputSystem::InputSystem(const std::string& keybindPath)
 {
@@ -125,4 +125,4 @@ int InputSystem::CheckControllers() {
   return -1;
 }
 
-} // namespace FNFE
+} // namespace Sigmauwu

@@ -7,7 +7,7 @@
  */
 #include "UIImage.hpp"
 
-namespace FNFE {
+namespace Sigma {
   class UIButton : public UIImage {
   public:
     explicit UIButton(id_t id): UIImage(id) {}

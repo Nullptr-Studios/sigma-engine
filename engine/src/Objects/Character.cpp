@@ -1,6 +1,7 @@
 #include "Character.hpp"
+#include "AnimationSystem/AnimationComponent.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 void Character::Init() {
   Actor::Init();
