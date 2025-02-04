@@ -33,10 +33,10 @@ public:
    * @brief Overrides the @c ToString function to provide a detailed string representation of the event.
    * @return A string containing the event details.
    */
-  [[nodiscard]] std::string ToString() const override {
+  [[nodiscard]] std::stringstream ToString() const override {
     std::stringstream ss;
     ss << "Message Event to Object \"" << m_receiver << "\"";
-    return ss.str();
+    return ss;
   }
 
   EVENT_CLASS_TYPE(MESSAGE);
