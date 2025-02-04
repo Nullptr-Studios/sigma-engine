@@ -60,6 +60,12 @@ void GameManager::GameInit() {
   m_cameraController->SetCurrentCamera(FNFE_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
+#ifdef _DEBUG
+ 
+  // Disables 60fps lock in Debug mode
+  AESetFrameRateMax(20000); 
+  
+#endif // _DEBUG
 
   // Start
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
@@ -100,11 +106,14 @@ void GameManager::Run() {
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
 
-      glm::mat4 camera = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
-      glm::mat4 transform = actor->transform.GetMatrix4();
-      glm::mat4 viewMatrix = camera * transform;
-      auto viewMatrixAlpha = ToAEX(viewMatrix);
-      AEGfxSetTransform(&viewMatrixAlpha);
+      glm::mat4 world = actor->transform.GetMatrix4();
+      auto worldAE = ToAEX(world);
+      AEGfxSetTransform(&worldAE);
+      auto viewAE = AEMtx44::Identity();
+      AEGfxSetViewTransform(&viewAE);
+      glm::mat4 proj = m_activeCamera->GetCameraMatrix();
+      auto projAE = ToAEX(proj);
+      AEGfxSetProjTransform(&projAE);
 
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(actor->GetTextureTransform());

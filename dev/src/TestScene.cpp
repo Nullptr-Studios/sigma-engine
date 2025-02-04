@@ -9,9 +9,14 @@
 #include "TestScene.hpp"
 #include <iostream>
 
+#include "Factory.hpp"
+#include "core.hpp"
+
 void TestScene::Load() {
   Scene::Load();
   std::cout << "TestScene::Load()" << std::endl;
+
+  FNFE_FACTORY->CreateObject<FNFE::Actor>("TestActor");
 
 }
 void TestScene::Update(double delta) {
