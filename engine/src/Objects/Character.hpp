@@ -39,10 +39,11 @@ public:
 
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
+  // TODO: Tweak variabñes -d
   float maxSpeed = 400.0f; ///< @brief character max velocity
   float accelerationRate = 25.0f; ///< @brief character acceleration
-  float gravity = -3.f;
-  float friction = .9f; ///< @brief character friction
+  float gravity = -5000.f;
+  float friction = 2000.f; ///< @brief character friction
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
   bool isJumping = false; ///< @brief character jump status

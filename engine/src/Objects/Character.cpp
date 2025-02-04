@@ -36,7 +36,7 @@ void Character::Move(glm::vec2 direction) {
 
 void Character::Jump() {
   if (!isJumping) {
-    velocity.y = jumpVel;
+    velocity.y = jumpVel * AEGetFrameRate();
     isJumping = true;
     m_movementYFloor = transform.position.y;
   }
@@ -46,20 +46,20 @@ void Character::UpdateMovement(double delta)
 {
   // Apply gravity
   if (isJumping) {
-    velocity.y += gravity;
+    velocity.y += gravity * delta;
     velocity.y = glm::clamp(velocity.y, -terminalVel, terminalVel);
   }
 
   // Apply deceleration when no input is given in X axis
   if (std::abs(velocity.x) > 0.01f) {
     if (velocity.x > 0) {
-      velocity.x -= friction;
+      velocity.x -= friction * delta;
       if (velocity.x < 0)
         velocity.x = 0;
     }
     else
     {
-      velocity.x += friction;
+      velocity.x += friction * delta;
       if (velocity.x > 0)
         velocity.x = 0;
     }
@@ -69,13 +69,13 @@ void Character::UpdateMovement(double delta)
   if (!isJumping) {
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
-        velocity.y -= friction;
+        velocity.y -= friction * delta;
         if (velocity.y < 0)
           velocity.y = 0;
       }
       else
       {
-        velocity.y += friction;
+        velocity.y += friction * delta;
         if (velocity.y > 0)
           velocity.y = 0;
       }
