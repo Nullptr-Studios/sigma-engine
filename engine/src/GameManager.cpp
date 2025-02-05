@@ -4,6 +4,7 @@
 #include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
+#include "Controller/CameraController.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -62,8 +63,8 @@ void GameManager::GameInit() {
     });
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_cameraController = std::make_unique<FNFE::CameraController>(0); // idk if this is fine
-  m_cameraController->SetCurrentCamera(FNFE_FACTORY->CreateObject<Camera>("Main Camera"));
+  m_cameraController = std::make_unique<Sigma::CameraController>(0); // idk if this is fine
+  m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 #ifdef _DEBUG

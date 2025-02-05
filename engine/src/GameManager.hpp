@@ -9,11 +9,8 @@
 #pragma once
 #include <Factory.hpp>
 #include <pch.hpp>
-// #include "Controller/CameraController.hpp"
 
 namespace Sigma {
-
-namespace FNFE {
 
 class AudioEngine;
 class Scene;
@@ -91,6 +88,7 @@ private:
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
+  std::unique_ptr<CameraController> m_cameraController;
 
   Scene* m_currentScene = nullptr;
 

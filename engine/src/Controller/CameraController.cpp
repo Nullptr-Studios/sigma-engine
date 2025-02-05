@@ -1,7 +1,7 @@
 #include "CameraController.hpp"
 
 #include "Objects/Camera.hpp"
-namespace FNFE {
+namespace Sigma {
 CameraController *CameraController::m_instance = nullptr;
 
 void CameraController::SetCurrentCamera(Camera *camera) {

@@ -17,10 +17,10 @@ typedef nlohmann::json json_t; ///< @typedef json_t   @brief Type definition for
 typedef unsigned unsigmad;     ///< @typedef unsigmad @brief Unsigned type def for the Sigma engine
 typedef unsigned color_t;      ///< @typedef color_t  @brief Color type for Alpha Engine
 
-#define FNFE_MANAGER FNFE::GameManager::GetInstance() ///< @def FNFE_MANAGER @brief Gets Manager instance
-#define FNFE_FACTORY FNFE::Factory::GetInstance()     ///< @def FNFE_FACTORY @brief Gets Factory instance
-#define FNFE_ANIMATION FNFE::ANIMATION::AnimationSystem::GetAnimationSysInstance()
-#define FNFE_CAMERA FNFE::CameraController::GetCameraControllerInstance()
+#define GET_MANAGER Sigma::GameManager::GetInstance() ///< @def GET_MANAGER @brief Gets Manager instance
+#define GET_FACTORY Sigma::Factory::GetInstance()     ///< @def GET_FACTORY @brief Gets Factory instance
+#define GET_ANIMATION Sigma::ANIMATION::AnimationSystem::GetInstance() ///< @def GET_ANIMATION @brief Gets Animation instance
+#define GET_CAMERA Sigma::CameraController::GetCameraControllerInstance() ///< @def GET_CAMERA @brief Gets Camera Controller instance
 
 // profiler
 #define PROFILER_START auto start = std::chrono::high_resolution_clock::now();
