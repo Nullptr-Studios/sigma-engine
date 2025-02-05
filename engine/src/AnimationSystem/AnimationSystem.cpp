@@ -8,12 +8,12 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/matrix_transform_2d.hpp"
 
-Sigma::ANIMATION::AnimationSystem* Sigma::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
+Sigma::Animation::AnimationSystem* Sigma::Animation::AnimationSystem::m_AnimSysinstance = nullptr;
 
 // TODO: cleanup
 // TODO: Add callback string implementation
 // TODO: Support for trimmed sprites
-Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
+Sigma::Animation::TextureAtlas* Sigma::Animation::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
 {
   //Profiler time
   PROFILER_START;
@@ -113,7 +113,7 @@ Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAt
 
 }
 
-Sigma::ANIMATION::TextureAtlas *Sigma::ANIMATION::AnimationSystem::GetTextureAtlas(const char *name) {
+Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtlas(const char *name) {
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(name)) {
     // std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
@@ -123,7 +123,7 @@ Sigma::ANIMATION::TextureAtlas *Sigma::ANIMATION::AnimationSystem::GetTextureAtl
   std::cout << "[AnimationSystem] Texture Atlas not found\n";
   return nullptr;
 }
-void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
                                                              const glm::vec2 frameSize, const glm::vec2 atlasSize) {
   glm::vec2 UVs = framePosition / atlasSize;
 
@@ -135,7 +135,7 @@ void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx,
   glm::translate(texMtx, translate);
 }
 
-void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, const Frame* frame, const TextureAtlas* atlas)
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, const Frame* frame, const TextureAtlas* atlas)
 {
   BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }

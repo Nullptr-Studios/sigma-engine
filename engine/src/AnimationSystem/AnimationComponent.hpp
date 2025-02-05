@@ -10,7 +10,7 @@
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 
-namespace Sigma::ANIMATION {
+namespace Sigma::Animation {
 
 struct Animation;
 struct Frame;
@@ -26,9 +26,6 @@ public:
   AnimationComponent() = default;
   ~AnimationComponent() {
     ClearCallbacks();
-    delete m_texAtlas;
-    delete m_currentAnimation;
-    delete m_currentFrame;
   }
 
   /**

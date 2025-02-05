@@ -64,7 +64,7 @@ void GameManager::GameInit() {
     this->OnEvent(e);
   });
 
-  m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
+  m_animationSystem = std::make_unique<Animation::AnimationSystem>();
   m_cameraController = std::make_unique<Sigma::CameraController>(0); // idk if this is fine
   m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);

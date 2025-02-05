@@ -8,8 +8,10 @@
 
 #pragma once
 #include "Actor.hpp"
+#include "AnimationSystem/AnimationComponent.hpp"
 
 namespace Sigma {
+
 
 /**
  * @class Character
@@ -37,6 +39,20 @@ public:
 
   void Jump();
 
+#pragma endregion
+  
+  
+  glm::mat3& GetTextureTransform() override;
+
+  std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
+
+private:
+
+  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
+
+#pragma region MovementSystem
+  void UpdateMovement(double delta);
+  
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
   // TODO: Tweak variabñes -d
@@ -47,22 +63,9 @@ public:
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
   bool isJumping = false; ///< @brief character jump status
-
-#pragma endregion
   
-  
-  glm::mat3& GetTextureTransform() override;
-
-  ANIMATION::AnimationComponent* m_animComp = nullptr;
-
-  
-
-private:
-
-  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
-
-  void UpdateMovement(double delta);
   void PrintStatus() {};
+#pragma endregion
   
   // TODO: Prob move this somewhere else -x
   unsigned char m_defCombo = 0;    ///< @brief Combo status for default attack

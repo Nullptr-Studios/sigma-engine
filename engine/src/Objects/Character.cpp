@@ -1,17 +1,13 @@
 #include "Character.hpp"
-#include "AnimationSystem/AnimationComponent.hpp"
 
 namespace Sigma {
 
-Character::~Character() {
-  delete m_animComp;
-}
+Character::~Character() {}
 
 void Character::Init() {
   Actor::Init();
 
-  if (m_animComp == nullptr)
-    m_animComp = new ANIMATION::AnimationComponent();
+  m_animComp = std::make_unique<Animation::AnimationComponent>();
 }
 
 
@@ -55,14 +51,12 @@ void Character::UpdateMovement(double delta)
   if (std::abs(velocity.x) > 0.01f) {
     if (velocity.x > 0) {
       velocity.x -= friction * delta;
-      if (velocity.x < 0)
-        velocity.x = 0;
+      glm::max(velocity.x, 0.0f); 
     }
     else
     {
       velocity.x += friction * delta;
-      if (velocity.x > 0)
-        velocity.x = 0;
+      glm::min(velocity.x, 0.0f); 
     }
   }
   
@@ -71,14 +65,12 @@ void Character::UpdateMovement(double delta)
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
         velocity.y -= friction * delta;
-        if (velocity.y < 0)
-          velocity.y = 0;
+        glm::max(velocity.y, 0.0f); 
       }
       else
       {
         velocity.y += friction * delta;
-        if (velocity.y > 0)
-          velocity.y = 0;
+        glm::min(velocity.y, 0.0f); 
       }
     }
   }
