@@ -22,13 +22,20 @@ glm::mat3 &Character::GetTextureTransform() {
 #pragma region MovementSystem
 
 void Character::Move(glm::vec2 direction) {
+  std::cout << direction.x << ", " << direction.y << std::endl;
   if (!isJumping) {
-    velocity += direction * maxSpeed;
-    velocity = glm::clamp(velocity, -maxSpeed, maxSpeed);
-  }else {
-    velocity.x += direction.x * maxSpeed;
+    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
+    velocity.y += direction.y * (accelerationRate * AEGetFrameRate());
+    // Clamp the speed while maintaining direction
+    float speed = glm::length(velocity);
+    if (speed > maxSpeed)
+      velocity = glm::normalize(velocity) * maxSpeed;
+  } else {
+    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
     velocity.x = glm::clamp(velocity.x, -maxSpeed, maxSpeed);
   }
+
+  
 }
 
 void Character::Jump() {
@@ -51,12 +58,16 @@ void Character::UpdateMovement(double delta)
   if (std::abs(velocity.x) > 0.01f) {
     if (velocity.x > 0) {
       velocity.x -= friction * delta;
-      glm::max(velocity.x, 0.0f); 
+      if(velocity.x < 0) 
+        velocity.x = 0;
+      //glm::max(velocity.x, 0.0f); 
     }
     else
     {
       velocity.x += friction * delta;
-      glm::min(velocity.x, 0.0f); 
+      if(velocity.x > 0) 
+        velocity.x = 0;
+      //glm::min(velocity.x, 0.0f); 
     }
   }
   
@@ -65,12 +76,16 @@ void Character::UpdateMovement(double delta)
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
         velocity.y -= friction * delta;
-        glm::max(velocity.y, 0.0f); 
+        if(velocity.y < 0) 
+          velocity.y = 0;
+        //glm::max(velocity.y, 0.0f); 
       }
       else
       {
         velocity.y += friction * delta;
-        glm::min(velocity.y, 0.0f); 
+        if(velocity.y > 0) 
+          velocity.y = 0;
+        //glm::min(velocity.y, 0.0f); 
       }
     }
   }
