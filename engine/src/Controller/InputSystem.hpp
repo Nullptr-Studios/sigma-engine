@@ -10,7 +10,7 @@
 #include <glm/vec2.hpp>
 #include <string>
 
-namespace FNFE {
+namespace Sigma {
 /**
  *
  * @param button char button representing xbox gamepad button
@@ -66,4 +66,4 @@ private:
   time_t m_timeBuffer{}; ///<@brief timeout buffer for the input buffers
 };
 
-} // namespace FNFE
+} // namespace Sigma

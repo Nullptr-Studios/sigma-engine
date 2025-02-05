@@ -9,7 +9,7 @@
 #pragma once
 #include "Actor.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 /**
  * @class Character

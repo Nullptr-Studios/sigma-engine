@@ -1,6 +1,6 @@
 #include "Factory.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 Factory *Factory::m_instance = nullptr;
 
