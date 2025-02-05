@@ -7,11 +7,11 @@
 #include "Factory.hpp"
 #include "GameManager.hpp"
 
-namespace FNFE {
+namespace Sigma {
 
 void Actor::SetTexture(const char* path) {
   m_texturePath = path;
-  m_texture = FNFE_FACTORY->LoadTexture(m_texturePath);
+  m_texture = GET_FACTORY->LoadTexture(m_texturePath);
 }
 
 void Actor::SetTextureTransform(glm::mat3& newTexMtx)

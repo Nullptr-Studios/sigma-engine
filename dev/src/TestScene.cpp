@@ -16,7 +16,7 @@ void TestScene::Load() {
   Scene::Load();
   std::cout << "TestScene::Load()" << std::endl;
 
-  FNFE_FACTORY->CreateObject<FNFE::Actor>("TestActor");
+  GET_FACTORY->CreateObject<Sigma::Actor>("TestActor");
 
 }
 void TestScene::Update(double delta) {
