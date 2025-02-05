@@ -93,4 +93,8 @@ void Character::UpdateMovement(double delta)
 }
 #pragma endregion
 
+#pragma region Combat
+
+#pragma endregion
+
 } // namespace FNFE

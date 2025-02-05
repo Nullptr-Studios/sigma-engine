@@ -34,14 +34,15 @@ public:
   void Destroy() override { Actor::Destroy(); };
 
 #pragma region MovementSystem
-  
+ 
   void Move(glm::vec2 direction);
-
   void Jump();
 
 #pragma endregion
-  
-  
+
+  void BasicAttack();
+  void SuperAttack();
+ 
   glm::mat3& GetTextureTransform() override;
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
@@ -52,7 +53,7 @@ private:
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);
-  
+ 
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
   // TODO: Tweak variabñes -d
@@ -63,14 +64,20 @@ private:
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
   bool isJumping = false; ///< @brief character jump status
-  
+ 
   void PrintStatus() {};
 #pragma endregion
-  
-  // TODO: Prob move this somewhere else -x
+ 
+#pragma region Combat
+
+  void ResetBasic(); ///< @brief Resets the basic attack combo to zero
+  void ResetSuper(); ///< @brief Resets the super attack combo to zero
+
   unsigned char m_defCombo = 0;    ///< @brief Combo status for default attack
   unsigned char m_superCombo = 0;  ///< @brief Combo status for super attack
   unsigned char m_ultCombo = 0;    ///< @brief Combo status for ultimate attack
+
+#pragma endregion
 
 };
 
