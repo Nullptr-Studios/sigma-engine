@@ -24,7 +24,6 @@ GameManager::GameManager(const char *title, int width, int height) : m_title(tit
 }
 
 GameManager::~GameManager() { m_instance = nullptr; }
-
 void GameManager::Uninitialize() {
 
   PROFILER_START
@@ -50,13 +49,8 @@ void GameManager::GameInit() {
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
 
-  AEGfxSetDepthBufferEnabled(true);
-  // AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-  AEGfxSetDestBlendArgument(AE_GFX_BA_DESTALPHA);
-  AEGfxSetSourceBlendArgument(AE_GFX_BA_DESTALPHA);
-  auto a1 = AEGfxGetBlendMode();
-  auto a = AEGfxGetDestBlendArgument();
-  auto b= AEGfxGetSourceBlendArgument();
+  // disable depth buffer cuz were using our own, fuck alpha btw
+  AEGfxSetDepthBufferEnabled(false);
 
   // Initialize factory
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
@@ -66,9 +60,9 @@ void GameManager::GameInit() {
   m_audioEngine->Init();
 
   m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
-    {
-      this->OnEvent(e);
-    });
+  {
+    this->OnEvent(e);
+  });
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
   m_cameraController = std::make_unique<Sigma::CameraController>(0); // idk if this is fine
@@ -98,12 +92,24 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-  m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
-
-  if (m_currentScene != nullptr) {
-
+  if (m_currentScene != nullptr)
+  {
+#if _DEBUG
+    auto startCollision = std::chrono::high_resolution_clock::now();
+#endif
+    m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+#if _DEBUG
+    auto endCollision = std::chrono::high_resolution_clock::now();
+    m_timeCollisions = endCollision - startCollision;
+#endif
+    
+    
     // TODO: For Each Actor Deubug DrawRectCollider
 
+    
+#if _DEBUG
+    auto startTick = std::chrono::high_resolution_clock::now();
+#endif
     // Scene and subscene update
     m_currentScene->Update(AEGetFrameTime());
 
@@ -122,6 +128,15 @@ void GameManager::Run() {
       object->Update(AEGetFrameTime());
     }
 
+#if _DEBUG
+    auto endTick = std::chrono::high_resolution_clock::now();
+    m_timeTick = endTick - startTick;
+#endif
+
+    
+#if _DEBUG
+    auto startDraw = std::chrono::high_resolution_clock::now();
+#endif
     // Scene and SubScene draw
     m_currentScene->Draw();
 
@@ -129,8 +144,18 @@ void GameManager::Run() {
       val->Draw();
     }
 
+    //Sort by Z order
+    m_factory->GetRenderables()->sort([](const id_t& a, const id_t& b)
+    {
+      const auto OA = GET_FACTORY->GetObjectAt(a);
+      const auto OB = GET_FACTORY->GetObjectAt(b);
+
+      return OA->transform.position.z < OB->transform.position.z;
+    });
+    
     // Render Objects
     for (const auto &renderableId: *m_factory->GetRenderables()) {
+      
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
@@ -150,13 +175,27 @@ void GameManager::Run() {
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
+#if _DEBUG
+    auto endDraw = std::chrono::high_resolution_clock::now();
+    m_timeRender = endDraw - startDraw;
+#endif
 
   }
+
+#if _DEBUG
+    auto startSound = std::chrono::high_resolution_clock::now();
+#endif
   
   // Audio
   m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
+
+  
+#if _DEBUG
+    auto endSound = std::chrono::high_resolution_clock::now();
+    m_timeSound = endSound - startSound;
+#endif
 
   DebugProfiler();
   // AE Shit
@@ -307,6 +346,23 @@ void GameManager::DebugProfiler()
     std::string SPF = "SPF: ";
     SPF.append(std::to_string(AEGetFrameTime()));
     AEGfxPrint(600, 20, colorFPS, SPF.c_str());
+
+    std::string Collisions = "COL: ";
+    Collisions.append(std::to_string(m_timeCollisions.count()));
+    AEGfxPrint(600, 35, 0xFF00FF00, Collisions.c_str());
+
+    std::string Tick = "TCK: ";
+    Tick.append(std::to_string(m_timeTick.count()));
+    AEGfxPrint(600, 45, 0xFF00FF00, Tick.c_str());
+
+    std::string Draw = "DRW: ";
+    Draw.append(std::to_string(m_timeRender.count()));
+    AEGfxPrint(600, 55, 0xFF00FF00, Draw.c_str());
+
+    std::string Sound = "SND: ";
+    Sound.append(std::to_string(m_timeSound.count()));
+    AEGfxPrint(600, 65, 0xFF00FF00, Sound.c_str());
+    
 
     std::string CurrentObjects = "Current Objects: ";
     CurrentObjects.append(std::to_string(m_factory->GetObjects()->size()));
