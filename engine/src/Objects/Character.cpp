@@ -22,10 +22,11 @@ glm::mat3 &Character::GetTextureTransform() {
 #pragma region MovementSystem
 
 void Character::Move(glm::vec2 direction) {
-  std::cout << direction.x << ", " << direction.y << std::endl;
+
   if (!isJumping) {
     velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
     velocity.y += direction.y * (accelerationRate * AEGetFrameRate());
+    
     // Clamp the speed while maintaining direction
     float speed = glm::length(velocity);
     if (speed > maxSpeed)

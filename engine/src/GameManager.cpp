@@ -119,8 +119,6 @@ void GameManager::Run() {
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
-      if (object == nullptr)
-        continue;
       if (!object->GetStartHandled()) {
         object->Start();
         object->SetStartHandled();
@@ -144,17 +142,22 @@ void GameManager::Run() {
       val->Draw();
     }
 
-    //Sort by Z order
-    m_factory->GetRenderables()->sort([](const id_t& a, const id_t& b)
-    {
-      const auto OA = GET_FACTORY->GetObjectAt(a);
-      const auto OB = GET_FACTORY->GetObjectAt(b);
+    auto renderables = m_factory->GetRenderables();
 
-      return OA->transform.position.z < OB->transform.position.z;
-    });
+    // Do sorting each 5 frames
+    if (AEGetFrameCounter() % 5 == 0) {
+      //Sort by Z order
+      renderables->sort([](const id_t& a, const id_t& b)
+      {
+        const auto OA = GET_FACTORY->GetObjectAt(a);
+        const auto OB = GET_FACTORY->GetObjectAt(b);
+
+        return OA->transform.position.z < OB->transform.position.z;
+      });
+    }
     
     // Render Objects
-    for (const auto &renderableId: *m_factory->GetRenderables()) {
+    for (const auto &renderableId: *renderables) {
       
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
       if (!actor->GetStartHandled())
@@ -163,12 +166,12 @@ void GameManager::Run() {
       glm::mat4 world = actor->transform.GetMatrix4();
       auto worldAE = ToAEX(world);
       AEGfxSetTransform(&worldAE);
-      auto viewAE = AEMtx44::Identity();
-      AEGfxSetViewTransform(&viewAE);
+      // auto viewAE = AEMtx44::Identity();
+      // AEGfxSetViewTransform(&viewAE);
       glm::mat4 proj = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
       auto projAE = ToAEX(proj);
       AEGfxSetProjTransform(&projAE);
-
+      
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);

@@ -77,6 +77,10 @@ AEGfxTexture* Factory::LoadTexture(const char* filepath)
   if (m_log)
     std::cout << "[Factory] Texture " << filepath << " does not exist yet. Adding to pool...\n";
   auto Tx = AEGfxTextureLoad(filepath);
+  if (Tx == nullptr) {
+    std::cout << "[Factory] Texture " << filepath << " failed to load\n";
+    return nullptr;
+  }
   AEGfxTextureSetFilters(Tx, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
   auto t = m_textures.emplace(filepath, Tx);
   
