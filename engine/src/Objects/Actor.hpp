@@ -50,9 +50,10 @@ public:
    */
   void SetTexture(const char* path);
 
+
   void SetTextureTransform(glm::mat3& newTexMtx);
   
-  virtual glm::mat3& GetTextureTransform();
+  virtual glm::mat3* GetTextureTransform();
 
   bool IsInViewport();
 

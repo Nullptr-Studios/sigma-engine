@@ -10,6 +10,7 @@
 
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
+#include "Objects/Character.hpp"
 
 void Sigma::Animation::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
 {
@@ -126,10 +127,13 @@ void Sigma::Animation::AnimationComponent::ClearCallbacks() {
   m_animCallbacks.clear();
 }
 
+// TODO: Update the relative scale
 void Sigma::Animation::AnimationComponent::UpdateTextureMatrix() {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
-  GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
+  GET_ANIMATION->BuildTextureTransform(&m_texMtx, m_currentFrame, m_texAtlas);
+
+  //m_owner->transform.scale = glm::vec2(m_currentFrame->size.x, m_currentFrame->size.y);
 }
 
 

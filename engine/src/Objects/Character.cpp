@@ -7,16 +7,22 @@ Character::~Character() {}
 void Character::Init() {
   Actor::Init();
 
-  m_animComp = std::make_unique<Animation::AnimationComponent>();
+  m_animComp = std::make_unique<Animation::AnimationComponent>(this);
 }
 
 
-glm::mat3 &Character::GetTextureTransform() {
-  if (m_animComp == nullptr) {
+glm::mat3* Character::GetTextureTransform() {
+  /*if (m_animComp == nullptr) {
     m_tMtx = glm::mat3(1.0f);
     return m_tMtx;
-  }
-  return m_animComp->GetTextureMatrix();
+  }*/
+  //Actor::GetTextureTransform(); 
+  auto mtx = m_animComp->GetTextureMatrix(); 
+  // std::cout << mtx[0][0] << ", " << mtx[0][1] << ", " << mtx[0][2] << std::endl;
+  // std::cout << mtx[1][0] << ", " << mtx[1][1] << ", " << mtx[1][2] << std::endl;
+  // std::cout << mtx[2][0] << ", " << mtx[2][1] << ", " << mtx[2][2] << std::endl;
+  m_tMtx = glm::FromAEX(mtx);
+  return &m_tMtx;
 }
 
 #pragma region MovementSystem

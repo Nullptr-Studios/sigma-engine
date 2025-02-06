@@ -30,6 +30,7 @@ public:
   void Update(double delta) override {
     Actor::Update(delta);
     Character::UpdateMovement(delta);
+    m_animComp->Update(delta);
   };
   void Destroy() override { Actor::Destroy(); };
 
@@ -42,7 +43,7 @@ public:
 #pragma endregion
   
   
-  glm::mat3& GetTextureTransform() override;
+  glm::mat3* GetTextureTransform() override;
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
 

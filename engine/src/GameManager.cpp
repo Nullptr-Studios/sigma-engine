@@ -166,14 +166,13 @@ void GameManager::Run() {
       glm::mat4 world = actor->transform.GetMatrix4();
       auto worldAE = ToAEX(world);
       AEGfxSetTransform(&worldAE);
-      // auto viewAE = AEMtx44::Identity();
-      // AEGfxSetViewTransform(&viewAE);
+      
       glm::mat4 proj = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
       auto projAE = ToAEX(proj);
       AEGfxSetProjTransform(&projAE);
       
       AEGfxTextureSet(actor->GetTexture());
-      auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
+      auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }

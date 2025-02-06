@@ -19,9 +19,9 @@ void Actor::SetTextureTransform(glm::mat3& newTexMtx)
   m_tMtx = newTexMtx;
 }
 
-glm::mat3& Actor::GetTextureTransform() {
+glm::mat3* Actor::GetTextureTransform() {
 
-  return m_tMtx;
+  return &m_tMtx;
 }
 
 bool Actor::IsInViewport()

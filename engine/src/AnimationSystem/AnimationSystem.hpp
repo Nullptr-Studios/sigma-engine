@@ -78,7 +78,7 @@ public:
    *
    * @todo Add Support for trimmed sprites
    */
-  void BuildTextureTransform(glm::mat3& texMtx, glm::vec2 framePosition, glm::vec2 frameSize, glm::vec2 atlasSize);
+  void BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH);
 
   /**
    * @brief Build a texture transform matrix
@@ -86,7 +86,7 @@ public:
    * @param frame Pointer to the frame
    * @param atlas Pointer to the texture atlas
    */
-  void BuildTextureTransform(glm::mat3& texMtx, const Frame * frame, const TextureAtlas * atlas);
+  void BuildTextureTransform(AEMtx33* texMtx, const Frame * frame, const TextureAtlas * atlas);
 
   
   static AnimationSystem* GetInstance() {

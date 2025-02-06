@@ -16,15 +16,18 @@
 
 namespace glm {
 
-inline AEMtx33 ToAEX(mat3 &m) {
-  return AEMtx33 {
+inline AEMtx33 ToAEX(mat3 m) {
+
+  AEMtx33 result {
     m[0][0], m[1][0], m[2][0],
     m[0][1], m[1][1], m[2][1],
     m[0][2], m[1][2], m[2][2]
   };
+
+  return result;
 }
 
-inline AEMtx44 ToAEX(mat4 &m) {
+inline AEMtx44 ToAEX(mat4 m) {
   return AEMtx44 {
     m[0][0], m[1][0], m[2][0], m[3][0],
     m[0][1], m[1][1], m[2][1], m[3][1],

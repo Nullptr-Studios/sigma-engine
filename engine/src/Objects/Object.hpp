@@ -21,6 +21,7 @@ namespace Sigma {
 struct Transform {
   glm::vec3 position = glm::vec3(0.0f);
   glm::vec2 scale = glm::vec2(100.0f);
+  float relativeScale = 1.0f;
   float rotation = 0.0f;
 
   /**
@@ -33,7 +34,7 @@ struct Transform {
     glm::mat3 matrix;
     matrix = glm::translate(matrix, glm::vec2(position.x, position.y));
     matrix = glm::rotate(matrix, rotation);
-    matrix = glm::scale(matrix, scale);
+    matrix = glm::scale(matrix, scale * relativeScale);
     return matrix;
   }
 
@@ -47,7 +48,7 @@ struct Transform {
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = glm::translate(matrix, position);
     matrix = glm::rotate(matrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-    matrix = glm::scale(matrix, glm::vec3(scale.x, scale.y, 1.0f));
+    matrix = glm::scale(matrix, glm::vec3(scale.x * relativeScale, scale.y * relativeScale, 1.0f));
     return matrix;
   }
 };
