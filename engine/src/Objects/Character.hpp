@@ -27,10 +27,7 @@ public:
 
   void Init() override;
   void Start() override { Actor::Start(); };
-  void Update(double delta) override {
-    Actor::Update(delta);
-    Character::UpdateMovement(delta);
-  };
+  void Update(double delta) override;
   void Destroy() override { Actor::Destroy(); };
 
 #pragma region MovementSystem
@@ -56,26 +53,36 @@ private:
  
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
-  // TODO: Tweak variabñes -d
   float maxSpeed = 400.0f; ///< @brief character max velocity
   float accelerationRate = 25.0f; ///< @brief character acceleration
   float gravity = -5000.f;
   float friction = 2000.f; ///< @brief character friction
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
-  bool isJumping = false; ///< @brief character jump status
+  bool isJumping = false;  ///< @brief character jump status
  
   void PrintStatus() {};
 #pragma endregion
  
 #pragma region Combat
 
-  void ResetBasic(); ///< @brief Resets the basic attack combo to zero
-  void ResetSuper(); ///< @brief Resets the super attack combo to zero
+  void UpdateCombat(double delta);
 
-  unsigned char m_defCombo = 0;    ///< @brief Combo status for default attack
+  void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
+  void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
+
+  // TODO: I need animation callbacks for this pookie 😘
+  bool m_isIdle = true;   ///< @brief Returns false if player is currently doing an animation (avoids spammability)
+  bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
+
+  unsigned char m_basicCombo = 0;  ///< @brief Combo status for default attack
   unsigned char m_superCombo = 0;  ///< @brief Combo status for super attack
-  unsigned char m_ultCombo = 0;    ///< @brief Combo status for ultimate attack
+  
+  unsigned char m_basicMoveCount = 3;
+  unsigned char m_superMoveCount = 4;
+ 
+  double m_hitTimer = 0.0f;
+  double m_restartTime = 1.6f;
 
 #pragma endregion
 

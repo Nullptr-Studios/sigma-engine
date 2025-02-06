@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include "aecore/AEUtil.h"
 
 namespace Sigma {
 
@@ -10,6 +11,11 @@ void Character::Init() {
   m_animComp = std::make_unique<Animation::AnimationComponent>();
 }
 
+void Character::Update(double delta) {
+  Actor::Update(delta);
+  UpdateMovement(delta);
+  UpdateCombat(delta);
+}
 
 glm::mat3 &Character::GetTextureTransform() {
   if (m_animComp == nullptr) {
@@ -59,7 +65,7 @@ void Character::UpdateMovement(double delta)
       glm::min(velocity.x, 0.0f); 
     }
   }
-  
+ 
   // Apply deceleration when no input is given in Y axis
   if (!isJumping) {
     if (std::abs(velocity.y) > 0.01f) {
@@ -86,14 +92,63 @@ void Character::UpdateMovement(double delta)
     isJumping = false;
   }
 
-  
+ 
   //Update Z
   if (!isJumping)
     transform.position.z = -transform.position.y;
 }
+
 #pragma endregion
 
 #pragma region Combat
+
+void Character::UpdateCombat(double delta) {
+  m_hitTimer += delta;
+
+  // Handles reseting combo after not attacking for a while -x
+  if (m_hitTimer > m_restartTime && m_inCombo) {
+    std::cout << "Combo restarted\n";
+    ResetBasic();
+    ResetSuper();
+
+    m_hitTimer = 0.0f;
+    m_inCombo = false;
+  }
+}
+
+void Character::BasicAttack() {
+  if (!m_isIdle) return;
+
+  m_basicCombo++;
+  m_hitTimer = 0;
+  m_inCombo = true;
+  ResetSuper();
+ 
+  if (!isJumping) {
+    std::cout << "Basic Attack " << (unsigned int)m_basicCombo << "\n";
+  } else {
+    std::cout << "Basic AIR Attack " << (unsigned int)m_basicCombo << "\n";
+  }
+
+  if (m_basicCombo >= m_basicMoveCount) ResetBasic();
+}
+
+void Character::SuperAttack() {
+  if (!m_isIdle) return;
+
+  m_superCombo++;
+  m_hitTimer = 0;
+  m_inCombo = true;
+  ResetBasic();
+
+  if (!isJumping) {
+    std::cout << "Super Attack " << (unsigned int)m_superCombo << "\n";
+  } else {
+    std::cout << "Super AIR Attack " << (unsigned int)m_superCombo << "\n";
+  }
+
+  if (m_superCombo >= m_superMoveCount) ResetBasic();
+}
 
 #pragma endregion
 
