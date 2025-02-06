@@ -4,6 +4,7 @@
 #include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
+#include "Controller/CameraController.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
@@ -62,8 +63,8 @@ void GameManager::GameInit() {
     });
 
   m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
-  m_activeCamera = GET_FACTORY->CreateObject<Camera>("Main Camera");
-
+  m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
+  m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 #ifdef _DEBUG
@@ -133,7 +134,7 @@ void GameManager::Run() {
   }
   
   // Audio
-  m_audioEngine->Set3DListenerPosition(m_activeCamera->transform.position.x, m_activeCamera->transform.position.y, 0, 0,
+  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 

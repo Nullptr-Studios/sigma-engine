@@ -12,10 +12,11 @@
 
 namespace Sigma {
 
-class Camera;
 class AudioEngine;
 class Scene;
 class Event;
+class CameraController;
+class Camera;
 
 namespace ANIMATION {
 class AnimationSystem;
@@ -33,8 +34,7 @@ class CollisionSystem;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager
-{
+class GameManager {
 public:
   /**
    * @brief Initialization of alpha engine and base sigma classes
@@ -43,10 +43,10 @@ public:
    * @param width window width
    * @param height window height
    */
-  GameManager(const char* title, int width, int height);
+  GameManager(const char *title, int width, int height);
   ~GameManager();
 
-  static GameManager* GetInstance() { return m_instance; }
+  static GameManager *GetInstance() { return m_instance; }
 
 
   /**
@@ -64,27 +64,23 @@ public:
    *
    * @param scene scene to load
    */
-  void LoadScene(Scene* scene);
+  void LoadScene(Scene *scene);
 
-  Scene* GetCurrentScene() { return m_currentScene; }
+  Scene *GetCurrentScene() { return m_currentScene; }
 
-  void OnEvent(Event& e);
+  void OnEvent(Event &e);
 
-  // TODO: Create a camera controller at some point
-  void ChangeCamera(Camera* camera) { m_activeCamera = camera; }
-
-  Camera* GetActiveCamera() { return m_activeCamera; }
 private:
 
   void DebugProfiler();
-
-  bool m_debug = true;
   
-  static GameManager* m_instance;
+  bool m_debug = true;
+
+  static GameManager *m_instance;
 
   void GameInit();
 
-  const char* m_title;
+  const char *m_title;
   int m_width;
   int m_height;
 
@@ -92,6 +88,7 @@ private:
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
+  CameraController* m_cameraController;
 
   Scene* m_currentScene = nullptr;
 
