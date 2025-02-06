@@ -7,11 +7,80 @@
  */
 
 #pragma once
+#include <utility>
+
 #include "Actor.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
 
 namespace Sigma {
 
+namespace Combat{
+
+/**
+ * @enum MoveType
+ * @brief Holds all the diferent types of moves
+ */ 
+enum MoveType {
+  DMG = 0, ///< @brief This move only does damage (default)
+  GRB = 1, ///< @brief This move grabs the enemy as well
+  THR = 2  ///< @brief This move throws the enemy and stuns them
+};
+
+/**
+ * @brief Converts string to @c MoveType
+ * If not valid it returns type DMG as a default
+ * @param value String to convert
+ * @return MoveType value
+ */
+inline MoveType GetMoveType(const std::string& value) {
+  if (value == "grb" || value == "GRB") return GRB;
+  else if (value == "thr" || value == "THR") return THR;
+  return DMG;
+}
+
+/**
+ * @class Move
+ * @brief Data required for a single move of every combo
+ */
+struct Move {
+  MoveType type;
+  float damage;
+  glm::vec2 colliderOffset{};
+  glm::vec3 colliderSize{};
+  std::string animationName;
+
+  /**
+   * @brief Empty constructor
+   * This generates an empty move struct, only used for develompemt purposes
+   */
+  Move() {
+    type = DMG; damage = 10.0f;
+    colliderOffset = glm::vec2(0.0f);
+    colliderSize = glm::vec3(0.0f);
+    animationName = "";
+  }
+
+  /**
+   * @brief Creates a move and initializes it
+   * A move contains all the required information for a single attack in a combo
+   * This struct also holds all the collider and animation parameter it needs
+   *
+   * @param type Defines the behaviour of the move
+   * @param damage Defines the damage the move default
+   * @param offset Defines the offset of the collider
+   * @param size Defines the collider
+   * @param animation Path of the animation for the move
+   */
+  Move(const MoveType type, const float damage, const glm::vec2 offset, const glm::vec3 size, const std::string& animation) {
+    this->type = type;
+    this->damage = damage;
+    colliderOffset = offset;
+    colliderSize = size;
+    animationName = animation;
+  }
+};
+
+}
 
 /**
  * @class Character
@@ -26,9 +95,12 @@ public:
   ~Character() override;
 
   void Init() override;
-  void Start() override { Actor::Start(); };
+  void Start() override;
   void Update(double delta) override;
   void Destroy() override { Actor::Destroy(); };
+
+  void Serialize();
+  void SetJsonPath(const std::string& path) { m_jsonPath = path; }
 
 #pragma region MovementSystem
  
@@ -47,6 +119,7 @@ public:
 private:
 
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
+  std::string m_jsonPath;
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);
@@ -59,17 +132,21 @@ private:
   float friction = 2000.f; ///< @brief character friction
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
-  bool isJumping = false;  ///< @brief character jump status
+  bool  isJumping = false; ///< @brief character jump status
  
   void PrintStatus() {};
 #pragma endregion
  
 #pragma region Combat
-
   void UpdateCombat(double delta);
-
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
+ 
+  // Structs with info for all the moves
+  std::vector<Combat::Move> m_basicDefault;
+  std::vector<Combat::Move> m_basicAir;
+  std::vector<Combat::Move> m_superDefault;
+  std::vector<Combat::Move> m_superAir;
 
   // TODO: I need animation callbacks for this pookie 😘
   bool m_isIdle = true;   ///< @brief Returns false if player is currently doing an animation (avoids spammability)
@@ -83,7 +160,6 @@ private:
  
   double m_hitTimer = 0.0f;
   double m_restartTime = 1.6f;
-
 #pragma endregion
 
 };
