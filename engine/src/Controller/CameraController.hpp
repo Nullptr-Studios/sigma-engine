@@ -25,6 +25,7 @@ public:
 
   static CameraController *GetCameraControllerInstance() {
     if (!m_instance) {
+      std::cerr << "Camera controller has been called but it has not been created yet\n";
       return nullptr;
     }
     return m_instance;
