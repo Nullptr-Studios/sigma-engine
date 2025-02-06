@@ -60,7 +60,7 @@ public:
 
   EVENT_CLASS_TYPE(COLLISION)
 
-private:
+protected:
   id_t m_receiver;
   Object* m_other;
   ColliderType m_type;

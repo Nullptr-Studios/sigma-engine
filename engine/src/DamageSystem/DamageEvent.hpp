@@ -16,8 +16,6 @@
 /*
  *  variables:
  *   Float damageAmount
- *   Object * damageDealer
- *   Id_T damageReceiver
  *   Enum damageType --> Physical (Basic) or Throw, with Throw damage being based on:
  *                                          - Float Height (Diff between Y and Z coordinates)
  *                                          - Gravity (Vertical deceleration)
@@ -28,11 +26,11 @@
  */
 
 #pragma once
-#include "Events/Event.hpp"
+#include "Collision/CollisionEvent.hpp"
 
-namespace FNFE {
+namespace Sigma::Damage {
 
-class DamageEvent : public Event {
+class DamageEvent : public Collision::CollisionEvent {
 
 
 
