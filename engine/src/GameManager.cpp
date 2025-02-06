@@ -11,6 +11,7 @@
 #include "Objects/Camera.hpp"
 #include "Scene.hpp"
 #include "StateManager.hpp"
+#include "aecore/AEFrameRateController.h"
 
 namespace Sigma {
 
@@ -97,6 +98,8 @@ void GameManager::Run() {
     
     m_currentScene->Update(AEGetFrameTime());
 
+    m_activeCamera->transform.position.x += 10 * AEGetFrameTime();
+
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
       if (object == nullptr)
@@ -117,10 +120,12 @@ void GameManager::Run() {
       glm::mat4 world = actor->transform.GetMatrix4();
       auto worldAE = ToAEX(world);
       AEGfxSetTransform(&worldAE);
-      auto viewAE = AEMtx44::Identity();
+      auto cameraMatrices = m_activeCamera->GetCameraMatrix();
+      glm::mat4 view = cameraMatrices[0];
+      auto viewAE = glm::ToAEX(view);
       AEGfxSetViewTransform(&viewAE);
-      glm::mat4 proj = m_activeCamera->GetCameraMatrix();
-      auto projAE = ToAEX(proj);
+      glm::mat4 proj = cameraMatrices[1];
+      auto projAE = glm::ToAEX(proj);
       AEGfxSetProjTransform(&projAE);
 
       AEGfxTextureSet(actor->GetTexture());
