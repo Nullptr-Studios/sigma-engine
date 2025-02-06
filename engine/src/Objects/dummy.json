@@ -1,0 +1,168 @@
+{
+  "maxSpeed" : 400.0,
+  "accelerationRate" : 25.0,
+  "jumpVel" : 2500.0,
+
+  "basicCombo" : [
+
+    {
+      "type" : "dmg",
+      "damage" : 1.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "hit_default_0"
+    },
+
+    {
+      "type" : "dmg",
+      "damage" : 2.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "hit_default_0"
+    },
+
+    {
+      "type" : "thr",
+      "damage" : 4.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "hit_default_1"
+    }
+
+  ],
+
+  "basicAirCombo" : [
+
+    {
+      "type" : "dmg",
+      "damage" : 1.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "air_default_0"
+    },
+
+    {
+      "type" : "dmg",
+      "damage" : 2.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "air_default_0"
+    },
+
+    {
+      "type" : "thr",
+      "damage" : 4.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "air_default_1"
+    }
+  ],
+
+  "superCombo" : [
+
+    {
+      "type" : "grb",
+      "damage" : 0.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "hit_super_0"
+    },
+
+    {
+      "type" : "thr",
+      "damage" : 10.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "hit_super_1"
+    }
+  ],
+
+  "superAirCombo" : [
+
+    {
+      "type" : "grb",
+      "damage" : 0.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "air_super_0"
+    },
+
+    {
+      "type" : "thr",
+      "damage" : 10.0,
+      "colliderOffset" : {
+        "x" : 0.0,
+        "y" : 0.0
+      },
+      "colliderSize" : {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "animationName" : "air_super_1"
+    }
+  ]
+}
