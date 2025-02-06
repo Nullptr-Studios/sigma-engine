@@ -17,7 +17,7 @@
 
 namespace Sigma {
 class Camera;
-class CameraController : Object {
+class CameraController : public Object {
 public:
   explicit CameraController(id_t id ) : Object(id) { m_instance = this; };
   CameraController(CameraController &&) = delete;
