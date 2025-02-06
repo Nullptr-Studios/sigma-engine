@@ -12,6 +12,7 @@ Sigma::Animation::AnimationSystem *Sigma::Animation::AnimationSystem::m_AnimSysi
 
 // TODO: cleanup
 // TODO: Support for trimmed sprites
+// TODO: Support for pivot
 Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath) {
   // Profiler time
   PROFILER_START;

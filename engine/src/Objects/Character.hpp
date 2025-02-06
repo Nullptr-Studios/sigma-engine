@@ -47,14 +47,14 @@ public:
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
 
+  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
+
 private:
 
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);
-  
-  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
   // TODO: Tweak variabñes -d
   float maxSpeed = 500.0f; ///< @brief character max velocity
