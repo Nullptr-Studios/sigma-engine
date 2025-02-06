@@ -23,14 +23,8 @@ public:
   CameraController(CameraController &&) = delete;
   CameraController(const CameraController &) = delete;
 
-  static CameraController *GetCameraControllerInstance() {
-    if (!m_instance) {
-      std::cerr << "Camera controller has been called but it has not been created yet\n";
-      return nullptr;
-    }
-    return m_instance;
-  }
-  Camera *GetCurrentCamera() { return m_currentCamera; }
+  static CameraController *GetCameraControllerInstance();
+  Camera *GetCurrentCamera();
   void SetCurrentCamera(Camera *camera);
 
   /**
