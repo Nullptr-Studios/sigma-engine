@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include "Collision/Collider.hpp"
 #include "json.hpp"
 
 namespace Sigma {
@@ -10,6 +11,8 @@ void Character::Init() {
   Actor::Init();
 
   m_animComp = std::make_unique<Animation::AnimationComponent>();
+  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
+  m_attackCollider->enabled = false;
 }
 
 void Character::Start() {
@@ -39,10 +42,8 @@ void LoadCombo(std::vector<Combat::Move>* combo, json j, const std::string& json
 
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-
     combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
     combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
- 
     combo->operator[](i).animationName = move["animationName"];
   }
 }
@@ -65,6 +66,12 @@ void Character::Serialize() {
   LoadCombo(&m_basicAir, j, "basicAirCombo");
   LoadCombo(&m_superDefault, j, "superCombo");
   LoadCombo(&m_superAir, j, "superAirCombo");
+
+  // Checks
+  if (m_basicDefault.size() != m_basicAir.size())
+    std::cout << "Basic attack does not match sizes, Default is " << m_basicDefault.size() << " and Air is " << m_basicAir.size() << "\n";
+  if (m_superDefault.size() != m_superAir.size())
+    std::cout << "Super attack does not match sizes, Default is " << m_superDefault.size() << " and Air is " << m_superAir.size() << "\n";
 }
 
 glm::mat3 &Character::GetTextureTransform() {
@@ -166,6 +173,16 @@ void Character::UpdateCombat(double delta) {
   }
 }
 
+// TODO: Right now this is being called on the Basic Attack
+// When my pookie dario has the animation system callbacks the collider should be enabled there
+// This works for now but will change later on -x
+void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
+  m_attackCollider->box.Set(size.x/2, size.x/2, size.y/2, size.y/2, offset);
+  m_attackCollider->depth = size.z;
+  m_attackCollider->damage = damage;
+  m_attackCollider->enabled = true;
+}
+
 void Character::BasicAttack() {
   if (!m_isIdle) return;
 
@@ -175,12 +192,17 @@ void Character::BasicAttack() {
   ResetSuper();
  
   if (!isJumping) {
-    std::cout << "Basic Attack " << (unsigned int)m_basicCombo << "\n";
+    auto move = m_basicDefault[m_basicCombo];
+    std::cout << move.animationName << "\n";
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   } else {
-    std::cout << "Basic AIR Attack " << (unsigned int)m_basicCombo << "\n";
+    auto move = m_basicAir[m_basicCombo];
+    std::cout << move.animationName << "\n";
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
-  if (m_basicCombo >= m_basicMoveCount) ResetBasic();
+  // I'm using only the count from the default variant since both should have the same number -x
+  if (m_basicCombo >= m_basicDefault.size()) ResetBasic();
 }
 
 void Character::SuperAttack() {
@@ -192,12 +214,16 @@ void Character::SuperAttack() {
   ResetBasic();
 
   if (!isJumping) {
-    std::cout << "Super Attack " << (unsigned int)m_superCombo << "\n";
+    auto move = m_superDefault[m_basicCombo];
+    std::cout << move.animationName << "\n";
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   } else {
-    std::cout << "Super AIR Attack " << (unsigned int)m_superCombo << "\n";
+    auto move = m_superAir[m_basicCombo];
+    std::cout << move.animationName << "\n";
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
-  if (m_superCombo >= m_superMoveCount) ResetBasic();
+  if (m_superCombo >= m_superDefault.size()) ResetBasic();
 }
 
 #pragma endregion

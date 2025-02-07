@@ -1,6 +1,6 @@
 /**
  * @file Collider.hpp
- * @author dante
+ * @author dante and Xein
  * @date 1/16/2025
  *
  * @brief File to manage collisions between objects
@@ -96,7 +96,9 @@ struct BoxCollider {
       offset = offset_;
     }
   } box;
-  float depth = 10.0f;
+
+  float depth = 10.0f; ///< @brief Z Depth of the collider for 2.5D
+  float damage = 0.0f; ///< @brief Damage the attack does (only useful for DMG type colliders)
   
   /**
    * @brief Initializes collider by setting the flags and the type
@@ -105,7 +107,9 @@ struct BoxCollider {
    * @param flag_ Sets with which colliders it should interact
    * @param type_ Sets the collider type (collision or damage)
    */ 
-  BoxCollider(ColliderFlag flag_, ColliderType type_) : flag(flag_), type(type_) {}
+  BoxCollider(int flag_, ColliderType type_) : type(type_) {
+    flag = static_cast<ColliderFlag>(flag_);
+  }
   
   /**
    * @brief initializes the collider by setting the flags and the type and specifies its size
@@ -116,8 +120,9 @@ struct BoxCollider {
    * @param size  sets the 4 floats that define the size of the collider (l, r, t, b)
    * @param offset_ Offset to move the center of the box outside the center of the object
    */
-  BoxCollider(ColliderFlag flag_, ColliderType type_, std::array<float, 4> size, glm::vec2 offset = {0.0f, 0.0f}) 
-      : flag(flag_), type(type_) {
+  BoxCollider(int flag_, ColliderType type_, std::array<float, 4> size, glm::vec2 offset = {0.0f, 0.0f}) 
+      : type(type_) {
+    flag = static_cast<ColliderFlag>(flag_);
     box.Set(size[0], size[1], size[2], size[3], offset);
   }
 
