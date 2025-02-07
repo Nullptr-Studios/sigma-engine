@@ -11,18 +11,11 @@
 
 namespace Sigma::Damage {
 
+//TODO: implement damage types somehow, I don't know how
 
-/**
-   * @brief Type of Damage
-   */
-  enum DamageType {
-    PHYSICAL,
-    THROW
-  };
 /// @brief Class for Damage Events
 class DamageEvent : public Collision::CollisionEvent {
   float m_damageAmount;
-  DamageType m_damageType;
 
 public:
   /**
@@ -35,11 +28,10 @@ public:
    * @param damageType Type of damage dealt to receiver
    *
    */
-  DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount, DamageType damageType)
-    : Collision::CollisionEvent(receiver, other, type), m_damageAmount(damageAmount), m_damageType(damageType) {}
+  DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount)
+    : CollisionEvent(receiver, other, type), m_damageAmount(damageAmount) {}
 
   [[nodiscard]] float GetDamageAmount() const {return m_damageAmount;}  ///< @brief Gets the amount of damage dealt
-  [[nodiscard]] DamageType GetDamageType() const { return m_damageType;} ///< @brief Gets the type of damage dealt
 
 /**
    * @brief Overrides the @c ToString function to provide a detailed string representation of the event.

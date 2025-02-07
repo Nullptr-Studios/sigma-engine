@@ -127,7 +127,8 @@ public:
   void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
 private:
-
+  float m_health = 100.0f;
+  bool m_isAlive = true;
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   std::string m_jsonPath;
 
