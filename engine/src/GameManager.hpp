@@ -98,9 +98,9 @@ private:
 
   std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
-  std::unique_ptr<Animation::AnimationSystem> m_animationSystem;
+  std::unique_ptr<ANIMATION::AnimationSystem> m_animationSystem;
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
-  std::unique_ptr<CameraController> m_cameraController;
+  CameraController* m_cameraController;
 
   Scene *m_currentScene = nullptr;
   std::unordered_map<int, Scene *> m_subScenes;
