@@ -2,6 +2,9 @@
 #include "Collision/Collider.hpp"
 #include "json.hpp"
 
+#define ATTACK_ERRORS
+#define ATTACK_DEBUG
+
 namespace Sigma {
 using json = nlohmann::json;
 
@@ -11,15 +14,18 @@ void Character::Init() {
   Actor::Init();
 
   m_animComp = std::make_unique<Animation::AnimationComponent>();
-  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
-  m_attackCollider->enabled = false;
 }
 
 void Character::Start() {
   Actor::Start();
 
-  if (m_jsonPath != "") Serialize();
-  else std::cout << "No json found for " << GetName() << ". Using default values.";
+  if (!m_jsonPath.empty()) Serialize();
+#ifdef ATTACK_ERRORS
+  else std::cerr << "[Character] No json found for " << GetName() << ". Using default values.";
+#endif
+
+  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
+  m_attackCollider->enabled = false;
 }
 
 void Character::Update(double delta) {
@@ -68,10 +74,12 @@ void Character::Serialize() {
   LoadCombo(&m_superAir, j, "superAirCombo");
 
   // Checks
+#ifdef ATTACK_ERRORS
   if (m_basicDefault.size() != m_basicAir.size())
-    std::cout << "Basic attack does not match sizes, Default is " << m_basicDefault.size() << " and Air is " << m_basicAir.size() << "\n";
+    std::cout << "[Attack] Basic attack does not match sizes, Default is " << m_basicDefault.size() << " and Air is " << m_basicAir.size() << "\n";
   if (m_superDefault.size() != m_superAir.size())
-    std::cout << "Super attack does not match sizes, Default is " << m_superDefault.size() << " and Air is " << m_superAir.size() << "\n";
+    std::cout << "[Attack] Super attack does not match sizes, Default is " << m_superDefault.size() << " and Air is " << m_superAir.size() << "\n";
+#endif
 }
 
 glm::mat3 &Character::GetTextureTransform() {
@@ -164,7 +172,9 @@ void Character::UpdateCombat(double delta) {
 
   // Handles reseting combo after not attacking for a while -x
   if (m_hitTimer > m_restartTime && m_inCombo) {
-    std::cout << "Combo restarted\n";
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] Combo restarted\n";
+#endif
     ResetBasic();
     ResetSuper();
 
@@ -192,12 +202,16 @@ void Character::BasicAttack() {
   ResetSuper();
  
   if (!isJumping) {
-    auto move = m_basicDefault[m_basicCombo];
-    std::cout << move.animationName << "\n";
+    auto move = m_basicDefault[m_basicCombo - 1];
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " << move.animationName << "\n";
+#endif
     SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   } else {
-    auto move = m_basicAir[m_basicCombo];
-    std::cout << move.animationName << "\n";
+    auto move = m_basicAir[m_basicCombo - 1];
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " << move.animationName << "\n";
+#endif
     SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
@@ -214,16 +228,20 @@ void Character::SuperAttack() {
   ResetBasic();
 
   if (!isJumping) {
-    auto move = m_superDefault[m_basicCombo];
-    std::cout << move.animationName << "\n";
+    auto move = m_superDefault[m_superCombo - 1];
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " << move.animationName << "\n";
+#endif
     SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   } else {
-    auto move = m_superAir[m_basicCombo];
-    std::cout << move.animationName << "\n";
+    auto move = m_superAir[m_superCombo - 1];
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " <<move.animationName << "\n";
+#endif
     SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
-  if (m_superCombo >= m_superDefault.size()) ResetBasic();
+  if (m_superCombo >= m_superDefault.size()) ResetSuper();
 }
 
 #pragma endregion
