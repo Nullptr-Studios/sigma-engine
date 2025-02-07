@@ -59,7 +59,7 @@ private:
   // TODO: Tweak variabñes -d
   float maxSpeed = 500.0f; ///< @brief character max velocity
   float accelerationRate = 25.f; ///< @brief character acceleration
-  float gravity = -5000.f;
+  float gravity = -3500.f;
   float friction = 2000.f; ///< @brief character friction
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity

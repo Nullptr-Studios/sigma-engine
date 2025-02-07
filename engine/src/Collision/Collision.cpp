@@ -3,7 +3,7 @@
 
 namespace Sigma::Collision {
 
-// Every day i think i prefer femboys a bit more than woman -d(probably)
+// Every day i think i prefer femboys a bit more than woman -x(probably) not d
 void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
   for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
     auto obj1 = it1->second;

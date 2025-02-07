@@ -159,7 +159,12 @@ void GameManager::Run() {
     // Render Objects
     for (const auto &renderableId: *renderables) {
       
-      auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
+      auto actor = dynamic_cast<Actor*>(m_factory->GetObjectAt(renderableId));
+
+      // culling
+      /*if (!actor->IsInViewport())
+        continue;*/
+      
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
 
