@@ -9,8 +9,10 @@
 #pragma once
 #include "Actor.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
+#include "json.hpp"
 
 namespace Sigma {
+using json = nlohmann::json;
 
 namespace Combat{
 
@@ -97,14 +99,12 @@ public:
   void Update(double delta) override;
   void Destroy() override { Actor::Destroy(); };
 
-  void Serialize();
+  virtual void Serialize();
   void SetJsonPath(const std::string& path) { m_jsonPath = path; }
 
 #pragma region MovementSystem
- 
   void Move(glm::vec2 direction);
   void Jump();
-
 #pragma endregion
 
   void BasicAttack();
@@ -113,6 +113,9 @@ public:
   glm::mat3& GetTextureTransform() override;
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
+
+protected:
+  json j = nullptr;
 
 private:
 

@@ -1,12 +1,9 @@
 #include "Character.hpp"
 #include "Collision/Collider.hpp"
-#include "json.hpp"
-
 #define ATTACK_ERRORS
 #define ATTACK_DEBUG
 
 namespace Sigma {
-using json = nlohmann::json;
 
 Character::~Character() = default;
 
@@ -61,7 +58,7 @@ void Character::Serialize() {
     std::cout << "[InputSystem] failed to open JSON file " << m_jsonPath << '\n';
     return;
   }
-  json j = json::parse(file);
+  j = json::parse(file);
 
   // Load character variables
   maxSpeed = j["maxSpeed"];
