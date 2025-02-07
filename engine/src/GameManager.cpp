@@ -100,8 +100,6 @@ void GameManager::Run() {
       val->Update(AEGetFrameTime());
     }
 
-    m_cameraController->GetCurrentCamera()->transform.position.x += 10 * AEGetFrameTime();
-
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
       if (object == nullptr)
