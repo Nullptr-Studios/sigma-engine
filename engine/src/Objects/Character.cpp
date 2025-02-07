@@ -11,6 +11,12 @@ void Character::Init() {
   //m_animComp = new ANIMATION::AnimationComponent();
 
 }
+void Character::OnDamage(Damage::DamageEvent &e) {
+  float characterHealth = m_health - e.GetDamageAmount();
+  SetHealth(characterHealth);
+  if (characterHealth <= 0) { m_isAlive = false; }
+}
+
 
 glm::mat3& Character::GetTextureTransform() {
   if (m_animComp == nullptr) {

@@ -4,11 +4,13 @@
 #include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
+#include "DamageSystem/DamageEvent.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "GlmAlphaTools.hpp"
 #include "Objects/Camera.hpp"
+#include "Objects/Character.hpp"
 #include "Scene.hpp"
 #include "StateManager.hpp"
 
@@ -183,6 +185,14 @@ void GameManager::OnEvent(Event &e) {
   PROFILER_START
 
   EventDispatcher dispatcher(e);
+
+  dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
+    {
+      auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
+      if (const auto character = dynamic_cast<Character*>(obj)) character->OnDamage(damage);
+
+      return true;
+    });
 
   dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
     {

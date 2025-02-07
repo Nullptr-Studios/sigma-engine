@@ -3,26 +3,7 @@
  * @author Alexey
  * @date 02/04/2025
  *
- * @brief Damage event class for damage system
- */
-
-// LOOK HOW XEIN DOES COLLISION EVENT
-// FIGURE OUT EVENT SYSTEM
-// https://git.xein.es/nullptr-studios/sigma-engine/-/blob/collisions-revamped/engine/src/Collision/CollisionEvent.hpp?ref_type=heads
-// https://git.xein.es/nullptr-studios/sigma-engine/-/blob/collisions-revamped/engine/src/GameManager.cpp?ref_type=heads
-// JUST COPY THE COLLISION EVENT COLLISION EVENT CLASS CODE --> CHANGE IT A BIT!
-
-//Things todo:
-/*
- *  variables:
- *   Float damageAmount
- *   Enum damageType --> Physical (Basic) or Throw, with Throw damage being based on:
- *                                          - Float Height (Diff between Y and Z coordinates)
- *                                          - Gravity (Vertical deceleration)
- *  functions:
- *    Constructor (with all 4 variables) --> fills them up
- *    Destructor()
- *    ApplyDamage() --> applies damageAmount damage to damageReceiver --> diff formulas for diff damageType
+ * @brief Contains the definition of the Damage Event
  */
 
 #pragma once
@@ -30,10 +11,45 @@
 
 namespace Sigma::Damage {
 
+
+/**
+   * @brief Type of Damage
+   */
+  enum DamageType {
+    PHYSICAL,
+    THROW
+  };
+/// @brief Class for Damage Events
 class DamageEvent : public Collision::CollisionEvent {
+  float m_damageAmount;
+  DamageType m_damageType;
 
+public:
+  /**
+   * @brief Creates and sets up a damage event
+   *
+   * @param receiver Object id that should receive the event
+   * @param other Pointer to the object it has collided with
+   * @param type Type of @c other 's collider
+   * @param damageAmount Amount of damage dealt to receiver
+   * @param damageType Type of damage dealt to receiver
+   *
+   */
+  DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount, DamageType damageType)
+    : Collision::CollisionEvent(receiver, other, type), m_damageAmount(damageAmount), m_damageType(damageType) {}
 
+  [[nodiscard]] float GetDamageAmount() const {return m_damageAmount;}  ///< @brief Gets the amount of damage dealt
+  [[nodiscard]] DamageType GetDamageType() const { return m_damageType;} ///< @brief Gets the type of damage dealt
 
+/**
+   * @brief Overrides the @c ToString function to provide a detailed string representation of the event.
+   * @return A string containing the event details.
+   */
+   [[nodiscard]] std::stringstream ToString() const override {
+    std::stringstream ss;
+    ss << "Damage Event between \"" << m_receiver << "\" and \"" << m_other->GetId() << "\"\n";
+    return ss;
+  }
 };
 
 }
