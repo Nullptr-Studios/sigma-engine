@@ -41,7 +41,6 @@ void Camera::UpdateMatrix() {
   m_viewMatrix = glm::mat4(1.0f);
   m_viewMatrix = glm::translate(m_viewMatrix, -transform.position);
   m_viewMatrix = glm::rotate(m_viewMatrix, -transform.rotation, glm::vec3(0, 0, 1));
-  m_viewMatrix = glm::scale(m_viewMatrix, glm::vec3(1.0f));
 
   // Clip Space
   glm::vec2 viewport;

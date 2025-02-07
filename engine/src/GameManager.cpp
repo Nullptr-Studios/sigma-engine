@@ -118,14 +118,17 @@ void GameManager::Run() {
         continue; // We do this because the object has not had its Start method done yet
 
       glm::mat4 world = actor->transform.GetMatrix4();
-      auto worldAE = ToAEX(world);
-      AEGfxSetTransform(&worldAE);
+      // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
       auto cameraMatrices = m_activeCamera->GetCameraMatrix();
-      glm::mat4 view = cameraMatrices[0];
-      auto viewAE = glm::ToAEX(view);
+      glm::mat4 matrix = cameraMatrices[1] * cameraMatrices[0] * world;
+      auto matrixAE = glm::ToAEX(matrix);
+      AEGfxSetTransform(&matrixAE);
+
+      // This is here to avoid alpha engine doing weird shit (hopefully) -x
+      // If you see this comment that means my weird idea worked -x
+      auto viewAE = AEMtx44::Identity();
       AEGfxSetViewTransform(&viewAE);
-      glm::mat4 proj = cameraMatrices[1];
-      auto projAE = glm::ToAEX(proj);
+      auto projAE = AEMtx44::Identity();
       AEGfxSetProjTransform(&projAE);
 
       AEGfxTextureSet(actor->GetTexture());
