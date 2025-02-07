@@ -1,7 +1,6 @@
 #include "GameManager.hpp"
 #include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
-#include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
 #include "Controller/CameraController.hpp"
@@ -24,22 +23,8 @@ GameManager::GameManager(const char *title, int width, int height) : m_title(tit
 }
 
 GameManager::~GameManager() { m_instance = nullptr; }
-void GameManager::Uninitialize() {
 
-  PROFILER_START
-  StateManager::SetEngineState(ENGINE_EXIT);
-  m_factory->DestroyAllObjects();
-
-  m_factory->FreeAllTextures();
-
-  AEGfxTriFree(m_factory->GetSharedTriList());
-
-  // The crash was due to LIVEUPDATE -d
-  m_audioEngine->Terminate();
-
-  PROFILER_END("GameManager::Uninitialize")
-}
-
+#pragma region GameLoop
 void GameManager::GameInit() {
 
   PROFILER_START
@@ -85,7 +70,6 @@ void GameManager::GameInit() {
   PROFILER_END("GameManager::GameInit")
 }
 
-
 void GameManager::Run() {
 
   // AE Shit
@@ -116,7 +100,7 @@ void GameManager::Run() {
       val->Update(AEGetFrameTime());
     }
 
-    m_activeCamera->transform.position.x += 10 * AEGetFrameTime();
+    m_cameraController->GetCurrentCamera()->transform.position.x += 10 * AEGetFrameTime();
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
@@ -162,7 +146,7 @@ void GameManager::Run() {
 
       glm::mat4 world = actor->transform.GetMatrix4();
       // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
-      auto cameraMatrices = m_activeCamera->GetCameraMatrix();
+      auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
       glm::mat4 matrix = cameraMatrices[1] * cameraMatrices[0] * world;
       auto matrixAE = glm::ToAEX(matrix);
       AEGfxSetTransform(&matrixAE);
@@ -207,9 +191,51 @@ void GameManager::Run() {
   AESysFrameEnd();
 }
 
-// Scene Management
-#pragma region Scene Management
+void GameManager::Uninitialize() {
 
+  PROFILER_START
+  StateManager::SetEngineState(ENGINE_EXIT);
+  m_factory->DestroyAllObjects();
+
+  m_factory->FreeAllTextures();
+
+  AEGfxTriFree(m_factory->GetSharedTriList());
+
+  // The crash was due to LIVEUPDATE -d
+  m_audioEngine->Terminate();
+
+  PROFILER_END("GameManager::Uninitialize")
+}
+
+void GameManager::OnEvent(Event &e) {
+
+  PROFILER_START
+
+  EventDispatcher dispatcher(e);
+
+  dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
+    {
+      auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
+      if (obj) return obj->OnCollision(collision);
+
+      return false;
+    });
+
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
+    dispatcher.Dispatch<MessageEvent>(
+        [object](const MessageEvent &e) -> bool
+        {
+          if (object->GetName() == e.GetReceiver())
+            return object->OnMessage(e.GetSender());
+          return false;
+        });
+  }
+
+  PROFILER_END("GameManager::OnEvent")
+}
+#pragma endregion
+
+#pragma region Scene Management
 void GameManager::LoadScene(Scene *scene) {
 
   PROFILER_START
@@ -265,6 +291,7 @@ void GameManager::LoadSubScene(Scene *scene) {
 
   PROFILER_END("GameManager::LoadSubScene")
 }
+
 void GameManager::UnloadSubScene(Scene *scene) {
   if (m_subScenes.contains(scene->GetID())) {
     scene->Free();
@@ -276,6 +303,7 @@ void GameManager::UnloadSubScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
             << " not found in SubScenes!" << std::endl;
 }
+
 void GameManager::UnloadSubScene(const int id) {
   if (m_subScenes.contains(id)) {
     Scene *scene = m_subScenes[id];
@@ -287,35 +315,8 @@ void GameManager::UnloadSubScene(const int id) {
   }
   std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
 }
-
 #pragma endregion
 
-void GameManager::OnEvent(Event &e) {
-
-  PROFILER_START
-
-  EventDispatcher dispatcher(e);
-
-  dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
-    {
-      auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
-      if (obj) return obj->OnCollision(collision);
-
-      return false;
-    });
-
-  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
-    dispatcher.Dispatch<MessageEvent>(
-        [object](MessageEvent &e) -> bool
-        {
-          if (object->GetName() == e.GetReceiver())
-            return object->OnMessage(e.GetSender());
-          return false;
-        });
-  }
-
-  PROFILER_END("GameManager::OnEvent")
-}
 void GameManager::DebugProfiler()
 {
 #if _DEBUG
@@ -337,7 +338,7 @@ void GameManager::DebugProfiler()
     std::string FPS = "FPS: ";
     float fps = AEGetFrameRate();
     
-    unsigned colorFPS = 0xFFFFFFFF;
+    unsigned colorFPS;
     if (fps >= 59) {
       colorFPS = 0xFF00FF00;
     } else if (fps >= 29) {
@@ -389,4 +390,4 @@ void GameManager::DebugProfiler()
 #endif
 }
 
-} // namespace Sigma
+}
