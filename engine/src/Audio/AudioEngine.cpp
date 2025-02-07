@@ -7,7 +7,8 @@
 #include <iostream>
 
 Sigma::AudioEngine::AudioEngine()
-  : sounds()
+  : reverb(nullptr)
+  , sounds()
   , loopsPlaying()
   , soundBanks()
   , eventDescriptions()
@@ -17,6 +18,7 @@ Sigma::AudioEngine::AudioEngine()
 
 void Sigma::AudioEngine::Init()
 {
+  
   ERRCHECK(FMOD::Studio::System::create(&studioSystem));
   ERRCHECK(studioSystem->getCoreSystem(&lowLevelSystem));
   ERRCHECK(lowLevelSystem->setSoftwareFormat(AUDIO_SAMPLE_RATE, FMOD_SPEAKERMODE_5POINT1, 0));
@@ -28,6 +30,7 @@ void Sigma::AudioEngine::Init()
 
   ERRCHECK(lowLevelSystem->getMasterChannelGroup(&mastergroup));
   InitializeReverb();
+
 }
 
 void Sigma::AudioEngine::Terminate()
@@ -54,7 +57,7 @@ void Sigma::AudioEngine::Load(AudioData audioData)
     unsigned int msLength = 0;
     ERRCHECK(sounds[audioData.GetUniqueID()]->getLength(&msLength, FMOD_TIMEUNIT_MS));
     audioData.SetLengthMS(msLength);
-    audioData.SetLoaded(true); // Define SOUND_LOADED
+    audioData.SetLoaded(true);
   }
   else
     std::cout << "[AudioEngine] Sound File was already loaded!\n";
@@ -62,13 +65,13 @@ void Sigma::AudioEngine::Load(AudioData audioData)
   PROFILER_END("AudioEngine::Load")
 }
 
-void Sigma::AudioEngine::Play(AudioData audioData)
+void Sigma::AudioEngine::Play (const AudioData& audioData)
 {
   if (!audioData.IsLoaded()) {
     std::cout << " [AudioEngine] Playing Sound: " << audioData.GetUniqueID() << "\n";
     FMOD::Channel* channel;
     // start play in 'paused' state
-    ERRCHECK(lowLevelSystem->playSound(sounds[audioData.GetUniqueID()], 0, true /* start paused */, &channel));
+    ERRCHECK(lowLevelSystem->playSound(sounds[audioData.GetUniqueID()], nullptr, true /* start paused */, &channel));
 
     if (audioData.Is3D())
     {
@@ -92,7 +95,7 @@ void Sigma::AudioEngine::Play(AudioData audioData)
 
 }
 
-void Sigma::AudioEngine::Stop(AudioData audioData)
+void Sigma::AudioEngine::Stop(const AudioData& audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -115,7 +118,7 @@ void Sigma::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, uns
       bool fadeUp = newVolume > audioData.GetVolume();
       // get current audio clock time
       unsigned long long parentclock = 0;
-      ERRCHECK(channel->getDSPClock(NULL, &parentclock));
+      ERRCHECK(channel->getDSPClock(nullptr, &parentclock));
 
       float targetFadeVol = fadeUp ? 1.0f : newVolume;
 
@@ -134,7 +137,7 @@ void Sigma::AudioEngine::UpdateVolume(AudioData& audioData, float newVolume, uns
 
 
 
-void Sigma::AudioEngine::Update3DPosition(AudioData audioData)
+void Sigma::AudioEngine::Update3DPosition(const AudioData& audioData)
 {
   if (IsPlaying(audioData))
   {
@@ -145,9 +148,9 @@ void Sigma::AudioEngine::Update3DPosition(AudioData audioData)
 
 }
 
-bool Sigma::AudioEngine::IsPlaying(AudioData audioData)
+bool Sigma::AudioEngine::IsPlaying(const AudioData& audioData)
 {
-return audioData.Loop() && loopsPlaying.count(audioData.GetUniqueID());
+return audioData.Loop() && loopsPlaying.contains(audioData.GetUniqueID());
 }
 
 void Sigma::AudioEngine::Set3DListenerPosition
@@ -163,10 +166,10 @@ void Sigma::AudioEngine::Set3DListenerPosition
   ERRCHECK(lowLevelSystem->set3DListenerAttributes(0, &listenerPosition, 0, &forward, &up));
 }
 
-unsigned int Sigma::AudioEngine::GetLengthMS(AudioData audioData)
+unsigned int Sigma::AudioEngine::GetLengthMS(const AudioData& audioData)
 {
   unsigned int length = 0;
-  if (sounds.count(audioData.GetUniqueID()))
+  if (sounds.contains(audioData.GetUniqueID()))
       ERRCHECK(sounds[audioData.GetUniqueID()]->getLength(&length, FMOD_TIMEUNIT_MS));
   return length;
 }
@@ -175,25 +178,25 @@ void Sigma::AudioEngine::LoadBank(const char* filepath)
 {
   PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Sound Bank " << filepath << '\n';
-  FMOD::Studio::Bank* bank = NULL;
+  FMOD::Studio::Bank* bank = nullptr;
   ERRCHECK(studioSystem->loadBankFile(filepath, FMOD_STUDIO_LOAD_BANK_NORMAL, &bank));
   soundBanks.insert({ filepath, bank });
   PROFILER_END("AudioEngine::LoadBank")
 }
 
-void Sigma::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<const char*, float>> paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
+void Sigma::AudioEngine::LoadEvent (const char* eventName, const std::vector<std::pair<const char*, float>>& paramsValues) // std::vector<std::map<const char*, float>> perInstanceParameterValues)
 {
   PROFILER_START
   std::cout << "[AudioEngine] Loading FMOD Studio Event " << eventName << '\n';
-  FMOD::Studio::EventDescription* eventDescription = NULL;
+  FMOD::Studio::EventDescription* eventDescription = nullptr;
   ERRCHECK(studioSystem->getEvent(eventName, &eventDescription));
   // Create an instance of the event
-  FMOD::Studio::EventInstance* eventInstance = NULL;
+  FMOD::Studio::EventInstance* eventInstance = nullptr;
   ERRCHECK(eventDescription->createInstance(&eventInstance));
-  for (const auto& parVal : paramsValues) {
-    std::cout << "[AudioEngine] Setting Event Instance Parameter " << parVal.first << " to value: " << parVal.second << '\n';
+  for (const auto &[fst, snd] : paramsValues) {
+    std::cout << "[AudioEngine] Setting Event Instance Parameter " << fst << " to value: " << snd << '\n';
     // Set the parameter values of the event instance
-    ERRCHECK(eventInstance->setParameterByName(parVal.first, parVal.second));
+    ERRCHECK(eventInstance->setParameterByName(fst, snd));
   }
   eventInstances.insert({ eventName, eventInstance });
   eventDescriptions.insert({ eventName, eventDescription });
@@ -202,7 +205,7 @@ void Sigma::AudioEngine::LoadEvent(const char* eventName, std::vector<std::pair<
 
 void Sigma::AudioEngine::SetEventParamValue(const char* eventName, const char* parameterName, float value)
 {
-  if (eventInstances.count(eventName) > 0)
+  if (eventInstances.contains(eventName))
       ERRCHECK(eventInstances[eventName]->setParameterByName(parameterName, value));
   else
       std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, can't set param \n";
@@ -212,14 +215,14 @@ void Sigma::AudioEngine::SetEventParamValue(const char* eventName, const char* p
 void Sigma::AudioEngine::PlayEvent(const char* eventName, int instanceIndex) {
   // printEventInfo(eventDescriptions[eventName]);
   auto eventInstance = eventInstances[eventName];
-  if (eventInstances.count(eventName) > 0)
+  if (eventInstances.contains(eventName))
       ERRCHECK(eventInstances[eventName]->start());
   else
       std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot play \n";
 }
 
 void Sigma::AudioEngine::StopEvent(const char* eventName, int instanceIndex) {
-  if (eventInstances.count(eventName) > 0)
+  if (eventInstances.contains(eventName))
       ERRCHECK(eventInstances[eventName]->stop(FMOD_STUDIO_STOP_ALLOWFADEOUT));
   else
       std::cout << "[AudioEngine] Event " << eventName << " was not in event instance cache, cannot stop \n";
@@ -245,22 +248,20 @@ void Sigma::AudioEngine::MuteAll()
   muted = true;
 }
 
-void Sigma::AudioEngine::UnmuteAll()
-{
+void Sigma::AudioEngine::UnmuteAll() {
   ERRCHECK(mastergroup->setMute(false));
   muted = false;
 }
-
-bool Sigma::AudioEngine::IsMute() { return muted; }
+bool Sigma::AudioEngine::IsMute() const { return muted; }
 
 // Private definitions
-bool Sigma::AudioEngine::IsLoaded(AudioData audioData)
+bool Sigma::AudioEngine::IsLoaded (const AudioData& audioData)
 {
   //std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
-  return sounds.count(audioData.GetUniqueID()) > 0;
+  return sounds.contains(audioData.GetUniqueID());
 }
 
-void Sigma::AudioEngine::Set3DChannelPosition(AudioData audioData, FMOD::Channel* channel)
+void Sigma::AudioEngine::Set3DChannelPosition (const AudioData& audioData, FMOD::Channel* channel) const
 {
   FMOD_VECTOR position =
   {
@@ -289,13 +290,13 @@ void Sigma::AudioEngine::InitializeReverb()
 
 // Error checking/debugging function definitions
 
-void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line)
+void ERRCHECK_fn(const FMOD_RESULT result, const char* file, const int line)
 {
   if (result != FMOD_OK)
     std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
 }
 
-void Sigma::AudioEngine::DebugEventInfo(FMOD::Studio::EventDescription* eventDescription)
+void Sigma::AudioEngine::DebugEventInfo(const FMOD::Studio::EventDescription* eventDescription)
 {
   int params;
   bool is3D, isOneshot;

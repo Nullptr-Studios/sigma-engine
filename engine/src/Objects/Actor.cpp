@@ -1,10 +1,11 @@
 #include "Actor.hpp"
 
+#include "AnimationSystem/AnimationComponent.hpp"
 #include "Camera.hpp"
+#include "Collision/Collider.hpp"
+#include "Controller/CameraController.hpp"
 #include "Factory.hpp"
 #include "GameManager.hpp"
-#include "AnimationSystem/AnimationComponent.hpp"
-#include "Collision/Collider.hpp"
 
 namespace Sigma {
 
@@ -25,7 +26,7 @@ glm::mat3& Actor::GetTextureTransform() {
 
 bool Actor::IsInViewport()
 {
-  auto c = GET_MANAGER->GetActiveCamera();
+  auto c = GET_CAMERA->GetCurrentCamera();
   int w = AEGetSysWindowWidth();
   int h = AEGetSysWindowHeight();
 
