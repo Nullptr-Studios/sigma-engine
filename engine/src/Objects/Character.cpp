@@ -1,5 +1,9 @@
 #include "Character.hpp"
 
+#include "GameManager.hpp"
+#include "GameScene.hpp"
+#include "Polygon.hpp"
+
 namespace Sigma {
 
 Character::~Character() {}
@@ -8,19 +12,22 @@ void Character::Init() {
   Actor::Init();
 
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
+  GameScene *scene = dynamic_cast<GameScene *>(GET_SCENE);
+  if (scene == nullptr) {
+    std::cout << GetName() << " failed to get GameScene\n";
+    return;
+  }
+  m_sceneBoundsPoly = dynamic_cast<GameScene *>(GET_SCENE)->GetSceneBoundsPoly();
 }
 
 
-glm::mat3* Character::GetTextureTransform() {
+glm::mat3 *Character::GetTextureTransform() {
   /*if (m_animComp == nullptr) {
     m_tMtx = glm::mat3(1.0f);
     return m_tMtx;
   }*/
-  //Actor::GetTextureTransform(); 
-  auto mtx = m_animComp->GetTextureMatrix(); 
-  // std::cout << mtx[0][0] << ", " << mtx[0][1] << ", " << mtx[0][2] << std::endl;
-  // std::cout << mtx[1][0] << ", " << mtx[1][1] << ", " << mtx[1][2] << std::endl;
-  // std::cout << mtx[2][0] << ", " << mtx[2][1] << ", " << mtx[2][2] << std::endl;
+  // Actor::GetTextureTransform();
+  auto mtx = m_animComp->GetTextureMatrix();
   m_tMtx = glm::FromAEX(mtx);
   return &m_tMtx;
 }
@@ -32,7 +39,7 @@ void Character::Move(glm::vec2 direction) {
   if (!isJumping) {
     velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
     velocity.y += direction.y * (accelerationRate * AEGetFrameRate());
-    
+
     // Clamp the speed while maintaining direction
     float speed = glm::length(velocity);
     if (speed > maxSpeed)
@@ -41,8 +48,6 @@ void Character::Move(glm::vec2 direction) {
     velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
     velocity.x = glm::clamp(velocity.x, -maxSpeed, maxSpeed);
   }
-
-  
 }
 
 void Character::Jump() {
@@ -53,8 +58,7 @@ void Character::Jump() {
   }
 }
 
-void Character::UpdateMovement(double delta)
-{
+void Character::UpdateMovement(double delta) {
   // Apply gravity
   if (isJumping) {
     velocity.y += gravity * delta;
@@ -65,34 +69,50 @@ void Character::UpdateMovement(double delta)
   if (std::abs(velocity.x) > 0.01f) {
     if (velocity.x > 0) {
       velocity.x -= friction * delta;
-      if(velocity.x < 0) 
+      if (velocity.x < 0)
         velocity.x = 0;
-      //glm::max(velocity.x, 0.0f); 
-    }
-    else
-    {
+      // glm::max(velocity.x, 0.0f);
+    } else {
       velocity.x += friction * delta;
-      if(velocity.x > 0) 
+      if (velocity.x > 0)
         velocity.x = 0;
-      //glm::min(velocity.x, 0.0f); 
+      // glm::min(velocity.x, 0.0f);
     }
   }
-  
+
   // Apply deceleration when no input is given in Y axis
   if (!isJumping) {
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
         velocity.y -= friction * delta;
-        if(velocity.y < 0) 
+        if (velocity.y < 0)
           velocity.y = 0;
-        //glm::max(velocity.y, 0.0f); 
-      }
-      else
-      {
+        // glm::max(velocity.y, 0.0f);
+      } else {
         velocity.y += friction * delta;
-        if(velocity.y > 0) 
+        if (velocity.y > 0)
           velocity.y = 0;
-        //glm::min(velocity.y, 0.0f); 
+        // glm::min(velocity.y, 0.0f);
+      }
+    }
+  }
+
+  // Calculate if in bounds
+  if (m_sceneBoundsPoly != nullptr)
+  {
+    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor); 
+
+    newPos.x += velocity.x * delta;
+    if (!m_sceneBoundsPoly->isPointInside(newPos)) {
+      velocity.x = 0.0f;
+    }
+    
+    if (!isJumping) {
+      newPos = transform.position; 
+
+      newPos.y += velocity.y * delta;
+      if (!m_sceneBoundsPoly->isPointInside(newPos)) {
+        velocity.y = 0.0f;
       }
     }
   }
@@ -101,18 +121,18 @@ void Character::UpdateMovement(double delta)
   transform.position.x += velocity.x * delta;
   transform.position.y += velocity.y * delta;
 
-  // Ground collision 
+  // Ground collision
   if (isJumping && transform.position.y <= m_movementYFloor) {
     transform.position.y = m_movementYFloor;
     velocity.y = 0;
     isJumping = false;
   }
 
-  
-  //Update Z
+  // Update Z
   if (!isJumping)
     transform.position.z = -transform.position.y;
+  
 }
 #pragma endregion
 
-} // namespace FNFE
+} // namespace Sigma

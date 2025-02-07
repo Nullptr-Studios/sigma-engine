@@ -73,7 +73,9 @@ public:
 
   void UnloadSubScene(int id);
 
-  Scene *GetCurrentScene() { return m_currentScene; }
+  Scene* GetCurrentScene() { return m_currentScene; }
+
+  AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }
 
   void OnEvent(Event &e);
 

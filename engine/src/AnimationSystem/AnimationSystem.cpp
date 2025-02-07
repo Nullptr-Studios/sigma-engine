@@ -20,7 +20,6 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
   std::fstream file(jsonFilePath);
   if (!file.is_open()) {
     std::cout << "[AnimationSystem] failed to open JSON file " << jsonFilePath << '\n';
-    file.close();
     return nullptr;
   }
 
@@ -35,7 +34,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
   }
 
   Animation a;
-  a.frameRate = 30; // for now hard coded
+  a.frameRate = 12; // for now hard coded
   a.name = "Default";
 
   std::vector<Frame> m_frames;
@@ -103,6 +102,8 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
 
   ta.texture = GET_FACTORY->LoadTexture(ta.filePath.c_str());
   std::cout << "[AnimationSystem] Texture Atlas loaded\n";
+
+  J.clear();
 
   file.close();
 

@@ -55,19 +55,31 @@ void InputSystem::UpdateInput(int controllerId) {
 void InputSystem::UpdateDirection(int controllerId) {
   m_movementBuffer = {};
   if (controllerId == -1 ) {
-    if(AEInputKeyPressed(m_keyboardMovement["up"][0])){m_movementBuffer.y+=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["left"][0])){m_movementBuffer.x-=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["down"][0])){m_movementBuffer.y-=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
-  } else {
-    if (m_movementStick == 0) { // if left stick
+    if(AEInputKeyPressed(m_keyboardMovement["up"][0]))
+      m_movementBuffer.y+=1;
+    if(AEInputKeyPressed(m_keyboardMovement["left"][0]))
+      m_movementBuffer.x-=1;
+    if(AEInputKeyPressed(m_keyboardMovement["down"][0]))
+      m_movementBuffer.y-=1;
+    if(AEInputKeyPressed(m_keyboardMovement["right"][0]))
+      m_movementBuffer.x+=1;
+  }
+  else
+  {
+    if (m_movementStick == 0)
+    { // if left stick
       auto input = AEInputGamepadStickLeft(controllerId);
       m_movementBuffer = glm::FromAEX(input);
-    }else{ //if right stick
+    }
+    else
+    { //if right stick
       auto input = AEInputGamepadStickRight(controllerId);
       m_movementBuffer = glm::FromAEX(input);
     }
   }
+  
+  if (m_movementBuffer != glm::vec2(0,0))
+    m_lastMovementBuffer = m_movementBuffer;
 }
 
 void InputSystem::UpdateActions(int controllerId) {

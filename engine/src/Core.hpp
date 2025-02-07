@@ -20,7 +20,10 @@ typedef unsigned color_t;      ///< @typedef color_t  @brief Color type for Alph
 #define GET_MANAGER Sigma::GameManager::GetInstance() ///< @def GET_MANAGER @brief Gets Manager instance
 #define GET_FACTORY Sigma::Factory::GetInstance()     ///< @def GET_FACTORY @brief Gets Factory instance
 #define GET_ANIMATION Sigma::Animation::AnimationSystem::GetInstance() ///< @def GET_ANIMATION @brief Gets Animation instance
-#define GET_CAMERA Sigma::CameraController::GetCameraControllerInstance()
+#define GET_AUDIO GET_MANAGER->GetAudioEngine() ///< @def GET_AUDIO @brief Gets Audio instance
+
+#define GET_CAMERA Sigma::CameraController::GetCameraControllerInstance() ///< @def GET_CAMERA @brief Gets Camera instance
+#define GET_SCENE GET_MANAGER->GetCurrentScene() ///< @def GET_SCENE @brief Gets Current Scene
 
 // profiler
 #define PROFILER_START auto start = std::chrono::high_resolution_clock::now();

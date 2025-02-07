@@ -19,7 +19,8 @@ namespace Sigma {
 int ToGamepadKey(char button);
 
 /**
- * @class InputSystem manages inputs and input buffers
+ * @class InputSystem
+ * @brief manages inputs and input buffers
  */
 class InputSystem {
 public:
@@ -54,7 +55,9 @@ public:
    * @brief returns current movement for player
    * @return movement for player
    */
-  glm::vec2 GetMovement() { return m_movementBuffer; };
+  glm::vec2 GetMovement() const { return m_movementBuffer; };
+
+  glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
 
 
   //TODO: make this controller thing work in multiplayer
@@ -70,6 +73,7 @@ private:
   std::unordered_map<std::string, std::string> m_gamepadActions{};
   std::string m_inputBuffer{}; ///<@brief action input buffer
   glm::vec2 m_movementBuffer{}; ///<@brief directinal input buffer
+  glm::vec2 m_lastMovementBuffer{}; ///<@brief last done directinal input buffer
   bool m_movementStick{};
   time_t m_timeBuffer{}; ///<@brief timeout buffer for the input buffers
 };

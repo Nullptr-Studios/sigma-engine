@@ -69,6 +69,7 @@ void GameManager::GameInit() {
   m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
+
 #ifdef _DEBUG
  
   // Disables 60fps lock in Debug mode
@@ -175,10 +176,13 @@ void GameManager::Run() {
       glm::mat4 proj = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
       auto projAE = ToAEX(proj);
       AEGfxSetProjTransform(&projAE);
-      
+
+      // TODO: ModulationColor not working????
+      AEGfxSetModulationColor(actor->GetModulationColor());
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
+      
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
@@ -369,6 +373,12 @@ void GameManager::DebugProfiler()
     std::string Sound = "SND: ";
     Sound.append(std::to_string(m_timeSound.count()));
     AEGfxPrint(600, 65, 0xFF00FF00, Sound.c_str());
+    
+
+    auto mouse = AEGetMouseData();
+    glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
+    std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
+    AEGfxPrint(500, 95, 0xFFFFFFFF, mousePosStr.c_str());
     
 
     std::string CurrentObjects = "Current Objects: ";

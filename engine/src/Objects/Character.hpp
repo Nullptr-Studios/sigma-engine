@@ -11,6 +11,9 @@
 #include "AnimationSystem/AnimationComponent.hpp"
 
 namespace Sigma {
+class Polygon;
+}
+namespace Sigma {
 
 
 /**
@@ -52,6 +55,8 @@ public:
 private:
 
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
+
+  Polygon* m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);

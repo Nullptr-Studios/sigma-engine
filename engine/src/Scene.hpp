@@ -3,7 +3,6 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
  */
 
 #pragma once
@@ -25,9 +24,12 @@ public:
     m_ID = ID;
   }
 
-  ~Scene() = default;
+  ~Scene()
+  {
+    delete m_name;
+  }
 
-  virtual void Load() {}
+  virtual void Load() {};
   virtual void Init() {}
   virtual void Update(double delta) {}
   virtual void Draw() {}

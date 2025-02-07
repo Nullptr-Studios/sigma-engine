@@ -50,10 +50,13 @@ public:
    */
   void SetTexture(const char* path);
 
-
   void SetTextureTransform(glm::mat3& newTexMtx);
   
   virtual glm::mat3* GetTextureTransform();
+
+  void SetModulationColor(unsigned newColor) { m_color = newColor; }
+
+  unsigned GetModulationColor() const { return m_color; }
 
   bool IsInViewport();
 
@@ -63,6 +66,8 @@ protected:
 private:
   const char* m_texturePath = nullptr;
   AEGfxTexture* m_texture = nullptr;
+
+  unsigned m_color = AE_COLORS_WHITE;
 };
 
 }

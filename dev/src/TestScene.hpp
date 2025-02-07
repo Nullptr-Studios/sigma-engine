@@ -8,14 +8,14 @@
 
 #pragma once
 
-#include "Scene.hpp"
+#include "GameScene.hpp"
 
-class TestScene : public Sigma::Scene
+class TestScene : public Sigma::GameScene
 {
 public:
-
-  TestScene(const char* name, unsigned index) : Scene(name, index) {}
-
+  
+  TestScene(const char *name, unsigned ID, const char *jsonPath) : GameScene(name, ID, jsonPath) {}
+  
   void Load() override;
   void Update(double delta) override;
   void Draw() override;
