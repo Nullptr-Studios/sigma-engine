@@ -11,7 +11,7 @@
 #include "glm/vec2.hpp"
 #include <aecore/AEEngine.h>
 
-namespace Sigma::ANIMATION {
+namespace Sigma::Animation {
 
 typedef std::unordered_map<std::string, std::function<void()>> AnimationCallbackMap; ///< @typedef AnimationCallbackMap @brief Type definition for the animation callback map
 
@@ -86,7 +86,7 @@ public:
    * @param frame Pointer to the frame
    * @param atlas Pointer to the texture atlas
    */
-  void BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas);
+  void BuildTextureTransform(glm::mat3& texMtx, const Frame * frame, const TextureAtlas * atlas);
 
   
   static AnimationSystem* GetInstance() {

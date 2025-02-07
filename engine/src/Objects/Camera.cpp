@@ -52,16 +52,14 @@ void Camera::Update(double deltaTime) {
 
 void Camera::UpdateMatrix() {
   // View Space
-  auto viewMatrix = glm::mat4(1.0f);
-  viewMatrix = glm::translate(viewMatrix, transform.position);
-  viewMatrix = glm::rotate(viewMatrix, transform.rotation, glm::vec3(0, 0, 1));
+  m_viewMatrix = glm::mat4(1.0f);
+  m_viewMatrix = glm::translate(m_viewMatrix, -transform.position);
+  m_viewMatrix = glm::rotate(m_viewMatrix, -transform.rotation, glm::vec3(0, 0, 1));
 
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  auto clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
-  m_cameraMatrix = clipMatrix * viewMatrix;
-  int i = 0;
+  m_clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
 }
 
 void Camera::LerpToPosition(glm::vec3 position, float delta) {

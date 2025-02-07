@@ -1,7 +1,6 @@
 #include "GameManager.hpp"
 #include "AnimationSystem/AnimationSystem.hpp"
 #include "Audio/AudioEngine.hpp"
-#include "Collision/Collider.hpp"
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
 #include "Controller/CameraController.hpp"
@@ -25,22 +24,7 @@ GameManager::GameManager(const char *title, int width, int height) : m_title(tit
 
 GameManager::~GameManager() { m_instance = nullptr; }
 
-void GameManager::Uninitialize() {
-
-  PROFILER_START
-  StateManager::SetEngineState(ENGINE_EXIT);
-  m_factory->DestroyAllObjects();
-
-  m_factory->FreeAllTextures();
-
-  AEGfxTriFree(m_factory->GetSharedTriList());
-
-  // The crash was due to LIVEUPDATE -d
-  m_audioEngine->Terminate();
-
-  PROFILER_END("GameManager::Uninitialize")
-}
-
+#pragma region GameLoop
 void GameManager::GameInit() {
 
   PROFILER_START
@@ -49,6 +33,9 @@ void GameManager::GameInit() {
 
   // Initialize alpha engine
   AEDbgAssertFunction(AESysInit(m_title, m_width, m_height), __FILE__, __LINE__, "AESysInit() failed!");
+
+  // disable depth buffer cuz were using our own, fuck alpha btw
+  AEGfxSetDepthBufferEnabled(false);
 
   // Initialize factory
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
@@ -62,7 +49,7 @@ void GameManager::GameInit() {
       this->OnEvent(e);
     });
 
-  m_animationSystem = std::make_unique<ANIMATION::AnimationSystem>();
+  m_animationSystem = std::make_unique<Animation::AnimationSystem>();
   m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
   m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
@@ -83,20 +70,35 @@ void GameManager::GameInit() {
   PROFILER_END("GameManager::GameInit")
 }
 
-
 void GameManager::Run() {
 
   // AE Shit
   AESysFrameStart();
   AESysUpdate();
 
-  m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+  if (m_currentScene != nullptr)
+  {
+#if _DEBUG
+    auto startCollision = std::chrono::high_resolution_clock::now();
+#endif
+    m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+#if _DEBUG
+    auto endCollision = std::chrono::high_resolution_clock::now();
+    m_timeCollisions = endCollision - startCollision;
+#endif
 
-  if (m_currentScene != nullptr) {
 
     // TODO: For Each Actor Deubug DrawRectCollider
     
+#if _DEBUG
+    auto startTick = std::chrono::high_resolution_clock::now();
+#endif
+    // Scene and subscene update
     m_currentScene->Update(AEGetFrameTime());
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Update(AEGetFrameTime());
+    }
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
@@ -109,6 +111,31 @@ void GameManager::Run() {
       object->Update(AEGetFrameTime());
     }
 
+#if _DEBUG
+    auto endTick = std::chrono::high_resolution_clock::now();
+    m_timeTick = endTick - startTick;
+#endif
+
+
+#if _DEBUG
+    auto startDraw = std::chrono::high_resolution_clock::now();
+#endif
+    // Scene and SubScene draw
+    m_currentScene->Draw();
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Draw();
+    }
+
+    //Sort by Z order
+    m_factory->GetRenderables()->sort([](const id_t& a, const id_t& b)
+    {
+      const auto OA = GET_FACTORY->GetObjectAt(a);
+      const auto OB = GET_FACTORY->GetObjectAt(b);
+
+      return OA->transform.position.z < OB->transform.position.z;
+    });
+
     // Render Objects
     for (const auto &renderableId: *m_factory->GetRenderables()) {
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
@@ -116,12 +143,17 @@ void GameManager::Run() {
         continue; // We do this because the object has not had its Start method done yet
 
       glm::mat4 world = actor->transform.GetMatrix4();
-      auto worldAE = ToAEX(world);
-      AEGfxSetTransform(&worldAE);
+      // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
+      auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
+      glm::mat4 matrix = cameraMatrices[1] * cameraMatrices[0] * world;
+      auto matrixAE = glm::ToAEX(matrix);
+      AEGfxSetTransform(&matrixAE);
+
+      // This is here to avoid alpha engine doing weird shit (hopefully) -x
+      // If you see this comment that means my weird idea worked -x
       auto viewAE = AEMtx44::Identity();
       AEGfxSetViewTransform(&viewAE);
-      glm::mat4 proj = GET_CAMERA->GetCurrentCamera()->GetCameraMatrix();
-      auto projAE = ToAEX(proj);
+      auto projAE = AEMtx44::Identity();
       AEGfxSetProjTransform(&projAE);
 
       AEGfxTextureSet(actor->GetTexture());
@@ -130,54 +162,48 @@ void GameManager::Run() {
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
-    m_currentScene->Draw();
+#if _DEBUG
+    auto endDraw = std::chrono::high_resolution_clock::now();
+    m_timeRender = endDraw - startDraw;
+#endif
+
   }
-  
+
+#if _DEBUG
+    auto startSound = std::chrono::high_resolution_clock::now();
+#endif
+
   // Audio
   m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
                                        1, 0, 0, 0, 1);
   m_audioEngine->Update();
 
 
+#if _DEBUG
+    auto endSound = std::chrono::high_resolution_clock::now();
+    m_timeSound = endSound - startSound;
+#endif
+
   DebugProfiler();
-  
   // AE Shit
   AESysFrameEnd();
 }
 
-// Scene Management
-#pragma region Scene Management
-
-void GameManager::LoadScene(Scene *scene) {
+void GameManager::Uninitialize() {
 
   PROFILER_START
+  StateManager::SetEngineState(ENGINE_EXIT);
+  m_factory->DestroyAllObjects();
 
-  if (scene == nullptr) {
-    std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
-    return;
-  }
+  m_factory->FreeAllTextures();
 
-  if (m_currentScene != nullptr) {
-    m_currentScene->Free();
-    m_currentScene->Unload();
+  AEGfxTriFree(m_factory->GetSharedTriList());
 
-    m_factory->DestroyAllObjects();
+  // The crash was due to LIVEUPDATE -d
+  m_audioEngine->Terminate();
 
-    delete m_currentScene;
-  }
-
-  m_currentScene = scene;
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loading..."
-            << std::endl;
-  m_currentScene->Load();
-  m_currentScene->Init();
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << scene->GetID() << " loaded!"
-            << std::endl;
-
-  PROFILER_END("GameManager::LoadScene")
+  PROFILER_END("GameManager::Uninitialize")
 }
-
-#pragma endregion
 
 void GameManager::OnEvent(Event &e) {
 
@@ -195,7 +221,7 @@ void GameManager::OnEvent(Event &e) {
 
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
-        [object](MessageEvent &e) -> bool
+        [object](const MessageEvent &e) -> bool
         {
           if (object->GetName() == e.GetReceiver())
             return object->OnMessage(e.GetSender());
@@ -205,6 +231,90 @@ void GameManager::OnEvent(Event &e) {
 
   PROFILER_END("GameManager::OnEvent")
 }
+#pragma endregion
+
+#pragma region Scene Management
+void GameManager::LoadScene(Scene *scene) {
+
+  PROFILER_START
+
+  if (scene == nullptr) {
+    std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
+    return;
+  }
+
+  if (m_currentScene != nullptr) {
+    m_currentScene->Free();
+    m_currentScene->Unload();
+
+    // TODO: Do Scene object ownership
+    m_factory->DestroyAllObjects();
+
+    for (auto &val: m_subScenes | std::views::values) {
+      val->Free();
+      val->Unload();
+      delete val;
+    }
+
+    delete m_currentScene;
+  }
+
+  m_currentScene = scene;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loading..."
+            << std::endl;
+  m_currentScene->Load();
+  m_currentScene->Init();
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loaded!"
+            << std::endl;
+
+  PROFILER_END("GameManager::LoadScene")
+}
+
+void GameManager::LoadSubScene(Scene *scene) {
+
+  PROFILER_START
+
+  if (m_subScenes.contains(scene->GetID())) {
+    std::cout << "[GameManager]: SubScene already loaded \n";
+    return;
+  }
+
+  scene->Load();
+  scene->Init();
+
+  m_subScenes.emplace(scene->GetID(), scene);
+
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded as a SubScene!"
+            << std::endl;
+
+  PROFILER_END("GameManager::LoadSubScene")
+}
+
+void GameManager::UnloadSubScene(Scene *scene) {
+  if (m_subScenes.contains(scene->GetID())) {
+    scene->Free();
+    scene->Unload();
+    m_subScenes.erase(scene->GetID());
+    delete scene;
+    return;
+  }
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
+            << " not found in SubScenes!" << std::endl;
+}
+
+void GameManager::UnloadSubScene(const int id) {
+  if (m_subScenes.contains(id)) {
+    Scene *scene = m_subScenes[id];
+    scene->Free();
+    scene->Unload();
+    m_subScenes.erase(id);
+    delete scene;
+    return;
+  }
+  std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
+}
+#pragma endregion
+
 void GameManager::DebugProfiler()
 {
 #if _DEBUG
@@ -226,7 +336,7 @@ void GameManager::DebugProfiler()
     std::string FPS = "FPS: ";
     float fps = AEGetFrameRate();
     
-    unsigned colorFPS = 0xFFFFFFFF;
+    unsigned colorFPS;
     if (fps >= 59) {
       colorFPS = 0xFF00FF00;
     } else if (fps >= 29) {
@@ -241,6 +351,23 @@ void GameManager::DebugProfiler()
     std::string SPF = "SPF: ";
     SPF.append(std::to_string(AEGetFrameTime()));
     AEGfxPrint(600, 20, colorFPS, SPF.c_str());
+
+    std::string Collisions = "COL: ";
+    Collisions.append(std::to_string(m_timeCollisions.count()));
+    AEGfxPrint(600, 35, 0xFF00FF00, Collisions.c_str());
+
+    std::string Tick = "TCK: ";
+    Tick.append(std::to_string(m_timeTick.count()));
+    AEGfxPrint(600, 45, 0xFF00FF00, Tick.c_str());
+
+    std::string Draw = "DRW: ";
+    Draw.append(std::to_string(m_timeRender.count()));
+    AEGfxPrint(600, 55, 0xFF00FF00, Draw.c_str());
+
+    std::string Sound = "SND: ";
+    Sound.append(std::to_string(m_timeSound.count()));
+    AEGfxPrint(600, 65, 0xFF00FF00, Sound.c_str());
+
 
     std::string CurrentObjects = "Current Objects: ";
     CurrentObjects.append(std::to_string(m_factory->GetObjects()->size()));
@@ -261,4 +388,4 @@ void GameManager::DebugProfiler()
 #endif
 }
 
-} // namespace Sigma
+}

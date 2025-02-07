@@ -8,12 +8,12 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/matrix_transform_2d.hpp"
 
-Sigma::ANIMATION::AnimationSystem* Sigma::ANIMATION::AnimationSystem::m_AnimSysinstance = nullptr;
+Sigma::Animation::AnimationSystem* Sigma::Animation::AnimationSystem::m_AnimSysinstance = nullptr;
 
 // TODO: cleanup
 // TODO: Add callback string implementation
 // TODO: Support for trimmed sprites
-Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
+Sigma::Animation::TextureAtlas* Sigma::Animation::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath)
 {
   //Profiler time
   PROFILER_START;
@@ -55,15 +55,24 @@ Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAt
     // f.rotated = frame["rotated"];
     f.sourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
     f.sourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
+
+    if (frame.contains("pivot")) {
+      f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
+    }
+    
     // f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
     // f.trimmed = frame["trimmed"];
     // m_frames.emplace_back(f);
 
+    if (frame.contains("callback")) {
+      f.AnimCallbackString = frame["callback"];
+    }
+
+    // Animation frame ownership
     auto index = f.name.find_last_of('_');
     std::string animName = f.name.substr(0, index);
     bool found = false;
-
-    // TODO FIX SHITTY CODE
+    
     if (animName.contains(".png")) {
       // default animation
       m_animations[0].frames.emplace_back(f);
@@ -79,11 +88,11 @@ Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAt
       }
       
       if (!found) {
-        Animation a;
-        a.frameRate = 12; // for now hard coded
-        a.name = animName;
-        a.frames.emplace_back(f);
-        m_animations.emplace_back(a);
+        Animation m_animation;
+        m_animation.frameRate = 12; // for now hard coded
+        m_animation.name = animName;
+        m_animation.frames.emplace_back(f);
+        m_animations.emplace_back(m_animation);
       }
     }
   }
@@ -104,7 +113,7 @@ Sigma::ANIMATION::TextureAtlas* Sigma::ANIMATION::AnimationSystem::LoadTextureAt
 
 }
 
-Sigma::ANIMATION::TextureAtlas *Sigma::ANIMATION::AnimationSystem::GetTextureAtlas(const char *name) {
+Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtlas(const char *name) {
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(name)) {
     // std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
@@ -114,7 +123,7 @@ Sigma::ANIMATION::TextureAtlas *Sigma::ANIMATION::AnimationSystem::GetTextureAtl
   std::cout << "[AnimationSystem] Texture Atlas not found\n";
   return nullptr;
 }
-void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx, const glm::vec2 framePosition,
                                                              const glm::vec2 frameSize, const glm::vec2 atlasSize) {
   glm::vec2 UVs = framePosition / atlasSize;
 
@@ -126,7 +135,7 @@ void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3 &texMtx,
   glm::translate(texMtx, translate);
 }
 
-void Sigma::ANIMATION::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, Frame* frame, TextureAtlas* atlas)
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3& texMtx, const Frame* frame, const TextureAtlas* atlas)
 {
   BuildTextureTransform(texMtx, frame->position, frame->size, atlas->size);
 }

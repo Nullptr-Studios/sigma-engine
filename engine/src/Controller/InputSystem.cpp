@@ -76,7 +76,7 @@ void InputSystem::UpdateActions(int controllerId) {
       if (AEInputKeyTriggered(action.second[0])) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
-        std::cout << action.first << std::endl;
+        // std::cout << action.first << std::endl;
         return;
       }
     }
@@ -116,4 +116,13 @@ int ToGamepadKey(char button) {
   }
 }
 
-} // namespace Sigma
+int InputSystem::CheckControllers() {
+  for (int i = 0; i<=3; i++) {
+    if (AEInputGamepadConnected(i)){
+      return i;
+    }
+  }
+  return -1;
+}
+
+} // namespace FNFE
