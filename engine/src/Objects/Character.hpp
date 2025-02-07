@@ -37,7 +37,7 @@ public:
    * @brief Event for modifying character health
    * @param e damage event reference
    */
-  void OnDamage(Damage::DamageEvent &e);
+  virtual void OnDamage(Damage::DamageEvent &e);
 
   [[nodiscard]] float GetHealth() {return m_health;} ///< @brief returns amount of character health
   [[nodiscard]] bool GetAlive() {return m_isAlive;} ///< @brief returns whether character is alive or not
