@@ -8,13 +8,13 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
   for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
     auto obj1 = it1->second;
     auto obj1_collider = obj1->GetCollider();
-    if (!obj1_collider) continue; // Avoids if objects doesn't have a collider -x
+    if (!obj1_collider || !obj1_collider->enabled) continue; // Avoids if objects doesn't have a collider -x
 
     // Start the inner loop from the next element to avoid redundant checks -x
     for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
       auto obj2 = it2->second;
       auto obj2_collider = obj2->GetCollider();
-      if (!obj2_collider) continue;
+      if (!obj2_collider || !obj2_collider->enabled) continue;
       // Skips if the flags don't match -x
       if ((obj1_collider->flag & obj2_collider->flag) == 0) continue;
       
@@ -33,8 +33,8 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
       if (!collisionY) continue;
 
       // Collision stuff -x
-      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2.get(), obj2_collider->type);
-      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1.get(), obj1_collider->type);
+      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
+      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
 
       SendEvent(obj1_event);
       SendEvent(obj2_event);
