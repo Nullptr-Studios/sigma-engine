@@ -11,7 +11,7 @@
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
 
-void Sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
+void Sigma::Animation::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtlas)
 {
   m_texAtlas = texAtlas;
   m_frameTime = 1.0f / m_texAtlas->animations[0].frameRate;
@@ -20,7 +20,7 @@ void Sigma::ANIMATION::AnimationComponent::SetTextureAtlas(TextureAtlas* texAtla
   
 }
 
-void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
+void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string& animName)
 {
   if (m_currentAnimation!=nullptr)
     if (m_currentAnimation->name == animName)
@@ -35,14 +35,17 @@ void Sigma::ANIMATION::AnimationComponent::SetCurrentAnim(std::string animName)
   m_currentAnimation = nullptr;
 }
 
-void Sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
+void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
   if (!m_isPlaying || m_currentAnimation == nullptr)
     return;
 
   if (m_timeSinceLastFrame > m_frameTime) {
     m_currentFrameIndex++;
     if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
-      m_currentFrameIndex = 0;
+      if (m_loop)
+        m_currentFrameIndex = 0;
+      else 
+        m_isPlaying = false;
     }
     m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
     m_timeSinceLastFrame = 0;
@@ -53,13 +56,7 @@ void Sigma::ANIMATION::AnimationComponent::Update(double DeltaTime) {
   }
 }
 
-// TODO: Implement
-void Sigma::ANIMATION::AnimationComponent::PlayAndStop() {}
-
-// TODO: Implement
-void Sigma::ANIMATION::AnimationComponent::GotoFrame(int frame) {}
-
-void Sigma::ANIMATION::AnimationComponent::PlayAnim() {
+void Sigma::Animation::AnimationComponent::PlayAndStop() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
 
   // playing from the fist frame
@@ -72,15 +69,50 @@ void Sigma::ANIMATION::AnimationComponent::PlayAnim() {
   m_timeSinceLastFrame = 0;
 
   m_isPlaying = true;
+  
+  m_loop = false;
 }
 
-void Sigma::ANIMATION::AnimationComponent::StopAnim() {
+void Sigma::Animation::AnimationComponent::GotoFrame(const int frame)
+{
+  if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
+  
+  // playing from the fist frame
+  m_currentFrameIndex = frame;
+
+  m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+  
+  UpdateTextureMatrix();
+
+  m_timeSinceLastFrame = 0;
+  
+}
+
+
+void Sigma::Animation::AnimationComponent::PlayAnim() {
+  if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying) return;
+
+  // playing from the fist frame
+  m_currentFrameIndex = 0;
+
+  m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
+
+  UpdateTextureMatrix();
+
+  m_timeSinceLastFrame = 0;
+
+  m_isPlaying = true;
+
+  m_loop = true;
+}
+
+void Sigma::Animation::AnimationComponent::StopAnim() {
   if (m_currentAnimation == nullptr)
     return;
 
   m_isPlaying = false;
 }
-bool Sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callbackName,
+bool Sigma::Animation::AnimationComponent::AddCallback(const std::string &callbackName,
                                                       const std::function<void()> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
     std::cout << "[AnimationComponent] Callback name already exists\n";
@@ -90,11 +122,11 @@ bool Sigma::ANIMATION::AnimationComponent::AddCallback(const std::string &callba
   m_animCallbacks.emplace(callbackName, callback);
   return true;
 }
-void Sigma::ANIMATION::AnimationComponent::ClearCallbacks() {
+void Sigma::Animation::AnimationComponent::ClearCallbacks() {
   m_animCallbacks.clear();
 }
 
-void Sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
+void Sigma::Animation::AnimationComponent::UpdateTextureMatrix() {
   if (m_currentFrame == nullptr || m_texAtlas == nullptr)
     return;
   GET_ANIMATION->BuildTextureTransform(m_texMtx, m_currentFrame, m_texAtlas);
@@ -102,7 +134,7 @@ void Sigma::ANIMATION::AnimationComponent::UpdateTextureMatrix() {
 
 
 
-void Sigma::ANIMATION::AnimationComponent::UpdateCallbacks()
+void Sigma::Animation::AnimationComponent::UpdateCallbacks()
 {
   if (m_currentFrame->AnimCallbackString.empty())
     return;

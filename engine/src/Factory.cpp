@@ -11,14 +11,14 @@ Factory::~Factory() {
   m_instance = nullptr;
 }
 
-void Factory::DestroyObject(id_t id) {
+void Factory::DestroyObject(const id_t id) {
 
   PROFILER_START
   
   if (m_objects[id] == nullptr)
   {
     std::cout << "PREVENTED CRASH\n";
-    m_objects[id].reset();
+    delete m_objects[id];
     m_objects.erase(id);
     return;
   }
@@ -27,27 +27,30 @@ void Factory::DestroyObject(id_t id) {
     std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
   
   m_objects[id]->Destroy();
-  m_objects[id].reset();
   m_renderables.erase(
-    std::remove(m_renderables.begin(), m_renderables.end(), id), 
+    std::ranges::remove(m_renderables, id).begin(), 
     m_renderables.end()
   );
+  delete m_objects[id];
+  
   m_objects.erase(id);
+
+  
 
   PROFILER_END("Factory::DestroyObject")
 }
 
-void Factory::DestroyObject(Object *object)
+void Factory::DestroyObject(const Object *object)
 {
   DestroyObject(object->GetId());
 }
 
 void Factory::DestroyAllObjects() {
   PROFILER_START;
-  for (auto &[id, obj]: m_objects) {
+  for (auto &obj: m_objects | std::views::values) {
       // DestroyObject(id);
     obj->Destroy();
-    obj.reset();
+    delete obj;
   }
   m_objects.clear();
   m_renderables.clear();
@@ -55,7 +58,7 @@ void Factory::DestroyAllObjects() {
 }
 
 Object* Factory::GetObjectAt(id_t id) {
-  return m_objects[id].get();
+  return m_objects[id];
 }
 
 AEGfxTexture* Factory::LoadTexture(const char* filepath)
@@ -94,7 +97,7 @@ void Factory::FreeTexture(const char *filepath) {
   }
 }
 void Factory::FreeAllTextures() {
-  for (auto& [filepath, texture]: m_textures) {
+  for (auto &texture: m_textures | std::views::values) {
     AEGfxTextureUnload(texture);
     // m_textures.erase(filepath);
   }
