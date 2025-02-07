@@ -120,7 +120,7 @@ void GameManager::Run() {
       AEGfxSetTransform(&worldAE);
       auto viewAE = AEMtx44::Identity();
       AEGfxSetViewTransform(&viewAE);
-      glm::mat4 proj = m_activeCamera->GetCameraMatrix();
+      glm::mat4 proj = GET_CAMERA->GetCurrentCamera()->GetCameraMatrix();
       auto projAE = ToAEX(proj);
       AEGfxSetProjTransform(&projAE);
 

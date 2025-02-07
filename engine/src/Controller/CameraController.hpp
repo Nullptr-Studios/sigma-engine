@@ -27,16 +27,14 @@ public:
   Camera *GetCurrentCamera();
   void SetCurrentCamera(Camera *camera);
 
-  /**
-   * @note does not lock z pos so be aware of that
-   * @param position position of target location
-   * @param delta percentange between [0,1]
-   */
-  void LerpCamera(glm::vec3 position, float delta);
+  
+  // void Init() override; latr idk
+  void Start() override;
+  // void Update(double deltaTime) override; latr idk
 
 private:
   static CameraController *m_instance;
   Camera *m_currentCamera{};
 };
 
-} // namespace FNFE
+} // namespace Sigma

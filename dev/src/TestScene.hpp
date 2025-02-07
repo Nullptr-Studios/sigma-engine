@@ -10,6 +10,10 @@
 
 #include "Scene.hpp"
 
+namespace Sigma {
+class Actor;
+class Camera;
+}
 class TestScene : public Sigma::Scene
 {
 public:
@@ -17,8 +21,13 @@ public:
   TestScene(const char* name, unsigned index) : Scene(name, index) {}
 
   void Load() override;
+  void Init() override;
   void Update(double delta) override;
   void Draw() override;
+
+private:
+  Sigma::Camera * m_camea = nullptr;
+  Sigma::Actor * m_background;
 };
 
 

@@ -91,8 +91,6 @@ private:
   CameraController* m_cameraController;
 
   Scene* m_currentScene = nullptr;
-
-  Camera* m_activeCamera;
 };
 
 } // Sigma

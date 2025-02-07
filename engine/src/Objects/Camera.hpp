@@ -9,6 +9,7 @@
 #pragma once
 #include "Objects/Object.hpp"
 
+
 namespace Sigma {
 
 /**
@@ -35,6 +36,13 @@ public:
    * @param far_ Far clip view
    */
   void SetRenderDistance(const float near_, const float far_) { m_near = near_; m_far = far_; }
+
+  /**
+   * @brief will lerp camera toward target position
+   * @param target posistion
+   * @param delta percentage toward target
+   */
+  void LerpToPosition(glm::vec3 target, float delta);
 
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)

@@ -1,4 +1,8 @@
 #include "Camera.hpp"
+#include "GlmAlphaTools.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
+#include <glm/gtx/compatibility.hpp>
 
 namespace Sigma {
 
@@ -34,6 +38,16 @@ void Camera::Update(double deltaTime) {
     AEGfxSetViewRectangle(client.x, client.y);
     UpdateMatrix();
   }
+  // DEBUG
+  AEGfxRect(0,0,0,viewport.x-1,viewport.y-1,AE_COLORS_BLUE);
+  AEGfxRect(0,0,0,viewport.x*.5,viewport.y *.5,AE_COLORS_BLUE);
+  auto mousedata = AEGetMouseData().position.ToVec3();
+  auto mousepos = glm::FromAEX(mousedata)*.01f;
+  int scale = 10;
+  mousepos.x = std::clamp(mousepos.x,-1.0f*scale,1.0f*scale);
+  mousepos.y = std::clamp(mousepos.y,-1.0f*scale,1.0f*scale);
+  LerpToPosition(mousepos,.3*AEGetFrameTime());
+  
 }
 
 void Camera::UpdateMatrix() {
@@ -50,4 +64,10 @@ void Camera::UpdateMatrix() {
   int i = 0;
 }
 
+void Camera::LerpToPosition(glm::vec3 position, float delta) {
+  transform.position = glm::lerp(transform.position, position, delta);
+}
+
+
 } // namespace Sigma
+#undef GLM_USE_EXPERIMENTAL
