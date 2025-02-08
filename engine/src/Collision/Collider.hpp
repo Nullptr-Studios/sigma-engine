@@ -99,7 +99,7 @@ struct BoxCollider {
 
   //todo: set collider damage elsewhere
   float depth = 10.0f; ///< @brief Z Depth of the collider for 2.5D
-  float damage = 5.0f; ///< @brief Damage the attack does (only useful for DMG type colliders)
+  float damage = 0.0f; ///< @brief Damage the attack does (only useful for DMG type colliders)
   
   /**
    * @brief Initializes collider by setting the flags and the type
