@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "GameScene.hpp"
+#include "Scene.hpp"
 
 class TestScene : public Sigma::GameScene
 {
@@ -19,6 +19,9 @@ public:
   void Load() override;
   void Update(double delta) override;
   void Draw() override;
+
+private:
+  Sigma::Actor* m_actor;
 };
 
 

@@ -17,20 +17,22 @@
 
 namespace Sigma {
 class Camera;
-class CameraController : Object {
+class CameraController : public Object {
 public:
   explicit CameraController(id_t id ) : Object(id) { m_instance = this; };
   CameraController(CameraController &&) = delete;
   CameraController(const CameraController &) = delete;
 
-  static CameraController *GetCameraControllerInstance() {
-    if (!m_instance) {
-      return nullptr;
-    }
-    return m_instance;
-  }
-  Camera *GetCurrentCamera() { return m_currentCamera; }
+  static CameraController *GetCameraControllerInstance();
+  Camera *GetCurrentCamera();
   void SetCurrentCamera(Camera *camera);
+
+  /**
+   * @note does not lock z pos so be aware of that
+   * @param position position of target location
+   * @param delta percentange between [0,1]
+   */
+  void LerpCamera(glm::vec3 position, float delta);
 
 private:
   static CameraController *m_instance;
