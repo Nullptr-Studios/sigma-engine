@@ -169,5 +169,7 @@ void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *texMtx, c
 void Sigma::Animation::AnimationSystem::UpdateSpriteOffset(Transform *transform, const Frame *frame,
                                                            const TextureAtlas *atlas)
 {
-  
+  glm::vec3 pivotOffset = {(frame->pivot.x-.5f) * frame->frameSize.x * transform->relativeScale.x,
+                           (frame->pivot.y-.5f) * frame->frameSize.y * transform->relativeScale.y, 0};
+  transform->offset = pivotOffset;
 }

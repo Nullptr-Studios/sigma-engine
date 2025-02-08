@@ -136,6 +136,8 @@ void Sigma::Animation::AnimationComponent::UpdateTextureMatrix()
   GET_ANIMATION->BuildTextureTransform(&m_texMtx, m_currentFrame, m_texAtlas);
 
   m_owner->transform.scale = glm::vec2(m_currentFrame->frameSize.x, m_currentFrame->frameSize.y);
+
+  GET_ANIMATION->UpdateSpriteOffset(&m_owner->transform, m_currentFrame, m_texAtlas);
 }
 
 
