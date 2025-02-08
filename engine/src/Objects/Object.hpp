@@ -68,6 +68,14 @@ struct Transform {
    * @return glm::vec3
    */
   [[nodiscard]] glm::vec3 GetPivot() const { return position + offset; }
+
+  /**
+   * @brief Returns the position of the object using Width-Depth instead of Width-Height
+   * This is useful primarily for ignoring the jumping values
+   * @warning The Z coordinate is inverted due to rendering reasons, keep that in mind when using the function
+   * @return Vector3 using depth value instead of Y coordinates
+   */
+  [[nodiscard]] glm::vec3 GetDepthPosition() const { return {position.x, -position.z, -position.z}; }
 };
 
 // At least give me credit for copying this from my engine -x

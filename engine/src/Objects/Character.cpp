@@ -156,8 +156,7 @@ void Character::UpdateMovement(double delta)
 
  
   //Update Z
-  if (!isJumping)
-    transform.position.z = -transform.position.y;
+  if (!isJumping) transform.position.z = -transform.position.y;
 }
 
 #pragma endregion
