@@ -123,7 +123,7 @@ void Sigma::Animation::AnimationComponent::StopAnim()
   m_isPlaying = false;
 }
 bool Sigma::Animation::AnimationComponent::AddCallback(const std::string &callbackName,
-                                                       const std::function<void()> &callback) {
+                                                       const std::function<void(std::string, unsigned short, bool)> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
     std::cout << "[AnimationComponent] Callback name already exists\n";
     return false;
@@ -161,7 +161,7 @@ void Sigma::Animation::AnimationComponent::UpdateCallbacks() {
     return;
 
   if (m_animCallbacks.contains(m_currentFrame->AnimCallbackString)) {
-    m_animCallbacks[m_currentFrame->AnimCallbackString]();
+    m_animCallbacks[m_currentFrame->AnimCallbackString](m_currentAnimation->name, m_currentFrameIndex, m_loop);
     
     std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " called from " << m_owner->GetName() << std::endl;
     return;
