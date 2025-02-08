@@ -10,7 +10,8 @@
 
 #include "AnimationSystem.hpp"
 #include "Core.hpp"
-#include "Objects/Character.hpp"
+
+#include "Objects/Actor.hpp"
 
 void Sigma::Animation::AnimationComponent::SetTextureAtlas(TextureAtlas *texAtlas) {
   m_texAtlas = texAtlas;
@@ -40,13 +41,20 @@ void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
   if (m_timeSinceLastFrame > m_frameTime) {
     m_currentFrameIndex++;
     if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
-      if (m_loop)
+      if (m_loop) 
         m_currentFrameIndex = 0;
       else
         m_isPlaying = false;
+
+      if (m_onAnimationEnd)
+        m_onAnimationEnd(m_currentAnimation->name);
     }
     m_currentFrame = &m_currentAnimation->frames[m_currentFrameIndex];
     m_timeSinceLastFrame = 0;
+    
+    if (m_onAnimationChangeFrame)
+      m_onAnimationChangeFrame(m_currentAnimation->name, m_currentFrameIndex);
+    
     UpdateTextureMatrix();
     UpdateCallbacks();
   } else {
@@ -147,9 +155,10 @@ void Sigma::Animation::AnimationComponent::UpdateCallbacks() {
 
   if (m_animCallbacks.contains(m_currentFrame->AnimCallbackString)) {
     m_animCallbacks[m_currentFrame->AnimCallbackString]();
-    std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " called\n";
+    
+    std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " called from " << m_owner->GetName() << std::endl;
     return;
   }
 
-  std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " not found\n";
+  std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " not found in " << m_owner->GetName() << std::endl;
 }

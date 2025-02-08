@@ -57,6 +57,10 @@ public:
    */
   glm::vec2 GetMovement() const { return m_movementBuffer; };
 
+  /**
+   * @brief returns last movement direction for player
+   * @return last movement for player
+   */
   glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
 
 
@@ -71,6 +75,7 @@ private:
   std::unordered_map<std::string, std::string> m_keyboardActions{};
   std::unordered_map<std::string, std::string> m_keyboardMovement{};
   std::unordered_map<std::string, std::string> m_gamepadActions{};
+  
   std::string m_inputBuffer{}; ///<@brief action input buffer
   glm::vec2 m_movementBuffer{}; ///<@brief directinal input buffer
   glm::vec2 m_lastMovementBuffer{}; ///<@brief last done directinal input buffer

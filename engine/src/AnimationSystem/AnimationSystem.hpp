@@ -94,10 +94,20 @@ public:
    * @param atlas Pointer to the texture atlas
    */
   void BuildTextureTransform(AEMtx33 *texMtx, const Frame *frame, const TextureAtlas *atlas);
-
+  
+  /**
+   * @brief Update the sprite offset
+   * @param transform Pointer to the transform
+   * @param frame Pointer to the frame
+   * @param atlas Pointer to the texture atlas
+   */
   void UpdateSpriteOffset(Transform *transform, const Frame *frame, const TextureAtlas *atlas);
 
 
+  /**
+   * @brief Get the instance of the Animation System
+   * @return Pointer to the Animation System instance
+   */
   static AnimationSystem *GetInstance() {
     if (m_AnimSysinstance == nullptr) {
       throw std::runtime_error("Animation System instance not created");
@@ -108,6 +118,16 @@ public:
 private:
   static AnimationSystem *m_AnimSysinstance;
 
+  /**
+   * @brief Debug function to draw the sprite transform
+   * @param position Position of the sprite
+   * @param offset Offset of the sprite
+   * @param pivot Pivot of the sprite
+   * @param spriteSourceSize Size of the sprite source
+   * @param spriteSourcePosition Position of the sprite source
+   * @param relativeScale Relative scale of the sprite
+   * @param finalPosition Final position of the sprite
+   */
   void DebugSpriteTransform(const glm::vec2& position, const glm::vec2& offset, const  glm::vec2& pivot, 
                           const glm::vec2& spriteSourceSize, const glm::vec2& spriteSourcePosition,
                           const glm::vec2& relativeScale, const glm::vec2& finalPosition); 

@@ -44,14 +44,20 @@ void GameManager::GameInit() {
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
 
+  // Initialize Collisions
   m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
-    {
-      this->OnEvent(e);
-    });
+  {
+    this->OnEvent(e);
+  });
 
+  // Initialize Animation system
   m_animationSystem = std::make_unique<Animation::AnimationSystem>();
+
+  // Initialize camera controller
   m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
   m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
+
+  // Change engine state to IN_GAME
   StateManager::SetEngineState(IN_GAME);
 
 
@@ -62,12 +68,13 @@ void GameManager::GameInit() {
 
 #endif // _DEBUG
 
-  // Start
+  // Start all objects
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     object->Start();
     object->SetStartHandled();
   }
 
+  // End of initialization
   PROFILER_END("GameManager::GameInit")
 }
 
@@ -77,11 +84,15 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-  if (m_currentScene != nullptr) {
+  if (m_currentScene != nullptr)
+  {
+    
 #if _DEBUG
     auto startCollision = std::chrono::high_resolution_clock::now();
 #endif
+    // Collision update
     m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+    
 #if _DEBUG
     auto endCollision = std::chrono::high_resolution_clock::now();
     m_timeCollisions = endCollision - startCollision;
@@ -152,6 +163,9 @@ void GameManager::Run() {
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
 
+      // call the actor draw function (we were not using the draw method until now xdddd) -d
+      actor->Draw();
+
       glm::mat4 world = actor->transform.GetMatrix4();
       // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
       auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
@@ -166,7 +180,7 @@ void GameManager::Run() {
       auto projAE = AEMtx44::Identity();
       AEGfxSetProjTransform(&projAE);
 
-      // TODO: ModulationColor not working????
+      // TODO: ModulationColor not working???? -d
       AEGfxSetModulationColor(actor->GetModulationColor());
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
@@ -179,25 +193,27 @@ void GameManager::Run() {
     auto endDraw = std::chrono::high_resolution_clock::now();
     m_timeRender = endDraw - startDraw;
 #endif
+    
   }
 
 #if _DEBUG
   auto startSound = std::chrono::high_resolution_clock::now();
 #endif
 
-  // Audio
+  // Audio update
   m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x,
                                        m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0, 1, 0, 0, 0,
                                        1);
   m_audioEngine->Update();
-
 
 #if _DEBUG
   auto endSound = std::chrono::high_resolution_clock::now();
   m_timeSound = endSound - startSound;
 #endif
 
+  // Debug Profiler
   DebugProfiler();
+  
   // AE Shit
   AESysFrameEnd();
 }
@@ -206,8 +222,8 @@ void GameManager::Uninitialize() {
 
   PROFILER_START
   StateManager::SetEngineState(ENGINE_EXIT);
+  
   m_factory->DestroyAllObjects();
-
   m_factory->FreeAllTextures();
 
   AEGfxTriFree(m_factory->GetSharedTriList());

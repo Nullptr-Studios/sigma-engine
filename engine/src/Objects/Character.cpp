@@ -20,7 +20,7 @@ void Character::Init() {
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
   GameScene *scene = dynamic_cast<GameScene *>(GET_SCENE);
   if (scene == nullptr) {
-    std::cout << GetName() << " failed to get GameScene\n";
+    std::cerr << "[Character] " << GetName() << " failed to get GameScene\n";
     return;
   }
   m_sceneBoundsPoly = dynamic_cast<GameScene *>(GET_SCENE)->GetSceneBoundsPoly();
@@ -33,7 +33,7 @@ void Character::Start() {
     Serialize();
 #ifdef ATTACK_ERRORS
   else
-    std::cerr << "[Character] No json found for " << GetName() << ". Using default values.";
+    std::cerr << "[Character] No json found for " << GetName() << ". Using default values.\n";
 #endif
 
   m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);

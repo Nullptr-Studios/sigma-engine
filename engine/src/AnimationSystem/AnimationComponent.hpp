@@ -10,9 +10,11 @@
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 // #include "Objects/Character.hpp"
+#include "pch.hpp" 
+
 
 namespace Sigma {
-class Character;
+class Actor;
 
 namespace Animation {
 
@@ -26,7 +28,7 @@ struct TextureAtlas;
  */
 class AnimationComponent {
 public:
-  AnimationComponent(Sigma::Character *owner) : m_owner(owner) {};
+  AnimationComponent(Sigma::Actor *owner) : m_owner(owner) {};
   ~AnimationComponent() { ClearCallbacks(); }
 
   /**
@@ -100,7 +102,42 @@ public:
    */
   Frame *GetCurrentFrame() { return m_currentFrame; }
 
+
+  void SetLoop(bool loop) { m_loop = loop; }
+
+  bool IsPlaying() const { return m_isPlaying; }
+
+  bool IsLooping() const { return m_loop; }
+  
+  // Playback events
+  /**
+   * @brief Set the callback for the end of the animation
+   * @param callback Callback function
+   */
+  void SetOnAnimationEnd(const std::function<void(std::string)> &callback) { m_onAnimationEnd = callback; }
+
+  /**
+   * @brief Clear the callback for the end of the animation
+   */
+  void ClearOnAnimationEnd() { m_onAnimationEnd = nullptr; }
+
+  /**
+   * @brief Set the callback for the change of frame
+   * @param callback Callback function
+   */
+  void SetOnAnimationChangeFrame(const std::function<void(std::string,short)> &callback) { m_onAnimationChangeFrame = callback; }
+
+  /**
+   * @brief Clear the callback for the change of frame
+   */
+  void ClearOnAnimationChangeFrame() { m_onAnimationChangeFrame = nullptr; }
+
+
 private:
+
+  std::function<void(std::string)> m_onAnimationEnd;
+  std::function<void(std::string,short)> m_onAnimationChangeFrame;
+  
   /**
    * @brief Update the texture matrix
    */
@@ -111,7 +148,7 @@ private:
    */
   void UpdateCallbacks();
 
-  Sigma::Character *m_owner;
+  Sigma::Actor *m_owner;
 
   /**
    * @brief Map of animation callbacks

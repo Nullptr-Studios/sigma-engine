@@ -115,8 +115,6 @@ public:
  
   glm::mat3* GetTextureTransform() override;
 
-  std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
-
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
 private:
@@ -161,6 +159,7 @@ private:
   std::vector<Combat::Move> m_superAir;
 
   // TODO: I need animation callbacks for this pookie 😘
+  // TODO: Animation callbacks were working since last week 😘 -d
   bool m_isIdle = true;   ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 

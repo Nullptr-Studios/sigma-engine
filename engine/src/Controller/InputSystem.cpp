@@ -41,6 +41,8 @@ InputSystem::InputSystem(const std::string &keybindPath) {
     m_gamepadActions.insert(pair);
   }
 
+  keybinds.clear();
+  
   file.close();
 }
 
@@ -72,8 +74,11 @@ void InputSystem::UpdateDirection(int controllerId) {
     }
   }
 
-  if (m_movementBuffer != glm::vec2(0, 0))
-    m_lastMovementBuffer = m_movementBuffer;
+  if (m_movementBuffer.x != 0)
+    m_lastMovementBuffer.x = m_movementBuffer.x;
+
+  if (m_movementBuffer.y != 0)
+    m_lastMovementBuffer.y = m_movementBuffer.y;
 }
 
 void InputSystem::UpdateActions(int controllerId) {

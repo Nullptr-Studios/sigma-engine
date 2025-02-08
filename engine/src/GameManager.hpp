@@ -46,6 +46,11 @@ public:
   GameManager(const char *title, int width, int height);
   ~GameManager();
 
+  /**
+   * @brief Get the instance of the GameManager
+   *
+   * @return GameManager* pointer to the GameManager instance
+   */
   static GameManager *GetInstance() { return m_instance; }
 
 
@@ -66,31 +71,60 @@ public:
    */
   void LoadScene(Scene *scene);
 
+  /**
+   * @brief Loads a sub scene
+   *
+   * @param id id of the sub scene to load
+   */
   void LoadSubScene(Scene *scene);
 
+  /**
+   * @brief Unloads a sub scene
+   *
+   * @param scene scene to unload
+   */
   void UnloadSubScene(Scene *scene);
 
+  /**
+   * @brief Unloads a sub scene
+   *
+   * @param id id of the sub scene to unload
+   */
   void UnloadSubScene(int id);
 
+  /**
+   * @brief Get the current scene
+   *
+   * @return Scene* pointer to the current scene
+   */
   Scene *GetCurrentScene() { return m_currentScene; }
 
+  
   AudioEngine *GetAudioEngine() { return m_audioEngine.get(); }
 
+  /**
+   * @brief Event handler
+   *
+   * @param e event to handle
+   */
   void OnEvent(Event &e);
 
 private:
-  // Debug stuff
+
+#pragma region Profiler
   void DebugProfiler();
+  
   std::chrono::duration<double> m_timeCollisions;
   std::chrono::duration<double> m_timeTick;
   std::chrono::duration<double> m_timeRender;
   std::chrono::duration<double> m_timeSound;
 
   bool m_debug = true;
-
-  static GameManager *m_instance;
+#pragma endregion
 
   void GameInit();
+
+  static GameManager *m_instance;
 
   const char *m_title;
   int m_width;

@@ -55,14 +55,14 @@ public:
 #pragma region Objects
 
   /**
-   * Handles the creation of a new object
-   *
+   * @brief Creates an object
    * @tparam T Object type
    * @param name Object name
-   * @return Pointer of the created object
+   * @return T* Pointer to the created object
    */
-  template<typename T, typename = std::enable_if_t<std::is_base_of_v<Object, T>>>
-  T *CreateObject(const std::string &name = "Unnamed Object");
+  template <typename T, typename... Args>
+    requires std::is_base_of_v<Object, T>
+  T* CreateObject(const std::string& name = "Unnamed Object", Args&&... args);
 
   /**
    * Destroys an object by its ID
@@ -158,10 +158,13 @@ private:
   TextureMap m_textures;
 };
 
-//
-template<typename T, typename>
-T *Factory::CreateObject(const std::string &name) {
-  T *obj = new T(m_currentId);
+
+ 
+template <typename T, typename... Args>    // Changed in order to pass arguments to the constructor -d
+    requires std::is_base_of_v<Object, T>
+T* Factory::CreateObject(const std::string& name, Args&&... args)
+{
+  T *obj = new T(m_currentId, std::forward<Args>(args)...);
   obj->SetName(name);
   // dont even ask about this -x
   obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));

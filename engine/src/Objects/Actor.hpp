@@ -9,12 +9,11 @@
 #pragma once
 #include "Object.hpp"
 
+#include "AnimationSystem/AnimationComponent.hpp"
 
-namespace Sigma::ANIMATION {
-class AnimationComponent;
-}
 
 namespace Sigma {
+
 namespace Collision {
 struct BoxCollider;
 }
@@ -31,10 +30,7 @@ public:
   explicit Actor(id_t id) : Object(id) {}
   ~Actor() override = default;
 
-  void Init() override {
-    Object::Init();
-    std::cout << "Init called \n";
-  };
+  void Init() override { Object::Init(); };
   void Start() override { Object::Start(); };
   void Update(double delta) override { Object::Update(delta); };
   void Draw() override { Object::Draw(); };
@@ -56,11 +52,22 @@ public:
 
   virtual glm::mat3 *GetTextureTransform();
 
+  // TODO: Modulation color does not actually work idunno why
   void SetModulationColor(unsigned newColor) { m_color = newColor; }
+  [[nodiscard]] unsigned GetModulationColor() const { return m_color; }
 
-  unsigned GetModulationColor() const { return m_color; }
-
+  /**
+   * @brief checks if an actor is in view bounds
+   * @note it does not check the bounding box, only a point
+   * @returns if in viewport
+   */
   bool IsInViewport();
+
+  /**
+   * @brief animation component pointer
+   * @note Is not initialized by default.
+   */
+  std::unique_ptr<Animation::AnimationComponent> m_animComp;
 
 protected:
   glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix

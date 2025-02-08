@@ -7,6 +7,7 @@
 #include "Factory.hpp"
 #include "GameManager.hpp"
 
+
 namespace Sigma {
 
 void Actor::SetTexture(const char *path) {
