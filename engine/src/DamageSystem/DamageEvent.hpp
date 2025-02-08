@@ -1,5 +1,5 @@
 /**
- * @file DamageEvent.h
+ * @file DamageEvent.hpp
  * @author Alexey
  * @date 02/04/2025
  *
@@ -10,8 +10,6 @@
 #include "Collision/CollisionEvent.hpp"
 
 namespace Sigma::Damage {
-
-//TODO: implement damage types somehow, I don't know how
 
 enum DamageType {
   PHYSICAL,
