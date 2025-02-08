@@ -38,16 +38,6 @@ public:
   void SetRenderDistance(const float near_, const float far_) { m_near = near_; m_far = far_; }
 
   /**
-   * @brief will lerp camera toward target position
-   * will use diffrent levels of lerp depending on region
-   * of screen target is curently at
-   * @param target posistion
-   * @param delta percentage toward target
-   */
-  void LerpToPosition(glm::vec3 target, float delta);
-
-
-  /**
    *
    * @param worldPos position in the world such as a transform
    * @return the position on the screen the worldPos is corrolated too

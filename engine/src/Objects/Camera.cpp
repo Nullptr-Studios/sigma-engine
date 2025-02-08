@@ -1,8 +1,6 @@
 #include "Camera.hpp"
 #include "GlmAlphaTools.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/glm.hpp>
-#include <glm/gtx/compatibility.hpp>
 
 namespace Sigma {
 
@@ -62,26 +60,6 @@ glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
   return screenPos + cameraPos;
 }
 
-void Camera::LerpToPosition(glm::vec3 position, float delta) {
-  glm::vec2 viewport;
-  AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  glm::vec2 screenPos = WorldToScreen({position.x,position.y});
-  screenPos = {screenPos.x/viewport.x*2,screenPos.y/viewport.y*2};// What region of the screen the object is at 1,1 being top right -1,-1 bottom left
-  // std::ostringstream oss; // DEBUG
-  // oss << screenPos.x << " " << screenPos.y << "\n";
-  if (-.25f < screenPos.x && screenPos.x < .25f && -.25f < screenPos.y && screenPos.y < .25f) {
-    transform.position = glm::lerp(transform.position, position, delta);
-    // oss << "a";
-  } else if (-.75f < screenPos.x && screenPos.x < .75f && -.75f < screenPos.y && screenPos.y < .75f) {
-    transform.position = glm::lerp(transform.position, position, 3.0f*delta);
-    // oss << "b";
-  } else {
-    transform.position = glm::lerp(transform.position, position, 10.0f * delta);
-    // oss << "c";
-  }
-  // AEGfxPrint(10, 240, 0xFFFFFFFF, oss.str().c_str());
-}
 
 
 } // namespace Sigma
-#undef GLM_USE_EXPERIMENTAL
