@@ -16,12 +16,14 @@ void TestScene::Load() {
   Scene::Load();
   std::cout << "TestScene::Load()" << std::endl;
 
-  GET_FACTORY->CreateObject<Sigma::Actor>("TestActor");
+  m_actor = GET_FACTORY->CreateObject<Sigma::Actor>("TestActor");
+  m_actor->transform.offset = {-50.0f, 50.0f, 0.0f};
 
 }
 void TestScene::Update(double delta) {
   Scene::Update(delta);
   // std::cout << "TestScene::Update(" << delta << ")" << std::endl;
+  m_actor->transform.localRotation += 2 * delta;
 }
 void TestScene::Draw() {
   Scene::Draw();
