@@ -80,6 +80,7 @@ public:
 
   ObjectMap* GetObjects() { return &m_objects; } ///< @brief Returns the Object map
   Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
+  Object* FindObject(const std::string& name); ///< @brief Find an object by its name @warn DO NOT ABUSE
   
   ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
 
@@ -159,7 +160,6 @@ private:
   TextureMap m_textures;
 };
 
-//
 template<typename T, typename>
 T* Factory::CreateObject(const std::string& name) {
   T* obj = new T(m_currentId);
