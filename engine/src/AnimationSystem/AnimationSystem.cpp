@@ -33,13 +33,18 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
     return &m_loadedTextureAtlases[J["meta"]["image"]];
   }
 
+  // default animation
   Animation a;
-  a.frameRate = 12; // for now hard coded
+  if (J["meta"].contains("fps")) {
+    a.frameRate = J["meta"]["fps"];
+  } else {
+    a.frameRate = 12;
+  }
   a.name = "Default";
 
-  std::vector<Frame> m_frames;
   std::vector<Animation> m_animations;
   m_animations.emplace_back(a);
+  
 
   // first save all the frames
   // Then sort frames into animations
@@ -48,18 +53,25 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
     Frame f;
 
     f.name = frame["filename"];
-    f.size = {frame["frame"]["w"], frame["frame"]["h"]};
-    f.position = {frame["frame"]["x"], frame["frame"]["y"]};
+    f.frameSize = {frame["frame"]["w"], frame["frame"]["h"]};
+    f.framePosition = {frame["frame"]["x"], frame["frame"]["y"]};
     // f.rotated = frame["rotated"];
-    f.sourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
-    f.sourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
+    f.spriteSourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
+    f.spriteSourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
+
 
     if (frame.contains("pivot")) {
       f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
+    } else {
+      // default to center
+      f.pivot = {0.5f, 0.5f};
     }
 
-    // f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
-    // f.trimmed = frame["trimmed"];
+    if (frame["trimmed"]) {
+      f.sourceSize = {frame["sourceSize"]["w"], frame["sourceSize"]["h"]};
+    } else {
+      f.sourceSize = f.frameSize;
+    }
     // m_frames.emplace_back(f);
 
     if (frame.contains("callback")) {
@@ -87,7 +99,13 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
 
       if (!found) {
         Animation m_animation;
-        m_animation.frameRate = 12; // for now hard coded
+
+        if (J["meta"]["image"].contains("fps")) {
+          m_animation.frameRate = J["meta"]["image"]["fps"];
+        } else {
+          m_animation.frameRate = 12;
+        }
+
         m_animation.name = animName;
         m_animation.frames.emplace_back(f);
         m_animations.emplace_back(m_animation);
@@ -96,20 +114,19 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
   }
 
   TextureAtlas ta;
-  ta.filePath = J["meta"]["image"];
+
   ta.size = {J["meta"]["size"]["w"], J["meta"]["size"]["h"]};
   ta.animations = m_animations;
 
-  ta.texture = GET_FACTORY->LoadTexture(ta.filePath.c_str());
+  ta.textureStr = J["meta"]["image"];
   std::cout << "[AnimationSystem] Texture Atlas loaded\n";
 
   J.clear();
-
   file.close();
 
   PROFILER_END("AnimationSystem::LoadTextureAtlas");
 
-  return &m_loadedTextureAtlases.emplace(ta.filePath, ta).first->second;
+  return &m_loadedTextureAtlases.emplace(ta.textureStr, ta).first->second;
 }
 
 Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtlas(const char *name) {
@@ -121,18 +138,19 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtl
 
   std::cout << "[AnimationSystem] Texture Atlas not found\n";
   return nullptr;
+  
 }
-void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH)
-{
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH,
+                                                              float taW, float taH) {
   float correctedY = taH - (sY + sH);
   float vTranslateY = correctedY / taH;
 
   float correctedX = (sX);
   float uTranslateX = correctedX / taW;
-  
+
   float vHeight = (sH / taH);
   float uWidth = (sW / taW);
-  
+
   // Reset to identity
   AEMtx33Identity(pTexMtx);
 
@@ -145,5 +163,11 @@ void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, 
 
 void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *texMtx, const Frame *frame,
                                                               const TextureAtlas *atlas) {
-  BuildTextureTransform(texMtx, frame->position.x, frame->position.y, frame->size.x, frame->size.y, atlas->size.x, atlas->size.y);
+  BuildTextureTransform(texMtx, frame->framePosition.x, frame->framePosition.y, frame->frameSize.x, frame->frameSize.y,
+                        atlas->size.x, atlas->size.y);
+}
+void Sigma::Animation::AnimationSystem::UpdateSpriteOffset(Transform *transform, const Frame *frame,
+                                                           const TextureAtlas *atlas)
+{
+  
 }

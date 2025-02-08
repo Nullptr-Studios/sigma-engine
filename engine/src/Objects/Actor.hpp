@@ -41,18 +41,20 @@ public:
   void Destroy() override { Object::Destroy(); };
 
 
-  [[nodiscard]] AEGfxTexture* GetTexture() const { return m_texture; }  ///< @brief Gets the Alpha Engine texture pointer shit
-  
+  [[nodiscard]] AEGfxTexture *GetTexture() const {
+    return m_texture;
+  } ///< @brief Gets the Alpha Engine texture pointer shit
+
   /**
    * @brief Sets the texture of the object
    * Changes the texture path variables and reloads the texture data by calling the factory
    * @param path Texture path
    */
-  void SetTexture(const char* path);
+  void SetTexture(const char *path);
 
-  void SetTextureTransform(glm::mat3& newTexMtx);
-  
-  virtual glm::mat3* GetTextureTransform();
+  void SetTextureTransform(glm::mat3 &newTexMtx);
+
+  virtual glm::mat3 *GetTextureTransform();
 
   void SetModulationColor(unsigned newColor) { m_color = newColor; }
 
@@ -64,10 +66,10 @@ protected:
   glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix
 
 private:
-  const char* m_texturePath = nullptr;
-  AEGfxTexture* m_texture = nullptr;
+  const char *m_texturePath = nullptr;
+  AEGfxTexture *m_texture = nullptr;
 
   unsigned m_color = AE_COLORS_WHITE;
 };
 
-}
+} // namespace Sigma

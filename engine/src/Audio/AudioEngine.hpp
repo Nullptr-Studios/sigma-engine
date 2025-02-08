@@ -2,7 +2,7 @@
 #pragma once
 
 /// @file AudioEngine.h
-/// 
+///
 /// FMOD wrapper which can utilize audio files (.wav, .mp3, .ogg etc) and FMOD soundbanks (.bank files).
 /// Supports playback of loops or one-shots in stereo, and customizable spatialization.
 ///
@@ -18,7 +18,7 @@
  * @param file - the file in which the error occurred
  * @param line - the line in which the error occurred
  */
-void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
+void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line);
 #define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
 
 namespace Sigma {
@@ -30,8 +30,7 @@ namespace Sigma {
  * Deals with all FMOD calls so that FMOD-specific code does not need to be used outside this class.
  * Only one AudioEngine should be constructed for an application.
  */
-class AudioEngine
-{
+class AudioEngine {
 public:
   /**
    * @brief AudioEngine::Init() must be called before using the Audio Engine
@@ -49,8 +48,8 @@ public:
   void Terminate();
 
   /**
-  * @brief Should be called each frame.
-  */
+   * @brief Should be called each frame.
+   */
   void Update();
 
   /**
@@ -62,9 +61,9 @@ public:
   void Load(AudioData audioData);
 
   /**
-  * @brief Plays a sound file using FMOD's low level audio system. If the sound file has not been
-  * previously loaded using Load(), a console message is displayed.
-  */
+   * @brief Plays a sound file using FMOD's low level audio system. If the sound file has not been
+   * previously loaded using Load(), a console message is displayed.
+   */
   void Play(const AudioData &audioData);
 
   /**
@@ -83,10 +82,10 @@ public:
   void UpdateVolume(AudioData &audioData, float newVolume, unsigned int fadeSampleLength = 0);
 
   /**
-  * Updates the position of a looping 3D sound that has already been loaded and is playing back.
-  * The AudioData object's position coordinates will be used for the new sound position, so
-  * SoundInfo::set3DCoords(x,y,z) should be called before this method to set the new desired location.
-  */
+   * Updates the position of a looping 3D sound that has already been loaded and is playing back.
+   * The AudioData object's position coordinates will be used for the new sound position, so
+   * SoundInfo::set3DCoords(x,y,z) should be called before this method to set the new desired location.
+   */
   void Update3DPosition(const AudioData &audioData);
 
   /**
@@ -100,54 +99,54 @@ public:
    * @param forwardX, forwardY, forwardZ - forward angle character is looking in
    * @param upX, upY, upZ - up which must be perpendicular to forward vector
    */
-  void Set3DListenerPosition(float posX,     float posY,     float posZ,
-                             float forwardX, float forwardY, float forwardZ,
-                             float upX,      float upY,      float upZ);
+  void Set3DListenerPosition(float posX, float posY, float posZ, float forwardX, float forwardY, float forwardZ,
+                             float upX, float upY, float upZ);
 
   /**
-  * @brief Utility method that returns the length of a AudioData's audio file in milliseconds
-  * @return If the sound hasn't been loaded, returns 0
-  */
+   * @brief Utility method that returns the length of a AudioData's audio file in milliseconds
+   * @return If the sound hasn't been loaded, returns 0
+   */
   unsigned int GetLengthMS(const AudioData &audioData);
 
   /**
    * @brief Loads an FMOD Studio soundbank (*.bank) file.
    */
-  void LoadBank(const char* filePath);
+  void LoadBank(const char *filePath);
 
   /**
-   * @brief Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this method.
+   * @brief Loads an FMOD Studio Event. The Soundbank that this event is in must have been loaded before calling this
+   * method.
    */
-  void LoadEvent(const char* eventName, const std::vector<std::pair<const char *, float>> &paramsValues = { });
+  void LoadEvent(const char *eventName, const std::vector<std::pair<const char *, float>> &paramsValues = {});
 
   /**
    * @brief Sets the parameter of an FMOD Soundbank Event Instance.
    */
-  void SetEventParamValue(const char* eventName, const char* parameterName, float value);
+  void SetEventParamValue(const char *eventName, const char *parameterName, float value);
 
   /**
    * @brief Plays the specified instance of an event
    * TODO support playback of multiple event instances
    * TODO Fix playback
    */
-  void PlayEvent(const char* eventName, int instanceIndex = 0);
+  void PlayEvent(const char *eventName, int instanceIndex = 0);
 
   /**
    * @brief Stops the specified instance of an event, if it is playing.
    */
-  void StopEvent(const char* eventName, int instanceIndex = 0);
+  void StopEvent(const char *eventName, int instanceIndex = 0);
 
   /**
    * @brief Sets the volume of an event.
    * @param eventName - name of the event to set the volume of
    * @param normalizedVolume - volume of the event, from 0 (min vol) to 1 (max vol)
    */
-  void SetEventVolume(const char* eventName, float normalizedVolume = 0.75f);
+  void SetEventVolume(const char *eventName, float normalizedVolume = 0.75f);
 
   /**
    * @brief Checks if an event is playing.
    */
-  bool IsPlaying(const char* eventName, int instance = 0);
+  bool IsPlaying(const char *eventName, int instance = 0);
 
   /**
    *  @brief Mutes all sounds.
@@ -168,7 +167,6 @@ public:
   static constexpr int AUDIO_SAMPLE_RATE = 44100;
 
 private:
-
   /**
    *  @brief Checks if a sound file is in the soundCache
    */
@@ -177,7 +175,7 @@ private:
   /**
    *  @brief Sets the 3D position of a sound
    */
-  void Set3DChannelPosition(const AudioData &audioData, FMOD::Channel* channel) const;
+  void Set3DChannelPosition(const AudioData &audioData, FMOD::Channel *channel) const;
 
   /**
    *  @brief Initializes the reverb effect
@@ -187,13 +185,13 @@ private:
   /**
    *  @brief Prints debug info about an FMOD event description
    */
-  void DebugEventInfo(const FMOD::Studio::EventDescription* eventDescription);
+  void DebugEventInfo(const FMOD::Studio::EventDescription *eventDescription);
 
   // FMOD Studio API system, which can play FMOD sound banks (*.bank)
-  FMOD::Studio::System* studioSystem = nullptr;
+  FMOD::Studio::System *studioSystem = nullptr;
 
   // FMOD's low-level audio system which plays audio files and is obtained from Studio System
-  FMOD::System* lowLevelSystem = nullptr;
+  FMOD::System *lowLevelSystem = nullptr;
 
   // Max FMOD::Channels for the audio engine
   static constexpr unsigned int MAX_AUDIO_CHANNELS = 255;
@@ -202,22 +200,22 @@ private:
   const float DISTANCEFACTOR = 1.0f;
 
   // Listener head position, initialized to default value
-  FMOD_VECTOR listenerPosition = { 0.0f, 0.0f, -1.0f * DISTANCEFACTOR };
+  FMOD_VECTOR listenerPosition = {0.0f, 0.0f, -1.0f * DISTANCEFACTOR};
 
   // Listener forward vector, initialized to default value
-  FMOD_VECTOR forward     = { 0.0f, 0.0f, 1.0f };
+  FMOD_VECTOR forward = {0.0f, 0.0f, 1.0f};
 
   // Listener upwards vector, initialized to default value
-  FMOD_VECTOR up          = { 0.0f, 1.0f, 0.0f };
+  FMOD_VECTOR up = {0.0f, 1.0f, 0.0f};
 
   // Main group for low level system which all sounds go though
-  FMOD::ChannelGroup* mastergroup = 0;
+  FMOD::ChannelGroup *mastergroup = 0;
 
   // Low-level system reverb TODO add multi-reverb support
-  FMOD::Reverb3D* reverb;
+  FMOD::Reverb3D *reverb;
 
   // Reverb origin position
-  FMOD_VECTOR revPos = { 0.0f, 0.0f, 0.0f };
+  FMOD_VECTOR revPos = {0.0f, 0.0f, 0.0f};
 
   // reverb min, max distances
   float revMinDist = 10.0f, revMaxDist = 50.0f;
@@ -231,28 +229,28 @@ private:
    * Value is the FMOD::Sound* to be played back.
    * TODO Refactor to use numeric UID as key
    */
-  std::map<std::string, FMOD::Sound*> sounds;
+  std::map<std::string, FMOD::Sound *> sounds;
 
   /**
    * Map which stores the current playback channels of any playing sound loop
    * Key is the AudioData's uniqueKey field.
    * Value is the FMOD::Channel* the FMOD::Sound* is playing back on.
    */
-  std::map<std::string, FMOD::Channel*> loopsPlaying;
+  std::map<std::string, FMOD::Channel *> loopsPlaying;
 
   /**
    *  @brief Map which stores the soundbanks loaded with loadFMODStudioBank()
    */
-  std::map<std::string, FMOD::Studio::Bank*> soundBanks;
+  std::map<std::string, FMOD::Studio::Bank *> soundBanks;
 
   /**
    *  @brief Map which stores event descriptions created during loadFMODStudioEvent()
    */
-  std::map<std::string, FMOD::Studio::EventDescription*> eventDescriptions;
+  std::map<std::string, FMOD::Studio::EventDescription *> eventDescriptions;
 
   /**
    * @brief Map which stores event instances created during loadFMODStudioEvent()
    */
-  std::map<std::string, FMOD::Studio::EventInstance*> eventInstances;
+  std::map<std::string, FMOD::Studio::EventInstance *> eventInstances;
 };
-}
+} // namespace Sigma

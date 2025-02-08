@@ -19,7 +19,7 @@ namespace Sigma {
 class Camera;
 class CameraController : public Object {
 public:
-  explicit CameraController(id_t id ) : Object(id) { m_instance = this; };
+  explicit CameraController(id_t id) : Object(id) { m_instance = this; };
   CameraController(CameraController &&) = delete;
   CameraController(const CameraController &) = delete;
 
@@ -39,4 +39,4 @@ private:
   Camera *m_currentCamera{};
 };
 
-} // namespace FNFE
+} // namespace Sigma

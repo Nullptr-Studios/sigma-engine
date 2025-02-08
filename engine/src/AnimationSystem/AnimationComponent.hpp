@@ -9,132 +9,128 @@
 #pragma once
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
-//#include "Objects/Character.hpp"
+// #include "Objects/Character.hpp"
 
 namespace Sigma {
 class Character;
 
 namespace Animation {
 
-  struct Animation;
-  struct Frame;
-  struct TextureAtlas;
+struct Animation;
+struct Frame;
+struct TextureAtlas;
 
+
+/**
+ * @class AnimationComponent
+ */
+class AnimationComponent {
+public:
+  AnimationComponent(Sigma::Character *owner) : m_owner(owner) {};
+  ~AnimationComponent() { ClearCallbacks(); }
 
   /**
-   * @class AnimationComponent
+   * @brief Set the texture atlas for the animation component
+   * @param texAtlas Pointer to the texture atlas
    */
-  class AnimationComponent {
-  public:
+  void SetTextureAtlas(TextureAtlas *texAtlas);
 
-    AnimationComponent(Sigma::Character* owner) : m_owner(owner) {};
-    ~AnimationComponent() {
-      ClearCallbacks();
-    }
+  /**
+   * @brief Set the current animation
+   * @param animName Name of the animation
+   */
+  void SetCurrentAnim(const std::string &animName);
 
-    /**
-     * @brief Set the texture atlas for the animation component
-     * @param texAtlas Pointer to the texture atlas
-     */
-    void SetTextureAtlas(TextureAtlas *texAtlas);
+  /**
+   * @brief Update the animation component
+   * @param DeltaTime Time since last frame
+   */
+  void Update(double DeltaTime);
 
-    /**
-     * @brief Set the current animation
-     * @param animName Name of the animation
-     */
-    void SetCurrentAnim(const std::string &animName);
+  /**
+   * @brief Play and stop the animation
+   */
+  void PlayAndStop();
 
-    /**
-     * @brief Update the animation component
-     * @param DeltaTime Time since last frame
-     */
-    void Update(double DeltaTime);
+  /**
+   * @brief Go to a specific frame
+   * @param frame Frame to go to
+   */
+  void GotoFrame(int frame);
 
-    /**
-     * @brief Play and stop the animation
-     */
-    void PlayAndStop();
+  /**
+   * @brief Play the animation
+   */
+  void PlayAnim();
 
-    /**
-     * @brief Go to a specific frame
-     * @param frame Frame to go to
-     */
-    void GotoFrame(int frame);
+  /**
+   * @brief Stop the animation
+   */
+  void StopAnim();
 
-    /**
-     * @brief Play the animation
-     */
-    void PlayAnim();
+  /**
+   * @brief Add a callback to the animation
+   * @param callbackName Name of the callback
+   * @param callback Callback function
+   * @return True if the callback was added successfully
+   */
+  bool AddCallback(const std::string &callbackName, const std::function<void()> &callback);
 
-    /**
-     * @brief Stop the animation
-     */
-    void StopAnim();
+  /**
+   * @brief Remove a callback from the animation
+   * @param callbackName Name of the callback
+   */
+  void ClearCallbacks();
 
-    /**
-     * @brief Add a callback to the animation
-     * @param callbackName Name of the callback
-     * @param callback Callback function
-     * @return True if the callback was added successfully
-     */
-    bool AddCallback(const std::string &callbackName, const std::function<void()> &callback);
+  /**
+   * @brief Get the texture matrix
+   * @return Pointer to the texture matrix
+   */
+  AEMtx33 GetTextureMatrix() { return m_texMtx; }
 
-    /**
-     * @brief Remove a callback from the animation
-     * @param callbackName Name of the callback
-     */
-    void ClearCallbacks();
+  /**
+   * @brief Get the texture atlas
+   * @return Pointer to the texture atlas
+   */
+  TextureAtlas *GetTextureAtlas() { return m_texAtlas; }
 
-    /**
-     * @brief Get the texture matrix
-     * @return Pointer to the texture matrix
-     */
-    AEMtx33 GetTextureMatrix() { return m_texMtx; }
+  /**
+   * @brief Get the current frame
+   * @return Pointer to the current frame
+   */
+  Frame *GetCurrentFrame() { return m_currentFrame; }
 
-    /**
-     * @brief Get the texture atlas
-     * @return Pointer to the texture atlas
-     */
-    TextureAtlas *GetTextureAtlas() { return m_texAtlas; }
+private:
+  /**
+   * @brief Update the texture matrix
+   */
+  void UpdateTextureMatrix();
 
-    /**
-     * @brief Get the current frame
-     * @return Pointer to the current frame
-     */
-    Frame *GetCurrentFrame() { return m_currentFrame; }
+  /**
+   * @brief Update the callbacks
+   */
+  void UpdateCallbacks();
 
-  private:
+  Sigma::Character *m_owner;
 
-    /**
-     * @brief Update the texture matrix
-     */
-    void UpdateTextureMatrix();
+  /**
+   * @brief Map of animation callbacks
+   */
+  AnimationCallbackMap m_animCallbacks;
 
-    /**
-     * @brief Update the callbacks
-     */
-    void UpdateCallbacks();
+  AEMtx33 m_texMtx;
+  TextureAtlas *m_texAtlas;
+  int m_currentFrameIndex = 0;
+  double m_frameTime = 0.0;
+  Frame *m_currentFrame;
 
-    Sigma::Character* m_owner;
+  Animation *m_currentAnimation = nullptr;
 
-    /**
-     * @brief Map of animation callbacks
-     */
-    AnimationCallbackMap m_animCallbacks;
+  double m_timeSinceLastFrame = 0.0;
 
-    AEMtx33 m_texMtx;
-    TextureAtlas* m_texAtlas;
-    int m_currentFrameIndex = 0;
-    double m_frameTime = 0.0;
-    Frame* m_currentFrame;
+  bool m_isPlaying = false;
+  bool m_loop = true;
+};
 
-    Animation* m_currentAnimation = nullptr;
-
-    double m_timeSinceLastFrame = 0.0;
-
-    bool m_isPlaying = false;
-    bool m_loop = true;
-  };
-
-} // namespace FNFE::ANIMATION
-}
+} // namespace Animation
+} // namespace Sigma

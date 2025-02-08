@@ -53,7 +53,6 @@ public:
   }
 
 private:
-  
   std::vector<glm::vec2> vertices;
   glm::vec2 minBounds, maxBounds;
   std::vector<float> invSlopes; // Precomputed 1/slope for fast intersection tests

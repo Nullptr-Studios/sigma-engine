@@ -37,11 +37,11 @@ class Factory {
    * @typedef TextureMap
    * @brief Type used for mapping
    */
-  typedef std::unordered_map<std::string, AEGfxTexture*> TextureMap;
+  typedef std::unordered_map<std::string, AEGfxTexture *> TextureMap;
 
 public:
-  Factory(GameManager* manager, void(GameManager::*callback)(Event &e))
-    : m_managerInstance(manager), m_managerCallback(callback) {
+  Factory(GameManager *manager, void (GameManager::*callback)(Event &e)) :
+      m_managerInstance(manager), m_managerCallback(callback) {
     m_instance = this;
     InitializeTriList();
   }
@@ -61,8 +61,8 @@ public:
    * @param name Object name
    * @return Pointer of the created object
    */
-  template <typename T, typename = std::enable_if_t<std::is_base_of_v<Object, T>>>
-  T* CreateObject(const std::string& name = "Unnamed Object");
+  template<typename T, typename = std::enable_if_t<std::is_base_of_v<Object, T>>>
+  T *CreateObject(const std::string &name = "Unnamed Object");
 
   /**
    * Destroys an object by its ID
@@ -74,14 +74,14 @@ public:
    * Destroys an object by its reference
    * @param object Object reference
    */
-  void DestroyObject(const Object * object);
+  void DestroyObject(const Object *object);
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
-  ObjectMap* GetObjects() { return &m_objects; } ///< @brief Returns the Object map
-  Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
-  
-  ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
+  ObjectMap *GetObjects() { return &m_objects; } ///< @brief Returns the Object map
+  Object *GetObjectAt(id_t id); ///< @brief Returns an object by ID
+
+  ActorList *GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 
@@ -96,44 +96,43 @@ public:
    * @param filepath Filepath of the texture to load
    * @return @c AEGfxTexture* of the texture
    */
-  AEGfxTexture * LoadTexture(const char* filepath);
+  AEGfxTexture *LoadTexture(const char *filepath);
   /**
    * @brief Frees textures from the pool
    * Tells Alpha Engine to free the textures from memory and deletes the entry on the pool
    * @param filepath
    */
-  void FreeTexture(const char* filepath);
+  void FreeTexture(const char *filepath);
   void FreeAllTextures(); ///< @brief Frees memory for all textures and clears the texture pool
 
   TextureMap GetTextures() { return m_textures; } ///< @brief Returns the texture pool
 
 #pragma endregion
 
-  AEGfxTriList* GetSharedTriList() { return m_tris; } ///< @brief Returns the shared TriList
+  AEGfxTriList *GetSharedTriList() { return m_tris; } ///< @brief Returns the shared TriList
 
-  static Factory* GetInstance() {
+  static Factory *GetInstance() {
     if (m_instance == nullptr) {
       throw std::runtime_error("Factory instance not created");
     }
     return m_instance;
   }
-    
-private:
 
+private:
   bool m_log = false;
 
   id_t m_currentId = 0;
-  static Factory* m_instance;
+  static Factory *m_instance;
 
-  GameManager* m_managerInstance;
-  void(GameManager::*m_managerCallback)(Event&);
+  GameManager *m_managerInstance;
+  void (GameManager::*m_managerCallback)(Event &);
 
   /**
    * @brief TriList for rendering
    *
    * This is a pointer to the TriList that will be used to render all renderables in the game.
    */
-  AEGfxTriList* m_tris = nullptr;
+  AEGfxTriList *m_tris = nullptr;
 
   void InitializeTriList(); ///< @brief Initializes the TriList
 
@@ -161,8 +160,8 @@ private:
 
 //
 template<typename T, typename>
-T* Factory::CreateObject(const std::string& name) {
-  T* obj = new T(m_currentId);
+T *Factory::CreateObject(const std::string &name) {
+  T *obj = new T(m_currentId);
   obj->SetName(name);
   // dont even ask about this -x
   obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));
@@ -173,10 +172,11 @@ T* Factory::CreateObject(const std::string& name) {
     throw std::runtime_error("Object ID overflow");
   }
 
-  m_objects.emplace(obj->GetId(), dynamic_cast<Object*>(obj));
+  m_objects.emplace(obj->GetId(), dynamic_cast<Object *>(obj));
 
-  if constexpr (std::is_base_of_v<Actor, T>) m_renderables.emplace_back(obj->GetId());
-  
+  if constexpr (std::is_base_of_v<Actor, T>)
+    m_renderables.emplace_back(obj->GetId());
+
   if (m_log)
     std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";
 
@@ -185,8 +185,8 @@ T* Factory::CreateObject(const std::string& name) {
   // If the game is already on the Game Loop (the player is on a level or a menu), we call the Start method on creation
   // If not, we will call it when every object is called at the Invoke Begin phase -x
   // if (StateManager::GetEngineState() == IN_GAME) obj->Start();
-  
+
   return obj;
 }
 
-}
+} // namespace Sigma

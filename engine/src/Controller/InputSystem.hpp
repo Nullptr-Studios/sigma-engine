@@ -60,8 +60,8 @@ public:
   glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
 
 
-  //TODO: make this controller thing work in multiplayer
-/**
+  // TODO: make this controller thing work in multiplayer
+  /**
    * @brief returns controller id
    * @return controller id for player controller
    */

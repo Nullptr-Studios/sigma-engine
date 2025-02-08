@@ -28,5 +28,5 @@
 // json
 #include <json.hpp>
 
-//Bitwise
+// Bitwise
 #define BIT(x) (1 << x)

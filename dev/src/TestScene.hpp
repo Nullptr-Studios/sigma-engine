@@ -8,8 +8,11 @@
 
 #pragma once
 
-#include "Scene.hpp"
+#include "GameScene.hpp"
 
+namespace Sigma {
+class Actor;
+}
 class TestScene : public Sigma::GameScene
 {
 public:

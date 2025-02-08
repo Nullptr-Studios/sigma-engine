@@ -9,8 +9,7 @@
 #include "pch.hpp"
 
 
-void Sigma::GameScene::Load()
-{
+void Sigma::GameScene::Load() {
   Sigma::Scene::Load();
   if (m_jsonPath.empty())
     return;
@@ -23,14 +22,14 @@ void Sigma::GameScene::Load()
   }
 
   std::cout << "[GameScene] " << GetName() << " Loading JSON file: " << m_jsonPath << '\n';
-  
+
   json_t J = json_t::parse(file);
 
   m_playerStartPos = {J["playerStart"]["x"], J["playerStart"]["y"]};
 
   m_sceneBounds.reserve(J["bounds"].size());
 
-  for (auto boundCoords:J["bounds"]) {
+  for (auto boundCoords: J["bounds"]) {
     glm::vec2 bound = {boundCoords["x"], boundCoords["y"]};
     m_sceneBounds.emplace_back(bound);
 
@@ -51,5 +50,4 @@ void Sigma::GameScene::Load()
   file.close();
 
   m_sceneBoundsPoly = new Polygon(m_sceneBounds);
-  
 }

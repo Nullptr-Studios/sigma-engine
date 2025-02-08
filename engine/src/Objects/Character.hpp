@@ -104,7 +104,7 @@ public:
   void SetJsonPath(const std::string& path) { m_jsonPath = path; }
 
 #pragma region MovementSystem
- 
+  
   void Move(glm::vec2 direction);
   void Jump();
 
@@ -120,11 +120,10 @@ public:
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
 private:
-
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   std::string m_jsonPath;
 
-  Polygon* m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
+  Polygon *m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);
@@ -174,4 +173,4 @@ private:
 
 };
 
-}
+} // namespace Sigma

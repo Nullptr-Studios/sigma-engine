@@ -56,10 +56,10 @@ void GameManager::GameInit() {
 
 
 #ifdef _DEBUG
- 
+
   // Disables 60fps lock in Debug mode
-  AESetFrameRateMax(20000); 
-  
+  AESetFrameRateMax(20000);
+
 #endif // _DEBUG
 
   // Start
@@ -77,8 +77,7 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-  if (m_currentScene != nullptr)
-  {
+  if (m_currentScene != nullptr) {
 #if _DEBUG
     auto startCollision = std::chrono::high_resolution_clock::now();
 #endif
@@ -130,25 +129,26 @@ void GameManager::Run() {
 
     // Do sorting each 5 frames
     if (AEGetFrameCounter() % 5 == 0) {
-      //Sort by Z order
-      renderables->sort([](const id_t& a, const id_t& b)
-      {
-        const auto OA = GET_FACTORY->GetObjectAt(a);
-        const auto OB = GET_FACTORY->GetObjectAt(b);
+      // Sort by Z order
+      renderables->sort(
+          [](const id_t &a, const id_t &b)
+          {
+            const auto OA = GET_FACTORY->GetObjectAt(a);
+            const auto OB = GET_FACTORY->GetObjectAt(b);
 
-        return OA->transform.position.z < OB->transform.position.z;
-      });
+            return OA->transform.position.z < OB->transform.position.z;
+          });
     }
-    
+
     // Render Objects
     for (const auto &renderableId: *renderables) {
-      
-      auto actor = dynamic_cast<Actor*>(m_factory->GetObjectAt(renderableId));
+
+      auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
 
       // culling
       /*if (!actor->IsInViewport())
         continue;*/
-      
+
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
 
@@ -171,7 +171,7 @@ void GameManager::Run() {
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
-      
+
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
@@ -179,22 +179,22 @@ void GameManager::Run() {
     auto endDraw = std::chrono::high_resolution_clock::now();
     m_timeRender = endDraw - startDraw;
 #endif
-
   }
 
 #if _DEBUG
-    auto startSound = std::chrono::high_resolution_clock::now();
+  auto startSound = std::chrono::high_resolution_clock::now();
 #endif
 
   // Audio
-  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
-                                       1, 0, 0, 0, 1);
+  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x,
+                                       m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0, 1, 0, 0, 0,
+                                       1);
   m_audioEngine->Update();
 
 
 #if _DEBUG
-    auto endSound = std::chrono::high_resolution_clock::now();
-    m_timeSound = endSound - startSound;
+  auto endSound = std::chrono::high_resolution_clock::now();
+  m_timeSound = endSound - startSound;
 #endif
 
   DebugProfiler();
@@ -273,12 +273,12 @@ void GameManager::LoadScene(Scene *scene) {
   }
 
   m_currentScene = scene;
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loading..."
-            << std::endl;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+            << " loading..." << std::endl;
   m_currentScene->Load();
   m_currentScene->Init();
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loaded!"
-            << std::endl;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+            << " loaded!" << std::endl;
 
   PROFILER_END("GameManager::LoadScene")
 }
@@ -344,12 +344,12 @@ void GameManager::DebugProfiler()
     std::string loadedFonts = "Loaded Fonts: ";
     loadedFonts.append(std::to_string(AEGfxGetAllocatedFontCount()));
     AEGfxPrint(10, 30, 0xFFFFFFFF, loadedFonts.c_str());
-    
-    
+
+
     std::string FPS = "FPS: ";
     float fps = AEGetFrameRate();
-    
-    unsigned colorFPS;
+
+    unsigned colorFPS = 0xFFFFFFFF;
     if (fps >= 59) {
       colorFPS = 0xFF00FF00;
     } else if (fps >= 29) {
@@ -357,10 +357,10 @@ void GameManager::DebugProfiler()
     } else {
       colorFPS = 0xFFFF0000;
     }
-    
+
     FPS.append(std::to_string(fps));
     AEGfxPrint(600, 10, colorFPS, FPS.c_str());
-    
+
     std::string SPF = "SPF: ";
     SPF.append(std::to_string(AEGetFrameTime()));
     AEGfxPrint(600, 20, colorFPS, SPF.c_str());
@@ -386,7 +386,7 @@ void GameManager::DebugProfiler()
     glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
     std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
     AEGfxPrint(500, 95, 0xFFFFFFFF, mousePosStr.c_str());
-    
+
 
     std::string CurrentObjects = "Current Objects: ";
     CurrentObjects.append(std::to_string(m_factory->GetObjects()->size()));

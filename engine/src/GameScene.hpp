@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include "glm/vec2.hpp"
 #include <vector>
+#include "glm/vec2.hpp"
 
 
 namespace Sigma {
@@ -17,28 +17,25 @@ class Polygon;
 }
 namespace Sigma {
 
-class GameScene : public Sigma::Scene 
-{
-  
+class GameScene : public Sigma::Scene {
+
 public:
-  GameScene(const char* name, unsigned ID, const char* jsonPath) : Scene(name, ID), m_jsonPath(jsonPath) {};
+  GameScene(const char *name, unsigned ID, const char *jsonPath) : Scene(name, ID), m_jsonPath(jsonPath) {};
 
   void Load() override;
 
-  Polygon* GetSceneBoundsPoly() { return m_sceneBoundsPoly; }
-  
-private:
+  Polygon *GetSceneBoundsPoly() { return m_sceneBoundsPoly; }
 
-  bool m_debug = true;
-  
+private:
+  bool m_debug = false;
+
   std::string m_jsonPath;
 
   glm::vec2 m_playerStartPos;
 
   std::vector<glm::vec2> m_sceneBounds;
-  
-  Sigma::Polygon* m_sceneBoundsPoly;
+
+  Sigma::Polygon *m_sceneBoundsPoly;
 };
 
-}
-
+} // namespace Sigma

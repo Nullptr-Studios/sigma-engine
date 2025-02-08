@@ -7,9 +7,9 @@
  */
 
 #pragma once
-#include "Core.hpp"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include "Core.hpp"
 
 namespace Sigma {
 class Actor;
@@ -17,23 +17,20 @@ class Actor;
 namespace Collision {
 
 /**
- * @enum ColliderFlag 
+ * @enum ColliderFlag
  * @brief Bitwise enum for detecting collisions
  */
 enum ColliderFlag {
-  PLAYER = BIT(0),  ///< @brief binary 0001
-  ENEMY  = BIT(1),  ///< @brief binary 0010
-  UI     = BIT(2),  ///< @brief binary 0100
-  BULLET = BIT(3),  ///< @brief binary 1000
+  PLAYER = BIT(0), ///< @brief binary 0001
+  ENEMY = BIT(1), ///< @brief binary 0010
+  UI = BIT(2), ///< @brief binary 0100
+  BULLET = BIT(3), ///< @brief binary 1000
 };
 
-enum ColliderType {
-  COLLISION,
-  DAMAGE
-};
+enum ColliderType { COLLISION, DAMAGE };
 
 /**
- * @struct BoxCollider 
+ * @struct BoxCollider
  * @brief A struct for a rectangular sized collider
  */
 struct BoxCollider {
@@ -41,7 +38,7 @@ struct BoxCollider {
 
   ColliderFlag flag; ///< @brief Bitwise enum for what can the collider collide with
   ColliderType type; ///< @brief Enum that stores if the collider is used for collision or for dealing damage
-  
+
   /**
    * @struct Box
    * @brief Array that stores the box size
@@ -49,36 +46,32 @@ struct BoxCollider {
    * Positions of the sides are absolute
    *
    * @c GetPoints can be used to get the actual coordinates of the 4 points of the square
-   */ 
+   */
   struct Box {
   private:
-    float left = 0.5f; 
-    float right = 0.5f; 
-    float top = 0.5f; 
+    float left = 0.5f;
+    float right = 0.5f;
+    float top = 0.5f;
     float bottom = 0.5f;
 
     glm::vec2 offset = glm::vec2();
-    
+
   public:
     /**
      * @brief Returns the sides of the box relative to a position
-     * The values returned go as follow 
+     * The values returned go as follow
      *   - @c [0] left
      *   - @c [1] right
      *   - @c [2] top
      *   - @c [3] bottom
-     */ 
-    std::array<float, 4> GetSides(const glm::vec3& position) const {
-      std::array<float, 4> vertices = {
-        -left + position.x + offset.x,
-         right + position.x + offset.x,
-         top + position.y + offset.y,
-        -bottom + position.y + offset.y
-      };
+     */
+    std::array<float, 4> GetSides(const glm::vec3 &position) const {
+      std::array<float, 4> vertices = {-left + position.x + offset.x, right + position.x + offset.x,
+                                       top + position.y + offset.y, -bottom + position.y + offset.y};
 
       return vertices;
     }
-    
+
     /**
      * @brief Sets the box colliders boundaries
      *
@@ -126,7 +119,7 @@ struct BoxCollider {
     box.Set(size[0], size[1], size[2], size[3], offset);
   }
 
-  void DebugDraw(Actor* parent, color_t color) const;
+  void DebugDraw(Actor *parent, color_t color) const;
 };
 
 } // namespace Collision

@@ -7,8 +7,8 @@
  */
 
 #pragma once
-#include "Events/Event.hpp"
 #include "Collider.hpp"
+#include "Events/Event.hpp"
 #include "Objects/Object.hpp"
 
 namespace Sigma::Collision {
@@ -41,11 +41,11 @@ public:
    * @param other Pointer to the object it has collided with
    * @param type Type of @c other 's collider
    */
-  CollisionEvent(id_t receiver, Object* other, ColliderType type)
-      : m_receiver(receiver), m_other(other), m_type(type) {}
+  CollisionEvent(id_t receiver, Object *other, ColliderType type) :
+      m_receiver(receiver), m_other(other), m_type(type) {}
 
   id_t GetReceiver() const { return m_receiver; } ///< @brief Gets the ID of the object that should receive the message
-  Object* GetOther() const { return m_other; }    ///< @brief Gets the object that has collided with 
+  Object *GetOther() const { return m_other; } ///< @brief Gets the object that has collided with
   ColliderType GetType() const { return m_type; } ///< @brief Gets the type of collision (collision, damage...)
 
   /**
@@ -62,8 +62,8 @@ public:
 
 private:
   id_t m_receiver;
-  Object* m_other;
+  Object *m_other;
   ColliderType m_type;
 };
 
-}
+} // namespace Sigma::Collision

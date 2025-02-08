@@ -18,16 +18,12 @@ public:
    * @param name
    * @param ID
    */
-  Scene(const char* name, unsigned ID)
-  {
+  Scene(const char *name, unsigned ID) {
     m_name = name;
     m_ID = ID;
   }
 
-  ~Scene()
-  {
-    delete m_name;
-  }
+  ~Scene() { delete m_name; }
 
   virtual void Load() {};
   virtual void Init() {}
@@ -41,7 +37,7 @@ public:
    *
    * @return const char*
    */
-  const char* GetName() const { return m_name; }
+  const char *GetName() const { return m_name; }
 
   /**
    * @brief Get the ID of this scene
@@ -51,10 +47,8 @@ public:
   unsigned GetID() const { return m_ID; }
 
 private:
-  const char* m_name;
+  const char *m_name;
   unsigned m_ID;
-
 };
 
-} // Sigma
-
+} // namespace Sigma

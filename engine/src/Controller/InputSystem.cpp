@@ -3,11 +3,10 @@
 
 namespace Sigma {
 
-InputSystem::InputSystem(const std::string& keybindPath)
-{
-  
+InputSystem::InputSystem(const std::string &keybindPath) {
+
   m_inputBuffer = {};
-  
+
   std::ifstream file(keybindPath);
   if (!file.is_open()) {
     std::cout << "[InputSystem] failed to open JSON file " << keybindPath << '\n';
@@ -15,18 +14,18 @@ InputSystem::InputSystem(const std::string& keybindPath)
   }
 
   // Parse json file
-  auto keybinds =  nlohmann::json::parse(file);
+  auto keybinds = nlohmann::json::parse(file);
 
   // Debug log
   std::cout << keybinds << std::endl;
   std::string moveStick = keybinds["gamepad"]["sticks"]["movement"];
 
   m_movementStick = moveStick != "left";
-  
+
   auto kMovement = keybinds["keyboard"]["movement"];
   auto kActions = keybinds["keyboard"]["actions"];
   auto gActions = keybinds["gamepad"]["action"];
-  
+
   for (auto &item: kMovement.items()) {
     std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_keyboardMovement.insert(pair);
@@ -44,7 +43,7 @@ InputSystem::InputSystem(const std::string& keybindPath)
 
   file.close();
 }
-  
+
 void InputSystem::UpdateInput(int controllerId) {
   // Use gamepad stick or keyboard keys for player movement
   UpdateDirection(controllerId);
@@ -54,37 +53,32 @@ void InputSystem::UpdateInput(int controllerId) {
 
 void InputSystem::UpdateDirection(int controllerId) {
   m_movementBuffer = {};
-  if (controllerId == -1 ) {
-    if(AEInputKeyPressed(m_keyboardMovement["up"][0]))
-      m_movementBuffer.y+=1;
-    if(AEInputKeyPressed(m_keyboardMovement["left"][0]))
-      m_movementBuffer.x-=1;
-    if(AEInputKeyPressed(m_keyboardMovement["down"][0]))
-      m_movementBuffer.y-=1;
-    if(AEInputKeyPressed(m_keyboardMovement["right"][0]))
-      m_movementBuffer.x+=1;
-  }
-  else
-  {
-    if (m_movementStick == 0)
-    { // if left stick
+  if (controllerId == -1) {
+    if (AEInputKeyPressed(m_keyboardMovement["up"][0]))
+      m_movementBuffer.y += 1;
+    if (AEInputKeyPressed(m_keyboardMovement["left"][0]))
+      m_movementBuffer.x -= 1;
+    if (AEInputKeyPressed(m_keyboardMovement["down"][0]))
+      m_movementBuffer.y -= 1;
+    if (AEInputKeyPressed(m_keyboardMovement["right"][0]))
+      m_movementBuffer.x += 1;
+  } else {
+    if (m_movementStick == 0) { // if left stick
       auto input = AEInputGamepadStickLeft(controllerId);
       m_movementBuffer = glm::FromAEX(input);
-    }
-    else
-    { //if right stick
+    } else { // if right stick
       auto input = AEInputGamepadStickRight(controllerId);
       m_movementBuffer = glm::FromAEX(input);
     }
   }
-  
-  if (m_movementBuffer != glm::vec2(0,0))
+
+  if (m_movementBuffer != glm::vec2(0, 0))
     m_lastMovementBuffer = m_movementBuffer;
 }
 
 void InputSystem::UpdateActions(int controllerId) {
-  if (controllerId == -1 ) {
-    for (auto &action : m_keyboardActions) {
+  if (controllerId == -1) {
+    for (auto &action: m_keyboardActions) {
       if (AEInputKeyTriggered(action.second[0])) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
@@ -93,8 +87,8 @@ void InputSystem::UpdateActions(int controllerId) {
       }
     }
   } else {
-    for (auto &action : m_gamepadActions) {
-      if (AEInputGamepadButtonTriggered(controllerId,ToGamepadKey(action.second[0]))) {
+    for (auto &action: m_gamepadActions) {
+      if (AEInputGamepadButtonTriggered(controllerId, ToGamepadKey(action.second[0]))) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
         return;
@@ -129,12 +123,12 @@ int ToGamepadKey(char button) {
 }
 
 int InputSystem::CheckControllers() {
-  for (int i = 0; i<=3; i++) {
-    if (AEInputGamepadConnected(i)){
+  for (int i = 0; i <= 3; i++) {
+    if (AEInputGamepadConnected(i)) {
       return i;
     }
   }
   return -1;
 }
 
-} // namespace FNFE
+} // namespace Sigma

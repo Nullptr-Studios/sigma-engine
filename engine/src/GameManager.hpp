@@ -34,8 +34,7 @@ class CollisionSystem;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager
-{
+class GameManager {
 public:
   /**
    * @brief Initialization of alpha engine and base sigma classes
@@ -44,10 +43,10 @@ public:
    * @param width window width
    * @param height window height
    */
-  GameManager(const char* title, int width, int height);
+  GameManager(const char *title, int width, int height);
   ~GameManager();
 
-  static GameManager* GetInstance() { return m_instance; }
+  static GameManager *GetInstance() { return m_instance; }
 
 
   /**
@@ -69,18 +68,17 @@ public:
 
   void LoadSubScene(Scene *scene);
 
-  void UnloadSubScene(Scene* scene);
+  void UnloadSubScene(Scene *scene);
 
   void UnloadSubScene(int id);
 
-  Scene* GetCurrentScene() { return m_currentScene; }
+  Scene *GetCurrentScene() { return m_currentScene; }
 
-  AudioEngine* GetAudioEngine() { return m_audioEngine.get(); }
+  AudioEngine *GetAudioEngine() { return m_audioEngine.get(); }
 
   void OnEvent(Event &e);
 
 private:
-
   // Debug stuff
   void DebugProfiler();
   std::chrono::duration<double> m_timeCollisions;
@@ -89,12 +87,12 @@ private:
   std::chrono::duration<double> m_timeSound;
 
   bool m_debug = true;
-  
-  static GameManager* m_instance;
+
+  static GameManager *m_instance;
 
   void GameInit();
 
-  const char* m_title;
+  const char *m_title;
   int m_width;
   int m_height;
 
@@ -108,4 +106,4 @@ private:
   std::unordered_map<int, Scene *> m_subScenes;
 };
 
-} // Sigma
+} // namespace Sigma
