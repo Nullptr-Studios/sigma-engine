@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 project(sigma)
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 23)
 
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
         "src/*.cpp"
@@ -28,6 +28,6 @@ target_include_directories(sigma PUBLIC lib/json/single_include/nlohmann/)
 target_precompile_headers(sigma PRIVATE src/pch.hpp)
         
 # glm library
-add_subdirectory(lib/glm/glm)
+add_subdirectory(lib/glm)
 target_link_libraries(sigma PUBLIC glm::glm)
 target_include_directories(sigma PUBLIC lib/glm)

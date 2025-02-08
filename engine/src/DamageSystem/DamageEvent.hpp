@@ -12,11 +12,14 @@
 namespace Sigma::Damage {
 
 enum DamageType {
-  PHYSICAL,
+  DAMAGE,
   THROW
 };
 
-/// @brief Class for Damage Events
+/**
+ * @class DamageEvent
+ * @brief Event that is sent when an object deals damage to another object
+ */
 class DamageEvent : public Collision::CollisionEvent {
   float m_damageAmount;
   DamageType m_damageType;

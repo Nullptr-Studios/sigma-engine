@@ -76,7 +76,7 @@ void InputSystem::UpdateActions(int controllerId) {
       if (AEInputKeyTriggered(action.second[0])) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
-        //std::cout << action.first << std::endl;
+        // std::cout << action.first << std::endl;
         return;
       }
     }

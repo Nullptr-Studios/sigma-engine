@@ -11,10 +11,15 @@
 #include <glm/vec3.hpp>
 #include "Core.hpp"
 
-#include "DamageSystem/DamageEvent.hpp"
+// The code was crosslinked, using forward declarations -d
+// #include "DamageSystem/DamageEvent.hpp"
 
 namespace Sigma {
 class Actor;
+
+namespace Damage {
+enum DamageType : int;
+}
 
 namespace Collision {
 
@@ -34,6 +39,8 @@ enum ColliderType {
   DAMAGE
 };
 
+
+
 /**
  * @struct BoxCollider 
  * @brief A struct for a rectangular sized collider
@@ -43,6 +50,7 @@ struct BoxCollider {
 
   ColliderFlag flag; ///< @brief Bitwise enum for what can the collider collide with
   ColliderType type; ///< @brief Enum that stores if the collider is used for collision or for dealing damage
+  Damage::DamageType damageType; ///< @brief Type of damage the collider does
   
   /**
    * @struct Box
@@ -102,7 +110,6 @@ struct BoxCollider {
   //todo: set collider damage elsewhere
   float depth = 10.0f; ///< @brief Z Depth of the collider for 2.5D
   float damage = 0.0f; ///< @brief Damage the attack does (only useful for DMG type colliders)
-  Damage::DamageType  damageType = Damage::PHYSICAL; ///<@brief Damage type of the attack
   
   /**
    * @brief Initializes collider by setting the flags and the type
