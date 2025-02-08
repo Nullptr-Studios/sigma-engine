@@ -28,7 +28,7 @@ struct TextureAtlas;
  */
 class AnimationComponent {
 public:
-  AnimationComponent(Sigma::Actor *owner) : m_owner(owner) {};
+  explicit AnimationComponent(Sigma::Actor *owner) : m_owner(owner), m_texAtlas(nullptr), m_currentFrame(nullptr) {};
   ~AnimationComponent() { ClearCallbacks(); }
 
   /**
@@ -111,10 +111,22 @@ public:
   Frame *GetCurrentFrame() { return m_currentFrame; }
 
 
+  /**
+   * @brief Set the loop of the animation
+   * @param loop Loop the animation
+   */
   void SetLoop(bool loop) { m_loop = loop; }
 
+  /**
+   * @brief Gets if the animation is playing
+   * @return is playing
+   */
   bool IsPlaying() const { return m_isPlaying; }
 
+  /**
+   * @brief Get if the animation is looping
+   * @return is looping
+   */
   bool IsLooping() const { return m_loop; }
   
   // Playback events
@@ -143,6 +155,8 @@ public:
 
 private:
 
+  // Animation Event callbacks
+  // tell me if you want more -d
   std::function<void(std::string)> m_onAnimationEnd;
   std::function<void(std::string,unsigned short)> m_onAnimationChangeFrame;
   
