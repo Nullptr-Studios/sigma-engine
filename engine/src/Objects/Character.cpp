@@ -29,9 +29,11 @@ void Character::Init() {
 void Character::Start() {
   Actor::Start();
 
-  if (!m_jsonPath.empty()) Serialize();
+  if (!m_jsonPath.empty())
+    Serialize();
 #ifdef ATTACK_ERRORS
-  else std::cerr << "[Character] No json found for " << GetName() << ". Using default values.";
+  else
+    std::cerr << "[Character] No json found for " << GetName() << ". Using default values.";
 #endif
 
   m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
@@ -40,8 +42,9 @@ void Character::Start() {
 
 void Character::Update(double delta) {
   Actor::Update(delta);
-  UpdateMovement(delta);
+  Character::UpdateMovement(delta);
   UpdateCombat(delta);
+  m_animComp->Update(delta);
 }
 
 /**
@@ -51,15 +54,16 @@ void Character::Update(double delta) {
  * @param j The json file
  * @param jsonKey The combo key to search on the json
  */
-void LoadCombo(std::vector<Combat::Move>* combo, json j, const std::string& jsonKey) {
+void LoadCombo(std::vector<Combat::Move> *combo, json j, const std::string &jsonKey) {
   combo->resize(j[jsonKey].size());
   for (int i = 0; i < j[jsonKey].size(); i++) {
     auto move = j[jsonKey][i];
 
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-    combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
-    combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
+    combo->operator[](i).colliderOffset = {move["colliderOffset"]["x"], move["colliderOffset"]["y"]};
+    combo->operator[](i).colliderSize = {move["colliderSize"]["x"], move["colliderSize"]["y"],
+                                         move["colliderSize"]["z"]};
     combo->operator[](i).animationName = move["animationName"];
   }
 }
@@ -86,9 +90,11 @@ void Character::Serialize() {
   // Checks
 #ifdef ATTACK_ERRORS
   if (m_basicDefault.size() != m_basicAir.size())
-    std::cout << "[Attack] Basic attack does not match sizes, Default is " << m_basicDefault.size() << " and Air is " << m_basicAir.size() << "\n";
+    std::cout << "[Attack] Basic attack does not match sizes, Default is " << m_basicDefault.size() << " and Air is "
+              << m_basicAir.size() << "\n";
   if (m_superDefault.size() != m_superAir.size())
-    std::cout << "[Attack] Super attack does not match sizes, Default is " << m_superDefault.size() << " and Air is " << m_superAir.size() << "\n";
+    std::cout << "[Attack] Super attack does not match sizes, Default is " << m_superDefault.size() << " and Air is "
+              << m_superAir.size() << "\n";
 #endif
 }
 
@@ -150,7 +156,7 @@ void Character::UpdateMovement(double delta) {
       // glm::min(velocity.x, 0.0f);
     }
   }
-  
+
   // Apply deceleration when no input is given in Y axis
   if (!isJumping) {
     if (std::abs(velocity.y) > 0.01f) {
@@ -169,17 +175,16 @@ void Character::UpdateMovement(double delta) {
   }
 
   // Calculate if in bounds
-  if (m_sceneBoundsPoly != nullptr)
-  {
-    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor); 
+  if (m_sceneBoundsPoly != nullptr) {
+    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
 
     newPos.x += velocity.x * delta;
     if (!m_sceneBoundsPoly->isPointInside(newPos)) {
       velocity.x = 0.0f;
     }
-    
+
     if (!isJumping) {
-      newPos = transform.position; 
+      newPos = transform.position;
 
       newPos.y += velocity.y * delta;
       if (!m_sceneBoundsPoly->isPointInside(newPos)) {
@@ -199,11 +204,10 @@ void Character::UpdateMovement(double delta) {
     isJumping = false;
   }
 
-  
-  //Update Z
+
+  // Update Z
   if (!isJumping)
     transform.position.z = -transform.position.y;
-  
 }
 
 #pragma endregion
@@ -230,20 +234,21 @@ void Character::UpdateCombat(double delta) {
 // When my pookie dario has the animation system callbacks the collider should be enabled there
 // This works for now but will change later on -x
 void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
-  m_attackCollider->box.Set(size.x/2, size.x/2, size.y/2, size.y/2, offset);
+  m_attackCollider->box.Set(size.x / 2, size.x / 2, size.y / 2, size.y / 2, offset);
   m_attackCollider->depth = size.z;
   m_attackCollider->damage = damage;
   m_attackCollider->enabled = true;
 }
 
 void Character::BasicAttack() {
-  if (!m_isIdle) return;
+  if (!m_isIdle)
+    return;
 
   m_basicCombo++;
   m_hitTimer = 0;
   m_inCombo = true;
   ResetSuper();
- 
+
   if (!isJumping) {
     auto move = m_basicDefault[m_basicCombo - 1];
 #ifdef ATTACK_DEBUG
@@ -259,11 +264,13 @@ void Character::BasicAttack() {
   }
 
   // I'm using only the count from the default variant since both should have the same number -x
-  if (m_basicCombo >= m_basicDefault.size()) ResetBasic();
+  if (m_basicCombo >= m_basicDefault.size())
+    ResetBasic();
 }
 
 void Character::SuperAttack() {
-  if (!m_isIdle) return;
+  if (!m_isIdle)
+    return;
 
   m_superCombo++;
   m_hitTimer = 0;
@@ -279,12 +286,13 @@ void Character::SuperAttack() {
   } else {
     auto move = m_superAir[m_superCombo - 1];
 #ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " <<move.animationName << "\n";
+    std::cout << "[Attack] " << move.animationName << "\n";
 #endif
     SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
-  if (m_superCombo >= m_superDefault.size()) ResetSuper();
+  if (m_superCombo >= m_superDefault.size())
+    ResetSuper();
 }
 
 #pragma endregion

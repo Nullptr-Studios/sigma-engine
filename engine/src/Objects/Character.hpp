@@ -96,12 +96,8 @@ public:
   ~Character() override;
 
   void Init() override;
-  void Start() override { Actor::Start(); };
-  void Update(double delta) override {
-    Actor::Update(delta);
-    Character::UpdateMovement(delta);
-    m_animComp->Update(delta);
-  };
+  void Start() override;
+  void Update(double delta) override; 
   void Destroy() override { Actor::Destroy(); };
 
   void Serialize();
@@ -117,7 +113,7 @@ public:
   void BasicAttack();
   void SuperAttack();
  
-  glm::mat3& GetTextureTransform() override;
+  glm::mat3* GetTextureTransform() override;
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
 
@@ -133,8 +129,6 @@ private:
 #pragma region MovementSystem
   void UpdateMovement(double delta);
  
-  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
-
   float maxSpeed = 400.0f; ///< @brief character max velocity
   float accelerationRate = 25.0f; ///< @brief character acceleration
   float gravity = -5000.f;
