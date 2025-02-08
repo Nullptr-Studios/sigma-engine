@@ -75,8 +75,16 @@ public:
    * @param callbackName Name of the callback
    * @param callback Callback function
    * @return True if the callback was added successfully
+   *
+   * @note You will need to add in the json frame a member called "callback" with the name of the callback in order to be caller
    */
-  bool AddCallback(const std::string &callbackName, const std::function<void()> &callback);
+  bool AddCallback(const std::string &callbackName, const std::function<void(std::string, unsigned short, bool)> &callback);
+
+  /**
+   * @brief Remove a callback from the animation
+   * @param callbackName Name of the callback
+   */
+  void RemoveCallback(const std::string &callbackName);
 
   /**
    * @brief Remove a callback from the animation
@@ -136,7 +144,7 @@ public:
 private:
 
   std::function<void(std::string)> m_onAnimationEnd;
-  std::function<void(std::string,short)> m_onAnimationChangeFrame;
+  std::function<void(std::string,unsigned short)> m_onAnimationChangeFrame;
   
   /**
    * @brief Update the texture matrix

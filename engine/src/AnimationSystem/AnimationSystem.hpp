@@ -16,7 +16,14 @@ struct Transform;
 }
 namespace Sigma::Animation {
 
-typedef std::unordered_map<std::string, std::function<void()>>
+/**
+ * @brief Type definition for the animation callback map
+ *
+ * @note string is the name of the callback
+ * @note unsigned short is the frame index
+ * @note bool is the loop status
+ */
+typedef std::unordered_map<std::string, std::function<void(std::string, unsigned short, bool)>>
     AnimationCallbackMap; ///< @typedef AnimationCallbackMap @brief Type definition for the animation callback map
 
 /// @brief Struct to hold the frame data

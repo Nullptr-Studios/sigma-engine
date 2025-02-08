@@ -24,27 +24,14 @@ int ToGamepadKey(char button);
  */
 class InputSystem {
 public:
-  InputSystem(const std::string &keybindPath);
+  explicit InputSystem(const std::string &keybindPath);
 
   /**
    * @brief updates all the buffers with corresponding input from the controller
    * @param controllerId the id of the controller -1 for keyboard
    */
   void UpdateInput(int controllerId);
-
-  /**
-   * @brief updates the direction buffer usally for movement all
-   * values will be from [-1,1] for x and y values
-   * @param controllerId the id of the controller -1 for keyboard
-   */
-  void UpdateDirection(int controllerId);
-
-  /**
-   * @brief updates the player actions
-   * @param controllerId the id of the controller -1 for the keyboard
-   */
-  void UpdateActions(int controllerId);
-
+  
   /**
    * @brief returns the next action of the player and sets the buffer to NULL_ACTION
    * @return next action of the player
@@ -64,7 +51,6 @@ public:
   glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
 
 
-  // TODO: make this controller thing work in multiplayer
   /**
    * @brief returns controller id
    * @return controller id for player controller
@@ -72,6 +58,22 @@ public:
   int CheckControllers();
 
 private:
+
+  /**
+   * @brief updates the direction buffer usally for movement all
+   * values will be from [-1,1] for x and y values
+   * @param controllerId the id of the controller -1 for keyboard
+   */
+  void UpdateDirection(int controllerId);
+
+  /**
+   * @brief updates the player actions
+   * @param controllerId the id of the controller -1 for the keyboard
+   */
+  void UpdateActions(int controllerId);
+
+
+  
   std::unordered_map<std::string, std::string> m_keyboardActions{};
   std::unordered_map<std::string, std::string> m_keyboardMovement{};
   std::unordered_map<std::string, std::string> m_gamepadActions{};
