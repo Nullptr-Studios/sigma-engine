@@ -169,7 +169,26 @@ void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *texMtx, c
 void Sigma::Animation::AnimationSystem::UpdateSpriteOffset(Transform *transform, const Frame *frame,
                                                            const TextureAtlas *atlas)
 {
-  glm::vec3 pivotOffset = {(frame->pivot.x-.5f) * frame->frameSize.x * transform->relativeScale.x,
-                           (frame->pivot.y-.5f) * frame->frameSize.y * transform->relativeScale.y, 0};
-  transform->offset = pivotOffset;
+  glm::vec3 pivotOffset = {((frame->pivot.x+.5f) * frame->spriteSourceSize.x) * transform->relativeScale.x,
+                           ((frame->pivot.y-.5f) * frame->spriteSourceSize.y) * transform->relativeScale.y, 0};
+  glm::vec3 trimOffset = {frame->spriteSourceSize.x * transform->relativeScale.x,
+                          frame->spriteSourceSize.y * transform->relativeScale.y, 0};
+
+  //DebugSpriteTransform(transform->position, transform->offset, frame->pivot, frame->spriteSourceSize, frame->spriteSourcePosition, transform->relativeScale,  -pivotOffset + trimOffset);
+  transform->offset = -pivotOffset + trimOffset;
+}
+
+void Sigma::Animation::AnimationSystem::DebugSpriteTransform(const glm::vec2& position, const glm::vec2& offset, const  glm::vec2& pivot, 
+                          const glm::vec2& spriteSourceSize, const glm::vec2& spriteSourcePosition,
+                          const glm::vec2& relativeScale, const glm::vec2& finalPosition) 
+{
+  std::cout << "===== Debugging Sprite Transform =====\n";
+  std::cout << "Transform Position: (" << position.x << ", " << position.y << ")\n";
+  std::cout << "Offset: (" << offset.x << ", " << offset.y << ")\n";
+  std::cout << "Pivot: (" << pivot.x << ", " << pivot.y << ")\n";
+  std::cout << "Sprite Source Size: (" << spriteSourceSize.x << ", " << spriteSourceSize.y << ")\n";
+  std::cout << "Sprite Source Position: (" << spriteSourcePosition.x << ", " << spriteSourcePosition.y << ")\n";
+  std::cout << "Relative Scale: (" << relativeScale.x << ", " << relativeScale.y << ")\n";
+  std::cout << "Final Position: (" << finalPosition.x << ", " << finalPosition.y << ")\n";
+  std::cout << "======================================\n";
 }

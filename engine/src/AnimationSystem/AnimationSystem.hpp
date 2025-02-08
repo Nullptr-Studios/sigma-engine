@@ -108,6 +108,10 @@ public:
 private:
   static AnimationSystem *m_AnimSysinstance;
 
+  void DebugSpriteTransform(const glm::vec2& position, const glm::vec2& offset, const  glm::vec2& pivot, 
+                          const glm::vec2& spriteSourceSize, const glm::vec2& spriteSourcePosition,
+                          const glm::vec2& relativeScale, const glm::vec2& finalPosition); 
+
   std::unordered_map<std::string, TextureAtlas> m_loadedTextureAtlases;
 };
 
