@@ -299,6 +299,7 @@ dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
 
       return true;
     });
+
   dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
     {
       auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());

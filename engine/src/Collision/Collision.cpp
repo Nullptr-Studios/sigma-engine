@@ -34,10 +34,10 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
       if (!collisionY) continue;
 
       // Collision stuff -x
-      //TODO: somehow make this work?
+      //TODO: somehow make damagetype (parameter 5) depend on moves!
       if (obj1_collider->type == DAMAGE) {
-        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj1->GetId(), obj2, obj2_collider->type,
-        obj2_collider->damage);
+        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj2->GetId(), obj1, obj1_collider->type,
+        obj1_collider->damage, Damage::PHYSICAL);
         SendEvent(obj1_event);
       } else {
         CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
@@ -45,8 +45,8 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
       }
 
       if (obj2_collider->type == DAMAGE) {
-        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj2->GetId(), obj1, obj1_collider->type,
-        obj1_collider->damage);
+        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj1->GetId(), obj2, obj2_collider->type,
+        obj2_collider->damage, Damage::PHYSICAL);
         SendEvent(obj2_event);
       } else {
         CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
