@@ -26,8 +26,8 @@ public:
   void Draw() override;
 
 private:
-  Sigma::Camera * m_camea = nullptr;
   Sigma::Actor * m_background;
+  Sigma::Camera * m_camea = nullptr;
 };
 
 

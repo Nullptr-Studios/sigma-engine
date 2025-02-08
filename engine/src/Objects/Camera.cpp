@@ -38,16 +38,6 @@ void Camera::Update(double deltaTime) {
     AEGfxSetViewRectangle(client.x, client.y);
     UpdateMatrix();
   }
-  // DEBUG
-  AEGfxRect(0,0,0,viewport.x-1,viewport.y-1,AE_COLORS_BLUE);
-  AEGfxRect(0,0,0,viewport.x*.5,viewport.y *.5,AE_COLORS_BLUE);
-  auto mousedata = AEGetMouseData().position.ToVec3();
-  auto mousepos = glm::FromAEX(mousedata)*.01f;
-  int scale = 10;
-  mousepos.x = std::clamp(mousepos.x,-1.0f*scale,1.0f*scale);
-  mousepos.y = std::clamp(mousepos.y,-1.0f*scale,1.0f*scale);
-  LerpToPosition(mousepos,.3*AEGetFrameTime());
-  
 }
 
 void Camera::UpdateMatrix() {
@@ -62,8 +52,34 @@ void Camera::UpdateMatrix() {
   m_clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
 }
 
+glm::vec2 Camera::WorldToScreen(glm::vec2 worldPos) const {
+  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
+  return worldPos - cameraPos;
+}
+
+glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
+  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
+  return screenPos + cameraPos;
+}
+
 void Camera::LerpToPosition(glm::vec3 position, float delta) {
-  transform.position = glm::lerp(transform.position, position, delta);
+  glm::vec2 viewport;
+  AEGfxGetViewRectangle(&viewport.x, &viewport.y);
+  glm::vec2 screenPos = WorldToScreen({position.x,position.y});
+  screenPos = {screenPos.x/viewport.x*2,screenPos.y/viewport.y*2};// What region of the screen the object is at 1,1 being top right -1,-1 bottom left
+  std::ostringstream oss; // DEBUG
+  oss << screenPos.x << " " << screenPos.y << "\n";
+  if (-.25f < screenPos.x && screenPos.x < .25f && -.25f < screenPos.y && screenPos.y < .25f) {
+    transform.position = glm::lerp(transform.position, position, delta);
+    oss << "a";
+  } else if (-.75f < screenPos.x && screenPos.x < .75f && -.75f < screenPos.y && screenPos.y < .75f) {
+    transform.position = glm::lerp(transform.position, position, delta);
+    oss << "b";
+  } else {
+    transform.position = glm::lerp(transform.position, position, delta);
+    oss << "c";
+  }
+  AEGfxPrint(10, 240, 0xFFFFFFFF, oss.str().c_str());
 }
 
 

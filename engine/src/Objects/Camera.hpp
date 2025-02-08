@@ -39,10 +39,17 @@ public:
 
   /**
    * @brief will lerp camera toward target position
+   * will use diffrent levels of lerp depending on region
+   * of screen target is curently at
    * @param target posistion
    * @param delta percentage toward target
    */
   void LerpToPosition(glm::vec3 target, float delta);
+
+
+  glm::vec2 WorldToScreen(glm::vec2 worldPos) const;
+
+  glm::vec2 ScreenToWorld(glm::vec2 screenPos) const;
 
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)
