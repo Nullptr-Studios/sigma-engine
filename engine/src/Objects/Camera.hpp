@@ -55,7 +55,7 @@ public:
   glm::vec2 WorldToScreen(glm::vec2 worldPos) const;
 
   /**
-   * 
+   *
    * @param screenPos position on the screen such as mouse cordinates
    * @return the possition in the world the screenPos is corrolated too
    */

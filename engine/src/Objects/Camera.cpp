@@ -73,10 +73,10 @@ void Camera::LerpToPosition(glm::vec3 position, float delta) {
     transform.position = glm::lerp(transform.position, position, delta);
     // oss << "a";
   } else if (-.75f < screenPos.x && screenPos.x < .75f && -.75f < screenPos.y && screenPos.y < .75f) {
-    transform.position = glm::lerp(transform.position, position, delta);
+    transform.position = glm::lerp(transform.position, position, 3.0f*delta);
     // oss << "b";
   } else {
-    transform.position = glm::lerp(transform.position, position, delta);
+    transform.position = glm::lerp(transform.position, position, 10.0f * delta);
     // oss << "c";
   }
   // AEGfxPrint(10, 240, 0xFFFFFFFF, oss.str().c_str());

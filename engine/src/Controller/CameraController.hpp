@@ -5,12 +5,6 @@
  *
  * @brief script that controlls the camera
  * TODO: Lerp with enum EaseIn EaseOut EaseInOut
- * TODO: Slerp maybe
- * TODO: folling player
- *      Split the camera into quadrents
- *      Center Area where camera does not move (safe)
- *      Bigger Zone where the camera eases into position untill player is in safe()
- *      Edges of the screen where the camera veclocity speeds up (warning)
  */
 #pragma once
 #include "Objects/Object.hpp"
