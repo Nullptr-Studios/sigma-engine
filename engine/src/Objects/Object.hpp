@@ -9,7 +9,6 @@
 #pragma once
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
-#include "GlmAlphaTools.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -20,18 +19,22 @@ namespace Sigma {
 
 struct Transform {
   glm::vec3 position = glm::vec3(0.0f);
+  glm::vec3 offset = glm::vec3(0.0f);
   glm::vec2 scale = glm::vec2(100.0f);
   float rotation = 0.0f;
+  float localRotation = 0.0f; ///< @brief This rotation doesn't consider the offset of the pivot
 
   /**
    * @brief Calculates the matrix of the transform
-   * Uses translate * rotate * scale
+   * Uses translateLocal * rotateLocal * translateOffset * rotateOffset * scale
    * @return glm::mat3
    */
-  [[nodiscard]] glm::mat3& GetMatrix() const {
+  [[nodiscard]] glm::mat3 GetMatrix() const {
     //Changed this to use only one matrix -m
     glm::mat3 matrix;
     matrix = glm::translate(matrix, glm::vec2(position.x, position.y));
+    matrix = glm::rotate(matrix, localRotation);
+    matrix = glm::translate(matrix, glm::vec2(offset.x, offset.y));
     matrix = glm::rotate(matrix, rotation);
     matrix = glm::scale(matrix, scale);
     return matrix;
@@ -46,10 +49,25 @@ struct Transform {
     // Thy the fuck are Mtx33 and Mtx44 so different -x
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = glm::translate(matrix, position);
+    matrix = glm::rotate(matrix, localRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    matrix = glm::translate(matrix, offset);
     matrix = glm::rotate(matrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     matrix = glm::scale(matrix, glm::vec3(scale.x, scale.y, 1.0f));
     return matrix;
   }
+
+  /**
+   * @brief Returns the pivot world coordinates
+   *
+   * Insetead of using local coordinates, you can offset the pivot of any object so that it isn't always in the center
+   * This is useful for rotating objects from a point different to its center
+   *
+   * This function will return the world coordinates of the pivot of the object so you can calculate distance between 
+   * object pivots for whatever reason you need to do it
+   *
+   * @return glm::vec3
+   */
+  [[nodiscard]] glm::vec3 GetPivot() const { return position + offset; }
 };
 
 // At least give me credit for copying this from my engine -x
