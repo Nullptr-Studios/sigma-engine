@@ -1,6 +1,5 @@
 #include "Character.hpp"
 #include "Collision/Collider.hpp"
-#include "json.hpp"
 
 #define ATTACK_ERRORS
 #define ATTACK_DEBUG
@@ -9,32 +8,26 @@
 #include "GameScene.hpp"
 #include "Polygon.hpp"
 
+#include "Core.hpp"
+
 namespace Sigma {
-using json = nlohmann::json;
 
 Character::~Character() = default;
 
 void Character::Init() {
   Damageable::Init();
 
+  // Create anim component
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
-  GameScene *scene = dynamic_cast<GameScene *>(GET_SCENE);
-  if (scene == nullptr) {
+
+  // Tries to get Scene Bounds
+  auto* scene = dynamic_cast<GameScene*>(GET_SCENE);
+  if (scene == nullptr)
     std::cerr << "[Character] " << GetName() << " failed to get GameScene\n";
-    return;
-  }
-  m_sceneBoundsPoly = dynamic_cast<GameScene *>(GET_SCENE)->GetSceneBoundsPoly();
-}
+  else
+    m_sceneBoundsPoly = scene->GetSceneBoundsPoly();
 
-// TODO: logic
-void Character::OnDamage(const Damage::DamageEvent &e) {
-  Damageable::OnDamage(e);
-}
-
-
-void Character::Start() {
-  Damageable::Start();
-
+  // Json Serialization logic
   if (!m_jsonPath.empty())
     Serialize();
 #ifdef ATTACK_ERRORS
@@ -42,17 +35,38 @@ void Character::Start() {
     std::cerr << "[Character] No json found for " << GetName() << ". Using default values.\n";
 #endif
 
+  // Create collider
+  // TODO: Idunno if thos is the way to create colliders -d
   m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
   m_attackCollider->enabled = false;
 }
 
+
+void Character::Start() {
+  Damageable::Start();
+}
+
 void Character::Update(double delta) {
   Damageable::Update(delta);
+  
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
+  
   m_animComp->Update(delta);
 }
 
+// TODO: character damage logic
+void Character::OnDamage(const Damage::DamageEvent &e) {
+  Damageable::OnDamage(e);
+}
+
+glm::mat3 *Character::GetTextureTransform() {
+  auto mtx = m_animComp->GetTextureMatrix();
+  m_tMtx = glm::FromAEX(mtx);
+  return &m_tMtx;
+}
+
+#pragma region Serialization
 /**
  * @brief Helper function to load a combo
  *
@@ -60,7 +74,7 @@ void Character::Update(double delta) {
  * @param j The json file
  * @param jsonKey The combo key to search on the json
  */
-void LoadCombo(std::vector<Combat::Move> *combo, json j, const std::string &jsonKey) {
+void LoadCombo(std::vector<Combat::Move> *combo, json_t j, const std::string &jsonKey) {
   combo->resize(j[jsonKey].size());
   for (int i = 0; i < j[jsonKey].size(); i++) {
     auto move = j[jsonKey][i];
@@ -74,6 +88,7 @@ void LoadCombo(std::vector<Combat::Move> *combo, json j, const std::string &json
   }
 }
 
+
 void Character::Serialize() {
 
   std::ifstream file(m_jsonPath);
@@ -81,7 +96,7 @@ void Character::Serialize() {
     std::cout << "[InputSystem] failed to open JSON file " << m_jsonPath << '\n';
     return;
   }
-  json j = json::parse(file);
+  json_t j = json_t::parse(file);
 
   // Load character variables
   maxSpeed = j["maxSpeed"];
@@ -104,16 +119,7 @@ void Character::Serialize() {
 #endif
 }
 
-glm::mat3 *Character::GetTextureTransform() {
-  /*if (m_animComp == nullptr) {
-    m_tMtx = glm::mat3(1.0f);
-    return m_tMtx;
-  }*/
-  // Actor::GetTextureTransform();
-  auto mtx = m_animComp->GetTextureMatrix();
-  m_tMtx = glm::FromAEX(mtx);
-  return &m_tMtx;
-}
+#pragma endregion
 
 #pragma region MovementSystem
 

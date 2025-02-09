@@ -8,6 +8,7 @@
 
 #pragma once
 
+
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
 #include "Damageable.hpp"
@@ -15,16 +16,17 @@
 namespace Sigma {
 class Polygon;
 
-namespace Combat{
+#pragma region Combat
+namespace Combat {
 
 /**
  * @enum MoveType
  * @brief Holds all the diferent types of moves
- */ 
+ */
 enum MoveType {
   DMG = 0, ///< @brief This move only does damage (default)
   GRB = 1, ///< @brief This move grabs the enemy as well
-  THR = 2  ///< @brief This move throws the enemy and stuns them
+  THR = 2 ///< @brief This move throws the enemy and stuns them
 };
 
 /**
@@ -33,9 +35,11 @@ enum MoveType {
  * @param value String to convert
  * @return MoveType value
  */
-inline MoveType GetMoveType(const std::string& value) {
-  if (value == "grb" || value == "GRB") return GRB;
-  else if (value == "thr" || value == "THR") return THR;
+inline MoveType GetMoveType(const std::string &value) {
+  if (value == "grb" || value == "GRB")
+    return GRB;
+  else if (value == "thr" || value == "THR")
+    return THR;
   return DMG;
 }
 
@@ -55,7 +59,8 @@ struct Move {
    * This generates an empty move struct, only used for develompemt purposes
    */
   Move() {
-    type = DMG; damage = 10.0f;
+    type = DMG;
+    damage = 10.0f;
     colliderOffset = glm::vec2(0.0f);
     colliderSize = glm::vec3(0.0f);
     animationName = "";
@@ -72,7 +77,8 @@ struct Move {
    * @param size Defines the collider
    * @param animation Path of the animation for the move
    */
-  Move(const MoveType type, const float damage, const glm::vec2 offset, const glm::vec3 size, const std::string& animation) {
+  Move(const MoveType type, const float damage, const glm::vec2 offset, const glm::vec3 size,
+       const std::string &animation) {
     this->type = type;
     this->damage = damage;
     colliderOffset = offset;
@@ -81,7 +87,9 @@ struct Move {
   }
 };
 
-}
+} // namespace Combat
+
+#pragma endregion
 
 /**
  * @class Character
@@ -93,61 +101,57 @@ struct Move {
 class Character : public Damageable {
 public:
   explicit Character(id_t id) : Damageable(id) {}
+  Character(id_t id, std::string jsonPath) : Damageable(id), m_jsonPath(std::move(jsonPath)) {}
   ~Character() override;
 
   void Init() override;
   void Start() override;
-  void Update(double delta) override; 
-  void Destroy() override { Damageable::Destroy(); };
-
-  void Serialize();
-  void SetJsonPath(const std::string& path) { m_jsonPath = path; }
-
+  void Update(double delta) override;
+  
+  glm::mat3 *GetTextureTransform() override;
 
   void OnDamage(const Damage::DamageEvent &e) override;
 
+  void Serialize();
+
 #pragma region MovementSystem
-  
+
   void Move(glm::vec2 direction);
   void Jump();
 
+  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 #pragma endregion
 
   void BasicAttack();
   void SuperAttack();
- 
-  glm::mat3* GetTextureTransform() override;
-
-  glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
 
 private:
   
-
-  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   std::string m_jsonPath;
 
   Polygon *m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
   void UpdateMovement(double delta);
- 
+
   float maxSpeed = 400.0f; ///< @brief character max velocity
   float accelerationRate = 25.0f; ///< @brief character acceleration
   float gravity = -5000.f;
   float friction = 2000.f; ///< @brief character friction
   float jumpVel = 2500.0f; ///< @brief character jump velocity
   float terminalVel = 1000.0f; ///< @brief character terminal velocity
-  bool  isJumping = false; ///< @brief character jump status
- 
+  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
+  bool isJumping = false; ///< @brief character jump status
+
   void PrintStatus() {};
 #pragma endregion
- 
+
 #pragma region Combat
   void UpdateCombat(double delta);
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
- 
+
   std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
   /**
    * @brief Sets the Attack Collider information
@@ -166,16 +170,15 @@ private:
 
   // TODO: I need animation callbacks for this pookie 😘
   // TODO: Animation callbacks were working since last week 😘 -d
-  bool m_isIdle = true;   ///< @brief Returns false if player is currently doing an animation (avoids spammability)
+  bool m_isIdle = true; ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 
-  unsigned char m_basicCombo = 0;  ///< @brief Combo status for default attack
-  unsigned char m_superCombo = 0;  ///< @brief Combo status for super attack
- 
+  unsigned char m_basicCombo = 0; ///< @brief Combo status for default attack
+  unsigned char m_superCombo = 0; ///< @brief Combo status for super attack
+
   double m_hitTimer = 0.0f;
   double m_restartTime = 1.6f;
 #pragma endregion
-
 };
 
 } // namespace Sigma
