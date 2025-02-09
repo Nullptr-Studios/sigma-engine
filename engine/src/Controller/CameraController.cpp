@@ -19,7 +19,10 @@ Camera *CameraController::GetCurrentCamera() {
   return m_currentCamera;
 }
 void CameraController::SetCurrentCamera(Camera *camera) {
-  // TODO: events
+  if (m_currentCamera) {
+    m_currentCamera->SetActive(false);
+  }
+  camera->SetActive(true);
   m_currentCamera = camera;
 }
 void CameraController::Start() {

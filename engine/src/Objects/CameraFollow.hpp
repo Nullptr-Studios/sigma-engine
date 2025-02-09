@@ -3,7 +3,9 @@
  * @author dante
  * @date 2/8/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief Camera that will follow an actor based on regions
+ * of the camera and will apply diffrent rates/methods based on region of camera
+ * object is based in
  */
 #pragma once
 #include "Camera.hpp"
@@ -20,8 +22,8 @@ public:
   
   
   Actor * m_target; ///<@brief target to follow
-  glm::vec4 m_safeZone; ///@brief centermost zone
-  glm::vec4 m_warningZone; ///@brief middle zone
+  glm::vec4 m_safeZone; ///@brief centermost zone (-x,x,-y,y)
+  glm::vec4 m_warningZone; ///@brief middle zone (-x,x,-y,y)
 private:
   /**
    * @brief will lerp camera toward target position

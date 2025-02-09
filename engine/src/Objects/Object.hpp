@@ -159,6 +159,9 @@ public:
 
   [[nodiscard]] Collision::BoxCollider* GetCollider() { return m_collider.get(); }
 
+  bool IsActive() {return m_active;}
+  void SetActive(bool state) {m_active = state;}
+
 protected:
   std::unique_ptr<Collision::BoxCollider> m_collider = nullptr;
 
