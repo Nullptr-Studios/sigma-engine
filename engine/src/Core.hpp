@@ -46,7 +46,8 @@ enum EngineState : unsigned char {
   ENGINE_INIT, ///< @brief The engine is initializing
   SCENE_LOAD, ///< @brief A scene is currently being loaded
   IN_GAME, ///< @brief The engine has loaded everything and is running a scene
-  SCENE_UNLOAD, ///< @brief A scene is currently being unloaded
+  SUB_SCENE_LOAD, ///< @brief A sub scene is currently being loaded
+  SUB_SCENE_UNLOAD, ///< @brief A sub scene is currently being unloaded
   ENGINE_EXIT, ///< @brief The engine is stopping all its processes
 };
 

@@ -277,6 +277,8 @@ void GameManager::LoadScene(Scene *scene) {
 
   PROFILER_START
 
+  StateManager::SetEngineState(SCENE_LOAD);
+
   if (scene == nullptr) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
@@ -306,12 +308,16 @@ void GameManager::LoadScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
             << " loaded!" << std::endl;
 
+  StateManager::SetEngineState(IN_GAME);
+
   PROFILER_END("GameManager::LoadScene")
 }
 
 void GameManager::LoadSubScene(Scene *scene) {
 
   PROFILER_START
+
+  StateManager::SetEngineState(SUB_SCENE_LOAD);
 
   if (m_subScenes.contains(scene->GetID())) {
     std::cout << "[GameManager]: SubScene already loaded \n";
@@ -326,31 +332,33 @@ void GameManager::LoadSubScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded as a SubScene!"
             << std::endl;
 
+  StateManager::SetEngineState(IN_GAME);
+
   PROFILER_END("GameManager::LoadSubScene")
 }
 
-void GameManager::UnloadSubScene(Scene *scene) {
-  if (m_subScenes.contains(scene->GetID())) {
-    scene->Free();
-    scene->Unload();
-    m_subScenes.erase(scene->GetID());
-    delete scene;
-    return;
-  }
-  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-            << " not found in SubScenes!" << std::endl;
+void GameManager::UnloadSubScene(const Scene *scene) {
+  UnloadSubScene(scene->GetID()); 
 }
 
-void GameManager::UnloadSubScene(const int id) {
+void GameManager::UnloadSubScene(const int id)
+{
+  PROFILER_START
+  
   if (m_subScenes.contains(id)) {
+    StateManager::SetEngineState(SUB_SCENE_UNLOAD);
     Scene *scene = m_subScenes[id];
     scene->Free();
     scene->Unload();
     m_subScenes.erase(id);
     delete scene;
+    StateManager::SetEngineState(IN_GAME);
+    PROFILER_END("GameManager::UnloadSubScene")
     return;
   }
   std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
+  
+  PROFILER_END("GameManager::UnloadSubScene")
 }
 #pragma endregion
 

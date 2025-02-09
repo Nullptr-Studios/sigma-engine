@@ -36,6 +36,7 @@ class CollisionSystem;
  */
 class GameManager {
 public:
+  
   /**
    * @brief Initialization of alpha engine and base sigma classes
    *
@@ -52,8 +53,7 @@ public:
    * @return GameManager* pointer to the GameManager instance
    */
   static GameManager *GetInstance() { return m_instance; }
-
-
+  
   /**
    * @brief Main engine loop
    */
@@ -64,6 +64,7 @@ public:
    */
   void Uninitialize();
 
+#pragma region SceneManagement
   /**
    * @brief Loads a scene and unloads the currently loaded scene
    *
@@ -74,7 +75,7 @@ public:
   /**
    * @brief Loads a sub scene
    *
-   * @param id id of the sub scene to load
+   * @param scene
    */
   void LoadSubScene(Scene *scene);
 
@@ -83,7 +84,7 @@ public:
    *
    * @param scene scene to unload
    */
-  void UnloadSubScene(Scene *scene);
+  void UnloadSubScene(const Scene *scene);
 
   /**
    * @brief Unloads a sub scene
@@ -97,10 +98,11 @@ public:
    *
    * @return Scene* pointer to the current scene
    */
-  Scene *GetCurrentScene() { return m_currentScene; }
+  [[nodiscard]] Scene* GetCurrentScene() const { return m_currentScene; }
+#pragma endregion
 
   
-  AudioEngine *GetAudioEngine() { return m_audioEngine.get(); }
+  [[nodiscard]] AudioEngine *GetAudioEngine() const { return m_audioEngine.get(); }
 
   /**
    * @brief Event handler
@@ -114,10 +116,10 @@ private:
 #pragma region Profiler
   void DebugProfiler();
   
-  std::chrono::duration<double> m_timeCollisions;
-  std::chrono::duration<double> m_timeTick;
-  std::chrono::duration<double> m_timeRender;
-  std::chrono::duration<double> m_timeSound;
+  std::chrono::duration<double> m_timeCollisions{}{};
+  std::chrono::duration<double> m_timeTick{}{};
+  std::chrono::duration<double> m_timeRender{}{};
+  std::chrono::duration<double> m_timeSound{}{};
 
   bool m_debug = true;
 #pragma endregion
@@ -134,7 +136,7 @@ private:
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<Animation::AnimationSystem> m_animationSystem;
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
-  CameraController* m_cameraController;
+  CameraController* m_cameraController{}{};
 
   Scene *m_currentScene = nullptr;
   std::unordered_map<int, Scene *> m_subScenes;
