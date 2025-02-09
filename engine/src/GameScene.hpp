@@ -37,7 +37,7 @@ public:
    * @brief returns the current scene bounds
    * @return Polygon*
    */
-  Polygon *GetSceneBoundsPoly() const { return m_sceneBoundsPoly; }
+  [[nodiscard]] Polygon *GetSceneBoundsPoly() const { return m_sceneBoundsPoly; }
 
 private:
   bool m_debug = false;

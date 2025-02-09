@@ -17,7 +17,7 @@ public:
    *
    * @param points The list of points that define the polygon
    */
-  Polygon(const std::vector<glm::vec2> &points) : vertices(points) {
+  explicit Polygon(const std::vector<glm::vec2> &points) : vertices(points) {
     computeBounds();
     precomputeSlopes();
   }
@@ -28,23 +28,23 @@ public:
    * @param testPoint The point to check
    * @return true if the point is inside the polygon, false otherwise
    */
-  bool isPointInside(const glm::vec2 &testPoint) const {
+  [[nodiscard]] bool isPointInside(const glm::vec2 &testPoint) const {
     // Bounding box check
     if (testPoint.x < minBounds.x || testPoint.x > maxBounds.x || testPoint.y < minBounds.y ||
         testPoint.y > maxBounds.y)
       return false;
 
     int intersections = 0;
-    size_t n = vertices.size();
+    const size_t n = vertices.size();
 
     for (size_t i = 0; i < n; i++) {
-      glm::vec2 p1 = vertices[i];
-      glm::vec2 p2 = vertices[(i + 1) % n];
+      const glm::vec2 p1 = vertices[i];
 
-      if ((p1.y > testPoint.y) != (p2.y > testPoint.y)) { // Edge crosses testPoint.y
-        float x_intersect = p1.x + (testPoint.y - p1.y) * invSlopes[i];
+      if (glm::vec2 p2 = vertices[(i + 1) % n];
+          (p1.y > testPoint.y) != (p2.y > testPoint.y)) { // Edge crosses testPoint.y
 
-        if (testPoint.x < x_intersect) // Point is to the left of the intersection
+        if (float x_intersect = p1.x + (testPoint.y - p1.y) * invSlopes[i];
+            testPoint.x < x_intersect) // Point is to the left of the intersection
           intersections++;
       }
     }
@@ -75,11 +75,11 @@ private:
 
   //* Precompute the slopes of the edges for fast intersection tests
   void precomputeSlopes() {
-    size_t n = vertices.size();
+    const size_t n = vertices.size();
     invSlopes.resize(n);
     for (size_t i = 0; i < n; i++) {
-      glm::vec2 p1 = vertices[i];
-      glm::vec2 p2 = vertices[(i + 1) % n];
+      const glm::vec2 p1 = vertices[i];
+      const glm::vec2 p2 = vertices[(i + 1) % n];
       invSlopes[i] = (p2.y != p1.y) ? (p2.x - p1.x) / (p2.y - p1.y) : 0.0f;
     }
   }

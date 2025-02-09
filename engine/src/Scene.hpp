@@ -23,7 +23,7 @@ public:
     m_ID = ID;
   }
 
-  ~Scene() { delete m_name; }
+  virtual ~Scene() { delete m_name; }
 
   virtual void Load() {};
   virtual void Init() {}
