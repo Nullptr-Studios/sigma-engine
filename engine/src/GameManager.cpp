@@ -4,11 +4,13 @@
 #include "Collision/Collision.hpp"
 #include "Collision/CollisionEvent.hpp"
 #include "Controller/CameraController.hpp"
+#include "DamageSystem/DamageEvent.hpp"
 #include "Events/Event.hpp"
 #include "Events/MessageEvent.hpp"
 #include "Factory.hpp"
 #include "GlmAlphaTools.hpp"
 #include "Objects/Camera.hpp"
+#include "Objects/Character.hpp"
 #include "Scene.hpp"
 #include "StateManager.hpp"
 
@@ -240,6 +242,14 @@ void GameManager::OnEvent(Event &e) {
 
   EventDispatcher dispatcher(e);
 
+  dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
+    {
+      auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
+      if (const auto character = dynamic_cast<Character*>(obj)) character->OnDamage(damage);
+
+      return true;
+    });
+
   dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
     {
       auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
@@ -250,7 +260,7 @@ void GameManager::OnEvent(Event &e) {
 
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
-        [object](const MessageEvent &e) -> bool
+        [object](MessageEvent &e) -> bool
         {
           if (object->GetName() == e.GetReceiver())
             return object->OnMessage(e.GetSender());

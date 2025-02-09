@@ -26,6 +26,13 @@ void Character::Init() {
   m_sceneBoundsPoly = dynamic_cast<GameScene *>(GET_SCENE)->GetSceneBoundsPoly();
 }
 
+void Character::OnDamage(Damage::DamageEvent &e) {
+  float characterHealth = m_health - e.GetDamageAmount();
+  SetHealth(std::max(0.0f, characterHealth));
+  if (characterHealth <= 0) { m_isAlive = false; }
+}
+
+
 void Character::Start() {
   Actor::Start();
 

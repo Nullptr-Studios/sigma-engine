@@ -27,7 +27,12 @@ namespace Sigma {
  * differentiate between event types, allowing for specific handling logic to
  * be applied.
  */
-enum class EventType { NONE = 0, MESSAGE, COLLISION };
+enum class EventType {
+  NONE = 0,
+  MESSAGE,
+  COLLISION,
+  DAMAGE
+};
 
 /**
  * @macro EVENT_CLASS_TYPE
