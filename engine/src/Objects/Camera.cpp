@@ -45,7 +45,8 @@ void Camera::UpdateMatrix() {
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  m_clipMatrix = glm::ortho(-viewport.x/2, viewport.x/2 , -viewport.y/2,  viewport.y/2, m_near, m_far);
+  m_clipMatrix = glm::ortho(-viewport.x/(2 * size), viewport.x/(2 * size) ,
+    -viewport.y/(2 * size),  viewport.y/(2 * size), m_near, m_far);
 }
 
 } // namespace Sigma

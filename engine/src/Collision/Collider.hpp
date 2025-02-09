@@ -7,9 +7,9 @@
  */
 
 #pragma once
-#include "Core.hpp"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include "Core.hpp"
 
 namespace Sigma {
 class Actor;
@@ -82,18 +82,32 @@ struct BoxCollider {
     /**
      * @brief Sets the box colliders boundaries
      *
-     * @param left_ Left side of the box
-     * @param right_ Right side of the box
-     * @param top_ Top part of the box
-     * @param bottom_ Bottom part of the box
-     * @param offset_ Offset to move the center of the box outside the center of the object
+     * @param left Left side of the box
+     * @param right Right side of the box
+     * @param top Top part of the box
+     * @param bottom Bottom part of the box
+     * @param offset Offset to move the center of the box outside the center of the object
      */
-    void Set(float left_, float right_, float top_, float bottom_, glm::vec2 offset_ = {0.0f, 0.0f}) {
-      left = std::abs(left_);
-      right = std::abs(right_);
-      top = std::abs(top_);
-      bottom = std::abs(bottom_);
-      offset = offset_;
+    void Set(float left, float right, float top, float bottom, glm::vec2 offset = {0.0f, 0.0f}) {
+      this->left = std::abs(left);
+      this->right = std::abs(right);
+      this->top = std::abs(top);
+      this->bottom = std::abs(bottom);
+      this->offset = offset;
+    }
+
+    /**
+     * @brief Sets the box boundaries according to the object's scale
+     * This grabs the scale from the current object and set it equal to its size. Very useful for when
+     * you want the collider be the same size as the object
+     *
+     * @param scale vec2 representing scale in width-height
+     */
+    void Set(glm::vec2 scale) {
+      left = scale.x/2;
+      right = scale.x/2;
+      top = scale.y/2;
+      bottom = scale.y/2;
     }
   } box;
 
