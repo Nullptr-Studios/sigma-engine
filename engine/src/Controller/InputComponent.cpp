@@ -1,9 +1,9 @@
-#include "InputSystem.hpp"
 #include "GlmAlphaTools.hpp"
+#include "InputComponent.hpp"
 
 namespace Sigma {
 
-InputSystem::InputSystem(const std::string &keybindPath) {
+InputComponent::InputComponent(const std::string &keybindPath) {
 
   m_inputBuffer = {};
 
@@ -46,14 +46,14 @@ InputSystem::InputSystem(const std::string &keybindPath) {
   file.close();
 }
 
-void InputSystem::UpdateInput(int controllerId) {
+void InputComponent::UpdateInput(int controllerId) {
   // Use gamepad stick or keyboard keys for player movement
   UpdateDirection(controllerId);
   // Use Gamepad buttons vs keyboard keys for player actions
   UpdateActions(controllerId);
 }
 
-void InputSystem::UpdateDirection(int controllerId) {
+void InputComponent::UpdateDirection(int controllerId) {
   m_movementBuffer = {};
   if (controllerId == -1) {
     if (AEInputKeyPressed(m_keyboardMovement["up"][0]))
@@ -81,7 +81,7 @@ void InputSystem::UpdateDirection(int controllerId) {
     m_lastMovementBuffer.y = m_movementBuffer.y;
 }
 
-void InputSystem::UpdateActions(int controllerId) {
+void InputComponent::UpdateActions(int controllerId) {
   if (controllerId == -1) {
     for (auto &action: m_keyboardActions) {
       if (AEInputKeyTriggered(action.second[0])) {
@@ -106,7 +106,7 @@ void InputSystem::UpdateActions(int controllerId) {
   }
 }
 
-std::string InputSystem::GetAction() {
+std::string InputComponent::GetAction() {
   std::string tmp = m_inputBuffer;
   m_inputBuffer.clear();
   return tmp;
@@ -127,7 +127,7 @@ int ToGamepadKey(char button) {
   }
 }
 
-int InputSystem::CheckControllers() {
+int InputComponent::CheckControllers() {
   for (int i = 0; i <= 3; i++) {
     if (AEInputGamepadConnected(i)) {
       return i;

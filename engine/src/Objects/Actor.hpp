@@ -53,7 +53,7 @@ public:
    * @brief Sets the texture transform matrix
    * @param newTexMtx New texture matrix
    */
-  void SetTextureTransform(glm::mat3 &newTexMtx);
+  void SetTextureTransform(const glm::mat3 &newTexMtx);
 
   /**
    * @brief Gets the texture transform matrix
@@ -71,7 +71,7 @@ public:
    * @note it does not check the bounding box, only a point
    * @returns if in viewport
    */
-  bool IsInViewport();
+  [[nodiscard]] bool IsInViewport() const;
 
 #pragma endregion 
 

@@ -40,7 +40,7 @@ public:
 
   [[nodiscard]] float GetDamageAmount() const {return m_damageAmount;}  ///< @brief Gets the amount of damage dealt
   [[nodiscard]] DamageType GetDamageType() const {return m_damageType;} ///< @brief Gets type of damage dealt
-  void SetDamageType(DamageType dType) {m_damageType = dType; } ///< @brief Sets damage type to either PHYSICAL or THROW
+  void SetDamageType(const DamageType dType) {m_damageType = dType; } ///< @brief Sets damage type to either PHYSICAL or THROW
 
 /**
    * @brief Overrides the @c ToString function to provide a detailed string representation of the event.

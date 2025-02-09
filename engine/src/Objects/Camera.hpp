@@ -28,7 +28,7 @@ public:
   void Init() override;
   void Update(double deltaTime) override;
 
-  std::array<glm::mat4, 2> GetCameraMatrix() const { return {m_viewMatrix, m_clipMatrix}; } ///< @brief returns the final Camera Transformation
+  [[nodiscard]] std::array<glm::mat4, 2> GetCameraMatrix() const { return {m_viewMatrix, m_clipMatrix}; } ///< @brief returns the final Camera Transformation
   
   // WTF windows.h macroing "near" and "far" as if they weren't common english words -x
   /**

@@ -86,7 +86,7 @@ protected:
   explicit Object(const uint32_t id) : m_id(id) {}
 
 public:
-  virtual ~Object() {};
+  virtual ~Object() = default;
 
 public:
   // copy constructors

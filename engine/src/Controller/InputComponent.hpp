@@ -19,12 +19,12 @@ namespace Sigma {
 int ToGamepadKey(char button);
 
 /**
- * @class InputSystem
+ * @class InputComponent
  * @brief manages inputs and input buffers
  */
-class InputSystem {
+class InputComponent {
 public:
-  explicit InputSystem(const std::string &keybindPath);
+  explicit InputComponent(const std::string &keybindPath);
 
   /**
    * @brief updates all the buffers with corresponding input from the controller
@@ -42,13 +42,13 @@ public:
    * @brief returns current movement for player
    * @return movement for player
    */
-  glm::vec2 GetMovement() const { return m_movementBuffer; };
+  [[nodiscard]] glm::vec2 GetMovement() const { return m_movementBuffer; };
 
   /**
    * @brief returns last movement direction for player
    * @return last movement for player
    */
-  glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
+  [[nodiscard]] glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
 
 
   /**

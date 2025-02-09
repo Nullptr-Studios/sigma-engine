@@ -15,11 +15,11 @@ void Actor::SetTexture(const char *path) {
   m_texture = GET_FACTORY->LoadTexture(m_texturePath);
 }
 
-void Actor::SetTextureTransform(glm::mat3 &newTexMtx) { m_tMtx = newTexMtx; }
+void Actor::SetTextureTransform(const glm::mat3 &newTexMtx) { m_tMtx = newTexMtx; }
 
 glm::mat3 *Actor::GetTextureTransform() { return &m_tMtx; }
 
-bool Actor::IsInViewport() {
+bool Actor::IsInViewport() const {
   auto c = GET_CAMERA->GetCurrentCamera();
   int w = AEGetSysWindowWidth();
   int h = AEGetSysWindowHeight();
