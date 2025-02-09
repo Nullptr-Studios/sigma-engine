@@ -36,6 +36,9 @@ void Character::Update(double delta) {
   Actor::Update(delta);
   UpdateMovement(delta);
   UpdateCombat(delta);
+
+  // This makes it so the collider on the attack is only enabled for a frame -x
+  if (m_attackCollider->enabled == true) m_attackCollider->enabled = false;
 }
 
 /**
