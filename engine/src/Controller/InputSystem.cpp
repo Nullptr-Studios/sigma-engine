@@ -125,4 +125,4 @@ int InputSystem::CheckControllers() {
   return -1;
 }
 
-} // namespace FNFE
+} // namespace Sigmauwu
