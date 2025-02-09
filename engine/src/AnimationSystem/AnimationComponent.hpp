@@ -9,7 +9,6 @@
 #pragma once
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
-// #include "Objects/Character.hpp"
 #include "pch.hpp" 
 
 
@@ -49,6 +48,8 @@ public:
    */
   void Update(double DeltaTime);
 
+#pragma region Playback
+
   /**
    * @brief Play and stop the animation
    */
@@ -70,6 +71,9 @@ public:
    */
   void StopAnim();
 
+#pragma endregion
+
+#pragma region Callbacks
   /**
    * @brief Add a callback to the animation
    * @param callbackName Name of the callback
@@ -87,28 +91,29 @@ public:
   void RemoveCallback(const std::string &callbackName);
 
   /**
-   * @brief Remove a callback from the animation
-   * @param callbackName Name of the callback
+   * @brief Clear callbacks 
    */
   void ClearCallbacks();
+
+#pragma endregion
 
   /**
    * @brief Get the texture matrix
    * @return Pointer to the texture matrix
    */
-  AEMtx33 GetTextureMatrix() { return m_texMtx; }
+  [[nodiscard]] AEMtx33 GetTextureMatrix() const { return m_texMtx; }
 
   /**
    * @brief Get the texture atlas
    * @return Pointer to the texture atlas
    */
-  TextureAtlas *GetTextureAtlas() { return m_texAtlas; }
+  [[nodiscard]] TextureAtlas *GetTextureAtlas() const { return m_texAtlas; }
 
   /**
    * @brief Get the current frame
    * @return Pointer to the current frame
    */
-  Frame *GetCurrentFrame() { return m_currentFrame; }
+  [[nodiscard]] Frame *GetCurrentFrame() const { return m_currentFrame; }
 
 
   /**
@@ -121,15 +126,15 @@ public:
    * @brief Gets if the animation is playing
    * @return is playing
    */
-  bool IsPlaying() const { return m_isPlaying; }
+  [[nodiscard]] bool IsPlaying() const { return m_isPlaying; }
 
   /**
    * @brief Get if the animation is looping
    * @return is looping
    */
-  bool IsLooping() const { return m_loop; }
+  [[nodiscard]] bool IsLooping() const { return m_loop; }
   
-  // Playback events
+#pragma region AnimationCallbacks
   /**
    * @brief Set the callback for the end of the animation
    * @param callback Callback function
@@ -151,6 +156,8 @@ public:
    * @brief Clear the callback for the change of frame
    */
   void ClearOnAnimationChangeFrame() { m_onAnimationChangeFrame = nullptr; }
+
+#pragma endregion
 
 
 private:

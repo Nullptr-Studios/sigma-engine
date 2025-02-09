@@ -7,8 +7,8 @@
  */
 
 #include "AnimationComponent.hpp"
-
 #include "AnimationSystem.hpp"
+
 #include "Core.hpp"
 
 #include "Objects/Actor.hpp"
@@ -61,6 +61,8 @@ void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
     m_timeSinceLastFrame += DeltaTime;
   }
 }
+
+#pragma region Playback
 
 void Sigma::Animation::AnimationComponent::PlayAndStop() {
   if (m_texAtlas == nullptr || m_currentAnimation == nullptr || m_isPlaying)
@@ -122,6 +124,11 @@ void Sigma::Animation::AnimationComponent::StopAnim()
 
   m_isPlaying = false;
 }
+
+#pragma endregion
+
+#pragma region Callbacks
+
 bool Sigma::Animation::AnimationComponent::AddCallback(const std::string &callbackName,
                                                        const std::function<void(std::string, unsigned short, bool)> &callback) {
   if (m_animCallbacks.contains(callbackName)) {
@@ -169,3 +176,5 @@ void Sigma::Animation::AnimationComponent::UpdateCallbacks() {
 
   std::cout << "[AnimationComponent] Callback: " << m_currentFrame->AnimCallbackString << " not found in " << m_owner->GetName() << std::endl;
 }
+
+#pragma endregion

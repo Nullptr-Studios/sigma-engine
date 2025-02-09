@@ -63,16 +63,13 @@ struct TextureAtlas {
  */
 class AnimationSystem {
 public:
-  AnimationSystem() { m_AnimSysinstance = this; }
+  AnimationSystem() { m_AnimSysInstance = this; }
   ~AnimationSystem() = default;
 
   /**
    * @brief Load a texture atlas from a json file
    * @param jsonFilePath Path to the json file
    * @return Pointer to the loaded texture atlas
-   *
-   * @todo Add support for multiple animations
-   * @todo Add Support for pivot center
    */
   TextureAtlas *LoadTextureAtlas(const char *jsonFilePath);
 
@@ -83,14 +80,17 @@ public:
    */
   TextureAtlas *GetTextureAtlas(const char *name);
 
+#pragma region Transformations
+
   /**
    * @brief Build a texture transform matrix
-   * @param texMtx Texture matrix
-   * @param framePosition Position of the animation frame in the atlas
-   * @param frameSize Size of the animation frame in the atlas
-   * @param atlasSize Size of the texture atlas
-   *
-   * @todo Add Support for trimmed sprites
+   * @param pTexMtx Pointer to the texture matrix
+   * @param sX X position of the sprite
+   * @param sY Y position of the sprite
+   * @param sW Width of the sprite
+   * @param sH Height of the sprite
+   * @param taW Width of the texture atlas
+   * @param taH Height of the texture atlas
    */
   void BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH);
 
@@ -110,20 +110,24 @@ public:
    */
   void UpdateSpriteOffset(Transform *transform, const Frame *frame, const TextureAtlas *atlas);
 
+#pragma endregion
+
 
   /**
    * @brief Get the instance of the Animation System
    * @return Pointer to the Animation System instance
    */
   static AnimationSystem *GetInstance() {
-    if (m_AnimSysinstance == nullptr) {
+    if (m_AnimSysInstance == nullptr) {
       throw std::runtime_error("Animation System instance not created");
     }
-    return m_AnimSysinstance;
+    return m_AnimSysInstance;
   }
 
 private:
-  static AnimationSystem *m_AnimSysinstance;
+  static AnimationSystem *m_AnimSysInstance;
+
+  int m_defaultFPS = 12;
 
   /**
    * @brief Debug function to draw the sprite transform

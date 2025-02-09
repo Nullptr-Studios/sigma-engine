@@ -5,14 +5,9 @@
 #include <Factory.hpp>
 
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/matrix_transform_2d.hpp"
-
-Sigma::Animation::AnimationSystem *Sigma::Animation::AnimationSystem::m_AnimSysinstance = nullptr;
+Sigma::Animation::AnimationSystem *Sigma::Animation::AnimationSystem::m_AnimSysInstance = nullptr;
 
 // TODO: cleanup
-// TODO: Support for trimmed sprites
-// TODO: Support for pivot
 Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAtlas(const char *jsonFilePath) {
   // Profiler time
   PROFILER_START;
@@ -38,7 +33,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
   if (J["meta"].contains("fps")) {
     a.frameRate = J["meta"]["fps"];
   } else {
-    a.frameRate = 12;
+    a.frameRate = m_defaultFPS;
   }
   a.name = "Default";
 
@@ -55,11 +50,12 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
     f.name = frame["filename"];
     f.frameSize = {frame["frame"]["w"], frame["frame"]["h"]};
     f.framePosition = {frame["frame"]["x"], frame["frame"]["y"]};
-    // f.rotated = frame["rotated"];
+    
     f.spriteSourceSize = {frame["spriteSourceSize"]["w"], frame["spriteSourceSize"]["h"]};
     f.spriteSourcePosition = {frame["spriteSourceSize"]["x"], frame["spriteSourceSize"]["y"]};
 
 
+    // Pivot support
     if (frame.contains("pivot")) {
       f.pivot = {frame["pivot"]["x"], frame["pivot"]["y"]};
     } else {
@@ -67,13 +63,14 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
       f.pivot = {0.5f, 0.5f};
     }
 
+    // Trimmed support
     if (frame["trimmed"]) {
       f.sourceSize = {frame["sourceSize"]["w"], frame["sourceSize"]["h"]};
     } else {
       f.sourceSize = f.frameSize;
     }
-    // m_frames.emplace_back(f);
 
+    // Callbacks
     if (frame.contains("callback")) {
       f.AnimCallbackString = frame["callback"];
     }
@@ -103,7 +100,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
         if (J["meta"]["image"].contains("fps")) {
           m_animation.frameRate = J["meta"]["image"]["fps"];
         } else {
-          m_animation.frameRate = 12;
+          m_animation.frameRate = m_defaultFPS;
         }
 
         m_animation.name = animName;
@@ -132,7 +129,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
 Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtlas(const char *name) {
   // check if TextureAtlas is already loaded
   if (m_loadedTextureAtlases.contains(name)) {
-    // std::cout << "[AnimationSystem] Texture Atlas already loaded\n";
+    std::cout << "[AnimationSystem] Texture Atlas " << name << " already loaded\n";
     return &m_loadedTextureAtlases[name];
   }
 
