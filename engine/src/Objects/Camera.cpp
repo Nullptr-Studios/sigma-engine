@@ -2,9 +2,10 @@
 
 namespace Sigma {
 
-void Camera::Start() {
-  Object::Start();
+void Camera::Init() {
+  Object::Init();
 
+  // TODO: Change this to camera controller
   glm::vec2 viewport;
   AEGfxSetFullscreen(false);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
@@ -12,7 +13,6 @@ void Camera::Start() {
 
   m_oldTransform = transform;
   UpdateMatrix();
-  // hi
 }
 
 void Camera::Update(double deltaTime) {
@@ -21,6 +21,7 @@ void Camera::Update(double deltaTime) {
   if (m_oldTransform.position != transform.position || m_oldTransform.rotation != transform.rotation) {
     UpdateMatrix();
     m_oldTransform = transform;
+    return;
   }
 
   // Check for rescaling

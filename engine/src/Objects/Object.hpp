@@ -13,6 +13,7 @@
 #include <core.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
+
 #include "Collision/Collider.hpp"
 
 namespace Sigma {
@@ -96,7 +97,6 @@ public:
 
   Transform transform;
 
-
   virtual void Init() {}
   virtual void Start() {}
   virtual void Update(double deltaTime) {}
@@ -110,12 +110,14 @@ public:
    * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnMessage(Object *sender) { return false; }
+  
   /**
    * @brief This function is called whenever the object collides with another one
    * @param e The CollisionEvent sent by the Collision System
    * @return A bool telling if the message has been handled and shouldn't propagate
    */
   virtual bool OnCollision(Collision::CollisionEvent &e) { return false; }
+  
   /**
    * @brief This function sets up the callback for the events
    * This is used when setting up the object, and it's needed for the events to propagate to other objects
@@ -123,6 +125,7 @@ public:
    * @param function Function to call when Message sent
    */
   void SetCallback(const EventCallbackFn &function) { m_callback = function; }
+  
   /**
    * @brief Sends an @c Event to the specified callback function
    * @param e Event to send
@@ -158,7 +161,7 @@ public:
   [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
   void SetStartHandled() { m_startHandled = true; }
 
-  [[nodiscard]] Collision::BoxCollider *GetCollider() { return m_collider.get(); }
+  [[nodiscard]] Collision::BoxCollider *GetCollider() const { return m_collider.get(); }
 
 protected:
   std::unique_ptr<Collision::BoxCollider> m_collider = nullptr;

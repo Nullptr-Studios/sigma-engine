@@ -14,10 +14,6 @@
 
 namespace Sigma {
 
-namespace Collision {
-struct BoxCollider;
-}
-
 /**
  * @class Actor
  * @brief Object with renderable properties
@@ -36,10 +32,15 @@ public:
   void Draw() override { Object::Draw(); };
   void Destroy() override { Object::Destroy(); };
 
+#pragma region RendererStuff
 
+  /**
+   * @brief Gets the texture of the object
+   * @returns Texture pointer
+   */
   [[nodiscard]] AEGfxTexture *GetTexture() const {
     return m_texture;
-  } ///< @brief Gets the Alpha Engine texture pointer shit
+  } 
 
   /**
    * @brief Sets the texture of the object
@@ -48,11 +49,20 @@ public:
    */
   void SetTexture(const char *path);
 
+  /**
+   * @brief Sets the texture transform matrix
+   * @param newTexMtx New texture matrix
+   */
   void SetTextureTransform(glm::mat3 &newTexMtx);
 
+  /**
+   * @brief Gets the texture transform matrix
+   * @returns Texture matrix
+   */
+  [[nodiscard]]
   virtual glm::mat3 *GetTextureTransform();
 
-  // TODO: Modulation color does not actually work idunno why
+  // TODO: Modulation color does not actually work idunno why -d
   void SetModulationColor(unsigned newColor) { m_color = newColor; }
   [[nodiscard]] unsigned GetModulationColor() const { return m_color; }
 
@@ -62,6 +72,8 @@ public:
    * @returns if in viewport
    */
   bool IsInViewport();
+
+#pragma endregion 
 
   /**
    * @brief animation component pointer
