@@ -1,5 +1,6 @@
 #include "Collision.hpp"
 #include "CollisionEvent.hpp"
+#include "DamageSystem/DamageEvent.hpp"
 
 namespace Sigma::Collision {
 
@@ -33,11 +34,23 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
       if (!collisionY) continue;
 
       // Collision stuff -x
-      CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
-      CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
+      if (obj1_collider->type == DAMAGE) {
+        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj1->GetId(), obj2, obj2_collider->type,
+        obj2_collider->damage, obj2_collider->damageType);
+        SendEvent(obj1_event);
+      } else {
+        CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
+        SendEvent(obj1_event);
+      }
 
-      SendEvent(obj1_event);
-      SendEvent(obj2_event);
+      if (obj2_collider->type == DAMAGE) {
+        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj2->GetId(), obj1, obj1_collider->type,
+        obj1_collider->damage, obj1_collider->damageType);
+        SendEvent(obj2_event);
+      } else {
+        CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
+        SendEvent(obj2_event);
+      }
     }
   }
 }

@@ -13,6 +13,13 @@ void Character::Init() {
   m_animComp = std::make_unique<Animation::AnimationComponent>();
 }
 
+void Character::OnDamage(Damage::DamageEvent &e) {
+  float characterHealth = m_health - e.GetDamageAmount();
+  SetHealth(std::max(0.0f, characterHealth));
+  if (characterHealth <= 0) { m_isAlive = false; }
+}
+
+
 void Character::Start() {
   Actor::Start();
 

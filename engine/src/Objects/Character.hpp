@@ -9,6 +9,7 @@
 #pragma once
 #include "Actor.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
+#include "DamageSystem/DamageEvent.hpp"
 #include "json.hpp"
 
 namespace Sigma {
@@ -117,8 +118,20 @@ public:
 protected:
   json j = nullptr;
 
-private:
+/**
+   * @brief Event for modifying character health
+   * @param e damage event reference
+   */
+  virtual void OnDamage(Damage::DamageEvent &e);
 
+  [[nodiscard]] float GetHealth() {return m_health;} ///< @brief returns amount of character health
+  [[nodiscard]] bool GetAlive() {return m_isAlive;} ///< @brief returns whether character is alive or not
+  void SetHealth(const float health) {m_health = health;} ///< @brief sets character health
+  void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
+
+private:
+  float m_health = 100.0f;
+  bool m_isAlive = true;
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   std::string m_jsonPath;
 

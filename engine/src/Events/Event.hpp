@@ -30,7 +30,8 @@ namespace Sigma {
 enum class EventType {
   NONE = 0,
   MESSAGE,
-  COLLISION
+  COLLISION,
+  DAMAGE
 };
 
 /**
