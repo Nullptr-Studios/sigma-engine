@@ -35,7 +35,9 @@ public:
   /**
    * @brief AudioEngine::Init() must be called before using the Audio Engine
    */
-  AudioEngine();
+  AudioEngine() {m_instance = this;};
+
+  static AudioEngine* GetInstance() { return m_instance; }
 
   /**
    * @brief Initializes Audio Engine Studio and Core systems to default values.
@@ -167,6 +169,9 @@ public:
   static constexpr int AUDIO_SAMPLE_RATE = 44100;
 
 private:
+
+  static AudioEngine* m_instance;
+  
   /**
    *  @brief Checks if a sound file is in the soundCache
    */

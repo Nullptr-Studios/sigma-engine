@@ -6,8 +6,7 @@
 #include <FMOD/fmod_errors.h>
 #include <iostream>
 
-Sigma::AudioEngine::AudioEngine() :
-    reverb(nullptr) {}
+Sigma::AudioEngine *Sigma::AudioEngine::m_instance = nullptr;
 
 void Sigma::AudioEngine::Init() {
 

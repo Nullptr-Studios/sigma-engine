@@ -21,7 +21,7 @@ typedef unsigned color_t; ///< @typedef color_t  @brief Color type for Alpha Eng
 #define GET_FACTORY Sigma::Factory::GetInstance() ///< @def GET_FACTORY @brief Gets Factory instance
 #define GET_ANIMATION                                                                                                  \
   Sigma::Animation::AnimationSystem::GetInstance() ///< @def GET_ANIMATION @brief Gets Animation instance
-#define GET_AUDIO GET_MANAGER->GetAudioEngine() ///< @def GET_AUDIO @brief Gets Audio instance
+#define GET_AUDIO Sigma::AudioEngine::GetInstance() ///< @def GET_AUDIO @brief Gets Audio instance
 
 #define GET_CAMERA                                                                                                     \
   Sigma::CameraController::GetCameraControllerInstance() ///< @def GET_CAMERA @brief Gets Camera instance
