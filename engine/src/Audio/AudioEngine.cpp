@@ -7,7 +7,7 @@
 #include <iostream>
 
 Sigma::AudioEngine::AudioEngine() :
-    reverb(nullptr), sounds(), loopsPlaying(), soundBanks(), eventDescriptions(), eventInstances() {}
+    reverb(nullptr) {}
 
 void Sigma::AudioEngine::Init() {
 
@@ -24,12 +24,12 @@ void Sigma::AudioEngine::Init() {
   InitializeReverb();
 }
 
-void Sigma::AudioEngine::Terminate() {
+void Sigma::AudioEngine::Terminate() const {
   lowLevelSystem->close();
   studioSystem->release();
 }
 
-void Sigma::AudioEngine::Update() {
+void Sigma::AudioEngine::Update() const {
   ERRCHECK(studioSystem->update()); // also updates the low level system
 }
 
@@ -122,7 +122,7 @@ void Sigma::AudioEngine::Update3DPosition(const AudioData &audioData) {
     std::cout << "[AudioEngine] Can't update sound position!\n";
 }
 
-bool Sigma::AudioEngine::IsPlaying(const AudioData &audioData) {
+bool Sigma::AudioEngine::IsPlaying(const AudioData &audioData) const {
   return audioData.Loop() && loopsPlaying.contains(audioData.GetUniqueID());
 }
 
@@ -218,7 +218,7 @@ void Sigma::AudioEngine::UnmuteAll() {
 bool Sigma::AudioEngine::IsMute() const { return muted; }
 
 // Private definitions
-bool Sigma::AudioEngine::IsLoaded(const AudioData &audioData) {
+bool Sigma::AudioEngine::IsLoaded(const AudioData &audioData) const {
   // std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
   return sounds.contains(audioData.GetUniqueID());
 }

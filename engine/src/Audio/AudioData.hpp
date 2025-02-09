@@ -10,7 +10,7 @@
 #include <string>
 
 class AudioData {
-private:
+
   std::string uniqueID;
   const char *filePath;
   float volume;
@@ -22,7 +22,7 @@ private:
   glm::vec3 position;
 
 public:
-  AudioData(const char *filePath, bool loop = false, bool is3D = false, float reverbAmount = 0.0f,
+  explicit AudioData(const char *filePath, bool loop = false, bool is3D = false, float reverbAmount = 0.0f,
             glm::vec3 position = {0.0f, 0.0f, 0.0f}) :
       filePath(filePath), loop(loop), is3D(is3D), reverbAmount(reverbAmount), position(position) {
     volume = 1.0f;
@@ -32,14 +32,14 @@ public:
   }
   ~AudioData() = default;
 
-  std::string GetUniqueID() const { return uniqueID; };
-  const char *GetFilePath() const { return filePath; }
-  float GetVolume() const { return volume; }
-  bool IsLoaded() const { return loaded; };
-  bool Loop() const { return loop; };
-  bool Is3D() const { return is3D; };
-  float GetReverbAmount() const { return reverbAmount; }
-  glm::vec3 GetPosition() const { return position; }
+  [[nodiscard]] std::string GetUniqueID() const { return uniqueID; };
+  [[nodiscard]] const char *GetFilePath() const { return filePath; }
+  [[nodiscard]] float GetVolume() const { return volume; }
+  [[nodiscard]] bool IsLoaded() const { return loaded; };
+  [[nodiscard]] bool Loop() const { return loop; };
+  [[nodiscard]] bool Is3D() const { return is3D; };
+  [[nodiscard]] float GetReverbAmount() const { return reverbAmount; }
+  [[nodiscard]] glm::vec3 GetPosition() const { return position; }
 
   void SetLoaded(bool isLoaded) { loaded = isLoaded; }
   void SetLengthMS(unsigned int length) { lengthMS = length; }

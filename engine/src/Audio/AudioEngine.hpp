@@ -45,12 +45,12 @@ public:
   /**
    * @brief Halts the engine instance and frees all held memory.
    */
-  void Terminate();
+  void Terminate() const;
 
   /**
    * @brief Should be called each frame.
    */
-  void Update();
+  void Update() const;
 
   /**
    * @brief Loads a sound from disk using provided settings
@@ -91,7 +91,7 @@ public:
   /**
    * @return Checks if a looping sound is playing.
    */
-  bool IsPlaying(const AudioData &audioData);
+  [[nodiscard]] bool IsPlaying(const AudioData &audioData) const;
 
   /**
    * @brief Sets the position of the listener in the 3D scene.
@@ -170,7 +170,7 @@ private:
   /**
    *  @brief Checks if a sound file is in the soundCache
    */
-  bool IsLoaded(const AudioData &audioData);
+  [[nodiscard]] bool IsLoaded(const AudioData &audioData) const;
 
   /**
    *  @brief Sets the 3D position of a sound
