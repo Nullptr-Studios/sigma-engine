@@ -169,7 +169,7 @@ private:
   std::vector<Combat::Move> m_superDefault;
   std::vector<Combat::Move> m_superAir;
 
-  // TODO: I need animation callbacks for this pookie ??
+  // TODO: I need animation callbacks for this pookie 😘
   bool m_isIdle = true;   ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 
