@@ -39,7 +39,7 @@ void Factory::DestroyObject(const Object *object) { DestroyObject(object->GetId(
 
 void Factory::DestroyAllObjects() {
   PROFILER_START;
-  for (auto &obj: m_objects | std::views::values) {
+  for (const auto &obj: m_objects | std::views::values) {
     // DestroyObject(id);
     obj->Destroy();
     delete obj;
@@ -49,7 +49,7 @@ void Factory::DestroyAllObjects() {
   PROFILER_END("Factory::DestroyAllObjects")
 }
 
-Object *Factory::GetObjectAt(id_t id) { return m_objects[id]; }
+Object *Factory::GetObjectAt(const id_t id) { return m_objects[id]; }
 
 AEGfxTexture *Factory::LoadTexture(const char *filepath) {
   PROFILER_START
@@ -72,10 +72,10 @@ AEGfxTexture *Factory::LoadTexture(const char *filepath) {
     return nullptr;
   }
   AEGfxTextureSetFilters(Tx, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
-  auto t = m_textures.emplace(filepath, Tx);
+  auto [fst, snd] = m_textures.emplace(filepath, Tx);
 
   PROFILER_END("Factory::LoadTexture")
-  return t.first->second;
+  return fst->second;
 }
 
 void Factory::FreeTexture(const char *filepath) {
@@ -91,7 +91,7 @@ void Factory::FreeTexture(const char *filepath) {
   }
 }
 void Factory::FreeAllTextures() {
-  for (auto &texture: m_textures | std::views::values) {
+  for (const auto &texture: m_textures | std::views::values) {
     AEGfxTextureUnload(texture);
     // m_textures.erase(filepath);
   }

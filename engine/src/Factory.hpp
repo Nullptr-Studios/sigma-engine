@@ -109,7 +109,7 @@ public:
 
 #pragma endregion
 
-  AEGfxTriList *GetSharedTriList() { return m_tris; } ///< @brief Returns the shared TriList
+  [[nodiscard]] AEGfxTriList *GetSharedTriList() const { return m_tris; } ///< @brief Returns the shared TriList
 
   static Factory *GetInstance() {
     if (m_instance == nullptr) {
