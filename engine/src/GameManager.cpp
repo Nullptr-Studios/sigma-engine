@@ -245,7 +245,7 @@ void GameManager::OnEvent(Event &e) {
   dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
     {
       auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
-      if (const auto character = dynamic_cast<Character*>(obj)) character->OnDamage(damage);
+      if (const auto dmg = dynamic_cast<Damageable*>(obj)) dmg->OnDamage(damage);
 
       return true;
     });

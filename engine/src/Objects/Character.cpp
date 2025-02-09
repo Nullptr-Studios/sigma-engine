@@ -15,7 +15,7 @@ using json = nlohmann::json;
 Character::~Character() = default;
 
 void Character::Init() {
-  Actor::Init();
+  Damageable::Init();
 
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
   GameScene *scene = dynamic_cast<GameScene *>(GET_SCENE);
@@ -26,15 +26,14 @@ void Character::Init() {
   m_sceneBoundsPoly = dynamic_cast<GameScene *>(GET_SCENE)->GetSceneBoundsPoly();
 }
 
-void Character::OnDamage(Damage::DamageEvent &e) {
-  float characterHealth = m_health - e.GetDamageAmount();
-  SetHealth(std::max(0.0f, characterHealth));
-  if (characterHealth <= 0) { m_isAlive = false; }
+// TODO: logic
+void Character::OnDamage(const Damage::DamageEvent &e) {
+  Damageable::OnDamage(e);
 }
 
 
 void Character::Start() {
-  Actor::Start();
+  Damageable::Start();
 
   if (!m_jsonPath.empty())
     Serialize();
@@ -48,7 +47,7 @@ void Character::Start() {
 }
 
 void Character::Update(double delta) {
-  Actor::Update(delta);
+  Damageable::Update(delta);
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
   m_animComp->Update(delta);

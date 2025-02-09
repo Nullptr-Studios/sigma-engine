@@ -7,14 +7,13 @@
  */
 
 #pragma once
-#include "Actor.hpp"
+
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
+#include "Damageable.hpp"
 
 namespace Sigma {
 class Polygon;
-}
-namespace Sigma {
 
 namespace Combat{
 
@@ -91,18 +90,21 @@ struct Move {
  * Characters inherit from @c Actors and can be controlled. They also introduce combo tracking and another
  * combat features.
  */
-class Character : public Actor {
+class Character : public Damageable {
 public:
-  explicit Character(id_t id) : Actor(id) {}
+  explicit Character(id_t id) : Damageable(id) {}
   ~Character() override;
 
   void Init() override;
   void Start() override;
   void Update(double delta) override; 
-  void Destroy() override { Actor::Destroy(); };
+  void Destroy() override { Damageable::Destroy(); };
 
   void Serialize();
   void SetJsonPath(const std::string& path) { m_jsonPath = path; }
+
+
+  void OnDamage(const Damage::DamageEvent &e) override;
 
 #pragma region MovementSystem
   
@@ -118,20 +120,10 @@ public:
 
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 
-/**
-   * @brief Event for modifying character health
-   * @param e damage event reference
-   */
-  virtual void OnDamage(Damage::DamageEvent &e);
-
-  [[nodiscard]] float GetHealth() {return m_health;} ///< @brief returns amount of character health
-  [[nodiscard]] bool GetAlive() {return m_isAlive;} ///< @brief returns whether character is alive or not
-  void SetHealth(const float health) {m_health = health;} ///< @brief sets character health
-  void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
 private:
-  float m_health = 100.0f;
-  bool m_isAlive = true;
+  
+
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   std::string m_jsonPath;
 
