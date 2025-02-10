@@ -1,3 +1,6 @@
 # Binaries ignore
 bin
 *[Bb]uild*
+
+# Dario nonsense
+.bak*
