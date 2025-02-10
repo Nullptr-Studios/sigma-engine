@@ -1,4 +1,5 @@
 #include "Factory.hpp"
+#include <ranges>
 
 namespace Sigma {
 
@@ -59,6 +60,14 @@ void Factory::DestroyAllObjects() {
 
 Object* Factory::GetObjectAt(id_t id) {
   return m_objects[id];
+}
+
+Object* Factory::FindObject(const std::string& name) {
+  for (auto& obj : m_objects | std::views::values) {
+    if (obj->GetName() == name) return obj;
+  }
+
+  return nullptr;
 }
 
 AEGfxTexture* Factory::LoadTexture(const char* filepath)

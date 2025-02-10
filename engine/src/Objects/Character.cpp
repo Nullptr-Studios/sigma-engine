@@ -1,12 +1,9 @@
 #include "Character.hpp"
 #include "Collision/Collider.hpp"
-#include "json.hpp"
-
 #define ATTACK_ERRORS
-#define ATTACK_DEBUG
+// #define ATTACK_DEBUG
 
 namespace Sigma {
-using json = nlohmann::json;
 
 Character::~Character() = default;
 
@@ -39,6 +36,9 @@ void Character::Update(double delta) {
   Actor::Update(delta);
   UpdateMovement(delta);
   UpdateCombat(delta);
+
+  // This makes it so the collider on the attack is only enabled for a frame -x
+  if (m_attackCollider->enabled == true) m_attackCollider->enabled = false;
 }
 
 /**
@@ -68,7 +68,7 @@ void Character::Serialize() {
     std::cout << "[InputSystem] failed to open JSON file " << m_jsonPath << '\n';
     return;
   }
-  json j = json::parse(file);
+  j = json::parse(file);
 
   // Load character variables
   maxSpeed = j["maxSpeed"];
@@ -117,8 +117,7 @@ void Character::Jump() {
   }
 }
 
-void Character::UpdateMovement(double delta)
-{
+void Character::UpdateMovement(double delta) {
   // Apply gravity
   if (isJumping) {
     velocity.y += gravity * delta;
@@ -166,8 +165,7 @@ void Character::UpdateMovement(double delta)
 
  
   //Update Z
-  if (!isJumping)
-    transform.position.z = -transform.position.y;
+  if (!isJumping) transform.position.z = -transform.position.y;
 }
 
 #pragma endregion

@@ -10,8 +10,10 @@
 #include "Actor.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
+#include "json.hpp"
 
 namespace Sigma {
+using json = nlohmann::json;
 
 namespace Combat{
 
@@ -98,14 +100,20 @@ public:
   void Update(double delta) override;
   void Destroy() override { Actor::Destroy(); };
 
-  void Serialize();
+  virtual void Serialize();
   void SetJsonPath(const std::string& path) { m_jsonPath = path; }
+ 
+  // idk why this was protected -x
+  /**
+   * @brief Event for modifying character health
+   * @param e damage event reference
+   */
+  virtual void OnDamage(Damage::DamageEvent &e);
+
 
 #pragma region MovementSystem
- 
   void Move(glm::vec2 direction);
   void Jump();
-
 #pragma endregion
 
   void BasicAttack();
@@ -115,14 +123,11 @@ public:
 
   std::unique_ptr<Animation::AnimationComponent> m_animComp; ///< @brief Animation component
 
-/**
-   * @brief Event for modifying character health
-   * @param e damage event reference
-   */
-  virtual void OnDamage(Damage::DamageEvent &e);
+protected:
+  json j = nullptr;
 
-  [[nodiscard]] float GetHealth() {return m_health;} ///< @brief returns amount of character health
-  [[nodiscard]] bool GetAlive() {return m_isAlive;} ///< @brief returns whether character is alive or not
+  [[nodiscard]] float GetHealth() const {return m_health;} ///< @brief returns amount of character health
+  [[nodiscard]] bool GetAlive() const {return m_isAlive;} ///< @brief returns whether character is alive or not
   void SetHealth(const float health) {m_health = health;} ///< @brief sets character health
   void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
@@ -154,6 +159,7 @@ private:
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
  
   std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
+
   /**
    * @brief Sets the Attack Collider information
    * Wrapper for the JSON parsing of objects, this is used for not repeating the same code 4 times

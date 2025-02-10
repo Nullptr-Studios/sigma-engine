@@ -11,7 +11,7 @@
 
 namespace Sigma::Damage {
 
-enum DamageType {
+enum DamageType : int {
   DAMAGE,
   THROW
 };

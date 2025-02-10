@@ -53,7 +53,7 @@ void GameManager::GameInit() {
 
   m_animationSystem = std::make_unique<Animation::AnimationSystem>();
   m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
-  m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
+  //m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 #ifdef _DEBUG
@@ -91,15 +91,15 @@ void GameManager::Run() {
 
 
     // TODO: For Each Actor Deubug DrawRectCollider
-    
+
 #if _DEBUG
     auto startTick = std::chrono::high_resolution_clock::now();
 #endif
     // Scene and subscene update
-    m_currentScene->Update(AEGetFrameTime());
+    m_currentScene->Update(AEGetFrameTimeClamped());
 
     for (auto &val: m_subScenes | std::views::values) {
-      val->Update(AEGetFrameTime());
+      val->Update(AEGetFrameTimeClamped());
     }
 
     // Tick Objects
@@ -110,7 +110,7 @@ void GameManager::Run() {
         object->Start();
         object->SetStartHandled();
       }
-      object->Update(AEGetFrameTime());
+      object->Update(AEGetFrameTimeClamped());
     }
 
 #if _DEBUG
@@ -341,11 +341,11 @@ void GameManager::DebugProfiler()
     std::string loadedFonts = "Loaded Fonts: ";
     loadedFonts.append(std::to_string(AEGfxGetAllocatedFontCount()));
     AEGfxPrint(10, 30, 0xFFFFFFFF, loadedFonts.c_str());
-    
-    
+
+
     std::string FPS = "FPS: ";
     float fps = AEGetFrameRate();
-    
+
     unsigned colorFPS;
     if (fps >= 59) {
       colorFPS = 0xFF00FF00;
@@ -354,12 +354,12 @@ void GameManager::DebugProfiler()
     } else {
       colorFPS = 0xFFFF0000;
     }
-    
+
     FPS.append(std::to_string(fps));
     AEGfxPrint(600, 10, colorFPS, FPS.c_str());
-    
+
     std::string SPF = "SPF: ";
-    SPF.append(std::to_string(AEGetFrameTime()));
+    SPF.append(std::to_string(AEGetFrameTimeClamped()));
     AEGfxPrint(600, 20, colorFPS, SPF.c_str());
 
     std::string Collisions = "COL: ";

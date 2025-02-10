@@ -8,9 +8,13 @@
 
 #pragma once
 
-#include "Objects/Actor.hpp"
 #include "Scene.hpp"
 
+namespace Sigma {
+class Actor;
+class CameraFollow;
+class Camera;
+}
 class TestScene : public Sigma::Scene
 {
 public:
@@ -23,6 +27,7 @@ public:
 
 private:
   Sigma::Actor* m_actor;
+  Sigma::CameraFollow* m_camera;
 };
 
 
