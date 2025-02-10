@@ -1,7 +1,7 @@
 #include "Character.hpp"
 #include "Collision/Collider.hpp"
 #define ATTACK_ERRORS
-#define ATTACK_DEBUG
+// #define ATTACK_DEBUG
 
 namespace Sigma {
 
@@ -119,6 +119,11 @@ void Character::Jump() {
 
 void Character::UpdateMovement(double delta)
 {
+
+  if (delta > .016f) {
+    std::cout << "FUCK" << delta << '\n';
+  }
+
   // Apply gravity
   if (isJumping) {
     velocity.y += gravity * delta;

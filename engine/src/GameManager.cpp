@@ -96,10 +96,10 @@ void GameManager::Run() {
     auto startTick = std::chrono::high_resolution_clock::now();
 #endif
     // Scene and subscene update
-    m_currentScene->Update(AEGetFrameTime());
+    m_currentScene->Update(AEGetFrameTimeClamped());
 
     for (auto &val: m_subScenes | std::views::values) {
-      val->Update(AEGetFrameTime());
+      val->Update(AEGetFrameTimeClamped());
     }
 
     // Tick Objects
@@ -110,7 +110,7 @@ void GameManager::Run() {
         object->Start();
         object->SetStartHandled();
       }
-      object->Update(AEGetFrameTime());
+      object->Update(AEGetFrameTimeClamped());
     }
 
 #if _DEBUG
@@ -359,7 +359,7 @@ void GameManager::DebugProfiler()
     AEGfxPrint(600, 10, colorFPS, FPS.c_str());
 
     std::string SPF = "SPF: ";
-    SPF.append(std::to_string(AEGetFrameTime()));
+    SPF.append(std::to_string(AEGetFrameTimeClamped()));
     AEGfxPrint(600, 20, colorFPS, SPF.c_str());
 
     std::string Collisions = "COL: ";

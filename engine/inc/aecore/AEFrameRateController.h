@@ -16,10 +16,13 @@
 
 // frame controller related variables
 void     AESetFrameRateMax(double newMax); // set clamp the frame rate to at most this number
-double   AEGetFrameRateMax();              // get clamp the frame rate to at most this number
+[[deprecated("Please use AEGetFrameTimeClamped() instead")]] double   AEGetFrameRateMax();              // get clamp the frame rate to at most this number
 double   AEGetFrameRate();                 // get the frame rate based on the last frame
 double   AEGetFrameTime();                 // get time taken to process the last frame(in seconds)
 unsigned AEGetFrameCounter();              // get number of frame since the last reset
+inline double AEGetFrameTimeClamped() {
+  return min(AEGetFrameTime(), .066f); // This is clamped to 15 fps -x,d
+}
 
 // ---------------------------------------------------------------------------
 // Function prototypes
