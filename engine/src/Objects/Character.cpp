@@ -117,13 +117,7 @@ void Character::Jump() {
   }
 }
 
-void Character::UpdateMovement(double delta)
-{
-
-  if (delta > .016f) {
-    std::cout << "FUCK" << delta << '\n';
-  }
-
+void Character::UpdateMovement(double delta) {
   // Apply gravity
   if (isJumping) {
     velocity.y += gravity * delta;
