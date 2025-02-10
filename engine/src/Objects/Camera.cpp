@@ -1,4 +1,6 @@
 #include "Camera.hpp"
+#include "GlmAlphaTools.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
 
 namespace Sigma {
 
@@ -48,5 +50,17 @@ void Camera::UpdateMatrix() {
   m_clipMatrix = glm::ortho(-viewport.x/(2 * size), viewport.x/(2 * size) ,
     -viewport.y/(2 * size),  viewport.y/(2 * size), m_near, m_far);
 }
+
+glm::vec2 Camera::WorldToScreen(glm::vec2 worldPos) const {
+  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
+  return worldPos - cameraPos;
+}
+
+glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
+  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
+  return screenPos + cameraPos;
+}
+
+
 
 } // namespace Sigma

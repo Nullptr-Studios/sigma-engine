@@ -9,6 +9,7 @@
 #pragma once
 #include "Objects/Object.hpp"
 
+
 namespace Sigma {
 
 /**
@@ -36,6 +37,20 @@ public:
    */
   void SetRenderDistance(const float near_, const float far_) { m_near = near_; m_far = far_; }
   float size =     1.0f; ///< @brief Scaling of the camera by screen size
+
+  /**
+   *
+   * @param worldPos position in the world such as a transform
+   * @return the position on the screen the worldPos is corrolated too
+   */
+  glm::vec2 WorldToScreen(glm::vec2 worldPos) const;
+
+  /**
+   *
+   * @param screenPos position on the screen such as mouse cordinates
+   * @return the possition in the world the screenPos is corrolated too
+   */
+  glm::vec2 ScreenToWorld(glm::vec2 screenPos) const;
 
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)
