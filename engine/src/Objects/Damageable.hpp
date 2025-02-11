@@ -59,7 +59,7 @@ public:
   
   void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
-private:
+protected:
   float m_health = 100.0f;
   bool m_isAlive = true;
 

@@ -63,8 +63,8 @@ private:
 
   float m_ratio; ///< @brief Ratio between width and height
   float m_size = 1.0f; ///< @brief Scaling of the camera by screen size
-  float m_near = -1000.0f; ///< @brief Near clip plane
-  float m_far = 1000.0f; ///< @brief Far clip plane
+  float m_near = -5000.0f; ///< @brief Near clip plane
+  float m_far = 5000.0f; ///< @brief Far clip plane
 
   friend class CameraController;
 };

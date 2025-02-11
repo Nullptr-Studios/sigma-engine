@@ -11,10 +11,12 @@
 
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
+#include "Damageable.hpp"
 #include "json.hpp"
 
 namespace Sigma {
 using json = nlohmann::json;
+class Polygon;
 
 #pragma region Combat
 namespace Combat {
@@ -98,7 +100,7 @@ struct Move {
  * Characters inherit from @c Actors and can be controlled. They also introduce combo tracking and another
  * combat features.
  */
-class Character : public Damageable {
+class Character : public Sigma::Damageable {
 public:
   explicit Character(id_t id) : Damageable(id) {}
   Character(id_t id, std::string jsonPath) : Damageable(id), m_jsonPath(std::move(jsonPath)) {}
