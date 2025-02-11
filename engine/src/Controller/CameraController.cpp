@@ -19,15 +19,17 @@ Camera *CameraController::GetCurrentCamera() {
   return m_currentCamera;
 }
 void CameraController::SetCurrentCamera(Camera *camera) {
-  // TODO: events
+  if (m_currentCamera) {
+    m_currentCamera->SetActive(false);
+  }
+  camera->SetActive(true);
   m_currentCamera = camera;
 }
-
-
-
-void CameraController::LerpCamera(glm::vec3 position, float delta) {
-  // TODO:
-  auto camPos = m_currentCamera->transform.position;
-  m_currentCamera->transform.position = camPos + (position - camPos) * delta;
+void CameraController::Start() {
+  Object::Start();
+  if (!m_currentCamera) {
+    std::cerr << "No Camera set to the camera controller before start";
+  } 
 }
+
 } // namespace Sigma

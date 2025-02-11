@@ -11,10 +11,10 @@
 
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
-#include "Damageable.hpp"
+#include "json.hpp"
 
 namespace Sigma {
-class Polygon;
+using json = nlohmann::json;
 
 #pragma region Combat
 namespace Combat {
@@ -130,6 +130,13 @@ private:
   
   std::string m_jsonPath;
 
+protected:
+  json j = nullptr;
+
+  [[nodiscard]] float GetHealth() const {return m_health;} ///< @brief returns amount of character health
+  [[nodiscard]] bool GetAlive() const {return m_isAlive;} ///< @brief returns whether character is alive or not
+  void SetHealth(const float health) {m_health = health;} ///< @brief sets character health
+  void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
   Polygon *m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
@@ -153,6 +160,7 @@ private:
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
 
   std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
+
   /**
    * @brief Sets the Attack Collider information
    * Wrapper for the JSON parsing of objects, this is used for not repeating the same code 4 times

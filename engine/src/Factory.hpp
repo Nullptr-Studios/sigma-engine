@@ -78,10 +78,13 @@ public:
 
   void DestroyAllObjects(); ///< @brief Destroys all objects and clears the object map
 
-  ObjectMap *GetObjects() { return &m_objects; } ///< @brief Returns the Object map
-  Object *GetObjectAt(id_t id); ///< @brief Returns an object by ID
-
-  ActorList *GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
+  ObjectMap* GetObjects() { return &m_objects; } ///< @brief Returns the Object map
+  Object* GetObjectAt(id_t id); ///< @brief Returns an object by ID
+  Object* FindObject(const std::string& name); ///< @brief Find an object by its name @warn DO NOT ABUSE
+  template <typename T, typename = std::enable_if_t<std::is_base_of_v<Object, T>>>
+  T* FindObject(const std::string& name);
+  
+  ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
 
 #pragma endregion
 
@@ -192,4 +195,15 @@ T* Factory::CreateObject(const std::string& name, Args&&... args)
   return obj;
 }
 
-} // namespace Sigma
+template<typename T, typename>
+T* Factory::FindObject(const std::string& name) {
+  for (auto& obj : m_objects | std::views::values) {
+    if (auto casted = dynamic_cast<T*>(obj); obj->GetName() == name && casted) {
+      return casted;
+    }
+  }
+
+  return nullptr;
+}
+
+}

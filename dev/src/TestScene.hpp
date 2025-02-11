@@ -12,6 +12,8 @@
 
 namespace Sigma {
 class Actor;
+class CameraFollow;
+class Camera;
 }
 class TestScene : public Sigma::GameScene
 {
@@ -25,6 +27,7 @@ public:
 
 private:
   Sigma::Actor* m_actor;
+  Sigma::CameraFollow* m_camera;
 };
 
 

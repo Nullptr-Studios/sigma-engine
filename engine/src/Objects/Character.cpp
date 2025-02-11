@@ -2,7 +2,7 @@
 #include "Collision/Collider.hpp"
 
 #define ATTACK_ERRORS
-#define ATTACK_DEBUG
+// #define ATTACK_DEBUG
 
 #include "GameManager.hpp"
 #include "GameScene.hpp"
@@ -51,6 +51,9 @@ void Character::Update(double delta) {
   
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
+
+  // This makes it so the collider on the attack is only enabled for a frame -x
+  if (m_attackCollider->enabled == true) m_attackCollider->enabled = false;
   
   m_animComp->Update(delta);
 }
@@ -96,7 +99,7 @@ void Character::Serialize() {
     std::cout << "[InputSystem] failed to open JSON file " << m_jsonPath << '\n';
     return;
   }
-  json_t j = json_t::parse(file);
+  j = json::parse(file);
 
   // Load character variables
   maxSpeed = j["maxSpeed"];

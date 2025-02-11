@@ -9,6 +9,7 @@
 #pragma once
 #include <Factory.hpp>
 #include <pch.hpp>
+#include <chrono>
 
 namespace Sigma {
 
@@ -115,11 +116,10 @@ private:
 
 #pragma region Profiler
   void DebugProfiler();
-  
-  std::chrono::duration<double> m_timeCollisions{};
-  std::chrono::duration<double> m_timeTick{};
-  std::chrono::duration<double> m_timeRender{};
-  std::chrono::duration<double> m_timeSound{};
+  std::chrono::duration<double> m_timeCollisions = {};
+  std::chrono::duration<double> m_timeTick = {};
+  std::chrono::duration<double> m_timeRender = {};
+  std::chrono::duration<double> m_timeSound = {};
 
   bool m_debug = true;
 #pragma endregion
