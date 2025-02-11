@@ -43,9 +43,10 @@ void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
     if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
       if (m_loop) 
         m_currentFrameIndex = 0;
-      else
+      else {
         m_isPlaying = false;
-
+        m_currentFrameIndex--;
+      }
       if (m_onAnimationEnd)
         m_onAnimationEnd(m_currentAnimation->name);
     }

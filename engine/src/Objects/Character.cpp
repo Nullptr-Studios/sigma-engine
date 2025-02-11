@@ -2,7 +2,7 @@
 #include "Collision/Collider.hpp"
 
 #define ATTACK_ERRORS
-// #define ATTACK_DEBUG
+#define ATTACK_DEBUG
 
 #include "GameManager.hpp"
 #include "GameScene.hpp"
@@ -269,13 +269,13 @@ void Character::BasicAttack() {
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset + glm::vec2(transform.position.x, transform.position.y));
   } else {
     auto move = m_basicAir[m_basicCombo - 1];
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    SetCollider(move.damage, move.colliderSize, move.colliderOffset + glm::vec2(transform.position.x, transform.position.y));
   }
 
   // I'm using only the count from the default variant since both should have the same number -x

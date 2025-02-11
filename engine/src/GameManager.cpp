@@ -236,8 +236,6 @@ void GameManager::Uninitialize() {
 
 void GameManager::OnEvent(Event &e) {
 
-  PROFILER_START
-
   EventDispatcher dispatcher(e);
 
   dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
@@ -266,7 +264,6 @@ void GameManager::OnEvent(Event &e) {
         });
   }
 
-  PROFILER_END("GameManager::OnEvent")
 }
 #pragma endregion
 

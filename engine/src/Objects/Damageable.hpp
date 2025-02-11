@@ -23,7 +23,7 @@ public:
    * @brief Event for modifying character health
    * @param e damage event reference
    */
-  virtual void OnDamage(const Damage::DamageEvent &e)
+  virtual void inline OnDamage(const Damage::DamageEvent &e)
   {
     float currentHealth = m_health - e.GetDamageAmount();
     SetHealth(std::max(0.0f, currentHealth));
