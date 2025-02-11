@@ -24,10 +24,13 @@ target_link_libraries(sigma PUBLIC fmodstudioL_vc)
 target_link_libraries(sigma PUBLIC aecore)
 target_include_directories(sigma PUBLIC lib/json/single_include/nlohmann/)
 
+# glm library
+add_subdirectory(lib/glm)
+target_include_directories(sigma PUBLIC lib/glm)
+target_link_libraries(sigma PUBLIC glm::glm)
+
 # precompiled header
 target_precompile_headers(sigma PRIVATE src/pch.hpp)
         
-# glm library
-add_subdirectory(lib/glm)
-target_link_libraries(sigma PUBLIC glm::glm)
-target_include_directories(sigma PUBLIC lib/glm)
+
+

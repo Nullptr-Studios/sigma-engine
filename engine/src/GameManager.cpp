@@ -46,29 +46,35 @@ void GameManager::GameInit() {
   m_audioEngine = std::make_unique<AudioEngine>();
   m_audioEngine->Init();
 
+  // Initialize Collisions
   m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
-    {
-      this->OnEvent(e);
-    });
+  {
+    this->OnEvent(e);
+  });
 
+  // Initialize Animation system
   m_animationSystem = std::make_unique<Animation::AnimationSystem>();
+
+  // Initialize camera controller
   m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
   //m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
+
 #ifdef _DEBUG
- 
+
   // Disables 60fps lock in Debug mode
-  AESetFrameRateMax(20000); 
-  
+  AESetFrameRateMax(20000);
+
 #endif // _DEBUG
 
-  // Start
+  // Start all objects
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     object->Start();
     object->SetStartHandled();
   }
 
+  // End of initialization
   PROFILER_END("GameManager::GameInit")
 }
 
@@ -80,10 +86,13 @@ void GameManager::Run() {
 
   if (m_currentScene != nullptr)
   {
+    
 #if _DEBUG
     auto startCollision = std::chrono::high_resolution_clock::now();
 #endif
+    // Collision update
     m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+    
 #if _DEBUG
     auto endCollision = std::chrono::high_resolution_clock::now();
     m_timeCollisions = endCollision - startCollision;
@@ -104,8 +113,6 @@ void GameManager::Run() {
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
-      if (object == nullptr)
-        continue;
       if (!object->GetStartHandled()) {
         object->Start();
         object->SetStartHandled();
@@ -129,20 +136,35 @@ void GameManager::Run() {
       val->Draw();
     }
 
-    //Sort by Z order
-    m_factory->GetRenderables()->sort([](const id_t& a, const id_t& b)
-    {
-      const auto OA = GET_FACTORY->GetObjectAt(a);
-      const auto OB = GET_FACTORY->GetObjectAt(b);
+    auto renderables = m_factory->GetRenderables();
 
-      return OA->transform.position.z < OB->transform.position.z;
-    });
+    // Do sorting each 5 frames
+    if (AEGetFrameCounter() % 5 == 0) {
+      // Sort by Z order
+      renderables->sort(
+          [](const id_t &a, const id_t &b)
+          {
+            const auto OA = GET_FACTORY->GetObjectAt(a);
+            const auto OB = GET_FACTORY->GetObjectAt(b);
+
+            return OA->transform.position.z < OB->transform.position.z;
+          });
+    }
 
     // Render Objects
-    for (const auto &renderableId: *m_factory->GetRenderables()) {
+    for (const auto &renderableId: *renderables) {
+
       auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
+
+      // culling
+      /*if (!actor->IsInViewport())
+        continue;*/
+
       if (!actor->GetStartHandled())
         continue; // We do this because the object has not had its Start method done yet
+
+      // call the actor draw function (we were not using the draw method until now xdddd) -d
+      actor->Draw();
 
       glm::mat4 world = actor->transform.GetMatrix4();
       // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
@@ -158,9 +180,12 @@ void GameManager::Run() {
       auto projAE = AEMtx44::Identity();
       AEGfxSetProjTransform(&projAE);
 
+      // TODO: ModulationColor not working???? -d
+      AEGfxSetModulationColor(actor->GetModulationColor());
       AEGfxTextureSet(actor->GetTexture());
-      auto textureTransform = glm::ToAEX(actor->GetTextureTransform());
+      auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
+
       AEGfxTriDraw(m_factory->GetSharedTriList());
     }
 
@@ -168,25 +193,27 @@ void GameManager::Run() {
     auto endDraw = std::chrono::high_resolution_clock::now();
     m_timeRender = endDraw - startDraw;
 #endif
-
+    
   }
 
 #if _DEBUG
-    auto startSound = std::chrono::high_resolution_clock::now();
+  auto startSound = std::chrono::high_resolution_clock::now();
 #endif
 
-  // Audio
-  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x, m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0,
-                                       1, 0, 0, 0, 1);
+  // Audio update
+  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x,
+                                       m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0, 1, 0, 0, 0,
+                                       1);
   m_audioEngine->Update();
 
-
 #if _DEBUG
-    auto endSound = std::chrono::high_resolution_clock::now();
-    m_timeSound = endSound - startSound;
+  auto endSound = std::chrono::high_resolution_clock::now();
+  m_timeSound = endSound - startSound;
 #endif
 
+  // Debug Profiler
   DebugProfiler();
+  
   // AE Shit
   AESysFrameEnd();
 }
@@ -195,8 +222,8 @@ void GameManager::Uninitialize() {
 
   PROFILER_START
   StateManager::SetEngineState(ENGINE_EXIT);
+  
   m_factory->DestroyAllObjects();
-
   m_factory->FreeAllTextures();
 
   AEGfxTriFree(m_factory->GetSharedTriList());
@@ -216,7 +243,7 @@ void GameManager::OnEvent(Event &e) {
   dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
     {
       auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
-      if (const auto character = dynamic_cast<Character*>(obj)) character->OnDamage(damage);
+      if (const auto dmg = dynamic_cast<Damageable*>(obj)) dmg->OnDamage(damage);
 
       return true;
     });
@@ -248,6 +275,8 @@ void GameManager::LoadScene(Scene *scene) {
 
   PROFILER_START
 
+  StateManager::SetEngineState(SCENE_LOAD);
+
   if (scene == nullptr) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
@@ -270,12 +299,14 @@ void GameManager::LoadScene(Scene *scene) {
   }
 
   m_currentScene = scene;
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loading..."
-            << std::endl;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+            << " loading..." << std::endl;
   m_currentScene->Load();
   m_currentScene->Init();
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID() << " loaded!"
-            << std::endl;
+  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+            << " loaded!" << std::endl;
+
+  StateManager::SetEngineState(IN_GAME);
 
   PROFILER_END("GameManager::LoadScene")
 }
@@ -283,6 +314,8 @@ void GameManager::LoadScene(Scene *scene) {
 void GameManager::LoadSubScene(Scene *scene) {
 
   PROFILER_START
+
+  StateManager::SetEngineState(SUB_SCENE_LOAD);
 
   if (m_subScenes.contains(scene->GetID())) {
     std::cout << "[GameManager]: SubScene already loaded \n";
@@ -297,31 +330,33 @@ void GameManager::LoadSubScene(Scene *scene) {
   std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded as a SubScene!"
             << std::endl;
 
+  StateManager::SetEngineState(IN_GAME);
+
   PROFILER_END("GameManager::LoadSubScene")
 }
 
-void GameManager::UnloadSubScene(Scene *scene) {
-  if (m_subScenes.contains(scene->GetID())) {
-    scene->Free();
-    scene->Unload();
-    m_subScenes.erase(scene->GetID());
-    delete scene;
-    return;
-  }
-  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-            << " not found in SubScenes!" << std::endl;
+void GameManager::UnloadSubScene(const Scene *scene) {
+  UnloadSubScene(scene->GetID()); 
 }
 
-void GameManager::UnloadSubScene(const int id) {
+void GameManager::UnloadSubScene(const int id)
+{
+  PROFILER_START
+  
   if (m_subScenes.contains(id)) {
+    StateManager::SetEngineState(SUB_SCENE_UNLOAD);
     Scene *scene = m_subScenes[id];
     scene->Free();
     scene->Unload();
     m_subScenes.erase(id);
     delete scene;
+    StateManager::SetEngineState(IN_GAME);
+    PROFILER_END("GameManager::UnloadSubScene")
     return;
   }
   std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
+  
+  PROFILER_END("GameManager::UnloadSubScene")
 }
 #pragma endregion
 
@@ -346,7 +381,7 @@ void GameManager::DebugProfiler()
     std::string FPS = "FPS: ";
     float fps = AEGetFrameRate();
 
-    unsigned colorFPS;
+    unsigned colorFPS = 0xFFFFFFFF;
     if (fps >= 59) {
       colorFPS = 0xFF00FF00;
     } else if (fps >= 29) {
@@ -377,6 +412,12 @@ void GameManager::DebugProfiler()
     std::string Sound = "SND: ";
     Sound.append(std::to_string(m_timeSound.count()));
     AEGfxPrint(600, 65, 0xFF00FF00, Sound.c_str());
+
+
+    auto mouse = AEGetMouseData();
+    glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
+    std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
+    AEGfxPrint(500, 95, 0xFFFFFFFF, mousePosStr.c_str());
 
 
     std::string CurrentObjects = "Current Objects: ";

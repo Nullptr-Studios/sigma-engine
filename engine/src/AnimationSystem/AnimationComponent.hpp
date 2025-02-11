@@ -9,8 +9,13 @@
 #pragma once
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
+#include "pch.hpp" 
 
-namespace Sigma::Animation {
+
+namespace Sigma {
+class Actor;
+
+namespace Animation {
 
 struct Animation;
 struct Frame;
@@ -22,11 +27,8 @@ struct TextureAtlas;
  */
 class AnimationComponent {
 public:
-
-  AnimationComponent() = default;
-  ~AnimationComponent() {
-    ClearCallbacks();
-  }
+  explicit AnimationComponent(Sigma::Actor *owner) : m_owner(owner), m_texAtlas(nullptr), m_currentFrame(nullptr) {};
+  ~AnimationComponent() { ClearCallbacks(); }
 
   /**
    * @brief Set the texture atlas for the animation component
@@ -45,6 +47,8 @@ public:
    * @param DeltaTime Time since last frame
    */
   void Update(double DeltaTime);
+
+#pragma region Playback
 
   /**
    * @brief Play and stop the animation
@@ -67,40 +71,102 @@ public:
    */
   void StopAnim();
 
+#pragma endregion
+
+#pragma region Callbacks
   /**
    * @brief Add a callback to the animation
    * @param callbackName Name of the callback
    * @param callback Callback function
    * @return True if the callback was added successfully
+   *
+   * @note You will need to add in the json frame a member called "callback" with the name of the callback in order to be caller
    */
-  bool AddCallback(const std::string &callbackName, const std::function<void()> &callback);
+  bool AddCallback(const std::string &callbackName, const std::function<void(std::string, unsigned short, bool)> &callback);
 
   /**
    * @brief Remove a callback from the animation
    * @param callbackName Name of the callback
    */
+  void RemoveCallback(const std::string &callbackName);
+
+  /**
+   * @brief Clear callbacks 
+   */
   void ClearCallbacks();
+
+#pragma endregion
 
   /**
    * @brief Get the texture matrix
    * @return Pointer to the texture matrix
    */
-  glm::mat3 &GetTextureMatrix() { return m_texMtx; }
+  [[nodiscard]] AEMtx33 GetTextureMatrix() const { return m_texMtx; }
 
   /**
    * @brief Get the texture atlas
    * @return Pointer to the texture atlas
    */
-  TextureAtlas *GetTextureAtlas() { return m_texAtlas; }
+  [[nodiscard]] TextureAtlas *GetTextureAtlas() const { return m_texAtlas; }
 
   /**
    * @brief Get the current frame
    * @return Pointer to the current frame
    */
-  Frame *GetCurrentFrame() { return m_currentFrame; }
+  [[nodiscard]] Frame *GetCurrentFrame() const { return m_currentFrame; }
+
+
+  /**
+   * @brief Set the loop of the animation
+   * @param loop Loop the animation
+   */
+  void SetLoop(bool loop) { m_loop = loop; }
+
+  /**
+   * @brief Gets if the animation is playing
+   * @return is playing
+   */
+  [[nodiscard]] bool IsPlaying() const { return m_isPlaying; }
+
+  /**
+   * @brief Get if the animation is looping
+   * @return is looping
+   */
+  [[nodiscard]] bool IsLooping() const { return m_loop; }
+  
+#pragma region AnimationCallbacks
+  /**
+   * @brief Set the callback for the end of the animation
+   * @param callback Callback function
+   */
+  void SetOnAnimationEnd(const std::function<void(std::string)> &callback) { m_onAnimationEnd = callback; }
+
+  /**
+   * @brief Clear the callback for the end of the animation
+   */
+  void ClearOnAnimationEnd() { m_onAnimationEnd = nullptr; }
+
+  /**
+   * @brief Set the callback for the change of frame
+   * @param callback Callback function
+   */
+  void SetOnAnimationChangeFrame(const std::function<void(std::string,short)> &callback) { m_onAnimationChangeFrame = callback; }
+
+  /**
+   * @brief Clear the callback for the change of frame
+   */
+  void ClearOnAnimationChangeFrame() { m_onAnimationChangeFrame = nullptr; }
+
+#pragma endregion
+
 
 private:
 
+  // Animation Event callbacks
+  // tell me if you want more -d
+  std::function<void(std::string)> m_onAnimationEnd;
+  std::function<void(std::string,unsigned short)> m_onAnimationChangeFrame;
+  
   /**
    * @brief Update the texture matrix
    */
@@ -111,18 +177,20 @@ private:
    */
   void UpdateCallbacks();
 
+  Sigma::Actor *m_owner;
+
   /**
    * @brief Map of animation callbacks
    */
   AnimationCallbackMap m_animCallbacks;
 
-  glm::mat3 m_texMtx = glm::mat3(1.0f);
-  TextureAtlas* m_texAtlas;
+  AEMtx33 m_texMtx;
+  TextureAtlas *m_texAtlas;
   int m_currentFrameIndex = 0;
   double m_frameTime = 0.0;
-  Frame* m_currentFrame;
+  Frame *m_currentFrame;
 
-  Animation* m_currentAnimation;
+  Animation *m_currentAnimation = nullptr;
 
   double m_timeSinceLastFrame = 0.0;
 
@@ -130,4 +198,5 @@ private:
   bool m_loop = true;
 };
 
-} // namespace FNFE::ANIMATION
+} // namespace Animation
+} // namespace Sigma

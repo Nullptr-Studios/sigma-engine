@@ -19,17 +19,45 @@ namespace Sigma {
 int ToGamepadKey(char button);
 
 /**
- * @class InputSystem manages inputs and input buffers
+ * @class InputComponent
+ * @brief manages inputs and input buffers
  */
-class InputSystem {
+class InputComponent {
 public:
-  InputSystem(const std::string &keybindPath);
+  explicit InputComponent(const std::string &keybindPath);
 
   /**
    * @brief updates all the buffers with corresponding input from the controller
    * @param controllerId the id of the controller -1 for keyboard
    */
   void UpdateInput(int controllerId);
+  
+  /**
+   * @brief returns the next action of the player and sets the buffer to NULL_ACTION
+   * @return next action of the player
+   */
+  std::string GetAction();
+
+  /**
+   * @brief returns current movement for player
+   * @return movement for player
+   */
+  [[nodiscard]] glm::vec2 GetMovement() const { return m_movementBuffer; };
+
+  /**
+   * @brief returns last movement direction for player
+   * @return last movement for player
+   */
+  [[nodiscard]] glm::vec2 GetLastMovement() const { return m_lastMovementBuffer; };
+
+
+  /**
+   * @brief returns controller id
+   * @return controller id for player controller
+   */
+  int CheckControllers();
+
+private:
 
   /**
    * @brief updates the direction buffer usally for movement all
@@ -44,32 +72,15 @@ public:
    */
   void UpdateActions(int controllerId);
 
-  /**
-   * @brief returns the next action of the player and sets the buffer to NULL_ACTION
-   * @return next action of the player
-   */
-  std::string GetAction();
 
-  /**
-   * @brief returns current movement for player
-   * @return movement for player
-   */
-  glm::vec2 GetMovement() { return m_movementBuffer; };
-
-
-  //TODO: make this controller thing work in multiplayer
-/**
-   * @brief returns controller id
-   * @return controller id for player controller
-   */
-  int CheckControllers();
-
-private:
+  
   std::unordered_map<std::string, std::string> m_keyboardActions{};
   std::unordered_map<std::string, std::string> m_keyboardMovement{};
   std::unordered_map<std::string, std::string> m_gamepadActions{};
+  
   std::string m_inputBuffer{}; ///<@brief action input buffer
   glm::vec2 m_movementBuffer{}; ///<@brief directinal input buffer
+  glm::vec2 m_lastMovementBuffer{}; ///<@brief last done directinal input buffer
   bool m_movementStick{};
   time_t m_timeBuffer{}; ///<@brief timeout buffer for the input buffers
 };

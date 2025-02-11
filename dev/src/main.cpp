@@ -16,7 +16,7 @@
 int main() {
 
   Sigma::GameManager* gameManager = new Sigma::GameManager("FNF Engine", 800, 600);
-  Sigma::Scene* scene = new TestScene("scene1", 1);
+  Sigma::Scene* scene = new TestScene("scene1", 1, "res/scene1.json");
 
   gameManager->LoadScene(scene);
 

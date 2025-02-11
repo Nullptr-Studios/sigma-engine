@@ -12,11 +12,12 @@
 #include "Objects/CameraFollow.hpp"
 #include "Controller/CameraController.hpp"
 #include "Factory.hpp"
+#include "Polygon.hpp"
 #include "GlmAlphaTools.hpp"
 #include "core.hpp"
 
 void TestScene::Load() {
-  Scene::Load();
+  GameScene::Load();
   std::cout << "TestScene::Load()" << std::endl;
 
   m_actor = GET_FACTORY->CreateObject<Sigma::Actor>("TestActor");
@@ -28,7 +29,7 @@ void TestScene::Load() {
   m_camera->m_warningZone = {-.75f,.75f,-.75f,.75f};
 }
 void TestScene::Update(double delta) {
-  Scene::Update(delta);
+  GameScene::Update(delta);
   // std::cout << "TestScene::Update(" << delta << ")" << std::endl;
   m_actor->transform.localRotation += 2 * delta;
   auto mouseData = AEGetMouseData().position;
@@ -37,6 +38,6 @@ void TestScene::Update(double delta) {
   m_actor->transform.position = {mousePos.x,mousePos.y,0};
 }
 void TestScene::Draw() {
-  Scene::Draw();
+  GameScene::Draw();
   // std::cout << "TestScene::Draw()" << std::endl;
 }

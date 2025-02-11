@@ -35,9 +35,9 @@ class CollisionSystem;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager
-{
+class GameManager {
 public:
+  
   /**
    * @brief Initialization of alpha engine and base sigma classes
    *
@@ -45,12 +45,16 @@ public:
    * @param width window width
    * @param height window height
    */
-  GameManager(const char* title, int width, int height);
+  GameManager(const char *title, int width, int height);
   ~GameManager();
 
-  static GameManager* GetInstance() { return m_instance; }
-
-
+  /**
+   * @brief Get the instance of the GameManager
+   *
+   * @return GameManager* pointer to the GameManager instance
+   */
+  static GameManager *GetInstance() { return m_instance; }
+  
   /**
    * @brief Main engine loop
    */
@@ -61,6 +65,7 @@ public:
    */
   void Uninitialize();
 
+#pragma region SceneManagement
   /**
    * @brief Loads a scene and unloads the currently loaded scene
    *
@@ -68,19 +73,48 @@ public:
    */
   void LoadScene(Scene *scene);
 
+  /**
+   * @brief Loads a sub scene
+   *
+   * @param scene
+   */
   void LoadSubScene(Scene *scene);
 
-  void UnloadSubScene(Scene* scene);
+  /**
+   * @brief Unloads a sub scene
+   *
+   * @param scene scene to unload
+   */
+  void UnloadSubScene(const Scene *scene);
 
+  /**
+   * @brief Unloads a sub scene
+   *
+   * @param id id of the sub scene to unload
+   */
   void UnloadSubScene(int id);
 
-  Scene *GetCurrentScene() { return m_currentScene; }
+  /**
+   * @brief Get the current scene
+   *
+   * @return Scene* pointer to the current scene
+   */
+  [[nodiscard]] Scene* GetCurrentScene() const { return m_currentScene; }
+#pragma endregion
 
+  
+  [[nodiscard]] AudioEngine *GetAudioEngine() const { return m_audioEngine.get(); }
+
+  /**
+   * @brief Event handler
+   *
+   * @param e event to handle
+   */
   void OnEvent(Event &e);
 
 private:
 
-  // Debug stuff
+#pragma region Profiler
   void DebugProfiler();
   std::chrono::duration<double> m_timeCollisions = {};
   std::chrono::duration<double> m_timeTick = {};
@@ -88,12 +122,13 @@ private:
   std::chrono::duration<double> m_timeSound = {};
 
   bool m_debug = true;
-
-  static GameManager* m_instance;
+#pragma endregion
 
   void GameInit();
 
-  const char* m_title;
+  static GameManager *m_instance;
+
+  const char *m_title;
   int m_width;
   int m_height;
 
@@ -101,10 +136,10 @@ private:
   std::unique_ptr<AudioEngine> m_audioEngine;
   std::unique_ptr<Animation::AnimationSystem> m_animationSystem;
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
-  CameraController* m_cameraController = nullptr;
+  CameraController* m_cameraController{};
 
   Scene *m_currentScene = nullptr;
   std::unordered_map<int, Scene *> m_subScenes;
 };
 
-} // Sigma
+} // namespace Sigma

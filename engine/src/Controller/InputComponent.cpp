@@ -1,13 +1,12 @@
-#include "InputSystem.hpp"
 #include "GlmAlphaTools.hpp"
+#include "InputComponent.hpp"
 
 namespace Sigma {
 
-InputSystem::InputSystem(const std::string& keybindPath)
-{
-  
+InputComponent::InputComponent(const std::string &keybindPath) {
+
   m_inputBuffer = {};
-  
+
   std::ifstream file(keybindPath);
   if (!file.is_open()) {
     std::cout << "[InputSystem] failed to open JSON file " << keybindPath << '\n';
@@ -15,18 +14,18 @@ InputSystem::InputSystem(const std::string& keybindPath)
   }
 
   // Parse json file
-  auto keybinds =  nlohmann::json::parse(file);
+  auto keybinds = nlohmann::json::parse(file);
 
   // Debug log
   std::cout << keybinds << std::endl;
   std::string moveStick = keybinds["gamepad"]["sticks"]["movement"];
 
   m_movementStick = moveStick != "left";
-  
+
   auto kMovement = keybinds["keyboard"]["movement"];
   auto kActions = keybinds["keyboard"]["actions"];
   auto gActions = keybinds["gamepad"]["action"];
-  
+
   for (auto &item: kMovement.items()) {
     std::pair<std::string, std::string> pair = std::make_pair(item.key(), item.value());
     m_keyboardMovement.insert(pair);
@@ -42,37 +41,49 @@ InputSystem::InputSystem(const std::string& keybindPath)
     m_gamepadActions.insert(pair);
   }
 
+  keybinds.clear();
+  
   file.close();
 }
-  
-void InputSystem::UpdateInput(int controllerId) {
+
+void InputComponent::UpdateInput(int controllerId) {
   // Use gamepad stick or keyboard keys for player movement
   UpdateDirection(controllerId);
   // Use Gamepad buttons vs keyboard keys for player actions
   UpdateActions(controllerId);
 }
 
-void InputSystem::UpdateDirection(int controllerId) {
+void InputComponent::UpdateDirection(int controllerId) {
   m_movementBuffer = {};
-  if (controllerId == -1 ) {
-    if(AEInputKeyPressed(m_keyboardMovement["up"][0])){m_movementBuffer.y+=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["left"][0])){m_movementBuffer.x-=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["down"][0])){m_movementBuffer.y-=1;}
-    if(AEInputKeyPressed(m_keyboardMovement["right"][0])){m_movementBuffer.x+=1;}
+  if (controllerId == -1) {
+    if (AEInputKeyPressed(m_keyboardMovement["up"][0]))
+      m_movementBuffer.y += 1;
+    if (AEInputKeyPressed(m_keyboardMovement["left"][0]))
+      m_movementBuffer.x -= 1;
+    if (AEInputKeyPressed(m_keyboardMovement["down"][0]))
+      m_movementBuffer.y -= 1;
+    if (AEInputKeyPressed(m_keyboardMovement["right"][0]))
+      m_movementBuffer.x += 1;
   } else {
     if (m_movementStick == 0) { // if left stick
       auto input = AEInputGamepadStickLeft(controllerId);
       m_movementBuffer = glm::FromAEX(input);
-    }else{ //if right stick
+    } else { // if right stick
       auto input = AEInputGamepadStickRight(controllerId);
       m_movementBuffer = glm::FromAEX(input);
     }
   }
+
+  if (m_movementBuffer.x != 0)
+    m_lastMovementBuffer.x = m_movementBuffer.x;
+
+  if (m_movementBuffer.y != 0)
+    m_lastMovementBuffer.y = m_movementBuffer.y;
 }
 
-void InputSystem::UpdateActions(int controllerId) {
-  if (controllerId == -1 ) {
-    for (auto &action : m_keyboardActions) {
+void InputComponent::UpdateActions(int controllerId) {
+  if (controllerId == -1) {
+    for (auto &action: m_keyboardActions) {
       if (AEInputKeyTriggered(action.second[0])) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
@@ -81,8 +92,8 @@ void InputSystem::UpdateActions(int controllerId) {
       }
     }
   } else {
-    for (auto &action : m_gamepadActions) {
-      if (AEInputGamepadButtonTriggered(controllerId,ToGamepadKey(action.second[0]))) {
+    for (auto &action: m_gamepadActions) {
+      if (AEInputGamepadButtonTriggered(controllerId, ToGamepadKey(action.second[0]))) {
         m_inputBuffer = action.first;
         m_timeBuffer = time(nullptr);
         return;
@@ -95,7 +106,7 @@ void InputSystem::UpdateActions(int controllerId) {
   }
 }
 
-std::string InputSystem::GetAction() {
+std::string InputComponent::GetAction() {
   std::string tmp = m_inputBuffer;
   m_inputBuffer.clear();
   return tmp;
@@ -116,9 +127,9 @@ int ToGamepadKey(char button) {
   }
 }
 
-int InputSystem::CheckControllers() {
-  for (int i = 0; i<=3; i++) {
-    if (AEInputGamepadConnected(i)){
+int InputComponent::CheckControllers() {
+  for (int i = 0; i <= 3; i++) {
+    if (AEInputGamepadConnected(i)) {
       return i;
     }
   }
