@@ -154,7 +154,16 @@ struct BoxCollider {
     box.Set(size[0], size[1], size[2], size[3], offset);
   }
 
-  void DebugDraw(Actor* debug, Actor* parent) const;
+  /**
+   * @brief Creates an object to debug colliders
+   * There are some images that can help you with debugging, by default the green color is used but you can also use 
+   * @code debug_red.png, debug_yellow.png, debug_blue.png, debug_pink.png @endcode. 
+   *
+   * @param debug Actor to use for debugging
+   * @param parent Parent of the collider
+   * @param path Path for the debug texture (debug_green.png by default)
+   */
+  void DebugDraw(Actor* debug, Actor* parent, const char* path = "assets/core/debug_green.png") const;
 };
 
 }
