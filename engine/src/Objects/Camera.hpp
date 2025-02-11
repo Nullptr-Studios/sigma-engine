@@ -57,6 +57,8 @@ public:
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)
 
+  float m_oldSize = 1.0f; ///< @brief Old size of the camera
+  
   Transform m_oldTransform;
   glm::mat4 m_viewMatrix = glm::mat4(1.0f);
   glm::mat4 m_clipMatrix = glm::mat4(1.0f);

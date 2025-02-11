@@ -26,6 +26,12 @@ void Camera::Update(double deltaTime) {
     return;
   }
 
+  if (m_oldSize != size) {
+    UpdateMatrix();
+    m_oldSize = size;
+    return;
+  }
+
   // Check for rescaling
   RECT rect;
   glm::vec2 viewport;
