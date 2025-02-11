@@ -86,6 +86,10 @@ struct BoxCollider {
 
       return vertices;
     }
+
+    glm::vec2 GetScale() const { return glm::vec2(left+right, top+bottom); }
+
+    glm::vec2 GetOffset() const { return offset; }
     
     /**
      * @brief Sets the box colliders boundaries
@@ -150,7 +154,7 @@ struct BoxCollider {
     box.Set(size[0], size[1], size[2], size[3], offset);
   }
 
-  void DebugDraw(Actor* parent, color_t color) const;
+  void DebugDraw(Actor* debug, Actor* parent) const;
 };
 
 }
