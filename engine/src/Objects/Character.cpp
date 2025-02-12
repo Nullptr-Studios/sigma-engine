@@ -258,9 +258,14 @@ void Character::UpdateCombat(double delta) {
 // life is pain -d
 
 void Character::DoHitCollision(float damage, glm::vec3 size, glm::vec2 offset) {
-  auto h = GET_FACTORY->CreateObject<Collision::OneHitCollider>(
-      "PlayerHitColider", glm::vec3(offset.x * transform.relativeScale.x, offset.y, 0) + transform.position, size,
+  if (!m_hitCollider)
+    m_hitCollider = GET_FACTORY->CreateObject<Collision::OneHitCollider>("PlayerHitColider");
+
+  m_hitCollider->Do(glm::vec3(offset.x * transform.relativeScale.x, offset.y, 0) + transform.position, size,
       damage, this, true);
+  /*auto h = GET_FACTORY->CreateObject<Collision::OneHitCollider>(
+      "PlayerHitColider", glm::vec3(offset.x * transform.relativeScale.x, offset.y, 0) + transform.position, size,
+      damage, this, true);*/
 }
 
 //TODO: Xein implement the animation callbacks -d
