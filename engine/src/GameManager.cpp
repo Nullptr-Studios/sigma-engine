@@ -64,7 +64,7 @@ void GameManager::GameInit() {
 #ifdef _DEBUG
 
   // Disables 60fps lock in Debug mode
-  AESetFrameRateMax(180);
+  AESetFrameRateMax(20000);
 
 #endif // _DEBUG
 

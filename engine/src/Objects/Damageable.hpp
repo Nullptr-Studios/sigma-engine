@@ -48,7 +48,6 @@ public:
   virtual void OnDed() {
     std::cout << GetName() << " is ded\n";
   };
-  virtual void OnHeal(){};
 
   void Init() override {
     Actor::Init();
@@ -71,8 +70,6 @@ public:
    * @param health Health to set
    */
   void SetHealth(const float health) {
-    if (health > m_health)
-      OnHeal();
     m_health = health;
   }
   

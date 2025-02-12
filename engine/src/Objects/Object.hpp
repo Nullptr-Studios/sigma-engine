@@ -167,7 +167,7 @@ public:
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
   [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
-  void SetStartHandled() { m_startHandled = true; }
+  void SetStartHandled(bool start = true) { m_startHandled = start; }
 
   [[nodiscard]] Collision::BoxCollider *GetCollider() const { return m_collider.get(); }
 
@@ -181,9 +181,9 @@ private:
   id_t m_id = -1;
   std::string m_name = "Object";
 
+  bool m_startHandled = false;
   bool m_active = true;
   bool m_persistent = false;
-  bool m_startHandled = false;
 
   EventCallbackFn m_callback = nullptr;
 };
