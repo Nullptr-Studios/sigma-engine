@@ -14,7 +14,6 @@ void Sigma::Collision::OneHitCollider::Do(const glm::vec3 &position, const glm::
   if (debugDraw)
     auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);
 
-
   // Create collider
   m_collider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
   m_collider->box.Set(size);

@@ -169,7 +169,7 @@ protected:
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
 
-  std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
+  Sigma::Collision::OneHitCollider* m_attackCollider = nullptr;
 
   /**
    * @brief Sets the Attack Collider information

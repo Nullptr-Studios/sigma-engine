@@ -10,15 +10,13 @@ namespace Sigma::Collision {
 
 class OneHitCollider final : public Sigma::Object {
 public:
-  explicit OneHitCollider(uint32_t id)
-    : Object(id) {}
-  
+  explicit OneHitCollider(const id_t id) : Object(id) {}
+ 
   ~OneHitCollider() override = default;
 
-  void Do(const glm::vec3 &position, const glm::vec3 &size, float damage, Sigma::Object *owner, bool debugDraw = false);
+  void Do(const glm::vec3 &position, const glm::vec3 &size, float damage, const Object *owner, bool debugDraw = false);
   
   void Update(double deltaTime) override;
-
 };
 
 

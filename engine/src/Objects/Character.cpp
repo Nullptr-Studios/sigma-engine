@@ -1,8 +1,11 @@
 #include "Character.hpp"
 #include <string>
+#include "Collision/OneHitCollider.hpp"
 #include "GameScene.hpp"
 #include "Polygon.hpp"
 #include "core.hpp"
+#include "Factory.hpp"
+#include "glm/fwd.hpp"
 
 #define ATTACK_ERRORS
 #define ATTACK_DEBUG
@@ -44,8 +47,8 @@ void Character::Init() {
   #endif
 
   // Create collider
-  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
-  m_attackCollider->enabled = false;
+  m_attackCollider = GET_FACTORY->CreateObject<Sigma::Collision::OneHitCollider>("Attack Collider");
+  m_attackCollider->GetCollider()->enabled = false;
 }
 
 void Character::Start() {
@@ -242,9 +245,6 @@ void Character::UpdateCombat(double delta) {
     m_hitTimer = 0.0f;
     m_inCombo = false;
   }
-
-  // IDK if it's more optimized to do the if or not -x
-  if (m_attackCollider->enabled) m_attackCollider->enabled = false;
 }
 
 void Character::CurrentAnimationEnd(std::string& animName) { m_isIdle = true; }
@@ -311,9 +311,8 @@ void Character::SuperAttack() {
 }
 
 void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
-  m_attackCollider->box.Set(size, offset);
-  m_attackCollider->damage = damage;
-  m_attackCollider->enabled = true;
+  glm::vec3 position = {transform.position.x + offset.x, transform.position.y + offset.y, transform.position.z};
+  m_attackCollider->Do(transform.position, size, damage, this);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two -x
