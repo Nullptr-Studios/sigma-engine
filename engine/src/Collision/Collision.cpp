@@ -22,7 +22,7 @@ void CollisionSystem::UpdateCollisions(ObjectMap *objects) {
 
       // Depth check -x
       float z_distance = std::fabs(obj1->transform.position.z - obj2->transform.position.z);
-      if (z_distance > obj1_collider->depth + obj2_collider->depth)
+      if (z_distance > obj1_collider->box.GetDepth() + obj2_collider->box.GetDepth())
         continue;
 
       // index 0 is left, index 1 is right, index 2 is top, index 3 is bottom -x
@@ -39,24 +39,72 @@ void CollisionSystem::UpdateCollisions(ObjectMap *objects) {
 
       // Collision stuff -x
       if (obj1_collider->type == DAMAGE) {
-        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj2->GetId(), obj1, obj1_collider->type,
-        obj1_collider->damage, obj1_collider->damageType);
+        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj2->GetId(), obj1_collider->GetOwner(),
+  obj1_collider->type, obj1_collider->damage, obj1_collider->damageType); SendEvent(obj1_event); } else { CollisionEvent
+  obj1_event = CollisionEvent(obj2->GetId(), obj1_collider->GetOwner(), obj1_collider->type); SendEvent(obj1_event);
+      }
+
+      if (obj2_collider->type == DAMAGE) {
+        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj1->GetId(), obj2_collider->GetOwner(),
+  obj2_collider->type, obj2_collider->damage, obj2_collider->damageType); SendEvent(obj2_event); } else { CollisionEvent
+  obj2_event = CollisionEvent(obj1->GetId(), obj2_collider->GetOwner(), obj2_collider->type); SendEvent(obj2_event);
+      }
+    }
+  }
+  /*for (auto &o1: *objects) {
+    auto obj1 = o1.second;
+    auto obj1_collider = obj1->GetCollider();
+    if (!obj1_collider || !obj1_collider->enabled)
+      continue; // Avoids if objects doesn't have a collider -x
+
+    for (auto &o2: *objects) {
+      auto obj2 = o2.second;
+      auto obj2_collider = obj2->GetCollider();
+      if (!obj2_collider || !obj2_collider->enabled)
+        continue;
+      // Skips if the flags don't match -x
+      if ((obj1_collider->flag & obj2_collider->flag) == 0)
+        continue;
+
+      // Depth check -x
+      float z_distance = std::fabs(obj1->transform.position.z - obj2->transform.position.z);
+      if (z_distance > obj1_collider->box.GetDepth() + obj2_collider->box.GetDepth())
+        continue;
+
+      // index 0 is left, index 1 is right, index 2 is top, index 3 is bottom -x
+      auto obj1_bounds = obj1_collider->box.GetSides(obj1->transform.position);
+      auto obj2_bounds = obj2_collider->box.GetSides(obj2->transform.position);
+
+      bool collisionX = (obj1_bounds[0] <= obj2_bounds[1]) && (obj1_bounds[1] >= obj2_bounds[0]);
+      if (!collisionX)
+        continue;
+
+      bool collisionY = (obj1_bounds[3] <= obj2_bounds[2]) && (obj1_bounds[2] >= obj2_bounds[3]);
+      if (!collisionY)
+        continue;
+
+      // Collision stuff -x
+      if (obj1_collider->type == DAMAGE) {
+        Damage::DamageEvent obj1_event =
+            Damage::DamageEvent(obj2->GetId(), obj1_collider->GetOwner(), obj1_collider->type, obj1_collider->damage,
+                                obj1_collider->damageType);
         SendEvent(obj1_event);
       } else {
-        CollisionEvent obj1_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
+        CollisionEvent obj1_event = CollisionEvent(obj2->GetId(), obj1_collider->GetOwner(), obj1_collider->type);
         SendEvent(obj1_event);
       }
 
       if (obj2_collider->type == DAMAGE) {
-        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj1->GetId(), obj2, obj2_collider->type,
-        obj2_collider->damage, obj2_collider->damageType);
+        Damage::DamageEvent obj2_event =
+            Damage::DamageEvent(obj1->GetId(), obj2_collider->GetOwner(), obj2_collider->type, obj2_collider->damage,
+                                obj2_collider->damageType);
         SendEvent(obj2_event);
       } else {
-        CollisionEvent obj2_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
+        CollisionEvent obj2_event = CollisionEvent(obj1->GetId(), obj2_collider->GetOwner(), obj2_collider->type);
         SendEvent(obj2_event);
       }
     }
-  }
+  }*/
 }
 
 } // namespace Sigma::Collision

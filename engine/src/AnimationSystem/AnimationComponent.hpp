@@ -139,7 +139,7 @@ public:
    * @brief Set the callback for the end of the animation
    * @param callback Callback function
    */
-  void SetOnAnimationEnd(const std::function<void(std::string)> &callback) { m_onAnimationEnd = callback; }
+  void SetOnAnimationEnd(std::function<void(const std::string&)> callback) { m_onAnimationEnd = std::move(callback); }
 
   /**
    * @brief Clear the callback for the end of the animation

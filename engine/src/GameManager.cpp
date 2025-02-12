@@ -64,7 +64,7 @@ void GameManager::GameInit() {
 #ifdef _DEBUG
 
   // Disables 60fps lock in Debug mode
-  AESetFrameRateMax(20000);
+  AESetFrameRateMax(180);
 
 #endif // _DEBUG
 
@@ -116,8 +116,10 @@ void GameManager::Run() {
       if (!object->GetStartHandled()) {
         object->Start();
         object->SetStartHandled();
+      }else {
+        // tick after one frame from start
+        object->Update(AEGetFrameTimeClamped());
       }
-      object->Update(AEGetFrameTimeClamped());
     }
 
 #if _DEBUG
@@ -193,6 +195,9 @@ void GameManager::Run() {
     auto endDraw = std::chrono::high_resolution_clock::now();
     m_timeRender = endDraw - startDraw;
 #endif
+
+    //fush destroyed objects
+    m_factory->FlushDestroyQueue();
     
   }
 

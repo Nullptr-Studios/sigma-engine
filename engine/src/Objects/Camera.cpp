@@ -23,13 +23,11 @@ void Camera::Update(double deltaTime) {
   if (m_oldTransform.position != transform.position || m_oldTransform.rotation != transform.rotation) {
     UpdateMatrix();
     m_oldTransform = transform;
-    return;
   }
 
   if (m_oldSize != size) {
     UpdateMatrix();
     m_oldSize = size;
-    return;
   }
 
   // Check for rescaling

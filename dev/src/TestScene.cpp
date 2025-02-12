@@ -24,7 +24,7 @@ void TestScene::Load() {
   m_actor->transform.offset = {-50.0f, 50.0f, 0.0f};
   m_camera = GET_FACTORY->CreateObject<Sigma::CameraFollow>("Main Camera");
   GET_CAMERA->SetCurrentCamera(m_camera);
-  m_camera->m_target = m_actor;
+  m_camera->m_targetP1 = m_actor;
   m_camera->m_safeZone = {-.25f,.25f,-.25f,.25f};
   m_camera->m_warningZone = {-.75f,.75f,-.75f,.75f};
 }

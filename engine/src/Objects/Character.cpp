@@ -19,6 +19,9 @@ void Character::Init() {
 
   // Create anim component
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
+  m_animComp->SetOnAnimationEnd(std::bind(&Character::CurrentAnimationEnd, this, std::placeholders::_1));
+  
+  m_animComp->AddCallback("DoHit", std::bind(&Character::DoHit, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
   // Tries to get Scene Bounds
   auto* scene = dynamic_cast<GameScene*>(GET_SCENE);
@@ -37,8 +40,8 @@ void Character::Init() {
 
   // Create collider
   // TODO: Idunno if thos is the way to create colliders -d
-  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
-  m_attackCollider->enabled = false;
+  /*m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
+  m_attackCollider->enabled = false;*/
 }
 
 
@@ -52,8 +55,6 @@ void Character::Update(double delta) {
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-  // This makes it so the collider on the attack is only enabled for a frame -x
-  if (m_attackCollider->enabled == true) m_attackCollider->enabled = false;
   
   m_animComp->Update(delta);
 }
@@ -248,11 +249,28 @@ void Character::UpdateCombat(double delta) {
 // TODO: Right now this is being called on the Basic Attack
 // When my pookie dario has the animation system callbacks the collider should be enabled there
 // This works for now but will change later on -x
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
+/*void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
   m_attackCollider->box.Set(size.x / 2, size.x / 2, size.y / 2, size.y / 2, offset);
   m_attackCollider->depth = size.z;
   m_attackCollider->damage = damage;
   m_attackCollider->enabled = true;
+}*/
+// life is pain -d
+
+void Character::DoHitCollision(float damage, glm::vec3 size, glm::vec2 offset) {
+  auto h = GET_FACTORY->CreateObject<Collision::OneHitCollider>(
+      "PlayerHitColider", glm::vec3(offset.x * transform.relativeScale.x, offset.y, 0) + transform.position, size,
+      damage, this, true);
+}
+
+//TODO: Xein implement the animation callbacks -d
+void Character::CurrentAnimationEnd(std::string animName) {
+  if (!m_inCombo)
+    return;
+}
+void Character::DoHit(std::string animName, unsigned short frame, bool loop) {
+  std::cout << "DoHit on anim " << animName << " on frame " << frame << " loop " << loop << "\n";
+  
 }
 
 void Character::BasicAttack() {
@@ -266,16 +284,25 @@ void Character::BasicAttack() {
 
   if (!isJumping) {
     auto move = m_basicDefault[m_basicCombo - 1];
+    
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset + glm::vec2(transform.position.x, transform.position.y));
-  } else {
+    // SetCollider(move.damage, move.colliderSize, move.colliderOffset /*+ glm::vec2(transform.position.x, transform.position.y)*/);
+      DoHitCollision(move.damage, move.colliderSize, move.colliderOffset);
+    // TODO: need to add the animation callbacks -d
+    m_animComp->SetCurrentAnim(move.animationName);
+    
+  }
+  else {
+    
     auto move = m_basicAir[m_basicCombo - 1];
+    
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset + glm::vec2(transform.position.x, transform.position.y));
+    
+    // SetCollider(move.damage, move.colliderSize, move.colliderOffset /*+ glm::vec2(transform.position.x, transform.position.y)*/);
   }
 
   // I'm using only the count from the default variant since both should have the same number -x
@@ -297,13 +324,13 @@ void Character::SuperAttack() {
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    // SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   } else {
     auto move = m_superAir[m_superCombo - 1];
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    // SetCollider(move.damage, move.colliderSize, move.colliderOffset);
   }
 
   if (m_superCombo >= m_superDefault.size())
