@@ -178,7 +178,7 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset) const;
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset);
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;

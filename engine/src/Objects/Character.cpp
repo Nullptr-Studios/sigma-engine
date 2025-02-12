@@ -1,6 +1,7 @@
 #include "Character.hpp"
 #include <string>
 #include "Collision/OneHitCollider.hpp"
+#include "GameManager.hpp"
 #include "GameScene.hpp"
 #include "Polygon.hpp"
 #include "core.hpp"
@@ -22,12 +23,12 @@ void Character::Init() {
   m_animComp->SetOnAnimationEnd([this](std::string animName) { CurrentAnimationEnd(animName); });
  
   // Basic hit callbacks
-  m_animComp->AddCallback("BasicHit", [this](std::string animName, unsigned short frame, bool loop)
+  m_animComp->AddCallback("OnBasicHit", [this](std::string animName, unsigned short frame, bool loop)
     { OnBasicHit(animName, frame, loop); }
   );
 
   // Super hit callbacks
-  m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
+  m_animComp->AddCallback("OnSuperHit", [this](std::string animName, unsigned short frame, bool loop)
     { OnSuperHit(animName, frame, loop); }
   );
 
@@ -47,7 +48,7 @@ void Character::Init() {
   #endif
 
   // Create collider
-  m_attackCollider = GET_FACTORY->CreateObject<Sigma::Collision::OneHitCollider>("Attack Collider");
+  m_attackCollider = GET_FACTORY->CreateObject<Collision::OneHitCollider>("Attack Collider");
   m_attackCollider->GetCollider()->enabled = false;
 }
 
@@ -223,10 +224,8 @@ void Character::UpdateMovement(double delta) {
     isJumping = false;
   }
 
-
   // Update Z
-  if (!isJumping)
-    transform.position.z = -transform.position.y;
+  if (!isJumping) transform.position.z = -transform.position.y;
 }
 #pragma endregion
 
@@ -310,9 +309,10 @@ void Character::SuperAttack() {
     ResetSuper();
 }
 
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
-  glm::vec3 position = {transform.position.x + offset.x, transform.position.y + offset.y, transform.position.z};
-  m_attackCollider->Do(transform.position, size, damage, this);
+void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
+  float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
+  glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
+  m_attackCollider->Do(position, size, damage, this, true);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two -x

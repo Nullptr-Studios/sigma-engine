@@ -92,7 +92,7 @@ public:
    * @param callback Callback function
    * @return True if the callback was added successfully
    */
-  bool AddCallback(const std::string &callbackName, const std::function<void(std::string&, unsigned short, bool)> &callback);
+  bool AddCallback(const std::string &callbackName, const std::function<void(std::string, unsigned short, bool)> &callback);
 
   /**
    * @brief Remove a callback from the animation

@@ -3,19 +3,17 @@
 //
 
 #include "OneHitCollider.hpp"
-
 #include "ColisionVisualizer.hpp"
 #include "Factory.hpp"
 
+namespace Sigma::Collision {
 
-void Sigma::Collision::OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage,
-                                          Sigma::Object *owner, bool debugDraw) {
+void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage, Sigma::Object *owner, bool debugDraw) {
   transform.position = position;
   if (debugDraw)
     auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);
 
   // Create collider
-  m_collider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
   m_collider->box.Set(size);
   m_collider->damage = damage;
   m_collider->SetOwner(owner);
@@ -24,9 +22,16 @@ void Sigma::Collision::OneHitCollider::Do(const glm::vec3 &position, const glm::
   SetStartHandled(false);
 }
 
-void Sigma::Collision::OneHitCollider::Update(double deltaTime) {
+void OneHitCollider::Init() {
+  Object::Init();
+  m_collider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
+}
+
+void OneHitCollider::Update(double deltaTime) {
   Object::Update(deltaTime);
   if (m_collider->enabled) {
     m_collider->enabled = false;
   }
+}
+
 }

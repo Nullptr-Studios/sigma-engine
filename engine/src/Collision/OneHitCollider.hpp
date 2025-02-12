@@ -14,8 +14,9 @@ public:
  
   ~OneHitCollider() override = default;
 
-  void Do(const glm::vec3 &position, const glm::vec3 &size, float damage, const Object *owner, bool debugDraw = false);
-  
+  void Do(const glm::vec3 &position, const glm::vec3 &size, float damage, Object *owner, bool debugDraw = false);
+
+  void Init() override;
   void Update(double deltaTime) override;
 };
 

@@ -175,7 +175,7 @@ struct BoxCollider {
 
   // Ownership of the collider
   void SetOwner(Object* owner) { this->m_owner = owner; }
-  Object* GetOwner() const { return m_owner; }
+  [[nodiscard]] Object* GetOwner() const { return m_owner; }
 
 
   /**
