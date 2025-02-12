@@ -8,8 +8,6 @@
 
 #pragma once
 
-
-#include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
 #include "Damageable.hpp"
 #include "json.hpp"
@@ -109,7 +107,7 @@ public:
   void Init() override;
   void Start() override;
   void Update(double delta) override;
-  
+ 
   glm::mat3 *GetTextureTransform() override;
 
   void OnDamage(const Damage::DamageEvent &e) override;
@@ -117,7 +115,6 @@ public:
   void Serialize();
 
 #pragma region MovementSystem
-
   void Move(glm::vec2 direction);
   void Jump();
 
@@ -129,13 +126,9 @@ public:
 
 
 private:
-  
   std::string m_jsonPath;
 
-  void DoHitCollision(float damage, glm::vec3 size, glm::vec2 offset);
-
-  //Animation callbacks
-  void CurrentAnimationEnd(std::string animName);
+  void CurrentAnimationEnd(std::string& animName);
 
   void DoHit(std::string animName, unsigned short frame, bool loop);
 
@@ -166,19 +159,24 @@ protected:
 
 #pragma region Combat
   void UpdateCombat(double delta);
+
+  // Animation callbacks
+  void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
+  void OnSuperHit(std::string& animName, unsigned short frame, bool loop);
+
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
 
-  //std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
+  std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
 
-  // /**
-  //  * @brief Sets the Attack Collider information
-  //  * Wrapper for the JSON parsing of objects, this is used for not repeating the same code 4 times
-  //  * @param damage Damage of the attack
-  //  * @param size Size of the collider
-  //  * @param offset Offset of the collider
-  //  */
-  // void SetCollider(float damage, glm::vec3 size, glm::vec2 offset) const;
+  /**
+   * @brief Sets the Attack Collider information
+   * Wrapper for the JSON parsing of objects, this is used for not repeating the same code 4 times
+   * @param damage Damage of the attack
+   * @param size Size of the collider
+   * @param offset Offset of the collider
+   */
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset) const;
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;
@@ -186,8 +184,6 @@ protected:
   std::vector<Combat::Move> m_superDefault;
   std::vector<Combat::Move> m_superAir;
 
-  // TODO: I need animation callbacks for this pookie 😘
-  // TODO: Animation callbacks were working since last week 😘 -d
   bool m_isIdle = true; ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 
