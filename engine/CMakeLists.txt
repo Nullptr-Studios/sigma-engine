@@ -11,6 +11,7 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 
 add_library(sigma STATIC 
         ${SRC}
+        ../../../src/Objects/Pickups/Pickup.hpp
 )
 
 target_include_directories(sigma PUBLIC src)

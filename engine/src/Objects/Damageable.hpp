@@ -34,8 +34,14 @@ public:
     
   };
 
-  virtual void OnDed(){};
-  virtual void OnHeal(){};
+ /**
+   * @brief Sets the health of the character
+   *
+   * @param health Health to set
+   */
+
+  virtual void OnDed() {};
+  void OnHeal(float health) { SetHealth(m_health + health); };
 
   void Init() override { Actor::Init(); };
   void Start() override {Actor::Start();};
@@ -51,20 +57,19 @@ public:
    *
    * @param health Health to set
    */
-  void SetHealth(const float health) {
-    if (health > m_health)
-      OnHeal();
+
+  virtual void SetHealth(float health) {
+    health = std::min(health, m_maxHealth);
     m_health = health;
   }
   
   void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
 protected:
-  float m_health = 100.0f;
+  float m_maxHealth = 100.0f;
+  float m_health = m_maxHealth;
   bool m_isAlive = true;
 
-  
 };
 
 } // Sigma
-
