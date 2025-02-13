@@ -29,10 +29,15 @@ void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string &ani
   for (auto &anim: m_texAtlas->animations) {
     if (anim.name == animName) {
       m_currentAnimation = &anim;
+      m_currentFrameIndex = 0;
+      m_timeSinceLastFrame = 0;
       return;
     }
   }
   m_currentAnimation = nullptr;
+  
+  m_currentFrameIndex = 0;
+  m_timeSinceLastFrame = 0;
 }
 
 void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
