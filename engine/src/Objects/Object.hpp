@@ -139,7 +139,7 @@ public:
    * @param e Event to send
    *
    * The callback should have been set up by the factory. Example of usage
-   * @code
+   * \code{.cpp}
    * // We create a message event that asks for a pointer of this object (using 'this' keyword) and the name of the
    * // object we want to send the event to
    * MessageEvent eventTest(this, "Object2");
@@ -155,7 +155,7 @@ public:
    *   std::cout << "Message received! (from: " << sender->GetName() << ")\n";
    *   return true;
    * }
-   * @endcode
+   * \endcode
    */
   void SendEvent(Event &e) const { m_callback(e); }
 

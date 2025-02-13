@@ -23,12 +23,12 @@ void Character::Init() {
   m_animComp->SetOnAnimationEnd([this](std::string animName) { CurrentAnimationEnd(animName); });
  
   // Basic hit callbacks
-  m_animComp->AddCallback("OnBasicHit", [this](std::string animName, unsigned short frame, bool loop)
+  m_animComp->AddCallback("BasicHit", [this](std::string animName, unsigned short frame, bool loop)
     { OnBasicHit(animName, frame, loop); }
   );
 
   // Super hit callbacks
-  m_animComp->AddCallback("OnSuperHit", [this](std::string animName, unsigned short frame, bool loop)
+  m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
     { OnSuperHit(animName, frame, loop); }
   );
 
@@ -247,8 +247,10 @@ void Character::UpdateCombat(double delta) {
 }
 
 void Character::CurrentAnimationEnd(std::string& animName) {
-  if (animName == "Punch1")
+  if (animName == "Punch1") {
     m_isIdle = true;
+    m_animComp->SetCurrentAnim("Idle");
+  }
 }
 
 void Character::BasicAttack() {
