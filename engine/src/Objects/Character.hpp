@@ -112,7 +112,7 @@ public:
 
   void OnDamage(const Damage::DamageEvent &e) override;
 
-  void Serialize();
+  virtual void Serialize();
 
 #pragma region MovementSystem
   void Move(glm::vec2 direction);
@@ -126,13 +126,12 @@ public:
 
 
 private:
-  std::string m_jsonPath;
-
   void CurrentAnimationEnd(std::string& animName);
 
   void DoHit(std::string animName, unsigned short frame, bool loop);
 
 protected:
+  std::string m_jsonPath;
   json j = nullptr;
 
   Collision::OneHitCollider* m_hitCollider = nullptr;
