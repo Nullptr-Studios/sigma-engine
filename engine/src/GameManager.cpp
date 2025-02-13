@@ -416,6 +416,7 @@ void GameManager::DebugProfiler()
 
     auto mouse = AEGetMouseData();
     glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
+    mousePos = GET_CAMERA->GetCurrentCamera()->ScreenToWorld(mousePos);
     std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
     AEGfxPrint(500, 95, 0xFFFFFFFF, mousePosStr.c_str());
 
