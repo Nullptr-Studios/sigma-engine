@@ -147,8 +147,8 @@ struct BoxCollider {
      *   - @c [2] top
      *   - @c [3] bottom
      */ 
-    [[nodiscard]] std::array<float, 4> GetSides(const glm::vec3& position) const {
-      std::array<float, 4> vertices = {
+    [[nodiscard]] std::vector<float> GetSides(const glm::vec3& position) const {
+      std::vector<float> vertices = {
         -left + position.x + offset.x,
          right + position.x + offset.x,
          top + position.y + offset.y,
