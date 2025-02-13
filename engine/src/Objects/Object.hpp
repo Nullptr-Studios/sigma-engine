@@ -179,11 +179,12 @@ protected:
 
 private:
   id_t m_id = -1;
-  std::string m_name = "Object";
 
   bool m_startHandled = false;
   bool m_active = true;
   bool m_persistent = false;
+
+  std::string m_name = "Object";
 
   EventCallbackFn m_callback = nullptr;
 };
