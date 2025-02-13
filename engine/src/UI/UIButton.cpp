@@ -17,11 +17,11 @@ void UIButton::Update(double delta) {
   bool hovered = ((transform.position.x - (transform.scale.x/2) <= mousePos.x && mousePos.x <= transform.position.x + (transform.scale.x/2)) &&
                   (transform.position.y - (transform.scale.y/2) <= mousePos.y && mousePos.y <= transform.position.y + (transform.scale.y/2)));
   if (!m_pressed && pressed && hovered) {
-    OnPress();
+    OnClick();
   } else if (m_pressed && pressed && hovered) {
     OnHoldClick();
   } else if (m_pressed && (!pressed && !hovered)) {
-    OnUnclick();
+    OnUnClick();
   }
   if (!m_hovered && hovered) {
     OnHoverStart();
