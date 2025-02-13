@@ -10,8 +10,10 @@ namespace Sigma::Collision {
 
 void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage, Sigma::Object *owner, bool debugDraw) {
   transform.position = position;
-  if (debugDraw)
+  if (debugDraw) {
     auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);
+    d->SetTexture("assets/core/debug_yellow.png");
+  }
 
   // Create collider
   m_collider->box.Set(size);

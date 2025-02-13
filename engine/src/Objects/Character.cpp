@@ -246,7 +246,10 @@ void Character::UpdateCombat(double delta) {
   }
 }
 
-void Character::CurrentAnimationEnd(std::string& animName) { m_isIdle = true; }
+void Character::CurrentAnimationEnd(std::string& animName) {
+  if (animName == "Punch1")
+    m_isIdle = true;
+}
 
 void Character::BasicAttack() {
   if (!m_isIdle) return;
@@ -256,23 +259,24 @@ void Character::BasicAttack() {
   ResetSuper();
 
   m_hitTimer = 0;
-  m_basicCombo++;
 
   if (!isJumping) {
-    auto move = m_basicDefault[m_basicCombo - 1];
+    auto move = m_basicDefault[m_basicCombo];
     m_animComp->SetCurrentAnim(move.animationName);
  
     #ifdef ATTACK_DEBUG
       std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   } else {
-    auto move = m_basicAir[m_basicCombo - 1];
+    auto move = m_basicAir[m_basicCombo];
     m_animComp->SetCurrentAnim(move.animationName);
 
     #ifdef ATTACK_DEBUG
       std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   }
+
+  m_basicCombo++;
 
   // I'm using only the count from the default variant since both should have the same number -x
   if (m_basicCombo >= m_basicDefault.size())
@@ -287,23 +291,24 @@ void Character::SuperAttack() {
   ResetBasic();
 
   m_hitTimer = 0;
-  m_superCombo++;
 
   if (!isJumping) {
-    auto move = m_basicDefault[m_basicCombo - 1];
+    auto move = m_superDefault[m_basicCombo];
     m_animComp->SetCurrentAnim(move.animationName);
  
     #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   } else {
-    auto move = m_basicAir[m_basicCombo - 1];
+    auto move = m_superAir[m_basicCombo];
     m_animComp->SetCurrentAnim(move.animationName);
 
     #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   }
+
+  m_superCombo++;
 
   if (m_superCombo >= m_superDefault.size())
     ResetSuper();
@@ -320,14 +325,14 @@ void Character::SetCollider(const float damage, const glm::vec3 size, const glm:
 // BASIC HIT
 void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_basicAir[m_basicCombo - 1] : m_basicDefault[m_basicCombo - 1];
+  auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 
 //SUPER HIT
 void Character::OnSuperHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_superAir[m_superCombo - 1] : m_superDefault[m_superCombo - 1];
+  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 #pragma endregion

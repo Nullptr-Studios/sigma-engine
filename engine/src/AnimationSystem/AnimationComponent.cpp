@@ -21,6 +21,7 @@ void Sigma::Animation::AnimationComponent::SetTextureAtlas(TextureAtlas *texAtla
 }
 
 void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string &animName) {
+  // Why is this if like this -x
   if (m_currentAnimation != nullptr)
     if (m_currentAnimation->name == animName)
       return;
