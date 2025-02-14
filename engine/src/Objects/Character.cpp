@@ -33,7 +33,7 @@ void Character::Init() {
   );
 
   // Tries to get Scene Bounds
-  auto* scene = dynamic_cast<GameScene*>(GET_SCENE);
+  auto* scene = dynamic_cast<GameScene*>(GET_SCENE(0));
   if (scene == nullptr)
     std::cerr << "[Character] " << GetName() << " failed to get GameScene\n";
   else

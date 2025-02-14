@@ -64,7 +64,7 @@ void GameManager::GameInit() {
 #ifdef _DEBUG
 
   // Disables 60fps lock in Debug mode
-  AESetFrameRateMax(20000);
+  AESetFrameRateMax(10000);
 
 #endif // _DEBUG
 
@@ -84,8 +84,6 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-  if (m_currentScene != nullptr)
-  {
     
 #if _DEBUG
     auto startCollision = std::chrono::high_resolution_clock::now();
@@ -99,17 +97,16 @@ void GameManager::Run() {
 #endif
 
 
-    // TODO: For Each Actor Deubug DrawRectCollider
+    // TODO: For Each Actor Debug DrawRectCollider
 
 #if _DEBUG
     auto startTick = std::chrono::high_resolution_clock::now();
 #endif
     // Scene and subscene update
-    m_currentScene->Update(AEGetFrameTimeClamped());
-
-    for (auto &val: m_subScenes | std::views::values) {
-      val->Update(AEGetFrameTimeClamped());
+    for (auto scene: m_loadedScenes) {
+      scene->Update(AEGetFrameTimeClamped());
     }
+
 
     // Tick Objects
     for (const auto &object: *m_factory->GetObjects() | std::views::values) {
@@ -132,11 +129,11 @@ void GameManager::Run() {
     auto startDraw = std::chrono::high_resolution_clock::now();
 #endif
     // Scene and SubScene draw
-    m_currentScene->Draw();
-
-    for (auto &val: m_subScenes | std::views::values) {
-      val->Draw();
+    for (auto scene: m_loadedScenes) {
+      scene->Draw();
     }
+
+
 
     auto renderables = m_factory->GetRenderables();
 
@@ -199,7 +196,6 @@ void GameManager::Run() {
     //fush destroyed objects
     m_factory->FlushDestroyQueue();
     
-  }
 
 #if _DEBUG
   auto startSound = std::chrono::high_resolution_clock::now();
@@ -273,6 +269,7 @@ void GameManager::OnEvent(Event &e) {
 #pragma endregion
 
 #pragma region Scene Management
+
 void GameManager::LoadScene(Scene *scene) {
 
   PROFILER_START
@@ -283,83 +280,84 @@ void GameManager::LoadScene(Scene *scene) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
   }
-
-  if (m_currentScene != nullptr) {
-    m_currentScene->Free();
-    m_currentScene->Unload();
-
-    // TODO: Do Scene object ownership
-    m_factory->DestroyAllObjects();
-
-    for (auto &val: m_subScenes | std::views::values) {
-      val->Free();
-      val->Unload();
-      delete val;
+  
+  //Check for duplicate scene
+  for (const auto &s: m_loadedScenes)
+  {
+    if (scene->GetName() == s->GetName() && scene->GetID() == s->GetID())
+    {
+      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " already loaded" << std::endl;
+      return;
     }
-
-    delete m_currentScene;
   }
+  
+  m_loadedScenes.push_back(scene);
 
-  m_currentScene = scene;
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
             << " loading..." << std::endl;
-  m_currentScene->Load();
-  m_currentScene->Init();
-  std::cout << "[GameManager] Scene: " << m_currentScene->GetName() << " with ID: " << m_currentScene->GetID()
+  // Call member functions
+  scene->Load();
+  scene->Init();
+  
+  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
             << " loaded!" << std::endl;
+  
 
   StateManager::SetEngineState(IN_GAME);
 
   PROFILER_END("GameManager::LoadScene")
 }
 
-void GameManager::LoadSubScene(Scene *scene) {
-
-  PROFILER_START
-
-  StateManager::SetEngineState(SUB_SCENE_LOAD);
-
-  if (m_subScenes.contains(scene->GetID())) {
-    std::cout << "[GameManager]: SubScene already loaded \n";
-    return;
+void GameManager::UnloadScene(const char *sceneName)
+{
+  for (const auto scene: m_loadedScenes) {
+    if (scene->GetName() == sceneName) {
+      UnloadScene(scene->GetID());
+      return;
+    }
   }
-
-  scene->Load();
-  scene->Init();
-
-  m_subScenes.emplace(scene->GetID(), scene);
-
-  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded as a SubScene!"
-            << std::endl;
-
-  StateManager::SetEngineState(IN_GAME);
-
-  PROFILER_END("GameManager::LoadSubScene")
+  std::cout << "[GameManager] Scene with name: " << sceneName << " not found" << std::endl;
 }
 
-void GameManager::UnloadSubScene(const Scene *scene) {
-  UnloadSubScene(scene->GetID()); 
-}
-
-void GameManager::UnloadSubScene(const int id)
+void GameManager::UnloadScene(unsigned sceneID)
 {
   PROFILER_START
   
-  if (m_subScenes.contains(id)) {
-    StateManager::SetEngineState(SUB_SCENE_UNLOAD);
-    Scene *scene = m_subScenes[id];
-    scene->Free();
-    scene->Unload();
-    m_subScenes.erase(id);
-    delete scene;
-    StateManager::SetEngineState(IN_GAME);
-    PROFILER_END("GameManager::UnloadSubScene")
-    return;
+  for (const auto element: m_loadedScenes){
+    if (element->GetID() == sceneID) {
+      element->Free();
+      element->Unload();
+      m_loadedScenes.remove(element);
+      delete element;
+      std::cout << "[GameManager] Scene with ID: " << sceneID << " unloaded" << std::endl;
+      PROFILER_END("GameManager::UnloadScene")
+      return;
+    }
   }
-  std::cout << "[GameManager] Scene with ID: " << id << " not found in SubScenes!" << std::endl;
-  
-  PROFILER_END("GameManager::UnloadSubScene")
+
+  std::cout << "[GameManager] Scene with ID: " << sceneID << " not found" << std::endl;
 }
+
+Scene *GameManager::GetCurrentScene(int ID) {
+  for (auto scene: m_loadedScenes) {
+    if (scene->GetID() == ID) {
+      return scene;
+    }
+  }
+  std::cout << "[GameManager] Scene with ID: " << ID << " not found" << std::endl;
+  return nullptr;
+}
+
+Scene *GameManager::GetCurrentScene(const char *name) {
+  for (auto scene : m_loadedScenes) {
+    if (scene->GetName() == name) {
+      return scene;
+    }
+  }
+  std::cout << "[GameManager] Scene with name: " << name << " not found" << std::endl;
+  return nullptr;
+}
+
 #pragma endregion
 
 void GameManager::DebugProfiler()
@@ -393,33 +391,45 @@ void GameManager::DebugProfiler()
     }
 
     FPS.append(std::to_string(fps));
-    AEGfxPrint(600, 10, colorFPS, FPS.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 10, colorFPS, FPS.c_str());
 
     std::string SPF = "SPF: ";
     SPF.append(std::to_string(AEGetFrameTimeClamped()));
-    AEGfxPrint(600, 20, colorFPS, SPF.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 20, colorFPS, SPF.c_str());
 
     std::string Collisions = "COL: ";
     Collisions.append(std::to_string(m_timeCollisions.count()));
-    AEGfxPrint(600, 35, 0xFF00FF00, Collisions.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 35, 0xFF00FF00, Collisions.c_str());
 
     std::string Tick = "TCK: ";
     Tick.append(std::to_string(m_timeTick.count()));
-    AEGfxPrint(600, 45, 0xFF00FF00, Tick.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 45, 0xFF00FF00, Tick.c_str());
 
     std::string Draw = "DRW: ";
     Draw.append(std::to_string(m_timeRender.count()));
-    AEGfxPrint(600, 55, 0xFF00FF00, Draw.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 55, 0xFF00FF00, Draw.c_str());
 
     std::string Sound = "SND: ";
     Sound.append(std::to_string(m_timeSound.count()));
-    AEGfxPrint(600, 65, 0xFF00FF00, Sound.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 65, 0xFF00FF00, Sound.c_str());
+
 
 
     auto mouse = AEGetMouseData();
     glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
     std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
-    AEGfxPrint(500, 95, 0xFFFFFFFF, mousePosStr.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 95, 0xFFFFFFFF, mousePosStr.c_str());
+
+
+    std::string CurrentScenes = "Current loaded Scenes: " + std::to_string(m_loadedScenes.size()) + "\n";
+
+    for (auto scenes: m_loadedScenes) {
+      CurrentScenes.append(scenes->GetName());
+      CurrentScenes.append(" : ");
+      CurrentScenes.append(std::to_string(scenes->GetID()));
+      CurrentScenes.append("\n");
+    }
+    AEGfxPrint(AEGetWindowSize().x - 255, 110, 0xFFFFFFFF, CurrentScenes.c_str());
 
 
     std::string CurrentObjects = "Current Objects: ";
@@ -431,7 +441,7 @@ void GameManager::DebugProfiler()
     AEGfxPrint(10, 60, 0xFFFFFFFF, CurrentActors.c_str());
 
     std::string CurrentObjectsList = "Current Objects List: \n";
-    for (auto &val: *m_factory->GetObjects() | std::views::values) {
+    for (auto val: *m_factory->GetObjects() | std::views::values) {
       CurrentObjectsList.append(val->GetName());
       CurrentObjectsList.append("\n");
     }
