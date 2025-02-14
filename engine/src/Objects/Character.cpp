@@ -54,6 +54,7 @@ void Character::Init() {
 
 void Character::Start() {
   Damageable::Start();
+  j.clear();
 }
 
 void Character::Update(double delta) {
