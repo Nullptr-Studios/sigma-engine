@@ -125,6 +125,9 @@ public:
   void SuperAttack();
 
 
+  bool GetIsIdle() { return m_isIdle; } ///< @brief Returns whether the character is idle or not
+
+
 private:
   void CurrentAnimationEnd(std::string& animName);
 
