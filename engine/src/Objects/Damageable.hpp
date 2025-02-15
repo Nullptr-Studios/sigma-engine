@@ -25,6 +25,7 @@ public:
    */
   virtual void OnDamage(const Damage::DamageEvent &e)
   {
+    if (!m_isAlive) { return; }
     float currentHealth = m_health - e.GetDamageAmount();
     SetHealth(std::max(0.0f, currentHealth));
     if (currentHealth <= 0) {
@@ -49,21 +50,25 @@ public:
   void Draw() override {Actor::Draw();};
   void Destroy() override {Actor::Destroy();};
 
-  [[nodiscard]] float GetHealth() const { return m_health;} ///< @brief returns amount of character health
-  [[nodiscard]] bool GetAlive() const { return m_isAlive;} ///< @brief returns whether character is alive or not
+  [[nodiscard]] virtual float GetHealth() const { return m_health;} ///< @brief returns amount of character health
+  [[nodiscard]] virtual bool GetAlive() const { return m_isAlive;} ///< @brief returns whether character is alive or not
 
   /**
    * @brief Sets the health of the character
-   *
    * @param health Health to set
    */
+  virtual void SetHealth(float health) { m_health = std::min(health, m_maxHealth); }
 
-  virtual void SetHealth(float health) {
-    health = std::min(health, m_maxHealth);
-    m_health = health;
-  }
-  
-  void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
+  /**
+   * @brief Sets the maximum health of the character
+   * @param health Health to set
+   */
+  virtual void SetMaxHealth(float health) {
+    m_maxHealth = health;
+    m_health = std::min(m_health, m_maxHealth);
+  };
+
+  virtual void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
 protected:
   float m_maxHealth = 100.0f;
