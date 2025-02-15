@@ -30,6 +30,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
 
   // default animation
   Animation a;
+  
   if (J["meta"].contains("fps")) {
     a.frameRate = J["meta"]["fps"];
   } else {
@@ -44,7 +45,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
   // first save all the frames
   // Then sort frames into animations
 
-  for (auto frame: J["frames"]) {
+  for (auto &frame: J["frames"]) {
     Frame f;
 
     f.name = frame["filename"];
@@ -97,9 +98,11 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::LoadTextureAt
       if (!found) {
         Animation m_animation;
 
-        if (J["meta"]["image"].contains("fps")) {
-          m_animation.frameRate = J["meta"]["image"]["fps"];
-        } else {
+        if (frame.contains("fps")) {
+          m_animation.frameRate = frame["fps"];
+        } else if (J["meta"].contains("fps")) {
+          m_animation.frameRate = J["meta"]["fps"];
+        }else{
           m_animation.frameRate = m_defaultFPS;
         }
 

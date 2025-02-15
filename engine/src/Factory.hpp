@@ -114,6 +114,8 @@ public:
 
 #pragma endregion
 
+  AEGfxFont* LoadFont(const char *filepath, int size); ///< @brief Loads a font
+  
   [[nodiscard]] AEGfxTriList *GetSharedTriList() const { return m_tris; } ///< @brief Returns the shared TriList
 
   static Factory *GetInstance() {
@@ -169,6 +171,8 @@ private:
    * the frame
    */
   std::list<id_t> m_destroyQueue;
+
+  std::unordered_map<std::string, AEGfxFont *> m_fonts;
 };
 
 
