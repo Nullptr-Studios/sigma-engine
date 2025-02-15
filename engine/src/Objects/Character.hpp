@@ -168,6 +168,8 @@ protected:
   void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
   void OnSuperHit(std::string& animName, unsigned short frame, bool loop);
 
+  virtual void OnFullComboPerformed() { } ///< @brief This function is called when a character successfully ends a combo
+
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
 

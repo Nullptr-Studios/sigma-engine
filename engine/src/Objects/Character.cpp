@@ -200,7 +200,7 @@ void Character::UpdateMovement(double delta) {
     glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
 
     newPos.x += velocity.x * delta;
-    if (!m_sceneBoundsPoly->isPointInside(newPos)) {
+    if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
       velocity.x = 0.0f;
     }
 
@@ -208,7 +208,7 @@ void Character::UpdateMovement(double delta) {
       newPos = transform.position;
 
       newPos.y += velocity.y * delta;
-      if (!m_sceneBoundsPoly->isPointInside(newPos)) {
+      if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
         velocity.y = 0.0f;
       }
     }
@@ -282,8 +282,10 @@ void Character::BasicAttack() {
   m_basicCombo++;
 
   // I'm using only the count from the default variant since both should have the same number -x
-  if (m_basicCombo >= m_basicDefault.size())
+  if (m_basicCombo >= m_basicDefault.size()) {
     ResetBasic();
+    OnFullComboPerformed();
+  }
 }
 
 void Character::SuperAttack() {
@@ -313,8 +315,10 @@ void Character::SuperAttack() {
 
   m_superCombo++;
 
-  if (m_superCombo >= m_superDefault.size())
+  if (m_superCombo >= m_superDefault.size()) {
     ResetSuper();
+    OnFullComboPerformed();
+  }
 }
 
 void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
