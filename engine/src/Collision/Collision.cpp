@@ -1,60 +1,55 @@
 #include "Collision.hpp"
 #include "CollisionEvent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
+#include <immintrin.h>
 
 namespace Sigma::Collision {
 
 // Every day i think i prefer femboys a bit more than woman -x(probably) not d
-void CollisionSystem::UpdateCollisions(ObjectMap *objects) {
+// Thb the best is to date an enby, best of both worlds -x
+void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
   for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
-    auto obj1 = it1->second;
-    auto obj1_collider = obj1->GetCollider();
-    if (!obj1_collider || !obj1_collider->enabled) continue; // Avoids if objects doesn't have a collider -x
+    auto& obj1 = it1->second;
+    auto* col1 = obj1->GetCollider();
+    if (!col1 || !col1->enabled) continue;
 
-    // Start the inner loop from the next element to avoid redundant checks -x
+    const auto& pos1 = obj1->transform.position;
+    const auto& box1 = col1->box;
+    float depth1 = box1.GetDepth();
+    auto sides1 = box1.GetSides(pos1);
+
     for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
-      auto obj2 = it2->second;
-      auto obj2_collider = obj2->GetCollider();
-      if (!obj2_collider || !obj2_collider->enabled) continue;
-      // Skips if the flags don't match -x
-      if ((obj1_collider->flag & obj2_collider->flag) == 0)
-        continue;
+      auto& obj2 = it2->second;
+      auto* col2 = obj2->GetCollider();
+      if (!col2 || !col2->enabled) continue;
 
-      // Depth check -x
-      float z_distance = std::fabs(obj1->transform.position.z - obj2->transform.position.z);
-      if (z_distance > obj1_collider->depth + obj2_collider->depth)
-        continue;
+      if (!(col1->flag & col2->flag)) continue; // Early exit if no matching flag
 
-      // index 0 is left, index 1 is right, index 2 is top, index 3 is bottom -x
-      auto obj1_bounds = obj1_collider->box.GetSides(obj1->transform.position);
-      auto obj2_bounds = obj2_collider->box.GetSides(obj2->transform.position);
+      const auto& pos2 = obj2->transform.position;
+      const auto& box2 = col2->box;
+      float depth2 = box2.GetDepth();
 
-      bool collisionX = (obj1_bounds[0] <= obj2_bounds[1]) && (obj1_bounds[1] >= obj2_bounds[0]);
-      if (!collisionX)
-        continue;
+      if (std::fabs(pos1.z - pos2.z) > (depth1 + depth2)) continue; // Z-depth check
 
-      bool collisionY = (obj1_bounds[3] <= obj2_bounds[2]) && (obj1_bounds[2] >= obj2_bounds[3]);
-      if (!collisionY)
-        continue;
+      auto sides2 = box2.GetSides(pos2);
 
-      // Collision stuff -x
-      if (obj1_collider->type == DAMAGE) {
-        Damage::DamageEvent obj1_event = Damage::DamageEvent(obj1->GetId(), obj2, obj2_collider->type,
-        obj2_collider->damage, obj2_collider->damageType);
-        SendEvent(obj1_event);
-      } else {
-        CollisionEvent obj1_event = CollisionEvent(obj1->GetId(), obj2, obj2_collider->type);
-        SendEvent(obj1_event);
-      }
+      // AABB collision check
+      if (sides1[1] < sides2[0] || sides1[0] > sides2[1]) continue;
+      if (sides1[2] < sides2[3] || sides1[3] > sides2[2]) continue;
 
-      if (obj2_collider->type == DAMAGE) {
-        Damage::DamageEvent obj2_event = Damage::DamageEvent(obj2->GetId(), obj1, obj1_collider->type,
-        obj1_collider->damage, obj1_collider->damageType);
-        SendEvent(obj2_event);
-      } else {
-        CollisionEvent obj2_event = CollisionEvent(obj2->GetId(), obj1, obj1_collider->type);
-        SendEvent(obj2_event);
-      }
+      auto SendCollisionEvent = [&](auto* collider, id_t target_id) {
+        if (collider->type == DAMAGE) {
+          auto damageEvent = Damage::DamageEvent(target_id, collider->GetOwner(), collider->type, collider->damage, collider->damageType);
+          SendEvent(damageEvent);
+        } else {
+          auto collisionEvent = CollisionEvent(target_id, collider->GetOwner(), collider->type);
+          SendEvent(collisionEvent);
+        }
+      };
+
+      // Dispatch events for both objects
+      SendCollisionEvent(col1, obj2->GetId());
+      SendCollisionEvent(col2, obj1->GetId());
     }
   }
 }
