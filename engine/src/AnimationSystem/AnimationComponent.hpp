@@ -74,13 +74,23 @@ public:
 #pragma endregion
 
 #pragma region Callbacks
+
   /**
    * @brief Add a callback to the animation
+   * The callback will ask for a fucnction object of the shape 
+   * @code void CallbackFunction(std::string animName, unsigned short currentFrame, bool loop); @endcode
+   * where @c animName is going to have the current animation name, currentFrame has the frame the callback is called with and loop
+   * indicates if the animation loops or not.
+   * @code 
+   * if (m_animCallbacks.contains(m_currentFrame->AnimCallbackString)) {
+   *   m_animCallbacks[m_currentFrame->AnimCallbackString](m_currentAnimation->name, m_currentFrameIndex, m_loop);
+   * @endcode
+   *
+   * @note You will need to add in the json frame a member called "callback" with the name of the callback in order to be caller
+   *
    * @param callbackName Name of the callback
    * @param callback Callback function
    * @return True if the callback was added successfully
-   *
-   * @note You will need to add in the json frame a member called "callback" with the name of the callback in order to be caller
    */
   bool AddCallback(const std::string &callbackName, const std::function<void(std::string, unsigned short, bool)> &callback);
 
@@ -139,7 +149,7 @@ public:
    * @brief Set the callback for the end of the animation
    * @param callback Callback function
    */
-  void SetOnAnimationEnd(const std::function<void(std::string)> &callback) { m_onAnimationEnd = callback; }
+  void SetOnAnimationEnd(std::function<void(const std::string&)> callback) { m_onAnimationEnd = std::move(callback); }
 
   /**
    * @brief Clear the callback for the end of the animation

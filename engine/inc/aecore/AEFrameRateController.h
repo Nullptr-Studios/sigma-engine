@@ -21,7 +21,7 @@ double   AEGetFrameRate();                 // get the frame rate based on the la
 double   AEGetFrameTime();                 // get time taken to process the last frame(in seconds)
 unsigned AEGetFrameCounter();              // get number of frame since the last reset
 inline double AEGetFrameTimeClamped() {
-  return min(AEGetFrameTime(), .066f); // This is clamped to 15 fps -x,d
+  return min(AEGetFrameTime(), 5.0f); // This is clamped to 15 fps -x,d
 }
 
 // ---------------------------------------------------------------------------

@@ -8,8 +8,6 @@
 
 #pragma once
 
-
-#include "AnimationSystem/AnimationComponent.hpp"
 #include "DamageSystem/DamageEvent.hpp"
 #include "Damageable.hpp"
 #include "json.hpp"
@@ -109,15 +107,14 @@ public:
   void Init() override;
   void Start() override;
   void Update(double delta) override;
-  
+ 
   glm::mat3 *GetTextureTransform() override;
 
   void OnDamage(const Damage::DamageEvent &e) override;
 
-  void Serialize();
+  virtual void Serialize();
 
 #pragma region MovementSystem
-
   void Move(glm::vec2 direction);
   void Jump();
 
@@ -128,12 +125,19 @@ public:
   void SuperAttack();
 
 
+  bool GetIsIdle() { return m_isIdle; } ///< @brief Returns whether the character is idle or not
+
+
 private:
-  
-  std::string m_jsonPath;
+  void CurrentAnimationEnd(std::string& animName);
+
+  void DoHit(std::string animName, unsigned short frame, bool loop);
 
 protected:
+  std::string m_jsonPath;
   json j = nullptr;
+
+  Collision::OneHitCollider* m_hitCollider = nullptr;
 
   [[nodiscard]] float GetHealth() const {return m_health;} ///< @brief returns amount of character health
   [[nodiscard]] bool GetAlive() const {return m_isAlive;} ///< @brief returns whether character is alive or not
@@ -142,6 +146,7 @@ protected:
   Polygon *m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
+  
   void UpdateMovement(double delta);
 
   float maxSpeed = 400.0f; ///< @brief character max velocity
@@ -158,10 +163,15 @@ protected:
 
 #pragma region Combat
   void UpdateCombat(double delta);
+
+  // Animation callbacks
+  void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
+  void OnSuperHit(std::string& animName, unsigned short frame, bool loop);
+
   void ResetBasic() { m_basicCombo = 0; } ///< @brief Resets the basic attack combo to zero
   void ResetSuper() { m_superCombo = 0; } ///< @brief Resets the super attack combo to zero
 
-  std::unique_ptr<Collision::BoxCollider> m_attackCollider = nullptr;
+  Sigma::Collision::OneHitCollider* m_attackCollider = nullptr;
 
   /**
    * @brief Sets the Attack Collider information
@@ -170,7 +180,7 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset) const;
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset);
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;
@@ -178,8 +188,6 @@ protected:
   std::vector<Combat::Move> m_superDefault;
   std::vector<Combat::Move> m_superAir;
 
-  // TODO: I need animation callbacks for this pookie 😘
-  // TODO: Animation callbacks were working since last week 😘 -d
   bool m_isIdle = true; ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 
@@ -189,6 +197,9 @@ protected:
   double m_hitTimer = 0.0f;
   double m_restartTime = 1.6f;
 #pragma endregion
+
+  
+  
 };
 
 } // namespace Sigma

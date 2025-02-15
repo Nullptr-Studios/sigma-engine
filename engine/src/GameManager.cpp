@@ -116,8 +116,10 @@ void GameManager::Run() {
       if (!object->GetStartHandled()) {
         object->Start();
         object->SetStartHandled();
+      }else {
+        // tick after one frame from start
+        object->Update(AEGetFrameTimeClamped());
       }
-      object->Update(AEGetFrameTimeClamped());
     }
 
 #if _DEBUG
@@ -193,6 +195,9 @@ void GameManager::Run() {
     auto endDraw = std::chrono::high_resolution_clock::now();
     m_timeRender = endDraw - startDraw;
 #endif
+
+    //fush destroyed objects
+    m_factory->FlushDestroyQueue();
     
   }
 
@@ -236,8 +241,6 @@ void GameManager::Uninitialize() {
 
 void GameManager::OnEvent(Event &e) {
 
-  PROFILER_START
-
   EventDispatcher dispatcher(e);
 
   dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
@@ -266,7 +269,6 @@ void GameManager::OnEvent(Event &e) {
         });
   }
 
-  PROFILER_END("GameManager::OnEvent")
 }
 #pragma endregion
 

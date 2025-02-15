@@ -57,11 +57,15 @@ public:
 private:
   void UpdateMatrix(); ///< @brief Update the camera matrix (internal use only)
 
+  float m_oldSize = 1.0f; ///< @brief Old size of the camera
+  
   Transform m_oldTransform;
   glm::mat4 m_viewMatrix = glm::mat4(1.0f);
   glm::mat4 m_clipMatrix = glm::mat4(1.0f);
 
   float m_ratio; ///< @brief Ratio between width and height
+  
+protected:
   float m_size = 1.0f; ///< @brief Scaling of the camera by screen size
   float m_near = -5000.0f; ///< @brief Near clip plane
   float m_far = 5000.0f; ///< @brief Far clip plane

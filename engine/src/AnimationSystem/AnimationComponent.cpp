@@ -21,6 +21,7 @@ void Sigma::Animation::AnimationComponent::SetTextureAtlas(TextureAtlas *texAtla
 }
 
 void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string &animName) {
+  // Why is this if like this -x
   if (m_currentAnimation != nullptr)
     if (m_currentAnimation->name == animName)
       return;
@@ -28,10 +29,15 @@ void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string &ani
   for (auto &anim: m_texAtlas->animations) {
     if (anim.name == animName) {
       m_currentAnimation = &anim;
+      m_currentFrameIndex = 0;
+      m_timeSinceLastFrame = 0;
       return;
     }
   }
   m_currentAnimation = nullptr;
+  
+  m_currentFrameIndex = 0;
+  m_timeSinceLastFrame = 0;
 }
 
 void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
@@ -43,9 +49,10 @@ void Sigma::Animation::AnimationComponent::Update(double DeltaTime) {
     if (m_currentFrameIndex >= m_currentAnimation->frames.size()) {
       if (m_loop) 
         m_currentFrameIndex = 0;
-      else
+      else {
         m_isPlaying = false;
-
+        m_currentFrameIndex--;
+      }
       if (m_onAnimationEnd)
         m_onAnimationEnd(m_currentAnimation->name);
     }

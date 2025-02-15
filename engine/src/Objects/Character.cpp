@@ -1,14 +1,15 @@
 #include "Character.hpp"
-#include "Collision/Collider.hpp"
-
-#define ATTACK_ERRORS
-// #define ATTACK_DEBUG
-
+#include <string>
+#include "Collision/OneHitCollider.hpp"
 #include "GameManager.hpp"
 #include "GameScene.hpp"
 #include "Polygon.hpp"
+#include "core.hpp"
+#include "Factory.hpp"
+#include "glm/fwd.hpp"
 
-#include "Core.hpp"
+#define ATTACK_ERRORS
+#define ATTACK_DEBUG
 
 namespace Sigma {
 
@@ -19,6 +20,17 @@ void Character::Init() {
 
   // Create anim component
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
+  m_animComp->SetOnAnimationEnd([this](std::string animName) { CurrentAnimationEnd(animName); });
+ 
+  // Basic hit callbacks
+  m_animComp->AddCallback("BasicHit", [this](std::string animName, unsigned short frame, bool loop)
+    { OnBasicHit(animName, frame, loop); }
+  );
+
+  // Super hit callbacks
+  m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
+    { OnSuperHit(animName, frame, loop); }
+  );
 
   // Tries to get Scene Bounds
   auto* scene = dynamic_cast<GameScene*>(GET_SCENE);
@@ -30,20 +42,19 @@ void Character::Init() {
   // Json Serialization logic
   if (!m_jsonPath.empty())
     Serialize();
-#ifdef ATTACK_ERRORS
+  #ifdef ATTACK_ERRORS
   else
     std::cerr << "[Character] No json found for " << GetName() << ". Using default values.\n";
-#endif
+  #endif
 
   // Create collider
-  // TODO: Idunno if thos is the way to create colliders -d
-  m_attackCollider = std::make_unique<Collision::BoxCollider>(Collision::PLAYER | Collision::ENEMY, Collision::DAMAGE);
-  m_attackCollider->enabled = false;
+  m_attackCollider = GET_FACTORY->CreateObject<Collision::OneHitCollider>("Attack Collider");
+  m_attackCollider->GetCollider()->enabled = false;
 }
-
 
 void Character::Start() {
   Damageable::Start();
+  j.clear();
 }
 
 void Character::Update(double delta) {
@@ -52,8 +63,6 @@ void Character::Update(double delta) {
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-  // This makes it so the collider on the attack is only enabled for a frame -x
-  if (m_attackCollider->enabled == true) m_attackCollider->enabled = false;
   
   m_animComp->Update(delta);
 }
@@ -77,20 +86,19 @@ glm::mat3 *Character::GetTextureTransform() {
  * @param j The json file
  * @param jsonKey The combo key to search on the json
  */
-void LoadCombo(std::vector<Combat::Move> *combo, json_t j, const std::string &jsonKey) {
+void LoadCombo(std::vector<Combat::Move>* combo, json_t j, const std::string& jsonKey) {
   combo->resize(j[jsonKey].size());
   for (int i = 0; i < j[jsonKey].size(); i++) {
     auto move = j[jsonKey][i];
 
+    // combo->operator[]() is diabolical -x
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-    combo->operator[](i).colliderOffset = {move["colliderOffset"]["x"], move["colliderOffset"]["y"]};
-    combo->operator[](i).colliderSize = {move["colliderSize"]["x"], move["colliderSize"]["y"],
-                                         move["colliderSize"]["z"]};
+    combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
+    combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
     combo->operator[](i).animationName = move["animationName"];
   }
 }
-
 
 void Character::Serialize() {
 
@@ -121,11 +129,9 @@ void Character::Serialize() {
               << m_superAir.size() << "\n";
 #endif
 }
-
 #pragma endregion
 
 #pragma region MovementSystem
-
 void Character::Move(glm::vec2 direction) {
 
   if (!isJumping) {
@@ -219,16 +225,12 @@ void Character::UpdateMovement(double delta) {
     isJumping = false;
   }
 
-
   // Update Z
-  if (!isJumping)
-    transform.position.z = -transform.position.y;
+  if (!isJumping) transform.position.z = -transform.position.y;
 }
-
 #pragma endregion
 
 #pragma region Combat
-
 void Character::UpdateCombat(double delta) {
   m_hitTimer += delta;
 
@@ -245,38 +247,39 @@ void Character::UpdateCombat(double delta) {
   }
 }
 
-// TODO: Right now this is being called on the Basic Attack
-// When my pookie dario has the animation system callbacks the collider should be enabled there
-// This works for now but will change later on -x
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) const {
-  m_attackCollider->box.Set(size.x / 2, size.x / 2, size.y / 2, size.y / 2, offset);
-  m_attackCollider->depth = size.z;
-  m_attackCollider->damage = damage;
-  m_attackCollider->enabled = true;
+void Character::CurrentAnimationEnd(std::string& animName) {
+  if (animName == "Punch1") {
+    m_isIdle = true;
+    m_animComp->SetCurrentAnim("Idle");
+  }
 }
 
 void Character::BasicAttack() {
-  if (!m_isIdle)
-    return;
+  if (!m_isIdle) return;
 
-  m_basicCombo++;
-  m_hitTimer = 0;
   m_inCombo = true;
+  m_isIdle = false;
   ResetSuper();
 
+  m_hitTimer = 0;
+
   if (!isJumping) {
-    auto move = m_basicDefault[m_basicCombo - 1];
-#ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-#endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    auto move = m_basicDefault[m_basicCombo];
+    m_animComp->SetCurrentAnim(move.animationName);
+ 
+    #ifdef ATTACK_DEBUG
+      std::cout << "[Attack] " << move.animationName << "\n";
+    #endif
   } else {
-    auto move = m_basicAir[m_basicCombo - 1];
-#ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-#endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    auto move = m_basicAir[m_basicCombo];
+    m_animComp->SetCurrentAnim(move.animationName);
+
+    #ifdef ATTACK_DEBUG
+      std::cout << "[Attack] " << move.animationName << "\n";
+    #endif
   }
+
+  m_basicCombo++;
 
   // I'm using only the count from the default variant since both should have the same number -x
   if (m_basicCombo >= m_basicDefault.size())
@@ -284,32 +287,57 @@ void Character::BasicAttack() {
 }
 
 void Character::SuperAttack() {
-  if (!m_isIdle)
-    return;
+  if (!m_isIdle) return;
 
-  m_superCombo++;
-  m_hitTimer = 0;
   m_inCombo = true;
+  m_isIdle = false;
   ResetBasic();
 
+  m_hitTimer = 0;
+
   if (!isJumping) {
-    auto move = m_superDefault[m_superCombo - 1];
-#ifdef ATTACK_DEBUG
+    auto move = m_superDefault[m_basicCombo];
+    m_animComp->SetCurrentAnim(move.animationName);
+ 
+    #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
-#endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    #endif
   } else {
-    auto move = m_superAir[m_superCombo - 1];
-#ifdef ATTACK_DEBUG
+    auto move = m_superAir[m_basicCombo];
+    m_animComp->SetCurrentAnim(move.animationName);
+
+    #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
-#endif
-    SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+    #endif
   }
+
+  m_superCombo++;
 
   if (m_superCombo >= m_superDefault.size())
     ResetSuper();
 }
 
+void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
+  float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
+  glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
+  m_attackCollider->Do(position, size, damage, this, true);
+}
+
+// The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two -x
+
+// BASIC HIT
+void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
+  // Sets the current move to jumping or not according if the player isJumping or not -x
+  auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+}
+
+//SUPER HIT
+void Character::OnSuperHit(std::string& animName, unsigned short frame, bool loop) {
+  // Sets the current move to jumping or not according if the player isJumping or not -x
+  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+}
 #pragma endregion
 
 } // namespace Sigma
