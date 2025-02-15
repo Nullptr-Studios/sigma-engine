@@ -23,6 +23,10 @@ void UIText::Update(double deltaTime) {
   AEGfxSetTransform(&mtxAEX);
   AEGfxFontDraw(m_text.c_str(), m_font, m_color);
 }
+void UIText::Draw() {
+  Object::Draw();
+  
+}
 
 void UIText::Destroy() {
   Object::Destroy();

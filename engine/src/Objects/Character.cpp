@@ -153,6 +153,8 @@ void Character::Jump() {
     velocity.y = jumpVel * AEGetFrameRate();
     isJumping = true;
     m_movementYFloor = transform.position.y;
+
+    // Break combo cuz if not it could crash the game -d
   }
 }
 
@@ -248,7 +250,7 @@ void Character::UpdateCombat(double delta) {
 }
 
 void Character::CurrentAnimationEnd(std::string& animName) {
-  if (animName == "Punch1") {
+  if (animName == m_currentComboAnimName) {
     m_isIdle = true;
     m_animComp->SetCurrentAnim("Idle");
   }
@@ -263,8 +265,11 @@ void Character::BasicAttack() {
 
   m_hitTimer = 0;
 
+  // The game crashes when the player is jumping while in the middle of a combo -d
+  // FIXME: This is a temporary fix -d
   if (!isJumping) {
     auto move = m_basicDefault[m_basicCombo];
+    m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
  
     #ifdef ATTACK_DEBUG
@@ -272,6 +277,7 @@ void Character::BasicAttack() {
     #endif
   } else {
     auto move = m_basicAir[m_basicCombo];
+    m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
 
     #ifdef ATTACK_DEBUG
@@ -297,6 +303,7 @@ void Character::SuperAttack() {
 
   if (!isJumping) {
     auto move = m_superDefault[m_basicCombo];
+    m_currentComboAnimName = move.animationName; 
     m_animComp->SetCurrentAnim(move.animationName);
  
     #ifdef ATTACK_DEBUG
@@ -304,6 +311,7 @@ void Character::SuperAttack() {
     #endif
   } else {
     auto move = m_superAir[m_basicCombo];
+    m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
 
     #ifdef ATTACK_DEBUG

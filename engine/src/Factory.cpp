@@ -109,6 +109,27 @@ void Factory::FreeAllTextures() {
   }
   m_textures.clear();
 }
+AEGfxFont *Factory::LoadFont(const char *filepath, int size)
+{
+  if (m_fonts.contains(filepath)) {
+    if (m_log)
+      std::cout << "[Factory] Font " << filepath << " already exists\n";
+    return m_fonts[filepath];
+  }
+
+  auto f = AEGfxFontCreate(filepath, size, 2);
+  if (f == nullptr) {
+    std::cout << "[Factory] Font " << filepath << " failed to load\n";
+    return nullptr;
+  }
+
+  // Set the texture filters to nearest
+  AEGfxTextureSetFilters(f->mFontTex, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
+  
+  m_fonts.emplace(filepath, f);
+  std::cout << "[Factory] Font " << filepath << " loaded\n";
+  return f;
+}
 
 void Factory::InitializeTriList() {
   AEGfxTriStart();
