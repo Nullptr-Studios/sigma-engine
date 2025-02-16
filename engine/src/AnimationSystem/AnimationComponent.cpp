@@ -31,6 +31,7 @@ void Sigma::Animation::AnimationComponent::SetCurrentAnim(const std::string &ani
       m_currentAnimation = &anim;
       m_currentFrameIndex = 0;
       m_timeSinceLastFrame = 0;
+      m_frameTime = 1.0f / anim.frameRate;
       return;
     }
   }

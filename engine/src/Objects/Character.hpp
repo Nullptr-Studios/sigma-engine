@@ -190,6 +190,8 @@ protected:
   std::vector<Combat::Move> m_superDefault;
   std::vector<Combat::Move> m_superAir;
 
+  std::string m_currentComboAnimName;
+
   bool m_isIdle = true; ///< @brief Returns false if player is currently doing an animation (avoids spammability)
   bool m_inCombo = false; ///< @brief This stores whether the character can currently perform a combo or not
 

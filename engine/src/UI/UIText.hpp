@@ -17,6 +17,7 @@ namespace Sigma {
     void Init(const char * txt, unsigned color);
 
     void Update(double deltaTime) override;
+    void Draw() override;
 
 
     void Destroy() override;

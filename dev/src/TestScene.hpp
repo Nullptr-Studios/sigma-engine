@@ -7,19 +7,19 @@
  */
 
 #pragma once
+#include "Scene.hpp"
 
-#include "GameScene.hpp"
 
 namespace Sigma {
 class Actor;
 class CameraFollow;
 class Camera;
 }
-class TestScene : public Sigma::GameScene
+class TestScene : public Sigma::Scene
 {
 public:
   
-  TestScene(const char *name, unsigned ID, const char *jsonPath) : GameScene(name, ID, jsonPath) {}
+  TestScene(const char *name, unsigned ID) : Scene(name, ID) {}
   
   void Load() override;
   void Update(double delta) override;

@@ -17,7 +17,7 @@ public:
    *
    * @param points The list of points that define the polygon
    */
-  explicit Polygon(const std::vector<glm::vec2> &points) : vertices(points) {
+  explicit Polygon(const std::vector<glm::vec2> &points) : vertices(std::move(points)) {
     computeBounds();
     precomputeSlopes();
   }

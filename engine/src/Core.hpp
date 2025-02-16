@@ -25,7 +25,7 @@ typedef unsigned color_t; ///< @typedef color_t  @brief Color type for Alpha Eng
 
 #define GET_CAMERA                                                                                                     \
   Sigma::CameraController::GetCameraControllerInstance() ///< @def GET_CAMERA @brief Gets Camera instance
-#define GET_SCENE GET_MANAGER->GetCurrentScene() ///< @def GET_SCENE @brief Gets Current Scene
+#define GET_SCENE(ID) GET_MANAGER->GetCurrentScene(ID) ///< @def GET_SCENE @brief Gets Current Scene
 #define GET_CAMERA Sigma::CameraController::GetCameraControllerInstance() ///< @def GET_CAMERA @brief Gets Camera Controller instance
 
 // profiler

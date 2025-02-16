@@ -28,7 +28,7 @@ void CameraController::SetCurrentCamera(Camera *camera) {
 void CameraController::Start() {
   Object::Start();
   if (!m_currentCamera) {
-    std::cerr << "No Camera set to the camera controller before start";
+    std::cerr << "No Camera set to the camera controller before start\n";
   } 
 }
 
