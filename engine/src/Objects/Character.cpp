@@ -113,6 +113,7 @@ void Character::Serialize() {
   maxSpeed = j["maxSpeed"];
   accelerationRate = j["accelerationRate"];
   jumpVel = j["jumpVel"];
+  friction = j["friction"];
 
   LoadCombo(&m_basicDefault, j, "basicCombo");
   LoadCombo(&m_basicAir, j, "basicAirCombo");
@@ -135,8 +136,8 @@ void Character::Serialize() {
 void Character::Move(glm::vec2 direction) {
 
   if (!isJumping) {
-    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
-    velocity.y += direction.y * (accelerationRate * AEGetFrameRate());
+    velocity.x += direction.x * (accelerationRate);
+    velocity.y += direction.y * (accelerationRate);
 
     // Clamp the speed while maintaining direction
     float speed = glm::length(velocity);
@@ -150,7 +151,7 @@ void Character::Move(glm::vec2 direction) {
 
 void Character::Jump() {
   if (!isJumping) {
-    velocity.y = jumpVel * AEGetFrameRate();
+    velocity.y = jumpVel;
     isJumping = true;
     m_movementYFloor = transform.position.y;
 
