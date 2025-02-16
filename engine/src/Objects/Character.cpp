@@ -113,6 +113,7 @@ void Character::Serialize() {
   maxSpeed = j["maxSpeed"];
   accelerationRate = j["accelerationRate"];
   jumpVel = j["jumpVel"];
+  SetMaxHealth(j["maxHealth"]);
 
   LoadCombo(&m_basicDefault, j, "basicCombo");
   LoadCombo(&m_basicAir, j, "basicAirCombo");

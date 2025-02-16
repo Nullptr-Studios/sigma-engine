@@ -38,7 +38,7 @@ public:
    * @param far_ Far clip view
    */
   void SetRenderDistance(const float near_, const float far_) { m_near = near_; m_far = far_; }
-  float size =     1.0f; ///< @brief Scaling of the camera by screen size
+  float size =     2.0f; ///< @brief Scaling of the camera by screen size
 
   /**
    *

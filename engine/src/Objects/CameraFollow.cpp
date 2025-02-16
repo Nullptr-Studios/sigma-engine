@@ -20,8 +20,6 @@ void CameraFollow::Update(double deltaTime) {
     LerpToPosition(p,deltaTime);
     float dist = glm::distance(m_targetP1->transform.position, m_targetP2->transform.position);
     float s = size - (dist / baseDistance)*.25f;
-    if (s > 2.0f)
-      s = 2.0f;
     LerpScale(s,deltaTime);
     //std::cout << s << "\n";
     

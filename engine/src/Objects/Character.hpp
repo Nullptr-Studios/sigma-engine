@@ -150,11 +150,11 @@ protected:
   void UpdateMovement(double delta);
 
   float maxSpeed = 400.0f; ///< @brief character max velocity
-  float accelerationRate = 25.0f; ///< @brief character acceleration
-  float gravity = -5000.f;
-  float friction = 2000.f; ///< @brief character friction
-  float jumpVel = 2500.0f; ///< @brief character jump velocity
-  float terminalVel = 1000.0f; ///< @brief character terminal velocity
+  float accelerationRate = 0.10f; ///< @brief character acceleration
+  float gravity = -4000.f;
+  float friction = 1050.f; ///< @brief character friction
+  float jumpVel = 2.0f; ///< @brief character jump velocity
+  float terminalVel = 1.0f; ///< @brief character terminal velocity
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   bool isJumping = false; ///< @brief character jump status
 
@@ -201,8 +201,6 @@ protected:
   double m_hitTimer = 0.0f;
   double m_restartTime = 1.6f;
 #pragma endregion
-
-  
   
 };
 

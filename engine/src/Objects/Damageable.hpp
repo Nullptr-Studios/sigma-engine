@@ -62,6 +62,8 @@ public:
   void Destroy() override {Actor::Destroy();};
 
   [[nodiscard]] float GetHealth() const { return m_health;} ///< @brief returns amount of character health
+  void SetMaxHealth(float health) { m_health = m_maxHealth = health; }
+  void ResetHealth() { m_health = m_maxHealth; }
   [[nodiscard]] bool GetAlive() const { return m_isAlive;} ///< @brief returns whether character is alive or not
 
   /**
@@ -77,6 +79,7 @@ public:
 
 protected:
   float m_health = 100.0f;
+  float m_maxHealth = 100.0f;
   bool m_isAlive = true;
 
   
