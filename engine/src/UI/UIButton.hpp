@@ -5,8 +5,8 @@
  *
  * @brief UI button for making things happen
  */
+#pragma once
 #include "UIImage.hpp"
-
 namespace Sigma {
   class UIButton : public UIImage {
   public:
