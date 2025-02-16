@@ -7,18 +7,27 @@
  */
 
 #pragma once
-
 #include "Scene.hpp"
 
-class TestScene : public FNFE::Scene
+
+namespace Sigma {
+class Actor;
+class CameraFollow;
+class Camera;
+}
+class TestScene : public Sigma::Scene
 {
 public:
-
-  TestScene(const char* name, unsigned index) : Scene(name, index) {}
-
+  
+  TestScene(const char *name, unsigned ID) : Scene(name, ID) {}
+  
   void Load() override;
   void Update(double delta) override;
   void Draw() override;
+
+private:
+  Sigma::Actor* m_actor;
+  Sigma::CameraFollow* m_camera;
 };
 
 

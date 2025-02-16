@@ -16,7 +16,7 @@
 #pragma once
 #include <pch.hpp>
 
-namespace FNFE {
+namespace Sigma {
 
 /**
  * @enum EventType
@@ -29,7 +29,9 @@ namespace FNFE {
  */
 enum class EventType {
   NONE = 0,
-  MESSAGE
+  MESSAGE,
+  COLLISION,
+  DAMAGE
 };
 
 /**
@@ -41,9 +43,10 @@ enum class EventType {
  *
  * @param type The event type to associate with the class.
  */
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; } \
-                               virtual EventType GetEventType() const override { return GetStaticType(); } \
-                               virtual const char* GetName() const override { return #type; }
+#define EVENT_CLASS_TYPE(type)                                                                                         \
+  static EventType GetStaticType() { return EventType::type; }                                                         \
+  virtual EventType GetEventType() const override { return GetStaticType(); }                                          \
+  virtual const char *GetName() const override { return #type; }
 
 // Event
 /**
@@ -81,7 +84,7 @@ public:
    *
    * @return A @code const char* @endcode representing the name of the event.
    */
-  [[nodiscard]] virtual const char* GetName() const = 0;
+  [[nodiscard]] virtual const char *GetName() const = 0;
 
   /**
    * @brief Converts the event to a string representation.
@@ -91,7 +94,11 @@ public:
    *
    * @return A @code std::string @endcode containing the string representation of the event.
    */
-  [[nodiscard]] virtual std::string ToString() const { return GetName(); }
+  [[nodiscard]] virtual std::stringstream ToString() const { 
+    std::stringstream ss;
+    ss << GetName();
+    return ss; 
+  }
 
   /**
    * @brief Indicates whether the event has been handled.
@@ -102,7 +109,9 @@ public:
    * @return @c true if the event has been handled; otherwise, @c false.
    */
   [[nodiscard]]
-  bool IsHandled() const { return m_handled; }
+  bool IsHandled() const {
+    return m_handled;
+  }
 
 protected:
   bool m_handled = false; /**< Indicates whether the event has been handled. */
@@ -119,7 +128,7 @@ protected:
  */
 class EventDispatcher {
   template<typename T>
-  using EventFn = std::function<bool(T&)>; /**< Type alias for an event handler function. */
+  using EventFn = std::function<bool(T &)>; /**< Type alias for an event handler function. */
 
 public:
   /**
@@ -127,7 +136,7 @@ public:
    *
    * @param event The `Event` to be dispatched.
    */
-  explicit EventDispatcher(Event& event) : m_event(event) {}
+  explicit EventDispatcher(Event &event) : m_event(event) {}
 
   /**
    * @brief Dispatches the event to a handler function if the types match.
@@ -142,14 +151,14 @@ public:
   template<typename T>
   bool Dispatch(EventFn<T> func) {
     if (m_event.GetEventType() == T::GetStaticType()) {
-      m_event.m_handled = func(*static_cast<T*>(&m_event));
+      m_event.m_handled = func(*static_cast<T *>(&m_event));
       return true;
     }
     return false;
   }
 
 private:
-  Event& m_event;
+  Event &m_event;
 };
 
-}
+} // namespace Sigma

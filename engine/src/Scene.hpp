@@ -3,13 +3,13 @@
  * @author Dario
  * @date 11/01/2025
  *
- * @brief [Brief description of the file's purpose]
  */
 
 #pragma once
+#include "Polygon.hpp"
 
 
-namespace FNFE {
+namespace Sigma {
 
 class Scene {
 public:
@@ -19,15 +19,14 @@ public:
    * @param name
    * @param ID
    */
-  Scene(const char* name, unsigned ID)
-  {
+  Scene(const char *name, unsigned ID) {
     m_name = name;
     m_ID = ID;
   }
 
-  ~Scene() = default;
+  virtual ~Scene() { delete m_name; }
 
-  virtual void Load() {}
+  virtual void Load() {};
   virtual void Init() {}
   virtual void Update(double delta) {}
   virtual void Draw() {}
@@ -39,7 +38,7 @@ public:
    *
    * @return const char*
    */
-  const char* GetName() const { return m_name; }
+  const char *GetName() const { return m_name; }
 
   /**
    * @brief Get the ID of this scene
@@ -48,11 +47,12 @@ public:
    */
   unsigned GetID() const { return m_ID; }
 
-private:
-  const char* m_name;
-  unsigned m_ID;
+public:
+  Sigma::Polygon *m_sceneBoundsPoly{};
 
+private:
+  const char *m_name;
+  unsigned m_ID;
 };
 
-} // FNFE
-
+} // namespace Sigma

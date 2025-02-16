@@ -24,9 +24,13 @@ struct AEVec3
         float v[3];
     };
 
+    [[deprecated("Use glm::vec3 instead")]]
     AEVec3();
+    [[deprecated("Use glm::vec3 instead")]]
     AEVec3(const AEVec3 & rhs);
+    [[deprecated("Use glm::vec3 instead")]]
     AEVec3(float xx, float yy, float zz);
+    [[deprecated("Use glm::vec3 instead")]]
     explicit AEVec3(float xx);
     ;
     // Operators

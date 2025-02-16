@@ -14,6 +14,8 @@
 // ---------------------------------------------------------------------------
 
 #pragma warning(disable : 4201) // nameless struct warning
+#include "AEVec3.h"
+
 struct AEVec2
 {
     union
@@ -26,9 +28,13 @@ struct AEVec2
     };
 
     // ------------------------------------------------------------------------
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2();
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2(const AEVec2 & rhs);
+    [[deprecated("Use glm::vec2 instead")]]
     AEVec2(float xx, float yy);
+    [[deprecated("Use glm::vec2 instead")]]
     explicit AEVec2(float xx); //! flag as explicit to prevent implicit conversion from float to AEVec2
 
     // Operators
@@ -90,6 +96,7 @@ struct AEVec2
     static AEVec2 Random(float min_x, float max_x, float min_y, float max_y);
     static AEVec2 Random01();
     static AEVec2 Lerp(AEVec2 start, AEVec2 end, float tn);
+    AEVec3 ToVec3() const { return AEVec3(x, y, 0); }
 
     static const AEVec2 ZERO;
 };

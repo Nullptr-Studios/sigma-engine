@@ -9,15 +9,24 @@
 #pragma once
 #include <Factory.hpp>
 #include <pch.hpp>
+#include <chrono>
 
-namespace FNFE {
+namespace Sigma {
+
+class CameraController;
 class Camera;
-}
-namespace FNFE {
-
 class AudioEngine;
 class Scene;
 class Event;
+
+namespace Animation {
+class AnimationSystem;
+}
+
+namespace Collision {
+class CollisionSystem;
+}
+
 
 /**
  * @class GameManager
@@ -26,22 +35,26 @@ class Event;
  * This class is in charge of all the engine, it initializes all core components and runs the main loop. This
  * class must own all core components of the engine.
  */
-class GameManager
-{
+class GameManager {
 public:
+  
   /**
-   * @brief Initialization of alpha engine and base FNFE classes
+   * @brief Initialization of alpha engine and base sigma classes
    *
    * @param title window title
    * @param width window width
    * @param height window height
    */
-  GameManager(const char* title, int width, int height);
+  GameManager(const char *title, int width, int height);
   ~GameManager();
 
-  static GameManager* GetInstance() { return m_instance; }
-
-
+  /**
+   * @brief Get the instance of the GameManager
+   *
+   * @return GameManager* pointer to the GameManager instance
+   */
+  static GameManager *GetInstance() { return m_instance; }
+  
   /**
    * @brief Main engine loop
    */
@@ -52,30 +65,67 @@ public:
    */
   void Uninitialize();
 
+#pragma region SceneManagement
   /**
    * @brief Loads a scene and unloads the currently loaded scene
    *
    * @param scene scene to load
    */
-  void LoadScene(Scene* scene);
+  void LoadScene(Scene *scene);
 
-  void OnEvent(Event& e);
+  void UnloadScene(const char* sceneName);
+
+  void UnloadScene(unsigned sceneID);
+
+  /**
+   * @brief Get the current scene
+   *
+   * @return Scene* pointer to the current scene
+   */
+  [[nostdiscard]] std::list<Scene*>* GetCurrentScenes() { return &m_loadedScenes; }
+
+  Scene* GetCurrentScene(int ID);
+  Scene* GetCurrentScene(const char* name);
+  
+#pragma endregion
+
+  
+  [[nodiscard]] AudioEngine *GetAudioEngine() const { return m_audioEngine.get(); }
+
+  /**
+   * @brief Event handler
+   *
+   * @param e event to handle
+   */
+  void OnEvent(Event &e);
 
 private:
-  static GameManager* m_instance;
+
+#pragma region Profiler
+  void DebugProfiler();
+  std::chrono::duration<double> m_timeCollisions = {};
+  std::chrono::duration<double> m_timeTick = {};
+  std::chrono::duration<double> m_timeRender = {};
+  std::chrono::duration<double> m_timeSound = {};
+
+  bool m_debug = true;
+#pragma endregion
 
   void GameInit();
 
-  const char* m_title;
+  static GameManager *m_instance;
+
+  const char *m_title;
   int m_width;
   int m_height;
 
   std::unique_ptr<Factory> m_factory;
   std::unique_ptr<AudioEngine> m_audioEngine;
+  std::unique_ptr<Animation::AnimationSystem> m_animationSystem;
+  std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
+  CameraController* m_cameraController{};
 
-  Scene* m_currentScene = nullptr;
-
-  std::shared_ptr<Camera> m_activeCamera;
+  std::list<Scene*> m_loadedScenes;
 };
 
-} // FNFE
+} // namespace Sigma

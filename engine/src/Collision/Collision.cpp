@@ -1,58 +1,57 @@
 #include "Collision.hpp"
-#include <aecore/AEGraphics.h>
-#include <aecore/AEVec2.h>
-#include <iostream>
+#include "CollisionEvent.hpp"
+#include "DamageSystem/DamageEvent.hpp"
+#include <immintrin.h>
 
-namespace FNFE {
-bool Collision::RectOnRect(AEVec3 &posA, AEVec3 &scaleA, AEVec3 &posB, AEVec3 &scaleB) {
-  AEVec3 distance = (posA - posB) * 2;
-  if ((fabs(distance.x) <= scaleA.x + scaleB.x) && (fabs(distance.y) <= scaleA.y + scaleB.y) &&
-      (fabs(distance.z) <= scaleA.z + scaleB.z)) {
-    return true;
+namespace Sigma::Collision {
+
+// Every day i think i prefer femboys a bit more than woman -x(probably) not d
+// Thb the best is to date an enby, best of both worlds -x
+void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
+  for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
+    auto& obj1 = it1->second;
+    auto* col1 = obj1->GetCollider();
+    if (!col1 || !col1->enabled) continue;
+
+    const auto& pos1 = obj1->transform.position;
+    const auto& box1 = col1->box;
+    float depth1 = box1.GetDepth();
+    auto sides1 = box1.GetSides(pos1);
+
+    for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
+      auto& obj2 = it2->second;
+      auto* col2 = obj2->GetCollider();
+      if (!col2 || !col2->enabled) continue;
+
+      if (!(col1->flag & col2->flag)) continue; // Early exit if no matching flag
+
+      const auto& pos2 = obj2->transform.position;
+      const auto& box2 = col2->box;
+      float depth2 = box2.GetDepth();
+
+      if (std::fabs(pos1.z - pos2.z) > (depth1 + depth2)) continue; // Z-depth check
+
+      auto sides2 = box2.GetSides(pos2);
+
+      // AABB collision check
+      if (sides1[1] < sides2[0] || sides1[0] > sides2[1]) continue;
+      if (sides1[2] < sides2[3] || sides1[3] > sides2[2]) continue;
+
+      auto SendCollisionEvent = [&](auto* collider, id_t target_id) {
+        if (collider->type == DAMAGE) {
+          auto damageEvent = Damage::DamageEvent(target_id, collider->GetOwner(), collider->type, collider->damage, collider->damageType);
+          SendEvent(damageEvent);
+        } else {
+          auto collisionEvent = CollisionEvent(target_id, collider->GetOwner(), collider->type);
+          SendEvent(collisionEvent);
+        }
+      };
+
+      // Dispatch events for both objects
+      SendCollisionEvent(col1, obj2->GetId());
+      SendCollisionEvent(col2, obj1->GetId());
+    }
   }
-  return false;
 }
 
-
-#pragma region TEST
-
-void Collision::TestRect() {
-  AEVec3 posA = {0, 0, 0};
-  MousePositionData data = AEGetMouseData();
-  AEVec3 posB = {data.position.x, data.position.y, 0};
-  AEVec3 scaleA = {100, 200, 0};
-  AEVec3 scaleB = {200, 100, 0};
-  unsigned color = AE_COLORS_BLUE;
-  if (RectOnRect(posA, scaleA, posB, scaleB)) {
-    color = AE_COLORS_RED;
-  }
-  DrawRectangleAt({posA.x, posA.y}, {scaleA.x, scaleA.y}, color);
-  DrawRectangleAt({posB.x, posB.y}, {scaleB.x, scaleB.y}, color);
-}
-
-void Collision::Print(CollisionType type) {
-  switch (type) {
-    case CollisionType::ENTER:
-      std::cout << "Enter\n";
-      break;
-    case CollisionType::EXIT:
-      std::cout << "Exit\n";
-      break;
-    case CollisionType::STAY:
-      std::cout << "Stay\n";
-      break;
-  }
-}
-
-// Debug drawing
-void Collision::DrawRectangleAt(AEVec2 pos, AEVec2 scale, unsigned color) {
-  pos.x -= scale.x / 2;
-  pos.y += scale.y / 2;
-  AEGfxRect(pos.x,pos.y,0,scale.x,scale.y,color);
-}
-
-void Collision::DrawRectangleAt(AEVec3 pos, AEVec3 scale, unsigned color) {
-  DrawRectangleAt({pos.x, pos.y}, {scale.x, scale.y}, color);
-}
-#pragma endregion
-} // namespace FNFE
+} // namespace Sigma::Collision
