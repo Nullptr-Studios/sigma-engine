@@ -1,11 +1,11 @@
 #include "Character.hpp"
 #include <string>
 #include "Collision/OneHitCollider.hpp"
-#include "GameManager.hpp"
-#include "GameScene.hpp"
-#include "Polygon.hpp"
-#include "core.hpp"
 #include "Factory.hpp"
+#include "GameManager.hpp"
+#include "Polygon.hpp"
+#include "Scene.hpp"
+#include "core.hpp"
 #include "glm/fwd.hpp"
 
 #define ATTACK_ERRORS
@@ -33,11 +33,11 @@ void Character::Init() {
   );
 
   // Tries to get Scene Bounds
-  auto* scene = dynamic_cast<GameScene*>(GET_SCENE(0));
-  if (scene == nullptr)
+  auto* scene = (GET_SCENE(0));
+  if (scene->m_sceneBoundsPoly == nullptr)
     std::cerr << "[Character] " << GetName() << " failed to get GameScene\n";
   else
-    m_sceneBoundsPoly = scene->GetSceneBoundsPoly();
+    m_sceneBoundsPoly = scene->m_sceneBoundsPoly;
 
   // Json Serialization logic
   if (!m_jsonPath.empty())
