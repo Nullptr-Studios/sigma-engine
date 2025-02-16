@@ -318,8 +318,7 @@ void Character::SuperAttack() {
     std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   }
-
-  m_superCombo++;
+  
 
   if (m_superCombo >= m_superDefault.size())
     ResetSuper();
@@ -337,6 +336,7 @@ void Character::SetCollider(const float damage, const glm::vec3 size, const glm:
 void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  m_superCombo++;
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 
