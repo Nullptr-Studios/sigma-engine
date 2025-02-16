@@ -12,28 +12,30 @@ Factory::~Factory() {
   m_instance = nullptr;
 }
 
+void Factory::FlushDestroyQueue() {
+  for (auto id: m_destroyQueue) {
+
+    if (m_log)
+      std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
+
+    m_objects[id]->Destroy();
+    m_renderables.erase(std::ranges::remove(m_renderables, id).begin(), m_renderables.end());
+    delete m_objects[id];
+
+    m_objects.erase(id);
+  }
+  m_destroyQueue.clear();
+}
 void Factory::DestroyObject(const id_t id) {
 
-  PROFILER_START
-
-  if (m_objects[id] == nullptr) {
-    std::cout << "PREVENTED CRASH\n";
-    delete m_objects[id];
-    m_objects.erase(id);
+  if (m_objects.contains(id)) {
+    m_destroyQueue.push_back(id);
     return;
   }
 
   if (m_log)
-    std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
-
-  m_objects[id]->Destroy();
-  m_renderables.erase(std::ranges::remove(m_renderables, id).begin(), m_renderables.end());
-  delete m_objects[id];
-
-  m_objects.erase(id);
-
-
-  PROFILER_END("Factory::DestroyObject")
+    std::cout << "[Factory] Object with ID: " << id << " does not exist\n";
+  
 }
 
 void Factory::DestroyObject(const Object *object) { DestroyObject(object->GetId()); }
@@ -52,16 +54,16 @@ void Factory::DestroyAllObjects() {
 
 Object *Factory::GetObjectAt(const id_t id) { return m_objects[id]; }
 
-Object* Factory::FindObject(const std::string& name) {
-  for (auto& obj : m_objects | std::views::values) {
-    if (obj->GetName() == name) return obj;
+Object *Factory::FindObject(const std::string &name) {
+  for (auto &obj: m_objects | std::views::values) {
+    if (obj->GetName() == name)
+      return obj;
   }
 
   return nullptr;
 }
 
-AEGfxTexture* Factory::LoadTexture(const char* filepath)
-{
+AEGfxTexture *Factory::LoadTexture(const char *filepath) {
   PROFILER_START
 
   if (filepath == nullptr)
@@ -106,6 +108,27 @@ void Factory::FreeAllTextures() {
     // m_textures.erase(filepath);
   }
   m_textures.clear();
+}
+AEGfxFont *Factory::LoadFont(const char *filepath, int size)
+{
+  if (m_fonts.contains(filepath)) {
+    if (m_log)
+      std::cout << "[Factory] Font " << filepath << " already exists\n";
+    return m_fonts[filepath];
+  }
+
+  auto f = AEGfxFontCreate(filepath, size, 2);
+  if (f == nullptr) {
+    std::cout << "[Factory] Font " << filepath << " failed to load\n";
+    return nullptr;
+  }
+
+  // Set the texture filters to nearest
+  AEGfxTextureSetFilters(f->mFontTex, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
+  
+  m_fonts.emplace(filepath, f);
+  std::cout << "[Factory] Font " << filepath << " loaded\n";
+  return f;
 }
 
 void Factory::InitializeTriList() {

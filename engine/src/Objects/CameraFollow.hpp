@@ -10,20 +10,29 @@
 #pragma once
 #include "Camera.hpp"
 namespace Sigma {
-class Actor;
+class Object;
 /**
  * @class CameraFollow a camera that follows a target
  */
+
+//TODO: Camera needs to support 2 players via scaling and more stuff
 class CameraFollow : public Camera {
 public:
   explicit CameraFollow(id_t id) : Camera(id) {}
   void Start() override;
   void Update(double deltaTime) override;
+
+  float lerpScale = 1.0f; ///<@brief scale of lerp
+
+  float baseDistance = 250.0f; ///<@brief base distance between players
+
   
+  float size = 2.0f; ///<@brief scale of lerp
   
-  Actor * m_target; ///<@brief target to follow
-  glm::vec4 m_safeZone; ///@brief centermost zone (-x,x,-y,y)
-  glm::vec4 m_warningZone; ///@brief middle zone (-x,x,-y,y)
+  Object * m_targetP1{}; ///<@brief target to follow
+  Object * m_targetP2{}; ///<@brief target to follow
+  glm::vec4 m_safeZone{}; ///@brief centermost zone (-x,x,-y,y)
+  glm::vec4 m_warningZone{}; ///@brief middle zone (-x,x,-y,y)
 private:
   /**
    * @brief will lerp camera toward target position
@@ -33,6 +42,8 @@ private:
    * @param delta percentage toward target
    */
   void LerpToPosition(glm::vec3 target, float delta);
+
+  void LerpScale(float scale, float delta);
 };
 
 } // Sigma

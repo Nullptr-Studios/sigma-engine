@@ -73,33 +73,20 @@ public:
    */
   void LoadScene(Scene *scene);
 
-  /**
-   * @brief Loads a sub scene
-   *
-   * @param scene
-   */
-  void LoadSubScene(Scene *scene);
+  void UnloadScene(const char* sceneName);
 
-  /**
-   * @brief Unloads a sub scene
-   *
-   * @param scene scene to unload
-   */
-  void UnloadSubScene(const Scene *scene);
-
-  /**
-   * @brief Unloads a sub scene
-   *
-   * @param id id of the sub scene to unload
-   */
-  void UnloadSubScene(int id);
+  void UnloadScene(unsigned sceneID);
 
   /**
    * @brief Get the current scene
    *
    * @return Scene* pointer to the current scene
    */
-  [[nodiscard]] Scene* GetCurrentScene() const { return m_currentScene; }
+  [[nostdiscard]] std::list<Scene*>* GetCurrentScenes() { return &m_loadedScenes; }
+
+  Scene* GetCurrentScene(int ID);
+  Scene* GetCurrentScene(const char* name);
+  
 #pragma endregion
 
   
@@ -138,8 +125,7 @@ private:
   std::unique_ptr<Collision::CollisionSystem> m_collisionSystem;
   CameraController* m_cameraController{};
 
-  Scene *m_currentScene = nullptr;
-  std::unordered_map<int, Scene *> m_subScenes;
+  std::list<Scene*> m_loadedScenes;
 };
 
 } // namespace Sigma

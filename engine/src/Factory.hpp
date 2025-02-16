@@ -64,6 +64,8 @@ public:
     requires std::is_base_of_v<Object, T>
   T* CreateObject(const std::string& name = "Unnamed Object", Args&&... args);
 
+  void FlushDestroyQueue(); ///< @brief Destroys all objects in the destroy queue
+
   /**
    * Destroys an object by its ID
    * @param id Object ID
@@ -112,6 +114,8 @@ public:
 
 #pragma endregion
 
+  AEGfxFont* LoadFont(const char *filepath, int size); ///< @brief Loads a font
+  
   [[nodiscard]] AEGfxTriList *GetSharedTriList() const { return m_tris; } ///< @brief Returns the shared TriList
 
   static Factory *GetInstance() {
@@ -159,6 +163,16 @@ private:
    * as a key
    */
   TextureMap m_textures;
+
+  /**
+   * @brief Queue that contains all objects to be destroyed
+   *
+   * This queue contains the @c id_t of every object that needs to be destroyed. The objects are destroyed at the end of
+   * the frame
+   */
+  std::list<id_t> m_destroyQueue;
+
+  std::unordered_map<std::string, AEGfxFont *> m_fonts;
 };
 
 

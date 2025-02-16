@@ -85,8 +85,10 @@ void InputComponent::UpdateActions(int controllerId) {
   if (controllerId == -1) {
     for (auto &action: m_keyboardActions) {
       if (AEInputKeyTriggered(action.second[0])) {
+        if (action.first != m_inputBuffer) {
+          m_timeBuffer = time(nullptr);
+        }
         m_inputBuffer = action.first;
-        m_timeBuffer = time(nullptr);
         // std::cout << action.first << std::endl;
         return;
       }
@@ -100,7 +102,7 @@ void InputComponent::UpdateActions(int controllerId) {
       }
     }
   }
-  if (!m_inputBuffer.empty() && (time(nullptr) - m_timeBuffer) > .1f) {
+  if (!m_inputBuffer.empty() && (time(nullptr) - m_timeBuffer) > .001f) {
     std::cout << "InputBuffer Timeout\n";
     m_inputBuffer.clear();
   }
@@ -110,6 +112,7 @@ std::string InputComponent::GetAction() {
   std::string tmp = m_inputBuffer;
   m_inputBuffer.clear();
   return tmp;
+  
 }
 
 int ToGamepadKey(char button) {

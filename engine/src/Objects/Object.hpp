@@ -139,7 +139,7 @@ public:
    * @param e Event to send
    *
    * The callback should have been set up by the factory. Example of usage
-   * @code
+   * \code{.cpp}
    * // We create a message event that asks for a pointer of this object (using 'this' keyword) and the name of the
    * // object we want to send the event to
    * MessageEvent eventTest(this, "Object2");
@@ -155,7 +155,7 @@ public:
    *   std::cout << "Message received! (from: " << sender->GetName() << ")\n";
    *   return true;
    * }
-   * @endcode
+   * \endcode
    */
   void SendEvent(Event &e) const { m_callback(e); }
 
@@ -167,7 +167,7 @@ public:
   [[nodiscard]] bool IsPersistent() const { return m_persistent; }
 
   [[nodiscard]] bool GetStartHandled() const { return m_startHandled; }
-  void SetStartHandled() { m_startHandled = true; }
+  void SetStartHandled(bool start = true) { m_startHandled = start; }
 
   [[nodiscard]] Collision::BoxCollider *GetCollider() const { return m_collider.get(); }
 
@@ -179,11 +179,12 @@ protected:
 
 private:
   id_t m_id = -1;
-  std::string m_name = "Object";
 
+  bool m_startHandled = false;
   bool m_active = true;
   bool m_persistent = false;
-  bool m_startHandled = false;
+
+  std::string m_name = "Object";
 
   EventCallbackFn m_callback = nullptr;
 };

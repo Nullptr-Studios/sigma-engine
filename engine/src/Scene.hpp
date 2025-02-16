@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include "Polygon.hpp"
 
 
 namespace Sigma {
@@ -45,6 +46,9 @@ public:
    * @return unsigned
    */
   unsigned GetID() const { return m_ID; }
+
+public:
+  Sigma::Polygon *m_sceneBoundsPoly{};
 
 private:
   const char *m_name;
