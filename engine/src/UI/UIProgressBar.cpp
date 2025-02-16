@@ -1,9 +1,8 @@
 #include "UIProgressBar.hpp"
 
-void Sigma::UIProgressBar::Init() {
+void Sigma::UIProgressBar::Start() {
   UIImage::Init();
-  transform.scale = m_scale;
-  //m_progress = 1;
+  m_scale = transform.scale;
 }
 
 void Sigma::UIProgressBar::Update(double delta) {
@@ -12,6 +11,5 @@ void Sigma::UIProgressBar::Update(double delta) {
     transform.scale = {0,0};
     return;
   }
-  //m_progress -=delta *.01;
   transform.scale.x = m_progress*m_scale.x;
 }
