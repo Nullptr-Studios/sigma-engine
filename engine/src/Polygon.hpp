@@ -28,7 +28,7 @@ public:
    * @param testPoint The point to check
    * @return true if the point is inside the polygon, false otherwise
    */
-  [[nodiscard]] bool isPointInside(const glm::vec2 &testPoint) const {
+  [[nodiscard]] bool IsPointInside(const glm::vec2 &testPoint) const {
     // Bounding box check
     if (testPoint.x < minBounds.x || testPoint.x > maxBounds.x || testPoint.y < minBounds.y ||
         testPoint.y > maxBounds.y)

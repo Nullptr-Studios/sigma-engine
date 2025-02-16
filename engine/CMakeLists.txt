@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 project(sigma)
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX2")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /arch:AVX2")
 
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
         "src/*.cpp"
