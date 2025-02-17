@@ -24,10 +24,11 @@ public:
 
   float lerpScale = 1.0f; ///<@brief scale of lerp
 
-  float baseDistance = 250.0f; ///<@brief base distance between players
+  float baseDistance = 300.0f; ///<@brief base distance between players
 
-  
-  float size = 2.0f; ///<@brief scale of lerp
+  // TODO: WHO OVERWROTE THIS -x
+  // no time to fix it now
+  float size = 3.0f; ///< @brief Size of the camera
   
   Object * m_targetP1{}; ///<@brief target to follow
   Object * m_targetP2{}; ///<@brief target to follow
