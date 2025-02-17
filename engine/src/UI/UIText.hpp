@@ -5,6 +5,7 @@
  *
  * @brief object that is text wow so cool
  */
+#pragma once
 #include "Objects/Object.hpp"
 
 namespace Sigma {

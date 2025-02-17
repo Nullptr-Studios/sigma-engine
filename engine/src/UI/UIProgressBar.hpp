@@ -3,23 +3,21 @@
  * @author dante
  * @date 1/25/2025
  *
- * @brief [Brief description of the file's purpose]
+ * @brief it's a progress bar that displaces progress based on a float
+ * @note make sure to set the m_progress and transform.scale during creation
  */
-
+#pragma once
 #include "UIImage.hpp"
-
 namespace Sigma {
-
-
-class UIProgressBar final : public UIImage{
+class UIProgressBar : public UIImage{
 public:
   explicit UIProgressBar(id_t id): UIImage(id) {}
-  void Init() override;
+  void Start() override;
   void Update(double delta) override;
+  
   virtual void OnEnd() {};
-  glm::vec2 m_scale = {750, 25};
-  float m_progress = 1;
-
+  float m_progress{};
 private:
+  glm::vec2 m_scale{}; ///<@brief Scale of a 100% bar
 };
 }

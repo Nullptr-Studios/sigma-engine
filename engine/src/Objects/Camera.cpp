@@ -9,7 +9,7 @@ void Camera::Init() {
 
   // TODO: Change this to camera controller
   glm::vec2 viewport;
-  AEGfxSetFullscreen(false);
+  // AEGfxSetFullscreen(false);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   m_ratio = viewport.x / viewport.y;
 
@@ -58,12 +58,13 @@ void Camera::UpdateMatrix() {
 
 glm::vec2 Camera::WorldToScreen(glm::vec2 worldPos) const {
   glm::vec2 cameraPos = {transform.position.x,transform.position.y};
-  return worldPos - cameraPos;
+  return (worldPos - cameraPos)*size;
 }
 
 glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
+  screenPos /= size;
   glm::vec2 cameraPos = {transform.position.x,transform.position.y};
-  return screenPos + cameraPos;
+  return (screenPos + cameraPos);
 }
 
 

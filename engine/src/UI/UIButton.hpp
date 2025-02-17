@@ -5,8 +5,8 @@
  *
  * @brief UI button for making things happen
  */
+#pragma once
 #include "UIImage.hpp"
-
 namespace Sigma {
   class UIButton : public UIImage {
   public:
@@ -16,9 +16,9 @@ namespace Sigma {
 
     void Update(double delta) override;
 
-    virtual void OnPress() {}
+    virtual void OnClick() {}
     virtual void OnHoldClick() {}
-    virtual void OnUnclick() {}
+    virtual void OnUnClick() {}
     virtual void OnHoverStart() {}
     virtual void OnHoverHold() {}
     virtual void OnHoverExit() {}

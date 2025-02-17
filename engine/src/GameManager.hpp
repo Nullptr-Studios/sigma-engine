@@ -126,6 +126,7 @@ private:
   CameraController* m_cameraController{};
 
   std::list<Scene*> m_loadedScenes;
+  std::list<Scene*> m_scenesToUnload;
 };
 
 } // namespace Sigma

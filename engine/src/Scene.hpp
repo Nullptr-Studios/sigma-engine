@@ -24,7 +24,7 @@ public:
     m_ID = ID;
   }
 
-  virtual ~Scene() { delete m_name; }
+  virtual ~Scene() {};
 
   virtual void Load() {};
   virtual void Init() {}
