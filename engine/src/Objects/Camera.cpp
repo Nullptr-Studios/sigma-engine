@@ -58,12 +58,13 @@ void Camera::UpdateMatrix() {
 
 glm::vec2 Camera::WorldToScreen(glm::vec2 worldPos) const {
   glm::vec2 cameraPos = {transform.position.x,transform.position.y};
-  return worldPos - cameraPos;
+  return (worldPos - cameraPos)*size;
 }
 
 glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
+  screenPos /= size;
   glm::vec2 cameraPos = {transform.position.x,transform.position.y};
-  return screenPos + cameraPos;
+  return (screenPos + cameraPos);
 }
 
 
