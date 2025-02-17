@@ -12,6 +12,7 @@ void UIImage::Update(double deltaTime) {
     auto camera = GET_CAMERA->GetCurrentCamera();
     transform.position = camera->transform.position + (m_screenSpaceTransform.position / camera->size);
     transform.scale = m_screenSpaceTransform.scale / camera->size;
+    transform.rotation = camera->transform.rotation + m_screenSpaceTransform.rotation;
   }
 }
 } // namespace Sigma
