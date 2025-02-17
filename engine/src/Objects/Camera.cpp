@@ -9,7 +9,7 @@ void Camera::Init() {
 
   // TODO: Change this to camera controller
   glm::vec2 viewport;
-  AEGfxSetFullscreen(false);
+  // AEGfxSetFullscreen(false);
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
   m_ratio = viewport.x / viewport.y;
 
