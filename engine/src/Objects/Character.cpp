@@ -67,9 +67,15 @@ void Character::Update(double delta) {
   m_animComp->Update(delta);
 }
 
-// TODO: character damage logic
 void Character::OnDamage(const Damage::DamageEvent &e) {
   Damageable::OnDamage(e);
+
+  // Hit feedback anim
+  if (e.GetOther() != this) {
+    m_currentComboAnimName = "Hit1";
+    m_animComp->SetCurrentAnim("Hit1");
+    m_isIdle = false;
+  }
 }
 
 glm::mat3 *Character::GetTextureTransform() {
