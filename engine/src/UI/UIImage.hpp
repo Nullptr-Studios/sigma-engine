@@ -16,6 +16,6 @@ namespace Sigma {
     void Update(double deltaTime) override;
 
     bool m_isScreenSpaceUI = true; ///<@brief all ui will be default set to screenspace poition
-    Transform m_screenSpaceTransform{};
+    Transform m_screenSpaceTransform;
   };
 } // Sigma

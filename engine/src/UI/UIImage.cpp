@@ -10,7 +10,7 @@ void UIImage::Update(double deltaTime) {
   Actor::Update(deltaTime);
   if (m_isScreenSpaceUI) {
     auto camera = GET_CAMERA->GetCurrentCamera();
-    transform.position = camera->transform.position + m_screenSpaceTransform.position;
+    transform.position = camera->transform.position + (m_screenSpaceTransform.position / camera->size);
     transform.scale = m_screenSpaceTransform.scale / camera->size;
   }
 }
