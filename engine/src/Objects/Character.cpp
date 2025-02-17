@@ -136,6 +136,9 @@ void Character::Serialize() {
 #pragma region MovementSystem
 void Character::Move(glm::vec2 direction) {
 
+  // This damping makes it feel better -x
+  direction.y *= 0.78f;
+
   if (!isJumping) {
     velocity.x += direction.x * (accelerationRate);
     velocity.y += direction.y * (accelerationRate);
