@@ -59,17 +59,28 @@ void Character::Start() {
 
 void Character::Update(double delta) {
   Damageable::Update(delta);
-  
+
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-  
+
   m_animComp->Update(delta);
 }
+void Character::Destroy() {
+  Damageable::Destroy();
+  if (m_attackCollider != nullptr)
+    GET_FACTORY->DestroyObject(m_attackCollider);
+}
 
-// TODO: character damage logic
 void Character::OnDamage(const Damage::DamageEvent &e) {
   Damageable::OnDamage(e);
+
+  // Hit feedback anim
+  if (e.GetOther() != this) {
+    m_currentComboAnimName = "Hit1";
+    m_animComp->SetCurrentAnim("Hit1");
+    m_isIdle = false;
+  }
 }
 
 glm::mat3 *Character::GetTextureTransform() {
@@ -113,6 +124,8 @@ void Character::Serialize() {
   maxSpeed = j["maxSpeed"];
   accelerationRate = j["accelerationRate"];
   jumpVel = j["jumpVel"];
+  friction = j["friction"];
+  SetMaxHealth(j["maxHealth"]);
 
   LoadCombo(&m_basicDefault, j, "basicCombo");
   LoadCombo(&m_basicAir, j, "basicAirCombo");
@@ -134,9 +147,12 @@ void Character::Serialize() {
 #pragma region MovementSystem
 void Character::Move(glm::vec2 direction) {
 
+  // This damping makes it feel better -x
+  direction.y *= 0.78f;
+
   if (!isJumping) {
-    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
-    velocity.y += direction.y * (accelerationRate * AEGetFrameRate());
+    velocity.x += direction.x * (accelerationRate);
+    velocity.y += direction.y * (accelerationRate);
 
     // Clamp the speed while maintaining direction
     float speed = glm::length(velocity);
@@ -150,7 +166,7 @@ void Character::Move(glm::vec2 direction) {
 
 void Character::Jump() {
   if (!isJumping) {
-    velocity.y = jumpVel * AEGetFrameRate();
+    velocity.y = jumpVel;
     isJumping = true;
     m_movementYFloor = transform.position.y;
 
@@ -320,8 +336,7 @@ void Character::SuperAttack() {
     std::cout << "[Attack] " << move.animationName << "\n";
     #endif
   }
-
-  m_superCombo++;
+  
 
   if (m_superCombo >= m_superDefault.size()) {
     ResetSuper();
@@ -341,6 +356,7 @@ void Character::SetCollider(const float damage, const glm::vec3 size, const glm:
 void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  m_superCombo++;
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 
