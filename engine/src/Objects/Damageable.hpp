@@ -37,7 +37,7 @@ public:
       
     
     float currentHealth = m_health - e.GetDamageAmount();
-    SetHealth(std::max(0.0f, currentHealth));
+    SetHealth(currentHealth);
     if (currentHealth <= 0) {
       m_isAlive = false;
       OnDed();
