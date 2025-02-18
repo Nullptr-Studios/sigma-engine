@@ -193,9 +193,38 @@ void GameManager::Run() {
     m_timeRender = endDraw - startDraw;
 #endif
 
+    
+
+
+    for (auto scene: m_scenesToUnload) {
+      scene->Free();
+      scene->Unload();
+      m_loadedScenes.remove(scene);
+      std::cout << "[GameManager] Scene with ID: " << scene->GetID() << " unloaded" << std::endl;
+      delete scene;
+    }
+    m_scenesToUnload.clear();
+
+  
     //fush destroyed objects
     m_factory->FlushDestroyQueue();
-    
+
+    // Load scenes
+    for (auto scene: m_scenesToLoad) {
+      
+      m_loadedScenes.push_back(scene);
+
+      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
+                << " loading..." << std::endl;
+      // Call member functions
+      scene->Load();
+      scene->Init();
+  
+      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
+                << " loaded!" << std::endl;
+      
+    }
+  m_scenesToLoad.clear();
 
 #if _DEBUG
   auto startSound = std::chrono::high_resolution_clock::now();
@@ -272,10 +301,6 @@ void GameManager::OnEvent(Event &e) {
 
 void GameManager::LoadScene(Scene *scene) {
 
-  PROFILER_START
-
-  StateManager::SetEngineState(SCENE_LOAD);
-
   if (scene == nullptr) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
@@ -290,22 +315,10 @@ void GameManager::LoadScene(Scene *scene) {
       return;
     }
   }
-  
-  m_loadedScenes.push_back(scene);
 
-  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-            << " loading..." << std::endl;
-  // Call member functions
-  scene->Load();
-  scene->Init();
+  m_scenesToLoad.push_back(scene);
   
-  std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-            << " loaded!" << std::endl;
-  
-
-  StateManager::SetEngineState(IN_GAME);
-
-  PROFILER_END("GameManager::LoadScene")
+ 
 }
 
 void GameManager::UnloadScene(const char *sceneName)
@@ -325,12 +338,7 @@ void GameManager::UnloadScene(unsigned sceneID)
   
   for (const auto element: m_loadedScenes){
     if (element->GetID() == sceneID) {
-      element->Free();
-      element->Unload();
-      m_loadedScenes.remove(element);
-      delete element;
-      std::cout << "[GameManager] Scene with ID: " << sceneID << " unloaded" << std::endl;
-      PROFILER_END("GameManager::UnloadScene")
+      m_scenesToUnload.push_back(element);
       return;
     }
   }
@@ -417,6 +425,7 @@ void GameManager::DebugProfiler()
 
     auto mouse = AEGetMouseData();
     glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
+    mousePos = GET_CAMERA->GetCurrentCamera()->ScreenToWorld(mousePos);
     std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
     AEGfxPrint(AEGetWindowSize().x - 255, 95, 0xFFFFFFFF, mousePosStr.c_str());
 

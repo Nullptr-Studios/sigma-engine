@@ -38,7 +38,7 @@ void Factory::DestroyObject(const id_t id) {
   
 }
 
-void Factory::DestroyObject(const Object *object) { DestroyObject(object->GetId()); }
+void Factory::DestroyObject(const Object *object) { if (object) DestroyObject(object->GetId()); }
 
 void Factory::DestroyAllObjects() {
   PROFILER_START;
