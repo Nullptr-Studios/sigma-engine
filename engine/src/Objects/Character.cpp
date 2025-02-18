@@ -59,12 +59,17 @@ void Character::Start() {
 
 void Character::Update(double delta) {
   Damageable::Update(delta);
-  
+
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-  
+
   m_animComp->Update(delta);
+}
+void Character::Destroy() {
+  Damageable::Destroy();
+  if (m_attackCollider != nullptr)
+    GET_FACTORY->DestroyObject(m_attackCollider);
 }
 
 void Character::OnDamage(const Damage::DamageEvent &e) {
