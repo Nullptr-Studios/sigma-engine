@@ -8,9 +8,7 @@
 
 #pragma once
 #include "Object.hpp"
-
 #include "AnimationSystem/AnimationComponent.hpp"
-
 
 namespace Sigma {
 
@@ -29,6 +27,7 @@ public:
   void Init() override { Object::Init(); };
   void Start() override { Object::Start(); };
   void Update(double delta) override { Object::Update(delta); };
+  void DebugWindow() override;
   void Draw() override { Object::Draw(); };
   void Destroy() override { Object::Destroy(); };
 

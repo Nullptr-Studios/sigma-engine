@@ -10,6 +10,32 @@
 
 namespace Sigma {
 
+void Actor::DebugWindow() {
+  Object::DebugWindow();
+
+  if (ImGui::CollapsingHeader("Render")) {
+    char buffer[256];  // Allocate a buffer
+    strncpy(buffer, m_texturePath, sizeof(buffer));
+    buffer[sizeof(buffer) - 1] = '\0';
+
+    if (ImGui::InputText("Texture path", buffer, sizeof(buffer))) {
+        m_texturePath = strdup(buffer);
+    }
+
+    if (ImGui::Button("Rebuild texture")) {
+      SetTexture(m_texturePath);
+    }
+
+    if (ImGui::TreeNode("Texture transform")) {
+      ImGui::Text("%.3f %.3f %.3f", m_tMtx[0][0], m_tMtx[1][0], m_tMtx[2][0]);
+      ImGui::Text("%.3f %.3f %.3f", m_tMtx[0][1], m_tMtx[1][1], m_tMtx[2][1]);
+      ImGui::Text("%.3f %.3f %.3f", m_tMtx[0][2], m_tMtx[1][2], m_tMtx[2][2]);
+      ImGui::TreePop();
+    }
+  }
+
+}
+
 void Actor::SetTexture(const char *path) {
   m_texturePath = path;
   m_texture = GET_FACTORY->LoadTexture(m_texturePath);

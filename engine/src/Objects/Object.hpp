@@ -10,6 +10,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
+#include <aecore/imgui/imgui.h>
 #include <core.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -35,9 +36,9 @@ struct Transform {
     //Changed this to use only one matrix -m
     glm::mat3 matrix;
     matrix = glm::translate(matrix, glm::vec2(position.x, position.y));
-    matrix = glm::rotate(matrix, localRotation);
+    matrix = glm::rotate(matrix, glm::radians(localRotation));
     matrix = glm::translate(matrix, glm::vec2(offset.x, offset.y));
-    matrix = glm::rotate(matrix, rotation);
+    matrix = glm::rotate(matrix, glm::radians(rotation));
     matrix = glm::scale(matrix, scale * relativeScale);
     return matrix;
   }
@@ -108,7 +109,26 @@ public:
   virtual void Init() {}
   virtual void Start() {}
   virtual void Update(double deltaTime) {}
+  virtual void DebugWindow() {}
   virtual void Draw() {}
+  inline void DrawDebugWindow() {
+    #ifdef _DEBUG
+    std::stringstream ss;
+    ss << std::to_string(m_id) << ": " << m_name;
+    std::string windowName = ss.str();
+    ImGui::Begin(windowName.c_str());
+
+    if (ImGui::CollapsingHeader("Transform")) {
+      ImGui::DragFloat3("Position", &transform.position.x);
+      ImGui::DragFloat("Rotation", &transform.rotation);
+      ImGui::DragFloat2("Scale", &transform.scale.x);
+    }
+
+    DebugWindow();
+
+    ImGui::End();
+    #endif
+  }
   virtual void Destroy() {}
 
   /**

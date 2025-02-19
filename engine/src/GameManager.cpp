@@ -116,6 +116,7 @@ void GameManager::Run() {
       }else {
         // tick after one frame from start
         object->Update(AEGetFrameTimeClamped());
+        object->DrawDebugWindow();
       }
     }
 
