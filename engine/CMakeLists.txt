@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 project(sigma)
+
+
 set(CMAKE_CXX_STANDARD 23)
 
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
@@ -19,12 +21,14 @@ target_include_directories(sigma PUBLIC inc)
 target_link_directories(sigma PUBLIC lib)
 
 
-
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(OE_BUILD_TYPE_DEFINE "OE_RELEASE")
     target_link_libraries(sigma PUBLIC aecore2)
     target_link_libraries(sigma PUBLIC fmod_vc)
     target_link_libraries(sigma PUBLIC fmodstudio_vc)
 else()
+    set(OE_BUILD_TYPE_DEFINE "OE_DEBUG")
     target_link_libraries(sigma PUBLIC aecore2_d)
     target_link_libraries(sigma PUBLIC fmodL_vc)
     target_link_libraries(sigma PUBLIC fmodstudioL_vc)
