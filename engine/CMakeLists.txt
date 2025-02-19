@@ -18,10 +18,21 @@ target_include_directories(sigma PUBLIC src)
 target_include_directories(sigma PUBLIC inc)
 target_link_directories(sigma PUBLIC lib)
 
-target_link_libraries(sigma PUBLIC fmodL_vc)
-target_link_libraries(sigma PUBLIC fmodstudioL_vc)
 
-target_link_libraries(sigma PUBLIC aecore)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_link_libraries(sigma PUBLIC aecore2)
+    target_link_libraries(sigma PUBLIC fmod_vc)
+    target_link_libraries(sigma PUBLIC fmodstudio_vc)
+else()
+    target_link_libraries(sigma PUBLIC aecore2_d)
+    target_link_libraries(sigma PUBLIC fmodL_vc)
+    target_link_libraries(sigma PUBLIC fmodstudioL_vc)
+endif ()
+    
+
+
+
 target_include_directories(sigma PUBLIC lib/json/single_include/nlohmann/)
 
 # glm library
