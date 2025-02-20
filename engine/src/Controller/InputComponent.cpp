@@ -6,6 +6,8 @@ namespace Sigma {
 InputComponent::InputComponent(const std::string &keybindPath) {
 
   m_inputBuffer = {};
+  AEInputGamepadSetLeftThumbDeadzone(14000);
+  AEInputGamepadSetRightThumbDeadzone(14000);
 
   std::ifstream file(keybindPath);
   if (!file.is_open()) {
