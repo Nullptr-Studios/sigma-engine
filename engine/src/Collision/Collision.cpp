@@ -39,7 +39,7 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
 
       auto SendCollisionEvent = [&](auto* collider, id_t target_id) {
         if (collider->type == DAMAGE) {
-          auto damageEvent = Damage::DamageEvent(target_id, collider->GetOwner(), collider->type, collider->damage, collider->damageType);
+          auto damageEvent = Damage::DamageEvent(target_id, collider->GetOwner(), collider->type, collider->damage,collider->knockback, collider->damageType);
           SendEvent(damageEvent);
         } else {
           auto collisionEvent = CollisionEvent(target_id, collider->GetOwner(), collider->type);

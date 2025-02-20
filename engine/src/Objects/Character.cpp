@@ -80,6 +80,8 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
     m_currentComboAnimName = "Hit1";
     m_animComp->SetCurrentAnim("Hit1");
     m_isIdle = false;
+    // THIS IS WHERE THE OTHER HITS YOU
+    
   }
 }
 
@@ -344,10 +346,10 @@ void Character::SuperAttack() {
   }
 }
 
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
+void Character::SetCollider(const float damage,const float knockback, const glm::vec3 size, const glm::vec2 offset) {
   float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
   glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
-  m_attackCollider->Do(position, size, damage, this, true);
+  m_attackCollider->Do(position, size, damage,knockback, this, true);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two -x
@@ -357,14 +359,14 @@ void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loo
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
   m_superCombo++;
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 
 //SUPER HIT
 void Character::OnSuperHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 #pragma endregion
 
