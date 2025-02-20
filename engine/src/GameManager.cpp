@@ -180,12 +180,13 @@ void GameManager::Run() {
       AEGfxSetProjTransform(&projAE);
 
       // TODO: ModulationColor not working???? -d
-      AEGfxSetModulationColor(actor->GetModulationColor());
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
+      AEGfxSetModulationColor(actor->GetTintAEX());
 
-      AEGfxTriDraw(m_factory->GetSharedTriList());
+      auto mesh = actor->GetMesh() ? actor->GetMesh() : m_factory->GetSharedTriList();
+      AEGfxTriDraw(mesh);
     }
 
 #if _DEBUG
@@ -305,7 +306,7 @@ void GameManager::LoadScene(Scene *scene) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
   }
-  
+ 
   //Check for duplicate scene
   for (const auto &s: m_loadedScenes)
   {
@@ -317,7 +318,6 @@ void GameManager::LoadScene(Scene *scene) {
   }
 
   m_scenesToLoad.push_back(scene);
-  
  
 }
 
