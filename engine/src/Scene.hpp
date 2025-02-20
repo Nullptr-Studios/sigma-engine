@@ -6,10 +6,16 @@
  */
 
 #pragma once
+#include <list>
+
+
+#include "Factory.hpp"
 #include "Polygon.hpp"
+#include "core.hpp"
 
 
 namespace Sigma {
+class Object;
 
 class Scene {
 public:
@@ -31,7 +37,16 @@ public:
   virtual void Update(double delta) {}
   virtual void Draw() {}
   virtual void Free() {}
-  virtual void Unload() {}
+  virtual void Unload() {
+    for (auto object: m_ownedObjects) {
+      GET_FACTORY->DestroyObject(object);
+    }
+    m_ownedObjects.clear();
+  }
+
+  void AddChild(Object* obj) {
+    m_ownedObjects.push_back(obj);
+  }
 
   /**
    * @brief Get the name of this scene
@@ -53,6 +68,8 @@ public:
 private:
   const char *m_name;
   unsigned m_ID;
+
+  std::list<Object *> m_ownedObjects = {};
 };
 
 } // namespace Sigma
