@@ -109,26 +109,14 @@ public:
   virtual void Init() {}
   virtual void Start() {}
   virtual void Update(double deltaTime) {}
-  virtual void DebugWindow() {}
-  virtual void Draw() {}
-  inline void DrawDebugWindow() {
-    #ifdef _DEBUG
-    std::stringstream ss;
-    ss << std::to_string(m_id) << ": " << m_name;
-    std::string windowName = ss.str();
-    ImGui::Begin(windowName.c_str());
-
+  virtual void DebugWindow() {
     if (ImGui::CollapsingHeader("Transform")) {
       ImGui::DragFloat3("Position", &transform.position.x);
       ImGui::DragFloat("Rotation", &transform.rotation);
       ImGui::DragFloat2("Scale", &transform.scale.x);
     }
-
-    DebugWindow();
-
-    ImGui::End();
-    #endif
   }
+  virtual void Draw() {}
   virtual void Destroy() {}
 
   /**
