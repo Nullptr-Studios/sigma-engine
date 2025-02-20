@@ -88,6 +88,9 @@ private:
   AEGfxTexture *m_texture = nullptr;
 
   unsigned m_color = AE_COLORS_WHITE;
+
+  float m_color4[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+  
 };
 
 } // namespace Sigma

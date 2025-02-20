@@ -108,6 +108,8 @@ public:
   void Start() override;
   void Update(double delta) override;
   void Destroy() override;
+
+  void DebugWindow() override;
  
   glm::mat3 *GetTextureTransform() override;
 
