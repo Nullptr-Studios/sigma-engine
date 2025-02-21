@@ -28,6 +28,7 @@ public:
   // TODO: add cooldown to damage -d
   virtual void OnDamage(const Damage::DamageEvent &e)
   {
+    if (m_invincible) return;
 
     // Avoid self collisions
     if (e.GetOther() == this) {
@@ -58,6 +59,19 @@ public:
   
   void Start() override {Actor::Start();};
   void Update(double delta) override {Actor::Update(delta);};
+
+  inline void DebugWindow() override {
+    Actor::DebugWindow();
+
+    if (ImGui::CollapsingHeader("Health")) {
+      ImGui::Text("Current: %.0f   Max: %.0f", GetHealth(), m_maxHealth);
+      ImGui::Text("Percentage: %.0f%%", (GetHealth() / m_maxHealth) * 100);
+
+      ImGui::DragFloat("Current health", &m_health);
+      ImGui::Checkbox("Set Invincible", &m_invincible);
+    }
+  }
+
   void Draw() override {Actor::Draw();};
   void Destroy() override {Actor::Destroy();};
 
@@ -81,6 +95,7 @@ protected:
   float m_health = 100.0f;
   float m_maxHealth = 100.0f;
   bool m_isAlive = true;
+  bool m_invincible = false;
 
   
 };

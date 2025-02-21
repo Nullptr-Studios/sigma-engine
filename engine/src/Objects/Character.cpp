@@ -21,19 +21,17 @@ void Character::Init() {
   // Create anim component
   m_animComp = std::make_unique<Animation::AnimationComponent>(this);
   m_animComp->SetOnAnimationEnd([this](std::string animName) { CurrentAnimationEnd(animName); });
- 
+
   // Basic hit callbacks
   m_animComp->AddCallback("BasicHit", [this](std::string animName, unsigned short frame, bool loop)
-    { OnBasicHit(animName, frame, loop); }
-  );
+                          { OnBasicHit(animName, frame, loop); });
 
   // Super hit callbacks
   m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
-    { OnSuperHit(animName, frame, loop); }
-  );
+                          { OnSuperHit(animName, frame, loop); });
 
   // Tries to get Scene Bounds
-  auto* scene = (GET_SCENE(0));
+  auto *scene = (GET_SCENE(0));
   if (scene->m_sceneBoundsPoly == nullptr)
     std::cerr << "[Character] " << GetName() << " failed to get GameScene\n";
   else
@@ -42,10 +40,10 @@ void Character::Init() {
   // Json Serialization logic
   if (!m_jsonPath.empty())
     Serialize();
-  #ifdef ATTACK_ERRORS
+#ifdef ATTACK_ERRORS
   else
     std::cerr << "[Character] No json found for " << GetName() << ". Using default values.\n";
-  #endif
+#endif
 
   // Create collider
   m_attackCollider = GET_FACTORY->CreateObject<Collision::OneHitCollider>("Attack Collider");
@@ -70,6 +68,20 @@ void Character::Destroy() {
   Damageable::Destroy();
   if (m_attackCollider != nullptr)
     GET_FACTORY->DestroyObject(m_attackCollider);
+}
+void Character::DebugWindow() {
+  Damageable::DebugWindow();
+
+  if (ImGui::CollapsingHeader("Character")) {
+
+    ImGui::DragFloat2("Current velocity", &velocity.x);
+    ImGui::DragFloat("Max speed", &maxSpeed);
+    ImGui::DragFloat("Acceleration rate", &accelerationRate);
+    ImGui::DragFloat("Jump velocity", &jumpVel);
+    ImGui::DragFloat("Friction", &friction);
+    ImGui::DragFloat("Gravity", &gravity);
+    ImGui::DragFloat("Terminal velocity", &terminalVel);
+  }
 }
 
 void Character::OnDamage(const Damage::DamageEvent &e) {
@@ -111,7 +123,7 @@ glm::mat3 *Character::GetTextureTransform() {
  * @param j The json file
  * @param jsonKey The combo key to search on the json
  */
-void LoadCombo(std::vector<Combat::Move>* combo, json_t j, const std::string& jsonKey) {
+void LoadCombo(std::vector<Combat::Move> *combo, json_t j, const std::string &jsonKey) {
   combo->resize(j[jsonKey].size());
   for (int i = 0; i < j[jsonKey].size(); i++) {
     auto move = j[jsonKey][i];
@@ -259,7 +271,8 @@ void Character::UpdateMovement(double delta) {
   }
 
   // Update Z
-  if (!isJumping) transform.position.z = -transform.position.y;
+  if (!isJumping)
+    transform.position.z = -transform.position.y;
 }
 #pragma endregion
 
@@ -280,7 +293,7 @@ void Character::UpdateCombat(double delta) {
   }
 }
 
-void Character::CurrentAnimationEnd(std::string& animName) {
+void Character::CurrentAnimationEnd(std::string &animName) {
   if (animName == m_currentComboAnimName) {
     m_isIdle = true;
     m_animComp->SetCurrentAnim("Idle");
@@ -288,7 +301,8 @@ void Character::CurrentAnimationEnd(std::string& animName) {
 }
 
 void Character::BasicAttack() {
-  if (!m_isIdle) return;
+  if (!m_isIdle)
+    return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -302,18 +316,18 @@ void Character::BasicAttack() {
     auto move = m_basicDefault[m_basicCombo];
     m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
- 
-    #ifdef ATTACK_DEBUG
-      std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
+
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " << move.animationName << "\n";
+#endif
   } else {
     auto move = m_basicAir[m_basicCombo];
     m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
 
-    #ifdef ATTACK_DEBUG
-      std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
+#ifdef ATTACK_DEBUG
+    std::cout << "[Attack] " << move.animationName << "\n";
+#endif
   }
 
   m_basicCombo++;
@@ -326,7 +340,8 @@ void Character::BasicAttack() {
 }
 
 void Character::SuperAttack() {
-  if (!m_isIdle) return;
+  if (!m_isIdle)
+    return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -336,22 +351,22 @@ void Character::SuperAttack() {
 
   if (!isJumping) {
     auto move = m_superDefault[m_basicCombo];
-    m_currentComboAnimName = move.animationName; 
+    m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
- 
-    #ifdef ATTACK_DEBUG
+
+#ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
+#endif
   } else {
     auto move = m_superAir[m_basicCombo];
     m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
 
-    #ifdef ATTACK_DEBUG
+#ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
+#endif
   }
-  
+
 
   if (m_superCombo >= m_superDefault.size()) {
     ResetSuper();
@@ -365,18 +380,19 @@ void Character::SetCollider(const float damage,const float knockback, const glm:
   m_attackCollider->Do(position, size, damage,knockback, this, true);
 }
 
-// The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two -x
+// The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two
+// -x
 
 // BASIC HIT
-void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
+void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  auto move = isJumping ? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
   m_superCombo++;
   SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 
-//SUPER HIT
-void Character::OnSuperHit(std::string& animName, unsigned short frame, bool loop) {
+// SUPER HIT
+void Character::OnSuperHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
   SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);

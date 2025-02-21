@@ -14,15 +14,16 @@ Factory::~Factory() {
 
 void Factory::FlushDestroyQueue() {
   for (auto id: m_destroyQueue) {
-
     if (m_log)
       std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
 
-    m_objects[id]->Destroy();
-    m_renderables.erase(std::ranges::remove(m_renderables, id).begin(), m_renderables.end());
-    delete m_objects[id];
+    if (m_objects[id]) {
+      m_objects[id]->Destroy();
+      m_renderables.erase(std::ranges::remove(m_renderables, id).begin(), m_renderables.end());
+      delete m_objects[id];
 
-    m_objects.erase(id);
+      m_objects.erase(id);
+    }
   }
   m_destroyQueue.clear();
 }
@@ -35,16 +36,19 @@ void Factory::DestroyObject(const id_t id) {
 
   if (m_log)
     std::cout << "[Factory] Object with ID: " << id << " does not exist\n";
-  
 }
 
-void Factory::DestroyObject(const Object *object) { if (object) DestroyObject(object->GetId()); }
+void Factory::DestroyObject(const Object *object) {
+  if (object)
+    DestroyObject(object->GetId());
+}
 
 void Factory::DestroyAllObjects() {
   PROFILER_START;
   for (const auto &obj: m_objects | std::views::values) {
     // DestroyObject(id);
-    obj->Destroy();
+    if (obj)
+      obj->Destroy();
     delete obj;
   }
   m_objects.clear();
@@ -109,8 +113,7 @@ void Factory::FreeAllTextures() {
   }
   m_textures.clear();
 }
-AEGfxFont *Factory::LoadFont(const char *filepath, int size)
-{
+AEGfxFont *Factory::LoadFont(const char *filepath, int size) {
   if (m_fonts.contains(filepath)) {
     if (m_log)
       std::cout << "[Factory] Font " << filepath << " already exists\n";
@@ -125,7 +128,7 @@ AEGfxFont *Factory::LoadFont(const char *filepath, int size)
 
   // Set the texture filters to nearest
   AEGfxTextureSetFilters(f->mFontTex, AE_GFX_TF_NEAREST, AE_GFX_TF_NEAREST);
-  
+
   m_fonts.emplace(filepath, f);
   std::cout << "[Factory] Font " << filepath << " loaded\n";
   return f;
