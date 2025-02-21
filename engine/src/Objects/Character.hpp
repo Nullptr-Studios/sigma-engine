@@ -115,6 +115,7 @@ public:
   glm::mat3 *GetTextureTransform() override;
 
   void OnDamage(const Damage::DamageEvent &e) override;
+  void TakeKnockback(float knockback, char direction);
   
 
   virtual void Serialize();

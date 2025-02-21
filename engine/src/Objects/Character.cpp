@@ -83,7 +83,18 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
     // THIS IS WHERE THE OTHER HITS YOU
     std::cout << GetName();
     std::cout << "KNOCKBACK" << e.GetKnockbackAmount() << '\n';
+    TakeKnockback(e.GetKnockbackAmount(),(transform.position.x < e.GetOther()->transform.position.x)?-1:1);
   }
+}
+
+void Character::TakeKnockback(float knockback, char direction) {
+  if (knockback == 0 || isJumping) {
+    return;
+  }
+  velocity.y = knockback;
+  velocity.x = knockback * direction;
+  isJumping = true;
+  m_movementYFloor = transform.position.y;
 }
 
 glm::mat3 *Character::GetTextureTransform() {
@@ -108,8 +119,7 @@ void LoadCombo(std::vector<Combat::Move>* combo, json_t j, const std::string& js
     // combo->operator[]() is diabolical -x
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-    // WARN: THIS NEEDS TO BE CHANGED IN THE JSON IMPORTANT
-    combo->operator[](i).knockback = move["damage"]; //TODO: ADD THIS TO THE JSON
+    combo->operator[](i).knockback = move["knockback"];
     combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
     combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
     combo->operator[](i).animationName = move["animationName"];
