@@ -148,7 +148,7 @@ void GameManager::Run() {
   AESysUpdate();
 
 
-  StateManager::SetEngineState(IN_GAME);
+  //StateManager::SetEngineState(IN_GAME);
 
 
 #if _DEBUG
@@ -176,6 +176,8 @@ void GameManager::Run() {
 
   // Tick Objects
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
+    if (object == nullptr)
+      continue;
     if (!object->GetStartHandled()) {
       object->Start();
       object->SetStartHandled();
@@ -307,6 +309,8 @@ void GameManager::Run() {
 
     std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded!"
               << std::endl;
+
+    StateManager::SetEngineState(IN_GAME);
   }
   m_scenesToLoad.clear();
   
@@ -398,6 +402,7 @@ void GameManager::UnloadScene(const char *sceneName) {
   for (const auto scene: m_loadedScenes) {
     if (scene->GetName() == sceneName) {
       UnloadScene(scene->GetID());
+      m_selectedId = -1;
       return;
     }
   }
@@ -448,6 +453,7 @@ void GameManager::DebugProfiler() {
 #if _DEBUG
 
   if ( StateManager::GetEngineState() == SCENE_UNLOAD || StateManager::GetEngineState() == SCENE_LOAD) {
+    m_selectedId = -1;
     return;
   }
   
@@ -514,12 +520,12 @@ void GameManager::DebugProfiler() {
     ImVec2 sizeScene = ImGui::GetWindowSize();
     if (ImGui::ListBoxHeader("##Scene list", sizeScene)) {
       for (auto scene: m_loadedScenes) {
-        //bool selected = (m_selectedSceneId == scene->GetID());
+        bool selected = (m_selectedSceneId == scene->GetID());
         std::stringstream ss;
         ss << std::to_string(scene->GetID()) << ": " << scene->GetName();
         std::string windowName = ss.str();
-        if (ImGui::Selectable(windowName.c_str())) {
-          
+        if (ImGui::Selectable(windowName.c_str(), selected)) {
+          m_selectedSceneId = scene->GetID();
         }
       }
 
@@ -527,6 +533,21 @@ void GameManager::DebugProfiler() {
     }
 
     ImGui::End();
+
+    if (m_selectedSceneId != -1) {
+      auto scene = GetCurrentScene(m_selectedSceneId);
+      if (scene != nullptr) {
+        std::stringstream ss;
+        ss << "Scene Inspector " << std::to_string(scene->GetID()) << ": " << scene->GetName();
+        std::string windowName = ss.str();
+
+        ImGui::Begin(windowName.c_str());
+        scene->DebugWindow();
+        ImGui::End();
+      }else {
+        m_selectedSceneId = -1;
+      }
+    }
     
 
     /*std::string CurrentScenes = "Current loaded Scenes: " + std::to_string(m_loadedScenes.size()) + "\n";
@@ -563,6 +584,8 @@ void GameManager::DebugProfiler() {
     if (ImGui::ListBoxHeader("##GameObject list", size)) {
       auto objects = m_factory->GetObjects();
       for (auto &[id, obj]: *objects) {
+        if (obj == nullptr)
+          continue;
         bool selected = (m_selectedId == id);
         std::stringstream ss;
         ss << std::to_string(id) << ": " << obj->GetName();
@@ -579,7 +602,7 @@ void GameManager::DebugProfiler() {
 
     if (m_selectedId != -1) {
       auto object = m_factory->GetObjectAt(m_selectedId);
-      if (object) {
+      if (object != nullptr) {
         std::stringstream ss;
         ss << "Inspector " << std::to_string(object->GetId()) << ": " << object->GetName();
         std::string windowName = ss.str();
@@ -587,6 +610,8 @@ void GameManager::DebugProfiler() {
         ImGui::Begin(windowName.c_str());
         object->DebugWindow();
         ImGui::End();
+      }else {
+        m_selectedId = -1;
       }
     }
   }

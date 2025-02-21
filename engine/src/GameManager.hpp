@@ -110,6 +110,7 @@ private:
 
   
   id_t m_selectedId = -1;
+  id_t m_selectedSceneId = -1;
 
   bool m_debug = true;
 #pragma endregion

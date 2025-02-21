@@ -44,7 +44,28 @@ public:
     m_ownedObjects.clear();
   }
 
-  void AddChild(Object* obj) {
+  virtual void DebugWindow() {
+    ImGui::Text("Scene: %s", m_name);
+    ImGui::Text("ID: %i", m_ID);
+  }
+
+  
+  /**
+   * @brief Set the ownership of an object to this scene
+   *
+   * @param obj
+   */
+  void AddChild(Object* obj) 
+  {
+      //Sanity fucking check (I spent like 1h cuz i was adding the player two times to the array, and it was crashing somewhere completely different) -d
+    if (obj == nullptr)
+      return;
+
+    for (auto object: m_ownedObjects) {
+      if (object == obj)
+        return;
+    }
+
     m_ownedObjects.push_back(obj);
   }
 
@@ -53,14 +74,14 @@ public:
    *
    * @return const char*
    */
-  const char *GetName() const { return m_name; }
+  [[nodiscard]] const char *GetName() const { return m_name; }
 
   /**
    * @brief Get the ID of this scene
    *
    * @return unsigned
    */
-  unsigned GetID() const { return m_ID; }
+  [[nodiscard]] unsigned GetID() const { return m_ID; }
 
 public:
   Sigma::Polygon *m_sceneBoundsPoly{};

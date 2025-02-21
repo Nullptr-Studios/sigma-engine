@@ -47,7 +47,8 @@ void Factory::DestroyAllObjects() {
   PROFILER_START;
   for (const auto &obj: m_objects | std::views::values) {
     // DestroyObject(id);
-    obj->Destroy();
+    if (obj)
+      obj->Destroy();
     delete obj;
   }
   m_objects.clear();
