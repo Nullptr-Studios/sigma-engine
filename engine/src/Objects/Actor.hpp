@@ -8,9 +8,7 @@
 
 #pragma once
 #include "Object.hpp"
-
 #include "AnimationSystem/AnimationComponent.hpp"
-
 
 namespace Sigma {
 
@@ -29,6 +27,7 @@ public:
   void Init() override { Object::Init(); };
   void Start() override { Object::Start(); };
   void Update(double delta) override { Object::Update(delta); };
+  void DebugWindow() override;
   void Draw() override { Object::Draw(); };
   void Destroy() override { Object::Destroy(); };
 
@@ -89,6 +88,9 @@ private:
   AEGfxTexture *m_texture = nullptr;
 
   unsigned m_color = AE_COLORS_WHITE;
+
+  float m_color4[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+  
 };
 
 } // namespace Sigma

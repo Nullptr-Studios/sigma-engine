@@ -100,7 +100,7 @@ public:
   void OnEvent(Event &e);
 
 private:
-
+#if _DEBUG
 #pragma region Profiler
   void DebugProfiler();
   std::chrono::duration<double> m_timeCollisions = {};
@@ -108,8 +108,13 @@ private:
   std::chrono::duration<double> m_timeRender = {};
   std::chrono::duration<double> m_timeSound = {};
 
+  
+  id_t m_selectedId = -1;
+  id_t m_selectedSceneId = -1;
+
   bool m_debug = true;
 #pragma endregion
+#endif
 
   void GameInit();
 

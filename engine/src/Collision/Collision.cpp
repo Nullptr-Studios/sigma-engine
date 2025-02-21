@@ -9,6 +9,8 @@ namespace Sigma::Collision {
 // Thb the best is to date an enby, best of both worlds -x
 void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
   for (auto it1 = objects->begin(); it1 != objects->end(); ++it1) {
+    if (it1->second == nullptr)
+      continue;
     auto& obj1 = it1->second;
     auto* col1 = obj1->GetCollider();
     if (!col1 || !col1->enabled) continue;
@@ -19,6 +21,8 @@ void CollisionSystem::UpdateCollisions(ObjectMap* objects) {
     auto sides1 = box1.GetSides(pos1);
 
     for (auto it2 = std::next(it1); it2 != objects->end(); ++it2) {
+      if (it2->second == nullptr)
+        continue;
       auto& obj2 = it2->second;
       auto* col2 = obj2->GetCollider();
       if (!col2 || !col2->enabled) continue;
