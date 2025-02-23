@@ -77,10 +77,10 @@ void Character::DebugWindow() {
     ImGui::DragFloat2("Current velocity", &velocity.x);
     ImGui::DragFloat("Max speed", &maxSpeed);
     ImGui::DragFloat("Acceleration rate", &accelerationRate);
-    ImGui::DragFloat("Jump velocity", &jumpVel);
+    ImGui::DragFloat("Dash velocity", &dashVel);
+    ImGui::DragFloat("Dash Time", &dashTime);
+    ImGui::DragFloat("Dash Cooldown", &dashCool);
     ImGui::DragFloat("Friction", &friction);
-    ImGui::DragFloat("Gravity", &gravity);
-    ImGui::DragFloat("Terminal velocity", &terminalVel);
   }
 }
 
@@ -100,11 +100,12 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
 }
 
 void Character::TakeKnockback(glm::vec2 knockback) {
-  if ((knockback.x == 0 && knockback.y == 0)|| isJumping) {
+  if ((knockback.x == 0 && knockback.y == 0) || isJumping) {
     return;
   }
   velocity.x = knockback.x;
   velocity.y = knockback.y;
+  //FIXME re-add jump (it never ends jump, knockback only happens once)
   isJumping = true;
   m_movementYFloor = transform.position.y;
 }

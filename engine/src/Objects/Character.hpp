@@ -161,7 +161,10 @@ protected:
   float dashTime = 0.1f; ///< @brief character dash time
   float dashCool = 0.5f; ///< @brief character dash cooldown
   float dashTimer = 0.f; ///< @brief character dash timer
-  bool isDashing = false; ///< @breif checks if character is in dash
+  bool isDashing = false; ///< @brief checks if character is in dash
+  bool isJumping = false; ///< @brief checks if character is in jump state
+
+  float m_movementYFloor; ///< @brief Y floor for character jumping
 
   void PrintStatus() {};
 #pragma endregion
