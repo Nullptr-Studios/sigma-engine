@@ -61,7 +61,6 @@ void Character::Update(double delta) {
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-
   m_animComp->Update(delta);
 }
 void Character::Destroy() {
@@ -174,12 +173,19 @@ void Character::Serialize() {
 
 #pragma region MovementSystem
 void Character::Move(glm::vec2 direction) {
-
-// This damping makes it feel better -x
+  // This damping makes it feel better -x
   float yDamp = 0.78f;
   direction.y *= yDamp;
 
-  if (!isDashing) {
+  if (isDashing) {
+    velocity = glm::normalize(velocity) * dashVel;
+    if (abs(velocity.x)<= 0.01f) {velocity.y *= yDamp;}
+
+  } else if (isJumping) {
+    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
+    velocity.x = glm::clamp(velocity.x, -maxSpeed, maxSpeed);
+
+  } else {
     velocity.x += direction.x * (accelerationRate);
     velocity.y += direction.y * (accelerationRate);
 
@@ -187,10 +193,6 @@ void Character::Move(glm::vec2 direction) {
     float speed = glm::length(velocity);
     if (speed > maxSpeed)
       velocity = glm::normalize(velocity) * maxSpeed;
-
-  } else {
-      velocity = glm::normalize(velocity) * dashVel;
-      if (abs(velocity.x)<= 0.01f) {velocity.y *= yDamp;}
   }
 }
 
@@ -205,7 +207,12 @@ void Character::Dash() {
 
 void Character::UpdateMovement(double delta) {
 
-  if (!isDashing) {
+  if (isJumping) {
+    velocity.y += gravity * delta;
+    velocity.y = glm::clamp(velocity.y, -terminalVel, terminalVel);
+  }
+
+  if (!isDashing && !isJumping) {
     // Apply deceleration when no input is given in X axis
     if (std::abs(velocity.x) > 0.01f) {
       if (velocity.x > 0) {
@@ -237,19 +244,30 @@ void Character::UpdateMovement(double delta) {
     }
   }
 
-  // Calculate if in bounds
+// Calculate if in bounds
   if (m_sceneBoundsPoly != nullptr) {
-    glm::vec2 newPos = transform.position;
+    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
 
     newPos.x += velocity.x * delta;
     if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
       velocity.x = 0.0f;
     }
 
-    newPos.y += velocity.y * delta;
-    if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
-      velocity.y = 0.0f;
+    if (!isJumping) {
+      newPos = transform.position;
+
+      newPos.y += velocity.y * delta;
+      if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
+        velocity.y = 0.0f;
+      }
     }
+  }
+
+  // Ground collision
+  if (isJumping && transform.position.y <= m_movementYFloor) {
+    transform.position.y = m_movementYFloor;
+    velocity.y = 0;
+    isJumping = false;
   }
 
   // Update position
@@ -266,8 +284,9 @@ void Character::UpdateMovement(double delta) {
   }
 
   // Update Z
-  transform.position.z = -transform.position.y;
+  if (!isJumping) {transform.position.z = -transform.position.y;}
 }
+
 #pragma endregion
 
 #pragma region Combat
@@ -297,6 +316,7 @@ void Character::CurrentAnimationEnd(std::string &animName) {
 void Character::BasicAttack() {
   if (!m_isIdle) return;
   if (isDashing) return;
+  if (isJumping) return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -327,6 +347,7 @@ void Character::BasicAttack() {
 void Character::SuperAttack() {
   if (!m_isIdle) return;
   if (isDashing) return;
+  if (isJumping) return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -360,7 +381,7 @@ void Character::SetCollider(const float damage,const glm::vec2 knockback, const 
 // BASIC HIT
 void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping ? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  auto move = m_basicDefault[m_basicCombo];
   m_superCombo++;
   SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
@@ -368,7 +389,7 @@ void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loo
 // SUPER HIT
 void Character::OnSuperHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
+  auto move = m_superDefault[m_superCombo];
   SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 #pragma endregion
