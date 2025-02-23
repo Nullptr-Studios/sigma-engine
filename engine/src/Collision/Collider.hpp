@@ -166,8 +166,10 @@ struct BoxCollider {
 
   //i really like the collider damage here -x
   //I fucking hate this -d
+  // me too buddy i hate this so much -d
 
   float damage = 0.0f; ///< @brief Damage the attack does (only useful for DMG type colliders)
+  glm::vec2 knockback{};
 
   void SetColliderFlags(int flag) { this->flag = static_cast<ColliderFlag>(flag); }
   void SetColliderType(ColliderType type) { this->type = type; }

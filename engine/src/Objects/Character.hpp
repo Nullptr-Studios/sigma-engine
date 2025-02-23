@@ -50,6 +50,7 @@ inline MoveType GetMoveType(const std::string &value) {
 struct Move {
   MoveType type;
   float damage;
+  glm::vec2 knockback{};
   glm::vec2 colliderOffset{};
   glm::vec3 colliderSize{};
   std::string animationName;
@@ -73,14 +74,16 @@ struct Move {
    *
    * @param type Defines the behaviour of the move
    * @param damage Defines the damage the move default
+   * @param knockback Defines the knockback 
    * @param offset Defines the offset of the collider
    * @param size Defines the collider
    * @param animation Path of the animation for the move
    */
-  Move(const MoveType type, const float damage, const glm::vec2 offset, const glm::vec3 size,
+  Move(const MoveType type, const float damage,const glm::vec2 knockback, const glm::vec2 offset, const glm::vec3 size,
        const std::string &animation) {
     this->type = type;
     this->damage = damage;
+    this->knockback = knockback;
     colliderOffset = offset;
     colliderSize = size;
     animationName = animation;
@@ -114,6 +117,8 @@ public:
   glm::mat3 *GetTextureTransform() override;
 
   void OnDamage(const Damage::DamageEvent &e) override;
+  void TakeKnockback(glm::vec2 knockback);
+  
 
   virtual void Serialize();
 
@@ -185,7 +190,7 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset);
+  void SetCollider(float damage,glm::vec2 knockback, glm::vec3 size, glm::vec2 offset);
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;
