@@ -163,8 +163,8 @@ protected:
   float dashTimer = 0.f; ///< @brief character dash timer
   bool isDashing = false; ///< @brief checks if character is in dash
   bool isJumping = false; ///< @brief checks if character is in jump state
-  float gravity = 1000.0f; ///< @brief character gravity
-  float terminalVel = 2000.0f; ///< @brief character terminal velocity
+  float gravity = -5000.0f; ///< @brief character gravity
+  float terminalVel = 1000.0f; ///< @brief character terminal velocity
 
   float m_movementYFloor; ///< @brief Y floor for character jumping
 
