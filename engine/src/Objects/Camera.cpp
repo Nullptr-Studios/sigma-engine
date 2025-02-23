@@ -42,6 +42,14 @@ void Camera::Update(double deltaTime) {
     UpdateMatrix();
   }
 }
+void Camera::DebugWindow() {
+  Object::DebugWindow();
+
+
+  if (ImGui::CollapsingHeader("Camera")) {
+    ImGui::DragFloat("Size", &size);
+  }
+}
 
 void Camera::UpdateMatrix() {
   // View Space
@@ -52,21 +60,20 @@ void Camera::UpdateMatrix() {
   // Clip Space
   glm::vec2 viewport;
   AEGfxGetViewRectangle(&viewport.x, &viewport.y);
-  m_clipMatrix = glm::ortho(-viewport.x/(2 * size), viewport.x/(2 * size) ,
-    -viewport.y/(2 * size),  viewport.y/(2 * size), m_near, m_far);
+  m_clipMatrix = glm::ortho(-viewport.x / (2 * size), viewport.x / (2 * size), -viewport.y / (2 * size),
+                            viewport.y / (2 * size), m_near, m_far);
 }
 
 glm::vec2 Camera::WorldToScreen(glm::vec2 worldPos) const {
-  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
-  return (worldPos - cameraPos)*size;
+  glm::vec2 cameraPos = {transform.position.x, transform.position.y};
+  return (worldPos - cameraPos) * size;
 }
 
 glm::vec2 Camera::ScreenToWorld(glm::vec2 screenPos) const {
   screenPos /= size;
-  glm::vec2 cameraPos = {transform.position.x,transform.position.y};
+  glm::vec2 cameraPos = {transform.position.x, transform.position.y};
   return (screenPos + cameraPos);
 }
-
 
 
 } // namespace Sigma

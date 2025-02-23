@@ -15,7 +15,6 @@
 #include "StateManager.hpp"
 
 namespace Sigma {
-
 GameManager *GameManager::m_instance = nullptr;
 EngineState StateManager::m_currentEngineState = ENGINE_IDLE;
 
@@ -39,6 +38,73 @@ void GameManager::GameInit() {
   // disable depth buffer cuz were using our own, fuck alpha btw
   AEGfxSetDepthBufferEnabled(false);
 
+#pragma region ImGuiStyle
+
+  ImGuiStyle& style = ImGui::GetStyle();
+
+  // light style from Pacôme Danhiez (user itamago) https://github.com/ocornut/imgui/pull/511#issuecomment-175719267
+  style.Alpha = 1.0f;
+  style.FrameRounding = 3.0f;
+  style.Colors[ImGuiCol_Text]                  = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+  style.Colors[ImGuiCol_TextDisabled]          = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
+  style.Colors[ImGuiCol_WindowBg]              = ImVec4(0.94f, 0.94f, 0.94f, 0.94f);
+  style.Colors[ImGuiCol_ChildWindowBg]         = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+  style.Colors[ImGuiCol_PopupBg]               = ImVec4(1.00f, 1.00f, 1.00f, 0.94f);
+  style.Colors[ImGuiCol_Border]                = ImVec4(0.00f, 0.00f, 0.00f, 0.39f);
+  style.Colors[ImGuiCol_BorderShadow]          = ImVec4(1.00f, 1.00f, 1.00f, 0.10f);
+  style.Colors[ImGuiCol_FrameBg]               = ImVec4(1.00f, 1.00f, 1.00f, 0.94f);
+  style.Colors[ImGuiCol_FrameBgHovered]        = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+  style.Colors[ImGuiCol_FrameBgActive]         = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+  style.Colors[ImGuiCol_TitleBg]               = ImVec4(0.96f, 0.96f, 0.96f, 1.00f);
+  style.Colors[ImGuiCol_TitleBgCollapsed]      = ImVec4(1.00f, 1.00f, 1.00f, 0.51f);
+  style.Colors[ImGuiCol_TitleBgActive]         = ImVec4(0.82f, 0.82f, 0.82f, 1.00f);
+  style.Colors[ImGuiCol_MenuBarBg]             = ImVec4(0.86f, 0.86f, 0.86f, 1.00f);
+  style.Colors[ImGuiCol_ScrollbarBg]           = ImVec4(0.98f, 0.98f, 0.98f, 0.53f);
+  style.Colors[ImGuiCol_ScrollbarGrab]         = ImVec4(0.69f, 0.69f, 0.69f, 1.00f);
+  style.Colors[ImGuiCol_ScrollbarGrabHovered]  = ImVec4(0.59f, 0.59f, 0.59f, 1.00f);
+  style.Colors[ImGuiCol_ScrollbarGrabActive]   = ImVec4(0.49f, 0.49f, 0.49f, 1.00f);
+  style.Colors[ImGuiCol_CheckMark]             = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+  style.Colors[ImGuiCol_SliderGrab]            = ImVec4(0.24f, 0.52f, 0.88f, 1.00f);
+  style.Colors[ImGuiCol_SliderGrabActive]      = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+  style.Colors[ImGuiCol_Button]                = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+  style.Colors[ImGuiCol_ButtonHovered]         = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+  style.Colors[ImGuiCol_ButtonActive]          = ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
+  style.Colors[ImGuiCol_Header]                = ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
+  style.Colors[ImGuiCol_HeaderHovered]         = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+  style.Colors[ImGuiCol_HeaderActive]          = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+  style.Colors[ImGuiCol_ResizeGrip]            = ImVec4(1.00f, 1.00f, 1.00f, 0.50f);
+  style.Colors[ImGuiCol_ResizeGripHovered]     = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+  style.Colors[ImGuiCol_ResizeGripActive]      = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
+  style.Colors[ImGuiCol_PlotLines]             = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+  style.Colors[ImGuiCol_PlotLinesHovered]      = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+  style.Colors[ImGuiCol_PlotHistogram]         = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+  style.Colors[ImGuiCol_PlotHistogramHovered]  = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+  style.Colors[ImGuiCol_TextSelectedBg]        = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+  style.Colors[ImGuiCol_ModalWindowDarkening]  = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
+
+  if( true )
+  {
+    for (int i = 0; i <= ImGuiCol_COUNT; i++)
+    {
+      ImVec4& col = style.Colors[i];
+      float H, S, V;
+      ImGui::ColorConvertRGBtoHSV( col.x, col.y, col.z, H, S, V );
+
+      if( S < 0.1f )
+      {
+        V = 1.0f - V;
+      }
+      ImGui::ColorConvertHSVtoRGB( H, S, V, col.x, col.y, col.z );
+      if( col.w < 1.00f )
+      {
+        col.w *= .75f;
+      }
+    }
+  }
+
+
+#pragma endregion
+
   // Initialize factory
   m_factory = std::make_unique<Factory>(this, &GameManager::OnEvent);
 
@@ -47,17 +113,14 @@ void GameManager::GameInit() {
   m_audioEngine->Init();
 
   // Initialize Collisions
-  m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event& e)
-  {
-    this->OnEvent(e);
-  });
+  m_collisionSystem = std::make_unique<Collision::CollisionSystem>([this](Event &e) { this->OnEvent(e); });
 
   // Initialize Animation system
   m_animationSystem = std::make_unique<Animation::AnimationSystem>();
 
   // Initialize camera controller
   m_cameraController = GET_FACTORY->CreateObject<CameraController>("Camera Controller");
-  //m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
+  // m_cameraController->SetCurrentCamera(GET_FACTORY->CreateObject<Camera>("Main Camera"));
   StateManager::SetEngineState(IN_GAME);
 
 
@@ -84,100 +147,104 @@ void GameManager::Run() {
   AESysFrameStart();
   AESysUpdate();
 
-    
+
+  //StateManager::SetEngineState(IN_GAME);
+
+
 #if _DEBUG
-    auto startCollision = std::chrono::high_resolution_clock::now();
+  auto startCollision = std::chrono::high_resolution_clock::now();
 #endif
-    // Collision update
-    m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
-    
+  // Collision update
+  m_collisionSystem->UpdateCollisions(m_factory->GetObjects());
+
 #if _DEBUG
-    auto endCollision = std::chrono::high_resolution_clock::now();
-    m_timeCollisions = endCollision - startCollision;
+  auto endCollision = std::chrono::high_resolution_clock::now();
+  m_timeCollisions = endCollision - startCollision;
 #endif
 
 
-    // TODO: For Each Actor Debug DrawRectCollider
+  // TODO: For Each Actor Debug DrawRectCollider
 
 #if _DEBUG
-    auto startTick = std::chrono::high_resolution_clock::now();
+  auto startTick = std::chrono::high_resolution_clock::now();
 #endif
-    // Scene and subscene update
-    for (auto scene: m_loadedScenes) {
-      scene->Update(AEGetFrameTimeClamped());
+  // Scene and subscene update
+  for (auto scene: m_loadedScenes) {
+    scene->Update(AEGetFrameTimeClamped());
+  }
+
+
+  // Tick Objects
+  for (const auto &object: *m_factory->GetObjects() | std::views::values) {
+    if (object == nullptr)
+      continue;
+    if (!object->GetStartHandled()) {
+      object->Start();
+      object->SetStartHandled();
+    } else {
+      // tick after one frame from start
+      object->Update(AEGetFrameTimeClamped());
     }
-
-
-    // Tick Objects
-    for (const auto &object: *m_factory->GetObjects() | std::views::values) {
-      if (!object->GetStartHandled()) {
-        object->Start();
-        object->SetStartHandled();
-      }else {
-        // tick after one frame from start
-        object->Update(AEGetFrameTimeClamped());
-      }
-    }
+  }
 
 #if _DEBUG
-    auto endTick = std::chrono::high_resolution_clock::now();
-    m_timeTick = endTick - startTick;
+  auto endTick = std::chrono::high_resolution_clock::now();
+  m_timeTick = endTick - startTick;
 #endif
 
 
 #if _DEBUG
-    auto startDraw = std::chrono::high_resolution_clock::now();
+  auto startDraw = std::chrono::high_resolution_clock::now();
 #endif
-    // Scene and SubScene draw
-    for (auto scene: m_loadedScenes) {
-      scene->Draw();
-    }
+  // Scene and SubScene draw
+  for (auto scene: m_loadedScenes) {
+    scene->Draw();
+  }
 
 
+  auto renderables = m_factory->GetRenderables();
 
-    auto renderables = m_factory->GetRenderables();
+  // Do sorting each 5 frames
+  if (AEGetFrameCounter() % 5 == 0) {
+    // Sort by Z order
+    renderables->sort(
+        [](const id_t &a, const id_t &b)
+        {
+          const auto OA = GET_FACTORY->GetObjectAt(a);
+          const auto OB = GET_FACTORY->GetObjectAt(b);
 
-    // Do sorting each 5 frames
-    if (AEGetFrameCounter() % 5 == 0) {
-      // Sort by Z order
-      renderables->sort(
-          [](const id_t &a, const id_t &b)
-          {
-            const auto OA = GET_FACTORY->GetObjectAt(a);
-            const auto OB = GET_FACTORY->GetObjectAt(b);
+          return OA->transform.position.z < OB->transform.position.z;
+        });
+  }
 
-            return OA->transform.position.z < OB->transform.position.z;
-          });
-    }
+  // Render Objects
+  for (const auto &renderableId: *renderables) {
 
-    // Render Objects
-    for (const auto &renderableId: *renderables) {
+    auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
 
-      auto actor = dynamic_cast<Actor *>(m_factory->GetObjectAt(renderableId));
+    // culling
+    /*if (!actor->IsInViewport())
+      continue;*/
 
-      // culling
-      /*if (!actor->IsInViewport())
-        continue;*/
+    if (!actor->GetStartHandled())
+      continue; // We do this because the object has not had its Start method done yet
 
-      if (!actor->GetStartHandled())
-        continue; // We do this because the object has not had its Start method done yet
+    // call the actor draw function (we were not using the draw method until now xdddd) -d
+    actor->Draw();
 
-      // call the actor draw function (we were not using the draw method until now xdddd) -d
-      actor->Draw();
+    glm::mat4 world = actor->transform.GetMatrix4();
+    // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
+    auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
+    glm::mat4 matrix = cameraMatrices[1] * cameraMatrices[0] * world;
+    auto matrixAE = glm::ToAEX(matrix);
+    AEGfxSetTransform(&matrixAE);
 
-      glm::mat4 world = actor->transform.GetMatrix4();
-      // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
-      auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
-      glm::mat4 matrix = cameraMatrices[1] * cameraMatrices[0] * world;
-      auto matrixAE = glm::ToAEX(matrix);
-      AEGfxSetTransform(&matrixAE);
-
-      // This is here to avoid alpha engine doing weird shit (hopefully) -x
-      // If you see this comment that means my weird idea worked -x
-      auto viewAE = AEMtx44::Identity();
-      AEGfxSetViewTransform(&viewAE);
-      auto projAE = AEMtx44::Identity();
-      AEGfxSetProjTransform(&projAE);
+    // This is here to avoid alpha engine doing weird shit (hopefully) -x
+    // If you see this comment that means my weird idea worked -x
+    auto viewAE = AEMtx44::Identity();
+    AEGfxSetViewTransform(&viewAE);
+    auto projAE = AEMtx44::Identity();
+    AEGfxSetProjTransform(&projAE);
 
       // TODO: ModulationColor not working???? -d
       AEGfxTextureSet(actor->GetTexture());
@@ -190,61 +257,67 @@ void GameManager::Run() {
     }
 
 #if _DEBUG
-    auto endDraw = std::chrono::high_resolution_clock::now();
-    m_timeRender = endDraw - startDraw;
+  auto endDraw = std::chrono::high_resolution_clock::now();
+  m_timeRender = endDraw - startDraw;
 #endif
 
-    
-
-
-    for (auto scene: m_scenesToUnload) {
-      scene->Free();
-      scene->Unload();
-      m_loadedScenes.remove(scene);
-      std::cout << "[GameManager] Scene with ID: " << scene->GetID() << " unloaded" << std::endl;
-      delete scene;
-    }
-    m_scenesToUnload.clear();
-
-  
-    //fush destroyed objects
-    m_factory->FlushDestroyQueue();
-
-    // Load scenes
-    for (auto scene: m_scenesToLoad) {
-      
-      m_loadedScenes.push_back(scene);
-
-      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-                << " loading..." << std::endl;
-      // Call member functions
-      scene->Load();
-      scene->Init();
-  
-      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID()
-                << " loaded!" << std::endl;
-      
-    }
-  m_scenesToLoad.clear();
 
 #if _DEBUG
   auto startSound = std::chrono::high_resolution_clock::now();
 #endif
 
-  // Audio update
-  m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x,
-                                       m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0, 1, 0, 0, 0,
-                                       1);
-  m_audioEngine->Update();
+  if (m_audioEngine != nullptr && m_cameraController->GetCurrentCamera() != nullptr) {
+    // Audio update
+    m_audioEngine->Set3DListenerPosition(m_cameraController->GetCurrentCamera()->transform.position.x,
+                                         m_cameraController->GetCurrentCamera()->transform.position.y, 0, 0, 1, 0, 0, 0,
+                                         1);
+    m_audioEngine->Update();
+  }
 
 #if _DEBUG
   auto endSound = std::chrono::high_resolution_clock::now();
   m_timeSound = endSound - startSound;
 #endif
 
+
   // Debug Profiler
   DebugProfiler();
-  
+
+
+  for (auto scene: m_scenesToUnload) {
+    scene->Free();
+    scene->Unload();
+    m_loadedScenes.remove(scene);
+    std::cout << "[GameManager] Scene with ID: " << scene->GetID() << " unloaded" << std::endl;
+    delete scene;
+  }
+  m_scenesToUnload.clear();
+
+
+  // fush destroyed objects
+  m_factory->FlushDestroyQueue();
+
+  // Load scenes
+  for (auto scene: m_scenesToLoad) {
+
+    m_loadedScenes.push_back(scene);
+
+    std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loading..."
+              << std::endl;
+    // Call member functions
+    scene->Load();
+    scene->Init();
+
+    std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " loaded!"
+              << std::endl;
+
+    StateManager::SetEngineState(IN_GAME);
+  }
+  m_scenesToLoad.clear();
+
+
+
+
   // AE Shit
   AESysFrameEnd();
 }
@@ -253,7 +326,7 @@ void GameManager::Uninitialize() {
 
   PROFILER_START
   StateManager::SetEngineState(ENGINE_EXIT);
-  
+
   m_factory->DestroyAllObjects();
   m_factory->FreeAllTextures();
 
@@ -269,21 +342,25 @@ void GameManager::OnEvent(Event &e) {
 
   EventDispatcher dispatcher(e);
 
-  dispatcher.Dispatch<Damage::DamageEvent>([](Damage::DamageEvent & damage)->bool
-    {
-      auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
-      if (const auto dmg = dynamic_cast<Damageable*>(obj)) dmg->OnDamage(damage);
+  dispatcher.Dispatch<Damage::DamageEvent>(
+      [](Damage::DamageEvent &damage) -> bool
+      {
+        auto obj = GET_FACTORY->GetObjectAt(damage.GetReceiver());
+        if (const auto dmg = dynamic_cast<Damageable *>(obj))
+          dmg->OnDamage(damage);
 
-      return true;
-    });
+        return true;
+      });
 
-  dispatcher.Dispatch<Collision::CollisionEvent>([](Collision::CollisionEvent& collision)->bool
-    {
-      auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
-      if (obj) return obj->OnCollision(collision);
+  dispatcher.Dispatch<Collision::CollisionEvent>(
+      [](Collision::CollisionEvent &collision) -> bool
+      {
+        auto obj = GET_FACTORY->GetObjectAt(collision.GetReceiver());
+        if (obj)
+          return obj->OnCollision(collision);
 
-      return false;
-    });
+        return false;
+      });
 
   for (const auto &object: *m_factory->GetObjects() | std::views::values) {
     dispatcher.Dispatch<MessageEvent>(
@@ -294,7 +371,6 @@ void GameManager::OnEvent(Event &e) {
           return false;
         });
   }
-
 }
 #pragma endregion
 
@@ -302,46 +378,52 @@ void GameManager::OnEvent(Event &e) {
 
 void GameManager::LoadScene(Scene *scene) {
 
+  StateManager::SetEngineState(SCENE_LOAD);
+
   if (scene == nullptr) {
     std::cout << "[GameManager] Scene to load is nullptr" << std::endl;
     return;
   }
- 
-  //Check for duplicate scene
-  for (const auto &s: m_loadedScenes)
-  {
-    if (scene->GetName() == s->GetName() && scene->GetID() == s->GetID())
-    {
-      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " already loaded" << std::endl;
+
+  // Check for duplicate scene
+  for (const auto &s: m_loadedScenes) {
+    if (scene->GetName() == s->GetName() && scene->GetID() == s->GetID()) {
+      std::cout << "[GameManager] Scene: " << scene->GetName() << " with ID: " << scene->GetID() << " already loaded"
+                << std::endl;
       return;
     }
   }
 
   m_scenesToLoad.push_back(scene);
- 
 }
 
-void GameManager::UnloadScene(const char *sceneName)
-{
+void GameManager::UnloadScene(const char *sceneName) {
+
+  StateManager::SetEngineState(SCENE_UNLOAD);
   for (const auto scene: m_loadedScenes) {
     if (scene->GetName() == sceneName) {
       UnloadScene(scene->GetID());
+      m_selectedId = -1;
       return;
     }
   }
   std::cout << "[GameManager] Scene with name: " << sceneName << " not found" << std::endl;
 }
 
-void GameManager::UnloadScene(unsigned sceneID)
-{
+void GameManager::UnloadScene(unsigned sceneID) {
   PROFILER_START
-  
-  for (const auto element: m_loadedScenes){
+
+  StateManager::SetEngineState(SCENE_UNLOAD);
+
+  for (const auto element: m_loadedScenes) {
     if (element->GetID() == sceneID) {
       m_scenesToUnload.push_back(element);
       return;
     }
   }
+
+  // Reset inspector window
+  m_selectedId = -1;
 
   std::cout << "[GameManager] Scene with ID: " << sceneID << " not found" << std::endl;
 }
@@ -357,7 +439,7 @@ Scene *GameManager::GetCurrentScene(int ID) {
 }
 
 Scene *GameManager::GetCurrentScene(const char *name) {
-  for (auto scene : m_loadedScenes) {
+  for (auto scene: m_loadedScenes) {
     if (scene->GetName() == name) {
       return scene;
     }
@@ -368,9 +450,13 @@ Scene *GameManager::GetCurrentScene(const char *name) {
 
 #pragma endregion
 
-void GameManager::DebugProfiler()
-{
+void GameManager::DebugProfiler() {
 #if _DEBUG
+
+  if ( StateManager::GetEngineState() == SCENE_UNLOAD || StateManager::GetEngineState() == SCENE_LOAD) {
+    m_selectedId = -1;
+    return;
+  }
 
   if (m_debug) {
     std::string loadedTextures = "Loaded Textures: ";
@@ -422,15 +508,50 @@ void GameManager::DebugProfiler()
     AEGfxPrint(AEGetWindowSize().x - 255, 65, 0xFF00FF00, Sound.c_str());
 
 
-
     auto mouse = AEGetMouseData();
     glm::vec2 mousePos = {mouse.position.x, mouse.position.y};
-    mousePos = GET_CAMERA->GetCurrentCamera()->ScreenToWorld(mousePos);
-    std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
-    AEGfxPrint(AEGetWindowSize().x - 255, 95, 0xFFFFFFFF, mousePosStr.c_str());
+    auto cam = GET_CAMERA->GetCurrentCamera();
+    if (cam != nullptr) {
+      mousePos = cam->ScreenToWorld(mousePos);
+      std::string mousePosStr = "Mouse Pos: " + std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y);
+      AEGfxPrint(AEGetWindowSize().x - 255, 95, 0xFFFFFFFF, mousePosStr.c_str());
+    }
+
+    ImGui::Begin("Scene management");
+    ImVec2 sizeScene = ImGui::GetWindowSize();
+    if (ImGui::ListBoxHeader("##Scene list", sizeScene)) {
+      for (auto scene: m_loadedScenes) {
+        bool selected = (m_selectedSceneId == scene->GetID());
+        std::stringstream ss;
+        ss << std::to_string(scene->GetID()) << ": " << scene->GetName();
+        std::string windowName = ss.str();
+        if (ImGui::Selectable(windowName.c_str(), selected)) {
+          m_selectedSceneId = scene->GetID();
+        }
+      }
+
+      ImGui::ListBoxFooter();
+    }
+
+    ImGui::End();
+
+    if (m_selectedSceneId != -1) {
+      auto scene = GetCurrentScene(m_selectedSceneId);
+      if (scene != nullptr) {
+        std::stringstream ss;
+        ss << "Scene Inspector " << std::to_string(scene->GetID()) << ": " << scene->GetName();
+        std::string windowName = ss.str();
+
+        ImGui::Begin(windowName.c_str());
+        scene->DebugWindow();
+        ImGui::End();
+      }else {
+        m_selectedSceneId = -1;
+      }
+    }
 
 
-    std::string CurrentScenes = "Current loaded Scenes: " + std::to_string(m_loadedScenes.size()) + "\n";
+    /*std::string CurrentScenes = "Current loaded Scenes: " + std::to_string(m_loadedScenes.size()) + "\n";
 
     for (auto scenes: m_loadedScenes) {
       CurrentScenes.append(scenes->GetName());
@@ -438,7 +559,7 @@ void GameManager::DebugProfiler()
       CurrentScenes.append(std::to_string(scenes->GetID()));
       CurrentScenes.append("\n");
     }
-    AEGfxPrint(AEGetWindowSize().x - 255, 110, 0xFFFFFFFF, CurrentScenes.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 110, 0xFFFFFFFF, CurrentScenes.c_str());*/
 
 
     std::string CurrentObjects = "Current Objects: ";
@@ -449,15 +570,53 @@ void GameManager::DebugProfiler()
     CurrentActors.append(std::to_string(m_factory->GetRenderables()->size()));
     AEGfxPrint(10, 60, 0xFFFFFFFF, CurrentActors.c_str());
 
-    std::string CurrentObjectsList = "Current Objects List: \n";
-    for (auto val: *m_factory->GetObjects() | std::views::values) {
-      CurrentObjectsList.append(val->GetName());
-      CurrentObjectsList.append("\n");
+    // std::string CurrentObjectsList = "Current Objects List: \n";
+    // for (auto val: *m_factory->GetObjects() | std::views::values) {
+    //   CurrentObjectsList.append(val->GetName());
+    //   CurrentObjectsList.append("\n");
+    // }
+    // CurrentObjectsList.append(std::to_string(m_factory->GetRenderables()->size()));
+    // AEGfxPrint(10, 80, 0xFFFFFFFF, CurrentObjectsList.c_str());
+
+
+    // Debug Treelist
+    ImGui::Begin("Hierarchy");
+    ImVec2 size = ImGui::GetWindowSize();
+    if (ImGui::ListBoxHeader("##GameObject list", size)) {
+      auto objects = m_factory->GetObjects();
+      for (auto &[id, obj]: *objects) {
+        if (obj == nullptr)
+          continue;
+        bool selected = (m_selectedId == id);
+        std::stringstream ss;
+        ss << std::to_string(id) << ": " << obj->GetName();
+        std::string windowName = ss.str();
+        if (ImGui::Selectable(windowName.c_str(), selected)) {
+          m_selectedId = id;
+        }
+      }
+
+      ImGui::ListBoxFooter();
     }
-    CurrentObjectsList.append(std::to_string(m_factory->GetRenderables()->size()));
-    AEGfxPrint(10, 80, 0xFFFFFFFF, CurrentObjectsList.c_str());
+
+    ImGui::End();
+
+    if (m_selectedId != -1) {
+      auto object = m_factory->GetObjectAt(m_selectedId);
+      if (object != nullptr) {
+        std::stringstream ss;
+        ss << "Inspector " << std::to_string(object->GetId()) << ": " << object->GetName();
+        std::string windowName = ss.str();
+
+        ImGui::Begin(windowName.c_str());
+        object->DebugWindow();
+        ImGui::End();
+      }else {
+        m_selectedId = -1;
+      }
+    }
   }
 #endif
 }
 
-}
+} // namespace Sigma

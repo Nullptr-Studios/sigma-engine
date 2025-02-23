@@ -12,7 +12,6 @@
 #include "aecore/AEGraphics.h"
 #include "core.hpp"
 
-
 namespace Sigma {
 
 /**
@@ -32,6 +31,7 @@ public:
   void Init() override { Object::Init(); };
   void Start() override { Object::Start(); };
   void Update(double delta) override { Object::Update(delta); };
+  void DebugWindow() override;
   void Draw() override { Object::Draw(); };
   void Destroy() override { Object::Destroy(); };
 
@@ -109,6 +109,9 @@ private:
   glm::vec4 m_tint;
 
   unsigned m_color = AE_COLORS_WHITE;
+
+  float m_color4[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+  
 };
 
 } // namespace Sigma
