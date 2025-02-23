@@ -22,7 +22,7 @@ enum DamageType : int {
  */
 class DamageEvent : public Collision::CollisionEvent {
   float m_damageAmount;
-  float m_knockbackAmount;
+  glm::vec2 m_knockbackAmount;
   DamageType m_damageType;
 
 public:
@@ -37,11 +37,11 @@ public:
    * @param damageType Type of damage dealt to receiver
    *
    */
-  DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount, const float knockback, DamageType damageType)
+  DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount, const glm::vec2 knockback, DamageType damageType)
     : CollisionEvent(receiver, other, type), m_damageAmount(damageAmount),m_knockbackAmount(knockback), m_damageType(damageType) {}
 
   [[nodiscard]] float GetDamageAmount() const {return m_damageAmount;}  ///< @brief Gets the amount of damage dealt
-  [[nodiscard]] float GetKnockbackAmount() const {return m_knockbackAmount;}  ///< @brief Gets the amount of knockback dealt
+  [[nodiscard]] glm::vec2 GetKnockbackAmount() const {return m_knockbackAmount;}  ///< @brief Gets the amount of knockback dealt
   [[nodiscard]] DamageType GetDamageType() const {return m_damageType;} ///< @brief Gets type of damage dealt
   void SetDamageType(const DamageType dType) {m_damageType = dType; } ///< @brief Sets damage type to either PHYSICAL or THROW
 

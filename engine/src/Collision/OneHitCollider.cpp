@@ -8,7 +8,7 @@
 
 namespace Sigma::Collision {
 
-void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage,float knockback, Sigma::Object *owner, bool debugDraw) {
+void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage,glm::vec2 knockback, Sigma::Object *owner, bool debugDraw) {
   transform.position = position;
   if (debugDraw) {
     //auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);

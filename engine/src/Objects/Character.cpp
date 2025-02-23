@@ -93,18 +93,18 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
     m_animComp->SetCurrentAnim("Hit1");
     m_isIdle = false;
     // THIS IS WHERE THE OTHER HITS YOU
-    std::cout << GetName();
-    std::cout << "KNOCKBACK" << e.GetKnockbackAmount() << '\n';
-    TakeKnockback(e.GetKnockbackAmount(),(transform.position.x < e.GetOther()->transform.position.x)?-1:1);
+    glm::vec2 knockback = e.GetKnockbackAmount();
+    knockback.x *= e.GetOther()->transform.relativeScale.x;
+    TakeKnockback(knockback);
   }
 }
 
-void Character::TakeKnockback(float knockback, char direction) {
-  if (knockback == 0 || isJumping) {
+void Character::TakeKnockback(glm::vec2 knockback) {
+  if ((knockback.x == 0 && knockback.y == 0)|| isJumping) {
     return;
   }
-  velocity.y = knockback;
-  velocity.x = knockback * direction;
+  velocity.x = knockback.x;
+  velocity.y = knockback.y;
   isJumping = true;
   m_movementYFloor = transform.position.y;
 }
@@ -131,7 +131,8 @@ void LoadCombo(std::vector<Combat::Move> *combo, json_t j, const std::string &js
     // combo->operator[]() is diabolical -x
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-    combo->operator[](i).knockback = move["knockback"];
+    combo->operator[](i).knockback.x = move["knockback"]["x"];
+    combo->operator[](i).knockback.y = move["knockback"]["y"];
     combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
     combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
     combo->operator[](i).animationName = move["animationName"];
@@ -374,7 +375,7 @@ void Character::SuperAttack() {
   }
 }
 
-void Character::SetCollider(const float damage,const float knockback, const glm::vec3 size, const glm::vec2 offset) {
+void Character::SetCollider(const float damage,const glm::vec2 knockback, const glm::vec3 size, const glm::vec2 offset) {
   float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
   glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
   m_attackCollider->Do(position, size, damage,knockback, this, true);
