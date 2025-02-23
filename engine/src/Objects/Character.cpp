@@ -30,6 +30,10 @@ void Character::Init() {
   m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
                           { OnSuperHit(animName, frame, loop); });
 
+  m_animComp->AddCallback("Grab", [this](std::string animName, unsigned short frame, bool loop)
+                          { OnGrab(animName, frame, loop); });
+  
+
   // Tries to get Scene Bounds
   auto *scene = (GET_SCENE(0));
   if (scene->m_sceneBoundsPoly == nullptr)
@@ -73,7 +77,6 @@ void Character::DebugWindow() {
   Damageable::DebugWindow();
 
   if (ImGui::CollapsingHeader("Character")) {
-
     ImGui::DragFloat2("Current velocity", &velocity.x);
     ImGui::DragFloat("Max speed", &maxSpeed);
     ImGui::DragFloat("Acceleration rate", &accelerationRate);
@@ -82,21 +85,40 @@ void Character::DebugWindow() {
     ImGui::DragFloat("Gravity", &gravity);
     ImGui::DragFloat("Terminal velocity", &terminalVel);
   }
+
+  if (ImGui::CollapsingHeader("Moveset")) {
+    ImGui::Checkbox("Draw debug hit collider", &m_drawDebugCollider);
+  }
 }
 
 void Character::OnDamage(const Damage::DamageEvent &e) {
   Damageable::OnDamage(e);
 
-  // Hit feedback anim
-  if (e.GetOther() != this) {
+  if (e.GetOther() == this)
+    return;
+
+  if (e.GetDamageType() == Damage::DAMAGE) {
+    // Hit feedback anim
+    // TODO: Change to support more animations -d
     m_currentComboAnimName = "Hit1";
     m_animComp->SetCurrentAnim("Hit1");
     m_isIdle = false;
+  }else if (e.GetDamageType() == Damage::GRAB){ // Grab
+    // m_currentComboAnimName = "Grabbed";
+    m_animComp->SetCurrentAnim("Grabbed");
+    auto player = dynamic_cast<Character*>(e.GetOther());
+    if (player != nullptr) {
+      SetGrabbedObject(player);
+    }
+    m_isIdle = false;
+  }else { //throw
+    
     // THIS IS WHERE THE OTHER HITS YOU
     glm::vec2 knockback = e.GetKnockbackAmount();
     knockback.x *= e.GetOther()->transform.relativeScale.x;
     TakeKnockback(knockback);
   }
+  
 }
 
 void Character::TakeKnockback(glm::vec2 knockback) {
@@ -295,7 +317,8 @@ void Character::UpdateCombat(double delta) {
 }
 
 void Character::CurrentAnimationEnd(std::string &animName) {
-  if (animName == m_currentComboAnimName) {
+  // don´t stop the grab if the animation ends
+  if (animName == m_currentComboAnimName && m_currentMove.type != Combat::MoveType::GRB) {
     m_isIdle = true;
     m_animComp->SetCurrentAnim("Idle");
   }
@@ -315,14 +338,7 @@ void Character::BasicAttack() {
   // FIXME: This is a temporary fix -d
   if (!isJumping) {
     auto move = m_basicDefault[m_basicCombo];
-    m_currentComboAnimName = move.animationName;
-    m_animComp->SetCurrentAnim(move.animationName);
-
-#ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-#endif
-  } else {
-    auto move = m_basicAir[m_basicCombo];
+    m_currentMove = move;
     m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
 
@@ -358,16 +374,9 @@ void Character::SuperAttack() {
 #ifdef ATTACK_DEBUG
     std::cout << "[Attack] " << move.animationName << "\n";
 #endif
-  } else {
-    auto move = m_superAir[m_basicCombo];
-    m_currentComboAnimName = move.animationName;
-    m_animComp->SetCurrentAnim(move.animationName);
-
-#ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-#endif
   }
 
+  m_superCombo++;
 
   if (m_superCombo >= m_superDefault.size()) {
     ResetSuper();
@@ -375,10 +384,10 @@ void Character::SuperAttack() {
   }
 }
 
-void Character::SetCollider(const float damage,const glm::vec2 knockback, const glm::vec3 size, const glm::vec2 offset) {
+void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
   float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
   glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
-  m_attackCollider->Do(position, size, damage,knockback, this, true);
+  m_attackCollider->Do(position, size, damage, this, true);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two
@@ -389,14 +398,30 @@ void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loo
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping ? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
   m_superCombo++;
-  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 
 // SUPER HIT
 void Character::OnSuperHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
-  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
+  auto move = isJumping ? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+}
+
+// Grab
+void Character::OnGrab(std::string &animName, unsigned short frame, bool loop) {
+  auto move = m_currentMove;
+
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::GRAB);
+}
+
+// Throw
+void Character::ThrowGrabbedCharacter(std::string &animName, unsigned short frame, bool loop) {
+  auto move = m_currentMove;
+  if (m_grabbedCharacter != nullptr) {
+    m_grabbedCharacter->OnDamage(Damage::DamageEvent(m_grabbedCharacter->GetId(), this,Collision::DAMAGE, move.damage, Damage::THROW, move.throwForce));
+    m_grabbedCharacter = nullptr;
+  }
 }
 #pragma endregion
 

@@ -43,6 +43,8 @@ public:
       m_isAlive = false;
       OnDed();
     }
+
+    std::cout << GetName() << " took " << e.GetDamageAmount() << " damage of type: " << e.GetDamageType() << "\n";
     
   };
 

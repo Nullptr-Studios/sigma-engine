@@ -13,7 +13,8 @@ namespace Sigma::Damage {
 
 enum DamageType : int {
   DAMAGE,
-  THROW
+  GRAB,
+  THROW,
 };
 
 /**
@@ -35,6 +36,7 @@ public:
    * @param damageAmount Amount of damage dealt to receiver
    * @param knockback amount of knockback
    * @param damageType Type of damage dealt to receiver
+   * @param throwForce Force to throw the enemy
    *
    */
   DamageEvent(id_t receiver, Object* other, Collision::ColliderType type, float damageAmount, const glm::vec2 knockback, DamageType damageType)

@@ -53,11 +53,14 @@ struct Move {
   glm::vec2 knockback{};
   glm::vec2 colliderOffset{};
   glm::vec3 colliderSize{};
+  
   std::string animationName;
+
+  glm::vec2 throwForce = glm::vec2(0.0f); ///< @brief Force to throw the enemy
 
   /**
    * @brief Empty constructor
-   * This generates an empty move struct, only used for develompemt purposes
+   * This generates an empty move struct, only used for development purposes
    */
   Move() {
     type = DMG;
@@ -78,6 +81,7 @@ struct Move {
    * @param offset Defines the offset of the collider
    * @param size Defines the collider
    * @param animation Path of the animation for the move
+   * @param throwForce Force to throw the enemy
    */
   Move(const MoveType type, const float damage,const glm::vec2 knockback, const glm::vec2 offset, const glm::vec3 size,
        const std::string &animation) {
@@ -87,6 +91,7 @@ struct Move {
     colliderOffset = offset;
     colliderSize = size;
     animationName = animation;
+    this->throwForce = throwForce;
   }
 };
 
@@ -132,14 +137,14 @@ public:
   void BasicAttack();
   void SuperAttack();
 
+  [[nodiscard]] Character* GetGrabbedObject() const { return m_grabbedCharacter; }
+  void SetGrabbedObject(Character* character) { m_grabbedCharacter = character; }
 
-  bool GetIsIdle() { return m_isIdle; } ///< @brief Returns whether the character is idle or not
-
+  [[nodiscard]] bool GetIsIdle() const { return m_isIdle; } ///< @brief Returns whether the character is idle or not
 
 private:
   void CurrentAnimationEnd(std::string& animName);
 
-  void DoHit(std::string animName, unsigned short frame, bool loop);
 
 protected:
   std::string m_jsonPath;
@@ -175,6 +180,9 @@ protected:
   // Animation callbacks
   void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
   void OnSuperHit(std::string& animName, unsigned short frame, bool loop);
+  void OnGrab(std::string& animName, unsigned short frame, bool loop);
+
+  void ThrowGrabbedCharacter(std::string& animName, unsigned short frame, bool loop);
 
   virtual void OnFullComboPerformed() { } ///< @brief This function is called when a character successfully ends a combo
 
@@ -190,7 +198,7 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage,glm::vec2 knockback, glm::vec3 size, glm::vec2 offset);
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset);
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;
@@ -208,6 +216,12 @@ protected:
 
   double m_hitTimer = 0.0f;
   double m_restartTime = 1.0f;
+
+  bool m_drawDebugCollider = false;
+
+  Combat::Move m_currentMove;
+
+  Character* m_grabbedCharacter = nullptr;
 #pragma endregion
   
 };

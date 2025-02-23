@@ -8,11 +8,11 @@
 
 namespace Sigma::Collision {
 
-void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage,glm::vec2 knockback, Sigma::Object *owner, bool debugDraw) {
+void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float damage, Sigma::Object *owner, Damage::DamageType damageType, glm::vec2 knockback, bool debugDraw) {
   transform.position = position;
   if (debugDraw) {
-    //auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);
-    //d->SetTexture("assets/core/debug_yellow.png");
+    auto d = GET_FACTORY->CreateObject<ColisionVisualizer>("DebugCollider", position, size, 1.0f);
+    d->SetTexture("assets/core/debug_yellow.png");
   }
 
   // Create collider
@@ -21,6 +21,7 @@ void OneHitCollider::Do(const glm::vec3 &position, const glm::vec3 &size, float 
   m_collider->knockback = knockback;
   m_collider->SetOwner(owner);
   m_collider->enabled = true;
+  m_collider->damageType = damageType;
 
   SetStartHandled(false);
 }
