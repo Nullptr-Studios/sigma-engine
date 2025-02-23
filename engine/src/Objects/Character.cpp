@@ -63,7 +63,6 @@ void Character::Update(double delta) {
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
 
-
   m_animComp->Update(delta);
 }
 void Character::Destroy() {
@@ -123,7 +122,6 @@ void Character::Serialize() {
   // Load character variables
   maxSpeed = j["maxSpeed"];
   accelerationRate = j["accelerationRate"];
-  jumpVel = j["jumpVel"];
   friction = j["friction"];
   SetMaxHealth(j["maxHealth"]);
 
@@ -148,9 +146,10 @@ void Character::Serialize() {
 void Character::Move(glm::vec2 direction) {
 
   // This damping makes it feel better -x
-  direction.y *= 0.78f;
+  float yDamp = 0.78f;
+  direction.y *= yDamp;
 
-  if (!isJumping) {
+  if (!isDashing) {
     velocity.x += direction.x * (accelerationRate);
     velocity.y += direction.y * (accelerationRate);
 
@@ -158,46 +157,41 @@ void Character::Move(glm::vec2 direction) {
     float speed = glm::length(velocity);
     if (speed > maxSpeed)
       velocity = glm::normalize(velocity) * maxSpeed;
+
   } else {
-    velocity.x += direction.x * (accelerationRate * AEGetFrameRate());
-    velocity.x = glm::clamp(velocity.x, -maxSpeed, maxSpeed);
+      velocity = glm::normalize(velocity) * dashVel;
+      if (abs(velocity.x)<= 0.01f) {velocity.y *= yDamp;}
   }
 }
 
-void Character::Jump() {
-  if (!isJumping) {
-    velocity.y = jumpVel;
-    isJumping = true;
-    m_movementYFloor = transform.position.y;
-
+void Character::Dash() {
+  if (!isDashing && dashTimer >= dashCool) {
+    isDashing = true;
+    oldVelocity = velocity;
+    dashTimer = 0.f;
     // Break combo cuz if not it could crash the game -d
   }
 }
 
 void Character::UpdateMovement(double delta) {
-  // Apply gravity
-  if (isJumping) {
-    velocity.y += gravity * delta;
-    velocity.y = glm::clamp(velocity.y, -terminalVel, terminalVel);
-  }
 
-  // Apply deceleration when no input is given in X axis
-  if (std::abs(velocity.x) > 0.01f) {
-    if (velocity.x > 0) {
-      velocity.x -= friction * delta;
-      if (velocity.x < 0)
-        velocity.x = 0;
-      // glm::max(velocity.x, 0.0f);
-    } else {
-      velocity.x += friction * delta;
-      if (velocity.x > 0)
-        velocity.x = 0;
-      // glm::min(velocity.x, 0.0f);
+  if (!isDashing) {
+    // Apply deceleration when no input is given in X axis
+    if (std::abs(velocity.x) > 0.01f) {
+      if (velocity.x > 0) {
+        velocity.x -= friction * delta;
+        if (velocity.x < 0)
+          velocity.x = 0;
+        // glm::max(velocity.x, 0.0f);
+      } else {
+        velocity.x += friction * delta;
+        if (velocity.x > 0)
+          velocity.x = 0;
+        // glm::min(velocity.x, 0.0f);
+      }
     }
-  }
 
-  // Apply deceleration when no input is given in Y axis
-  if (!isJumping) {
+    // Apply deceleration when no input is given in Y axis
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
         velocity.y -= friction * delta;
@@ -215,20 +209,16 @@ void Character::UpdateMovement(double delta) {
 
   // Calculate if in bounds
   if (m_sceneBoundsPoly != nullptr) {
-    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
+    glm::vec2 newPos = transform.position;
 
     newPos.x += velocity.x * delta;
     if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
       velocity.x = 0.0f;
     }
 
-    if (!isJumping) {
-      newPos = transform.position;
-
-      newPos.y += velocity.y * delta;
-      if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
-        velocity.y = 0.0f;
-      }
+    newPos.y += velocity.y * delta;
+    if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
+      velocity.y = 0.0f;
     }
   }
 
@@ -236,15 +226,17 @@ void Character::UpdateMovement(double delta) {
   transform.position.x += velocity.x * delta;
   transform.position.y += velocity.y * delta;
 
-  // Ground collision
-  if (isJumping && transform.position.y <= m_movementYFloor) {
-    transform.position.y = m_movementYFloor;
-    velocity.y = 0;
-    isJumping = false;
+  // Dash timing
+  dashTimer += delta;
+
+  if (isDashing && dashTimer >= dashTime) {
+    velocity = oldVelocity;
+    isDashing = false;
+    dashTimer = 0.0f;
   }
 
   // Update Z
-  if (!isJumping) transform.position.z = -transform.position.y;
+  transform.position.z = -transform.position.y;
 }
 #pragma endregion
 
@@ -274,6 +266,7 @@ void Character::CurrentAnimationEnd(std::string& animName) {
 
 void Character::BasicAttack() {
   if (!m_isIdle) return;
+  if (isDashing) return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -283,23 +276,14 @@ void Character::BasicAttack() {
 
   // The game crashes when the player is jumping while in the middle of a combo -d
   // FIXME: This is a temporary fix -d
-  if (!isJumping) {
-    auto move = m_basicDefault[m_basicCombo];
-    m_currentComboAnimName = move.animationName;
-    m_animComp->SetCurrentAnim(move.animationName);
- 
-    #ifdef ATTACK_DEBUG
-      std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
-  } else {
-    auto move = m_basicAir[m_basicCombo];
-    m_currentComboAnimName = move.animationName;
-    m_animComp->SetCurrentAnim(move.animationName);
 
-    #ifdef ATTACK_DEBUG
-      std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
-  }
+  auto move = m_basicDefault[m_basicCombo];
+  m_currentComboAnimName = move.animationName;
+  m_animComp->SetCurrentAnim(move.animationName);
+ 
+  #ifdef ATTACK_DEBUG
+  std::cout << "[Attack] " << move.animationName << "\n";
+  #endif
 
   m_basicCombo++;
 
@@ -312,6 +296,7 @@ void Character::BasicAttack() {
 
 void Character::SuperAttack() {
   if (!m_isIdle) return;
+  if (isDashing) return;
 
   m_inCombo = true;
   m_isIdle = false;
@@ -319,24 +304,13 @@ void Character::SuperAttack() {
 
   m_hitTimer = 0;
 
-  if (!isJumping) {
-    auto move = m_superDefault[m_basicCombo];
-    m_currentComboAnimName = move.animationName; 
-    m_animComp->SetCurrentAnim(move.animationName);
+  auto move = m_superDefault[m_basicCombo];
+  m_currentComboAnimName = move.animationName;
+  m_animComp->SetCurrentAnim(move.animationName);
  
-    #ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
-  } else {
-    auto move = m_superAir[m_basicCombo];
-    m_currentComboAnimName = move.animationName;
-    m_animComp->SetCurrentAnim(move.animationName);
-
-    #ifdef ATTACK_DEBUG
-    std::cout << "[Attack] " << move.animationName << "\n";
-    #endif
-  }
-  
+  #ifdef ATTACK_DEBUG
+  std::cout << "[Attack] " << move.animationName << "\n";
+  #endif
 
   if (m_superCombo >= m_superDefault.size()) {
     ResetSuper();
@@ -355,7 +329,7 @@ void Character::SetCollider(const float damage, const glm::vec3 size, const glm:
 // BASIC HIT
 void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
+  auto move = m_basicDefault[m_basicCombo];
   m_superCombo++;
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
@@ -363,7 +337,7 @@ void Character::OnBasicHit(std::string& animName, unsigned short frame, bool loo
 //SUPER HIT
 void Character::OnSuperHit(std::string& animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
+  auto move =  m_superDefault[m_superCombo];
   SetCollider(move.damage, move.colliderSize, move.colliderOffset);
 }
 #pragma endregion
