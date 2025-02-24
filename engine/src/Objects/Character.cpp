@@ -92,7 +92,21 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
     m_currentComboAnimName = "Hit1";
     m_animComp->SetCurrentAnim("Hit1");
     m_isIdle = false;
+    // THIS IS WHERE THE OTHER HITS YOU
+    glm::vec2 knockback = e.GetKnockbackAmount();
+    knockback.x *= e.GetOther()->transform.relativeScale.x;
+    TakeKnockback(knockback);
   }
+}
+
+void Character::TakeKnockback(glm::vec2 knockback) {
+  if ((knockback.x == 0 && knockback.y == 0)|| isJumping) {
+    return;
+  }
+  velocity.x = knockback.x;
+  velocity.y = knockback.y;
+  isJumping = true;
+  m_movementYFloor = transform.position.y;
 }
 
 glm::mat3 *Character::GetTextureTransform() {
@@ -117,9 +131,10 @@ void LoadCombo(std::vector<Combat::Move> *combo, json_t j, const std::string &js
     // combo->operator[]() is diabolical -x
     combo->operator[](i).type = Combat::GetMoveType(move["type"]);
     combo->operator[](i).damage = move["damage"];
-    combo->operator[](i).colliderOffset = {move["colliderOffset"]["x"], move["colliderOffset"]["y"]};
-    combo->operator[](i).colliderSize = {move["colliderSize"]["x"], move["colliderSize"]["y"],
-                                         move["colliderSize"]["z"]};
+    combo->operator[](i).knockback.x = move["knockback"]["x"];
+    combo->operator[](i).knockback.y = move["knockback"]["y"];
+    combo->operator[](i).colliderOffset = { move["colliderOffset"]["x"], move["colliderOffset"]["y"] };
+    combo->operator[](i).colliderSize = { move["colliderSize"]["x"], move["colliderSize"]["y"], move["colliderSize"]["z"] };
     combo->operator[](i).animationName = move["animationName"];
   }
 }
@@ -360,10 +375,10 @@ void Character::SuperAttack() {
   }
 }
 
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
+void Character::SetCollider(const float damage,const glm::vec2 knockback, const glm::vec3 size, const glm::vec2 offset) {
   float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
   glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
-  m_attackCollider->Do(position, size, damage, this, true);
+  m_attackCollider->Do(position, size, damage,knockback, this, true);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two
@@ -374,14 +389,14 @@ void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loo
   // Sets the current move to jumping or not according if the player isJumping or not -x
   auto move = isJumping ? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
   m_superCombo++;
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 
 // SUPER HIT
 void Character::OnSuperHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping ? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+  auto move = isJumping? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
+  SetCollider(move.damage,move.knockback, move.colliderSize, move.colliderOffset);
 }
 #pragma endregion
 
