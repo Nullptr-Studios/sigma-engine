@@ -9,6 +9,8 @@
 #pragma once
 #include "Object.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
+#include "aecore/AEGraphics.h"
+#include "core.hpp"
 
 namespace Sigma {
 
@@ -22,7 +24,9 @@ namespace Sigma {
 class Actor : public Object {
 public:
   explicit Actor(id_t id) : Object(id) {}
-  ~Actor() override = default;
+  ~Actor() override {
+    if (m_mesh) AEGfxTriFree(m_mesh);
+  };
 
   void Init() override { Object::Init(); };
   void Start() override { Object::Start(); };
@@ -61,9 +65,14 @@ public:
   [[nodiscard]]
   virtual glm::mat3 *GetTextureTransform();
 
-  // TODO: Modulation color does not actually work idunno why -d
-  void SetModulationColor(unsigned newColor) { m_color = newColor; }
-  [[nodiscard]] unsigned GetModulationColor() const { return m_color; }
+  glm::vec4 GetTint() const { return m_tint; }
+  unsigned GetTintAEX() const { return AEGfxColor(m_tint.r * 255, m_tint.g * 255, m_tint.b *255, m_tint.a * 255); }
+  inline void SetTint(glm::vec4 color) {
+    if (!m_mesh) CreateMesh();
+    m_tint = color;
+  }
+
+  AEGfxTriList* GetMesh() { return m_mesh; }
 
   /**
    * @brief checks if an actor is in view bounds
@@ -84,8 +93,20 @@ protected:
   glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix
 
 private:
+  void CreateMesh() {
+    AEGfxTriStart();
+    AEGfxTriAdd(-0.5f, -0.5f, AE_COLORS_WHITE, 0.0f, 0.0f, -0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, -0.5f,
+                AE_COLORS_WHITE, 1.0f, 0.0f);
+    AEGfxTriAdd(-0.5f, 0.5f, AE_COLORS_WHITE, 0.0f, 1.0f, 0.5f, 0.5f, AE_COLORS_WHITE, 1.0f, 1.0f, 0.5f, -0.5f,
+                AE_COLORS_WHITE, 1.0f, 0.0f);
+
+    m_mesh = AEGfxTriEnd();
+  }
+
   const char *m_texturePath = nullptr;
   AEGfxTexture *m_texture = nullptr;
+  AEGfxTriList* m_mesh = nullptr;
+  glm::vec4 m_tint;
 
   unsigned m_color = AE_COLORS_WHITE;
 
