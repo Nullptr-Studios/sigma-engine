@@ -250,6 +250,8 @@ void GameManager::Run() {
       AEGfxTextureSet(actor->GetTexture());
       auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
       AEGfxSetTextureTransform(&textureTransform);
+    
+      AEGfxEnableModulationColor(true);
       AEGfxSetModulationColor(actor->GetTintAEX());
 
       auto mesh = actor->GetMesh() ? actor->GetMesh() : m_factory->GetSharedTriList();
