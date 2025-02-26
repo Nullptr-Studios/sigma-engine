@@ -13,6 +13,7 @@
 
 namespace Sigma {
 
+float Character::m_bounceDampener = 0.75;
 Character::~Character() = default;
 
 void Character::Init() {
@@ -63,7 +64,7 @@ void Character::Update(double delta) {
 
   Character::UpdateMovement(delta);
   UpdateCombat(delta);
-
+  
 
   m_animComp->Update(delta);
 }
@@ -83,6 +84,7 @@ void Character::DebugWindow() {
     ImGui::DragFloat("Friction", &friction);
     ImGui::DragFloat("Gravity", &gravity);
     ImGui::DragFloat("Terminal velocity", &terminalVel);
+    ImGui::DragFloat("Bounce Dampener", &m_bounceDampener);
   }
 
   if (ImGui::CollapsingHeader("Moveset")) {
@@ -279,7 +281,11 @@ void Character::UpdateMovement(double delta) {
 
     newPos.x += velocity.x * delta;
     if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
-      velocity.x = 0.0f;
+      if (isInAir) {
+        velocity.x *= -m_bounceDampener;
+      } else {
+        velocity.x = 0.0f;
+      }
     }
 
     if (!isInAir) {

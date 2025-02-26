@@ -174,6 +174,7 @@ protected:
   float terminalVel = 700.0f; ///< @brief character terminal velocity
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
   bool isInAir = false; ///< @brief character jump status
+  static float m_bounceDampener;
 
   void PrintStatus() {};
 #pragma endregion
