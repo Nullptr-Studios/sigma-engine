@@ -11,7 +11,7 @@
 
 #include "Factory.hpp"
 #include "Polygon.hpp"
-#include "core.hpp"
+#include "Core.hpp"
 
 
 namespace Sigma {
@@ -82,8 +82,7 @@ public:
    * @return unsigned
    */
   [[nodiscard]] unsigned GetID() const { return m_ID; }
-
-public:
+  
   Sigma::Polygon *m_sceneBoundsPoly{};
 
 private:

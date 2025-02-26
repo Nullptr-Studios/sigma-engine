@@ -104,6 +104,7 @@ void Character::TakeKnockback(glm::vec2 knockback) {
   }
   velocity.x = knockback.x;
   velocity.y = knockback.y;
+  
   //FIXME re-add jump (it never ends jump, knockback only happens once)
   isJumping = true;
   m_movementYFloor = transform.position.y;
@@ -111,7 +112,7 @@ void Character::TakeKnockback(glm::vec2 knockback) {
 
 glm::mat3 *Character::GetTextureTransform() {
   auto mtx = m_animComp->GetTextureMatrix();
-  m_tMtx = glm::FromAEX(mtx);
+  m_tMtx = mtx;
   return &m_tMtx;
 }
 
