@@ -101,7 +101,7 @@ void GameManager::GameInit() {
       }
     }
   }
- 
+
 
 #pragma endregion
 
@@ -246,21 +246,22 @@ void GameManager::Run() {
     auto projAE = AEMtx44::Identity();
     AEGfxSetProjTransform(&projAE);
 
-    // TODO: ModulationColor not working???? -d
-    AEGfxSetModulationColor(actor->GetModulationColor());
-    AEGfxTextureSet(actor->GetTexture());
-    auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
-    AEGfxSetTextureTransform(&textureTransform);
+      // TODO: ModulationColor not working???? -d
+      AEGfxTextureSet(actor->GetTexture());
+      auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
+      AEGfxSetTextureTransform(&textureTransform);
+      AEGfxSetModulationColor(actor->GetTintAEX());
 
-    AEGfxTriDraw(m_factory->GetSharedTriList());
-  }
+      auto mesh = actor->GetMesh() ? actor->GetMesh() : m_factory->GetSharedTriList();
+      AEGfxTriDraw(mesh);
+    }
 
 #if _DEBUG
   auto endDraw = std::chrono::high_resolution_clock::now();
   m_timeRender = endDraw - startDraw;
 #endif
 
-  
+
 #if _DEBUG
   auto startSound = std::chrono::high_resolution_clock::now();
 #endif
@@ -313,7 +314,7 @@ void GameManager::Run() {
     StateManager::SetEngineState(IN_GAME);
   }
   m_scenesToLoad.clear();
-  
+
 
 
 
@@ -376,7 +377,7 @@ void GameManager::OnEvent(Event &e) {
 #pragma region Scene Management
 
 void GameManager::LoadScene(Scene *scene) {
-  
+
   StateManager::SetEngineState(SCENE_LOAD);
 
   if (scene == nullptr) {
@@ -397,7 +398,7 @@ void GameManager::LoadScene(Scene *scene) {
 }
 
 void GameManager::UnloadScene(const char *sceneName) {
-  
+
   StateManager::SetEngineState(SCENE_UNLOAD);
   for (const auto scene: m_loadedScenes) {
     if (scene->GetName() == sceneName) {
@@ -456,7 +457,7 @@ void GameManager::DebugProfiler() {
     m_selectedId = -1;
     return;
   }
-  
+
   if (m_debug) {
     std::string loadedTextures = "Loaded Textures: ";
     loadedTextures.append(std::to_string(AEGfxGetAllocatedTexturesCount()));
@@ -548,7 +549,7 @@ void GameManager::DebugProfiler() {
         m_selectedSceneId = -1;
       }
     }
-    
+
 
     /*std::string CurrentScenes = "Current loaded Scenes: " + std::to_string(m_loadedScenes.size()) + "\n";
 

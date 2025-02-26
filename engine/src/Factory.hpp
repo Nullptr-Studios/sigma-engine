@@ -13,6 +13,7 @@
 #include "Objects/Actor.hpp"
 #include "Objects/Object.hpp"
 #include "StateManager.hpp"
+#include "aecore/AEGraphics.h"
 
 namespace Sigma {
 
@@ -115,7 +116,7 @@ public:
 #pragma endregion
 
   AEGfxFont* LoadFont(const char *filepath, int size); ///< @brief Loads a font
-  
+ 
   [[nodiscard]] AEGfxTriList *GetSharedTriList() const { return m_tris; } ///< @brief Returns the shared TriList
 
   static Factory *GetInstance() {
