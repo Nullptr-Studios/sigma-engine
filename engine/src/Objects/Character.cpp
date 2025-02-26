@@ -208,11 +208,12 @@ void Character::Serialize() {
 void Character::Move(glm::vec2 direction) {
 
   // This damping makes it feel better -x
+  // WTF is this? -d
   direction.y *= 0.78f;
 
   if (!isInAir) {
-    velocity.x += direction.x * (accelerationRate);
-    velocity.y += direction.y * (accelerationRate);
+    velocity.x += (direction.x * (accelerationRate)) * AEGetFrameRate();
+    velocity.y += (direction.y * (accelerationRate)) * AEGetFrameRate();
 
     // Clamp the speed while maintaining direction
     float speed = glm::length(velocity);
