@@ -11,6 +11,9 @@
 
 #ifndef AE_VEC2_H
 #define AE_VEC2_H
+
+#pragma warning(disable : 4996) // disable deprecated warning
+
 // ---------------------------------------------------------------------------
 
 #pragma warning(disable : 4201) // nameless struct warning

@@ -7,7 +7,7 @@
  */
 
 #pragma once
-#include <aecore/AEEngine.h>
+
 #include "glm/fwd.hpp"
 #include "glm/vec2.hpp"
 
@@ -92,7 +92,7 @@ public:
    * @param taW Width of the texture atlas
    * @param taH Height of the texture atlas
    */
-  void BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH);
+  void BuildTextureTransform(glm::mat3 *pTexMtx, float sX, float sY, float sW, float sH, float taW, float taH);
 
   /**
    * @brief Build a texture transform matrix
@@ -100,7 +100,7 @@ public:
    * @param frame Pointer to the frame
    * @param atlas Pointer to the texture atlas
    */
-  void BuildTextureTransform(AEMtx33 *texMtx, const Frame *frame, const TextureAtlas *atlas);
+  void BuildTextureTransform(glm::mat3 *texMtx, const Frame *frame, const TextureAtlas *atlas);
   
   /**
    * @brief Update the sprite offset

@@ -10,7 +10,7 @@
 #include "Object.hpp"
 #include "AnimationSystem/AnimationComponent.hpp"
 #include "aecore/AEGraphics.h"
-#include "core.hpp"
+
 
 namespace Sigma {
 

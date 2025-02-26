@@ -18,7 +18,7 @@
 
 // Alpha Engine includes
 #include <aecore/AEEngine.h>
-#include <core.hpp>
+#include <Core.hpp>
 
 // FMOD includes
 #include <FMOD/fmod.hpp>

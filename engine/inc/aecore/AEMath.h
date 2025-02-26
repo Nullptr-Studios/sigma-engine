@@ -11,6 +11,8 @@
 #ifndef AE_MATH_H
 #define AE_MATH_H
 
+#pragma warning(disable : 4996) // disable deprecated warning
+
 // ---------------------------------------------------------------------------
 
 #ifndef EPSILON

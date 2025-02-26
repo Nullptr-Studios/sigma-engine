@@ -11,7 +11,7 @@
 #include <glm/vec3.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <aecore/imgui/imgui.h>
-#include <core.hpp>
+#include <Core.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 

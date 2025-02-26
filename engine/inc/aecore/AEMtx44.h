@@ -14,6 +14,8 @@
 #undef near
 #undef far
 
+#pragma warning(disable : 4996) // disable deprecated warning
+
 #include "AEVec3.h"
 
 // ---------------------------------------------------------------------------

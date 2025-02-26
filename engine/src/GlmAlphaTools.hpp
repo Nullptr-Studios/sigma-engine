@@ -7,6 +7,9 @@
  */
 
 #pragma once
+
+#pragma warning(disable : 4996)
+
 #include <aecore/AEMtx33.h>
 #include <aecore/AEMtx44.h>
 #include <aecore/AEVec2.h>

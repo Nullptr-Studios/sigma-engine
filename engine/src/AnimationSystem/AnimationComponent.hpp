@@ -7,6 +7,7 @@
  */
 
 #pragma once
+
 #include "AnimationSystem.hpp"
 #include "GlmAlphaTools.hpp"
 #include "pch.hpp" 
@@ -111,7 +112,7 @@ public:
    * @brief Get the texture matrix
    * @return Pointer to the texture matrix
    */
-  [[nodiscard]] AEMtx33 GetTextureMatrix() const { return m_texMtx; }
+  [[nodiscard]] glm::mat3 GetTextureMatrix() const { return m_texMtx; }
 
   /**
    * @brief Get the texture atlas
@@ -194,7 +195,7 @@ private:
    */
   AnimationCallbackMap m_animCallbacks;
 
-  AEMtx33 m_texMtx;
+  glm::mat3 m_texMtx;
   TextureAtlas *m_texAtlas;
   int m_currentFrameIndex = 0;
   double m_frameTime = 0.0;

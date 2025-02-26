@@ -82,7 +82,7 @@ public:
    *
    * @return Scene* pointer to the current scene
    */
-  [[nostdiscard]] std::list<Scene*>* GetCurrentScenes() { return &m_loadedScenes; }
+  [[nodiscard]] std::list<Scene*>* GetCurrentScenes() { return &m_loadedScenes; }
 
   Scene* GetCurrentScene(int ID);
   Scene* GetCurrentScene(const char* name);
