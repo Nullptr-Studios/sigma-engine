@@ -137,7 +137,12 @@ public:
   void SuperAttack();
 
   [[nodiscard]] Character* GetGrabbedObject() const { return m_grabbedCharacter; }
-  void SetGrabbedObject(Character* character) { m_grabbedCharacter = character; }
+  bool SetGrabbedObject(Character* character) {
+    if (m_grabbedCharacter != nullptr)
+      return false;
+    m_grabbedCharacter = character;
+    return true;
+  }
 
   [[nodiscard]] bool GetIsIdle() const { return m_isIdle; } ///< @brief Returns whether the character is idle or not
 
@@ -182,9 +187,11 @@ protected:
   /*void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
   void OnSuperHit(std::string& animName, unsigned short frame, bool loop);*/
 
-  void OnNormalHit(std::string& animName, unsigned short frame, bool loop);
+  void DoHit(std::string &animName, unsigned short frame, bool loop);
+
+  /*void OnNormalHit(std::string& animName, unsigned short frame, bool loop);
   void OnGrab(std::string& animName, unsigned short frame, bool loop);
-  void ThrowGrabbedCharacter(std::string& animName, unsigned short frame, bool loop);
+  void ThrowGrabbedCharacter(std::string& animName, unsigned short frame, bool loop);*/
 
   virtual void OnFullComboPerformed() { } ///< @brief This function is called when a character successfully ends a combo
 
@@ -200,7 +207,8 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset,  Damage::DamageType type = Damage::DAMAGE, glm::vec2 knockback = glm::vec2(0));
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset, Damage::DamageType type = Damage::DAMAGE,
+                   glm::vec2 knockback = glm::vec2(0));
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;

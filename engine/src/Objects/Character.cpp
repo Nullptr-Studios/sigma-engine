@@ -24,13 +24,13 @@ void Character::Init() {
 
   // Basic hit callbacks
   m_animComp->AddCallback("DoHit", [this](std::string animName, unsigned short frame, bool loop)
-                          { OnNormalHit(animName, frame, loop); });
+                          { DoHit(animName, frame, loop); });
 
-  m_animComp->AddCallback("Grab", [this](std::string animName, unsigned short frame, bool loop)
+  /*m_animComp->AddCallback("Grab", [this](std::string animName, unsigned short frame, bool loop)
                           { OnGrab(animName, frame, loop); });
 
   m_animComp->AddCallback("Throw", [this](std::string animName, unsigned short frame, bool loop)
-                          { ThrowGrabbedCharacter(animName, frame, loop); });
+                          { ThrowGrabbedCharacter(animName, frame, loop); });*/
   
 
   // Tries to get Scene Bounds
@@ -105,13 +105,22 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
   }else if (e.GetDamageType() == Damage::GRAB){ // Grab
     // m_currentComboAnimName = "Grabbed";
     m_animComp->SetCurrentAnim("Grabbed");
+    
     auto player = dynamic_cast<Character*>(e.GetOther());
     if (player != nullptr) {
-      SetGrabbedObject(player);
+      if (!player->SetGrabbedObject(this)) {
+        m_isIdle = true;
+        return;
+      }
     }
+
     m_isIdle = false;
   }else { //TODO: throw
-    
+
+    std::cout << "Thrown\n";
+    m_currentComboAnimName = "Hit1";
+    m_animComp->SetCurrentAnim("Hit1");
+    m_isIdle = false;
 
   }
 
@@ -179,9 +188,9 @@ void Character::Serialize() {
   SetMaxHealth(j["maxHealth"]);
 
   LoadCombo(&m_basicDefault, j, "basicCombo");
-  LoadCombo(&m_basicAir, j, "basicAirCombo");
+  //LoadCombo(&m_basicAir, j, "basicAirCombo");
   LoadCombo(&m_superDefault, j, "superCombo");
-  LoadCombo(&m_superAir, j, "superAirCombo");
+  //LoadCombo(&m_superAir, j, "superAirCombo");
 
   // Checks
 #ifdef ATTACK_ERRORS
@@ -314,6 +323,8 @@ void Character::UpdateCombat(double delta) {
 
     m_hitTimer = 0.0f;
     m_inCombo = false;
+    
+    m_isIdle = true;
   }
 }
 
@@ -322,11 +333,13 @@ void Character::CurrentAnimationEnd(std::string &animName) {
   if (animName == m_currentComboAnimName && m_currentMove.type != Combat::MoveType::GRB) {
     m_isIdle = true;
     m_animComp->SetCurrentAnim("Idle");
+  }else if (m_currentMove.type == Combat::MoveType::GRB) {
+    
   }
 }
 
 void Character::BasicAttack() {
-  if (!m_isIdle)
+  if (!m_isIdle && m_currentMove.type != Combat::MoveType::GRB)
     return;
 
   m_inCombo = true;
@@ -394,7 +407,32 @@ void Character::SetCollider(const float damage, const glm::vec3 size, const glm:
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two
 // -x
 
-// BASIC HIT
+// TODO: Expand this -d
+void Character::DoHit(std::string &animName, unsigned short frame, bool loop) {
+
+  auto move = m_currentMove;
+  switch (m_currentMove.type) {
+    case Combat::DMG:
+      SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::DAMAGE, move.knockback);
+    break;
+    case Combat::GRB:
+      m_grabbedCharacter = nullptr;
+      SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::GRAB, move.knockback);
+    break;
+    case Combat::THR:
+      if (m_grabbedCharacter != nullptr) {
+        m_grabbedCharacter->OnDamage(Damage::DamageEvent(m_grabbedCharacter->GetId(), this,Collision::DAMAGE, move.damage, move.knockback, Damage::THROW));
+        m_grabbedCharacter = nullptr;
+      }
+    break;
+    
+    default:
+      std::cerr << "[Attack] Move type not found\n";
+    break;
+  }
+}
+
+/*// BASIC HIT
 void Character::OnNormalHit(std::string &animName, unsigned short frame, bool loop) {
   // Sets the current move to jumping or not according if the player isInAir or not -x
   auto move = m_currentMove;
@@ -415,7 +453,7 @@ void Character::ThrowGrabbedCharacter(std::string &animName, unsigned short fram
     m_grabbedCharacter->OnDamage(Damage::DamageEvent(m_grabbedCharacter->GetId(), this,Collision::DAMAGE, move.damage, move.knockback, Damage::THROW));
     m_grabbedCharacter = nullptr;
   }
-}
+}*/
 #pragma endregion
 
 } // namespace Sigma
