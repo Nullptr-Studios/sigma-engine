@@ -30,7 +30,7 @@ float Float(float min, float max);
  *
  * @param radius [TODO:parameter]
  */
-glm::vec2 Circle(float magnitude, float radius);
+glm::vec2 Circle(float magnitude);
 
 }
 

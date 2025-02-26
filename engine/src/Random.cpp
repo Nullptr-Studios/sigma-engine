@@ -13,7 +13,7 @@ float Random::Float(float min, float max) {
   return (std::rand()/ RAND_MAX) * spread + min;
 }
 
-glm::vec2 Random::Circle(float magnitude, float radius) {
+glm::vec2 Random::Circle(float magnitude) {
   float angle = Random::Float(0,360);
   return {cos(angle)*magnitude,sin(angle)*magnitude};
 }

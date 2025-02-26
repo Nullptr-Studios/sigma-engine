@@ -9,6 +9,12 @@
 #pragma once
 #include "Objects/Object.hpp"
 
+enum CameraShakeType {
+  CONSTANT,
+  EASE_IN,
+  EASE_OUT
+};
+
 namespace Sigma {
 class Camera;
 class CameraController : public Object {
@@ -24,11 +30,20 @@ public:
   
   // void Init() override; latr idk
   void Start() override;
-  // void Update(double deltaTime) override; latr idk
+  void Update(double deltaTime) override;
+  
+  void StartShake(float length, float magnitude, CameraShakeType type);
 
 private:
   static CameraController *m_instance;
   Camera *m_currentCamera{};
+  bool m_isScreenShake = false;
+  float m_ScreenShakeMag{};
+  float m_ScreenShakeTimer{};
+  float m_ScreenShakeLength{};
+  CameraShakeType m_ScreenShakeType{};
+
+  void ScreenShake(float delta);
 };
 
 } // namespace Sigma
