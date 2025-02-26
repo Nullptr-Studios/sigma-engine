@@ -56,7 +56,7 @@ struct Move {
   
   std::string animationName;
 
-  glm::vec2 throwForce = glm::vec2(0.0f); ///< @brief Force to throw the enemy
+  //glm::vec2 throwForce = glm::vec2(0.0f); ///< @brief Force to throw the enemy
 
   /**
    * @brief Empty constructor
@@ -91,7 +91,6 @@ struct Move {
     colliderOffset = offset;
     colliderSize = size;
     animationName = animation;
-    this->throwForce = throwForce;
   }
 };
 
@@ -169,7 +168,7 @@ protected:
   float jumpVel = 2.0f; ///< @brief character jump velocity
   float terminalVel = 700.0f; ///< @brief character terminal velocity
   float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
-  bool isJumping = false; ///< @brief character jump status
+  bool isInAir = false; ///< @brief character jump status
 
   void PrintStatus() {};
 #pragma endregion
@@ -178,10 +177,13 @@ protected:
   void UpdateCombat(double delta);
 
   // Animation callbacks
-  void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
-  void OnSuperHit(std::string& animName, unsigned short frame, bool loop);
-  void OnGrab(std::string& animName, unsigned short frame, bool loop);
 
+  // To this day I still dont wrap my head around why this is needed in two separate funcions, they do the exact same shit xd -d
+  /*void OnBasicHit(std::string& animName, unsigned short frame, bool loop);
+  void OnSuperHit(std::string& animName, unsigned short frame, bool loop);*/
+
+  void OnNormalHit(std::string& animName, unsigned short frame, bool loop);
+  void OnGrab(std::string& animName, unsigned short frame, bool loop);
   void ThrowGrabbedCharacter(std::string& animName, unsigned short frame, bool loop);
 
   virtual void OnFullComboPerformed() { } ///< @brief This function is called when a character successfully ends a combo
@@ -198,7 +200,7 @@ protected:
    * @param size Size of the collider
    * @param offset Offset of the collider
    */
-  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset);
+  void SetCollider(float damage, glm::vec3 size, glm::vec2 offset,  Damage::DamageType type = Damage::DAMAGE, glm::vec2 knockback = glm::vec2(0));
 
   // Structs with info for all the moves
   std::vector<Combat::Move> m_basicDefault;

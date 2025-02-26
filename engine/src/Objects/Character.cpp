@@ -23,15 +23,14 @@ void Character::Init() {
   m_animComp->SetOnAnimationEnd([this](std::string animName) { CurrentAnimationEnd(animName); });
 
   // Basic hit callbacks
-  m_animComp->AddCallback("BasicHit", [this](std::string animName, unsigned short frame, bool loop)
-                          { OnBasicHit(animName, frame, loop); });
-
-  // Super hit callbacks
-  m_animComp->AddCallback("SuperHit", [this](std::string animName, unsigned short frame, bool loop)
-                          { OnSuperHit(animName, frame, loop); });
+  m_animComp->AddCallback("DoHit", [this](std::string animName, unsigned short frame, bool loop)
+                          { OnNormalHit(animName, frame, loop); });
 
   m_animComp->AddCallback("Grab", [this](std::string animName, unsigned short frame, bool loop)
                           { OnGrab(animName, frame, loop); });
+
+  m_animComp->AddCallback("Throw", [this](std::string animName, unsigned short frame, bool loop)
+                          { ThrowGrabbedCharacter(animName, frame, loop); });
   
 
   // Tries to get Scene Bounds
@@ -111,23 +110,25 @@ void Character::OnDamage(const Damage::DamageEvent &e) {
       SetGrabbedObject(player);
     }
     m_isIdle = false;
-  }else { //throw
+  }else { //TODO: throw
     
-    // THIS IS WHERE THE OTHER HITS YOU
-    glm::vec2 knockback = e.GetKnockbackAmount();
-    knockback.x *= e.GetOther()->transform.relativeScale.x;
-    TakeKnockback(knockback);
+
   }
+
+  // THIS IS WHERE THE OTHER HITS YOU
+  glm::vec2 knockback = e.GetKnockbackAmount();
+  knockback.x *= e.GetOther()->transform.relativeScale.x;
+  TakeKnockback(knockback);
   
 }
 
 void Character::TakeKnockback(glm::vec2 knockback) {
-  if ((knockback.x == 0 && knockback.y == 0)|| isJumping) {
+  if ((knockback.x == 0 && knockback.y == 0)|| isInAir) {
     return;
   }
   velocity.x = knockback.x;
   velocity.y = knockback.y;
-  isJumping = true;
+  isInAir = true;
   m_movementYFloor = transform.position.y;
 }
 
@@ -200,7 +201,7 @@ void Character::Move(glm::vec2 direction) {
   // This damping makes it feel better -x
   direction.y *= 0.78f;
 
-  if (!isJumping) {
+  if (!isInAir) {
     velocity.x += direction.x * (accelerationRate);
     velocity.y += direction.y * (accelerationRate);
 
@@ -215,9 +216,9 @@ void Character::Move(glm::vec2 direction) {
 }
 
 void Character::Jump() {
-  if (!isJumping) {
+  if (!isInAir) {
     velocity.y = jumpVel;
-    isJumping = true;
+    isInAir = true;
     m_movementYFloor = transform.position.y;
 
     // Break combo cuz if not it could crash the game -d
@@ -226,7 +227,7 @@ void Character::Jump() {
 
 void Character::UpdateMovement(double delta) {
   // Apply gravity
-  if (isJumping) {
+  if (isInAir) {
     velocity.y += gravity * delta;
     velocity.y = glm::clamp(velocity.y, -terminalVel, terminalVel);
   }
@@ -247,7 +248,7 @@ void Character::UpdateMovement(double delta) {
   }
 
   // Apply deceleration when no input is given in Y axis
-  if (!isJumping) {
+  if (!isInAir) {
     if (std::abs(velocity.y) > 0.01f) {
       if (velocity.y > 0) {
         velocity.y -= friction * delta;
@@ -265,14 +266,14 @@ void Character::UpdateMovement(double delta) {
 
   // Calculate if in bounds
   if (m_sceneBoundsPoly != nullptr) {
-    glm::vec2 newPos = !isJumping ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
+    glm::vec2 newPos = !isInAir ? transform.position : glm::vec2(transform.position.x, m_movementYFloor);
 
     newPos.x += velocity.x * delta;
     if (!m_sceneBoundsPoly->IsPointInside(newPos)) {
       velocity.x = 0.0f;
     }
 
-    if (!isJumping) {
+    if (!isInAir) {
       newPos = transform.position;
 
       newPos.y += velocity.y * delta;
@@ -287,14 +288,14 @@ void Character::UpdateMovement(double delta) {
   transform.position.y += velocity.y * delta;
 
   // Ground collision
-  if (isJumping && transform.position.y <= m_movementYFloor) {
+  if (isInAir && transform.position.y <= m_movementYFloor) {
     transform.position.y = m_movementYFloor;
     velocity.y = 0;
-    isJumping = false;
+    isInAir = false;
   }
 
   // Update Z
-  if (!isJumping)
+  if (!isInAir)
     transform.position.z = -transform.position.y;
 }
 #pragma endregion
@@ -336,7 +337,7 @@ void Character::BasicAttack() {
 
   // The game crashes when the player is jumping while in the middle of a combo -d
   // FIXME: This is a temporary fix -d
-  if (!isJumping) {
+  if (!isInAir) {
     auto move = m_basicDefault[m_basicCombo];
     m_currentMove = move;
     m_currentComboAnimName = move.animationName;
@@ -366,7 +367,7 @@ void Character::SuperAttack() {
 
   m_hitTimer = 0;
 
-  if (!isJumping) {
+  if (!isInAir) {
     auto move = m_superDefault[m_basicCombo];
     m_currentComboAnimName = move.animationName;
     m_animComp->SetCurrentAnim(move.animationName);
@@ -384,42 +385,34 @@ void Character::SuperAttack() {
   }
 }
 
-void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset) {
+void Character::SetCollider(const float damage, const glm::vec3 size, const glm::vec2 offset, Damage::DamageType type, glm::vec2 knockback) {
   float side = std::clamp(transform.relativeScale.x, -1.0f, 1.0f);
   glm::vec3 position = {transform.position.x + offset.x * side, transform.position.y + offset.y, transform.position.z};
-  m_attackCollider->Do(position, size, damage, this, true);
+  m_attackCollider->Do(position, size, damage, this, type, knockback,true);
 }
 
 // The callbacks could be on only one by doing string.contains() but I feel it's better to have them separated onto two
 // -x
 
 // BASIC HIT
-void Character::OnBasicHit(std::string &animName, unsigned short frame, bool loop) {
-  // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping ? m_basicAir[m_basicCombo] : m_basicDefault[m_basicCombo];
-  m_superCombo++;
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
-}
-
-// SUPER HIT
-void Character::OnSuperHit(std::string &animName, unsigned short frame, bool loop) {
-  // Sets the current move to jumping or not according if the player isJumping or not -x
-  auto move = isJumping ? m_superAir[m_superCombo] : m_superDefault[m_superCombo];
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset);
+void Character::OnNormalHit(std::string &animName, unsigned short frame, bool loop) {
+  // Sets the current move to jumping or not according if the player isInAir or not -x
+  auto move = m_currentMove;
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::DAMAGE, move.knockback);
 }
 
 // Grab
 void Character::OnGrab(std::string &animName, unsigned short frame, bool loop) {
   auto move = m_currentMove;
 
-  SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::GRAB);
+  SetCollider(move.damage, move.colliderSize, move.colliderOffset, Damage::GRAB, move.knockback);
 }
 
 // Throw
 void Character::ThrowGrabbedCharacter(std::string &animName, unsigned short frame, bool loop) {
   auto move = m_currentMove;
   if (m_grabbedCharacter != nullptr) {
-    m_grabbedCharacter->OnDamage(Damage::DamageEvent(m_grabbedCharacter->GetId(), this,Collision::DAMAGE, move.damage, Damage::THROW, move.throwForce));
+    m_grabbedCharacter->OnDamage(Damage::DamageEvent(m_grabbedCharacter->GetId(), this,Collision::DAMAGE, move.damage, move.knockback, Damage::THROW));
     m_grabbedCharacter = nullptr;
   }
 }
