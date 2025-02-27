@@ -6,10 +6,10 @@
 
 namespace Sigma {
 
-void UIButton::Init() { UIImage::Init(); }
+void UIButton::Init() { UIElement::Init(); }
 
 void UIButton::Update(double delta) {
-  UIImage::Update(delta);
+  UIElement::Update(delta);
   auto mousePosition = AEGetMouseData().position;
   glm::vec mousePos = glm::FromAEX(mousePosition);
   mousePos = GET_CAMERA->GetCurrentCamera()->ScreenToWorld(mousePos);

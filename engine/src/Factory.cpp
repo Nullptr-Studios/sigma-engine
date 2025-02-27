@@ -17,25 +17,24 @@ void Factory::FlushDestroyQueue() {
     if (m_log)
       std::cout << "[Factory] Destroying object " << m_objects[id]->GetName() << " with ID: " << id << "\n";
 
-    if (m_objects[id]) {
+    if (m_objects.contains(id) && m_objects[id]) {
       m_objects[id]->Destroy();
       m_renderables.erase(std::ranges::remove(m_renderables, id).begin(), m_renderables.end());
       delete m_objects[id];
-
       m_objects.erase(id);
+    }else if (m_UiElements.contains(id) && m_UiElements[id]) {
+      m_UiElements[id]->Destroy();
+      delete m_UiElements[id];
+      m_UiElements.erase(id);
     }
   }
   m_destroyQueue.clear();
 }
 void Factory::DestroyObject(const id_t id) {
-
-  if (m_objects.contains(id)) {
+  
     m_destroyQueue.push_back(id);
     return;
-  }
-
-  if (m_log)
-    std::cout << "[Factory] Object with ID: " << id << " does not exist\n";
+  
 }
 
 void Factory::DestroyObject(const Object *object) {

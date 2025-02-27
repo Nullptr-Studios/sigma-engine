@@ -241,28 +241,71 @@ void GameManager::Run() {
 
     // This is here to avoid alpha engine doing weird shit (hopefully) -x
     // If you see this comment that means my weird idea worked -x
-    auto viewAE = AEMtx44::Identity();
-    AEGfxSetViewTransform(&viewAE);
+    /*auto viewAE = AEMtx44::Identity();
+    AEGfxSetViewTransform(&viewAE);*/
     auto projAE = AEMtx44::Identity();
     AEGfxSetProjTransform(&projAE);
 
-      // TODO: ModulationColor not working???? -d
-      AEGfxTextureSet(actor->GetTexture());
-      auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
-      AEGfxSetTextureTransform(&textureTransform);
-      AEGfxSetModulationColor(actor->GetTintAEX());
-
-      auto mesh = actor->GetMesh() ? actor->GetMesh() : m_factory->GetSharedTriList();
-      AEGfxTriDraw(mesh);
+    AEGfxTextureSet(actor->GetTexture());
+    auto textureTransform = glm::ToAEX(*actor->GetTextureTransform());
+    AEGfxSetTextureTransform(&textureTransform);
+  
+    AEGfxEnableModulationColor(true);
+    AEGfxSetModulationColor(actor->GetTintAEX());
+    auto mesh = actor->GetMesh() ? actor->GetMesh() : m_factory->GetSharedTriList();
+    AEGfxTriDraw(mesh);
     }
 
 #if _DEBUG
   auto endDraw = std::chrono::high_resolution_clock::now();
   m_timeRender = endDraw - startDraw;
+
+  auto startUi = std::chrono::high_resolution_clock::now();
 #endif
 
+  for (const auto &val: *m_factory->GetUIElements() | std::views::values) {
+    if (val == nullptr)
+      continue;
+
+    if (!val->GetStartHandled()) {
+      val->Start();
+      val->SetStartHandled();
+      continue;
+    }
+
+    val->Update(AEGetFrameRate());
+    val->Draw();
+
+    glm::mat4 world = val->transform.GetMatrix4();
+    // cameraMatrices[0] correspond to viewSpace and cameraMatrices[1] correspond to clipSpace
+    auto cameraMatrices = m_cameraController->GetCurrentCamera()->GetCameraMatrix();
+    glm::mat4 matrix = cameraMatrices[1] /* cameraMatrices[0]*/ * world;
+    auto matrixAE = glm::ToAEX(matrix);
+    AEGfxSetTransform(&matrixAE);
+
+    // This is here to avoid alpha engine doing weird shit (hopefully) -x
+    // If you see this comment that means my weird idea worked -x
+    /*auto viewAE = AEMtx44::Identity();
+    AEGfxSetViewTransform(&viewAE);*/
+    auto projAE = AEMtx44::Identity();
+    AEGfxSetProjTransform(&projAE);
+
+    AEGfxTextureSet(val->GetTexture());
+    auto textureTransform = glm::ToAEX(*val->GetTextureTransform());
+    AEGfxSetTextureTransform(&textureTransform);
+  
+    AEGfxEnableModulationColor(true);
+    AEGfxSetModulationColor(val->GetTintAEX());
+    auto mesh = val->GetMesh() ? val->GetMesh() : m_factory->GetSharedTriList();
+    AEGfxTriDraw(mesh);
+    
+  }
 
 #if _DEBUG
+
+  auto endUI = std::chrono::high_resolution_clock::now();
+  m_timeUI = endUI - startUi;
+  
   auto startSound = std::chrono::high_resolution_clock::now();
 #endif
 
@@ -278,11 +321,9 @@ void GameManager::Run() {
   auto endSound = std::chrono::high_resolution_clock::now();
   m_timeSound = endSound - startSound;
 #endif
-
-
+  
   // Debug Profiler
   DebugProfiler();
-
 
   for (auto scene: m_scenesToUnload) {
     scene->Free();
@@ -503,9 +544,13 @@ void GameManager::DebugProfiler() {
     Draw.append(std::to_string(m_timeRender.count()));
     AEGfxPrint(AEGetWindowSize().x - 255, 55, 0xFF00FF00, Draw.c_str());
 
+    std::string UI = "UI:  ";
+    UI.append(std::to_string(m_timeUI.count()));
+    AEGfxPrint(AEGetWindowSize().x - 255, 65, 0xFF00FF00, UI.c_str());
+    
     std::string Sound = "SND: ";
     Sound.append(std::to_string(m_timeSound.count()));
-    AEGfxPrint(AEGetWindowSize().x - 255, 65, 0xFF00FF00, Sound.c_str());
+    AEGfxPrint(AEGetWindowSize().x - 255, 75, 0xFF00FF00, Sound.c_str());
 
 
     auto mouse = AEGetMouseData();

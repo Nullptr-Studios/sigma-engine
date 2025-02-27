@@ -9,9 +9,9 @@
 #include "Objects/Actor.hpp"
 
 namespace Sigma {
-  class UIImage : public Actor {
+  class UIElement : public Actor {
   public:
-    UIImage(id_t id): Actor(id) {}
+    UIElement(id_t id): Actor(id) {}
     void Start() override;
     void Update(double deltaTime) override;
 

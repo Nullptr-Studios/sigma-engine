@@ -13,6 +13,7 @@
 #include "Objects/Actor.hpp"
 #include "Objects/Object.hpp"
 #include "StateManager.hpp"
+#include "UI/UIElement.hpp"
 #include "aecore/AEGraphics.h"
 
 namespace Sigma {
@@ -88,6 +89,8 @@ public:
   T* FindObject(const std::string& name);
   
   ActorList* GetRenderables() { return &m_renderables; } ///< @brief Returns the Renderables map
+
+  std::map<id_t, UIElement*>* GetUIElements() { return &m_UiElements; } ///< @brief Returns the UI Elements list
 
 #pragma endregion
 
@@ -173,6 +176,8 @@ private:
    */
   std::list<id_t> m_destroyQueue;
 
+  std::map<id_t, UIElement*> m_UiElements;
+
   std::unordered_map<std::string, AEGfxFont *> m_fonts;
 };
 
@@ -184,6 +189,7 @@ T* Factory::CreateObject(const std::string& name, Args&&... args)
 {
   T *obj = new T(m_currentId, std::forward<Args>(args)...);
   obj->SetName(name);
+  
   // dont even ask about this -x
   obj->SetCallback(std::bind(m_managerCallback, m_managerInstance, std::placeholders::_1));
   m_currentId++;
@@ -193,10 +199,13 @@ T* Factory::CreateObject(const std::string& name, Args&&... args)
     throw std::runtime_error("Object ID overflow");
   }
 
-  m_objects.emplace(obj->GetId(), dynamic_cast<Object *>(obj));
-
-  if constexpr (std::is_base_of_v<Actor, T>)
-    m_renderables.emplace_back(obj->GetId());
+  if constexpr (std::is_base_of_v<UIElement, T>)
+    m_UiElements.emplace(obj->GetId(), dynamic_cast<UIElement *>(obj));
+  else {
+    m_objects.emplace(obj->GetId(), dynamic_cast<Object *>(obj));
+    if constexpr (std::is_base_of_v<Actor, T>)
+      m_renderables.emplace_back(obj->GetId());
+  }
 
   if (m_log)
     std::cout << "[Factory] Created object " << name << " with ID: " << obj->GetId() << "\n";

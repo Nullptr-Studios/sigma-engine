@@ -25,7 +25,8 @@ class Actor : public Object {
 public:
   explicit Actor(id_t id) : Object(id) {}
   ~Actor() override {
-    if (m_mesh) AEGfxTriFree(m_mesh);
+    if (m_mesh)
+      AEGfxTriFree(m_mesh);
   };
 
   void Init() override { Object::Init(); };
@@ -65,12 +66,9 @@ public:
   [[nodiscard]]
   virtual glm::mat3 *GetTextureTransform();
 
-  glm::vec4 GetTint() const { return m_tint; }
-  unsigned GetTintAEX() const { return AEGfxColor(m_tint.r * 255, m_tint.g * 255, m_tint.b *255, m_tint.a * 255); }
-  inline void SetTint(glm::vec4 color) {
-    if (!m_mesh) CreateMesh();
-    m_tint = color;
-  }
+  [[nodiscard]] glm::vec4 GetTint() const { return m_tint; }
+  [[nodiscard]] unsigned GetTintAEX() const { return AEGfxColor(m_tint.r * 255, m_tint.g * 255, m_tint.b *255, m_tint.a * 255); }
+  void SetTint(glm::vec4 color) { m_tint = color; }
 
   AEGfxTriList* GetMesh() { return m_mesh; }
 
@@ -87,7 +85,7 @@ public:
    * @brief animation component pointer
    * @note Is not initialized by default.
    */
-  std::unique_ptr<Animation::AnimationComponent> m_animComp;
+  std::unique_ptr<Animation::AnimationComponent> m_animComp = nullptr;
 
 protected:
   glm::mat3 m_tMtx = glm::mat3(1.0f); ///< @brief Texture Matrix
@@ -103,8 +101,8 @@ private:
     m_mesh = AEGfxTriEnd();
   }
 
-  const char *m_texturePath = nullptr;
-  AEGfxTexture *m_texture = nullptr;
+  const char* m_texturePath = nullptr;
+  AEGfxTexture* m_texture = nullptr;
   AEGfxTriList* m_mesh = nullptr;
   glm::vec4 m_tint;
 

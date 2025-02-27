@@ -7,11 +7,11 @@
  * @note make sure to set the m_progress and transform.scale during creation
  */
 #pragma once
-#include "UIImage.hpp"
+#include "UIElement.hpp"
 namespace Sigma {
-class UIProgressBar : public UIImage{
+class UIProgressBar : public UIElement{
 public:
-  explicit UIProgressBar(id_t id): UIImage(id) {}
+  explicit UIProgressBar(id_t id): UIElement(id) {}
   void Start() override;
   void Update(double delta) override;
   

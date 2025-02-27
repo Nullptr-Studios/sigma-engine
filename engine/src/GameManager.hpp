@@ -106,6 +106,7 @@ private:
   std::chrono::duration<double> m_timeCollisions = {};
   std::chrono::duration<double> m_timeTick = {};
   std::chrono::duration<double> m_timeRender = {};
+  std::chrono::duration<double> m_timeUI = {};
   std::chrono::duration<double> m_timeSound = {};
 
   

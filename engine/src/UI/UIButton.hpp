@@ -6,11 +6,11 @@
  * @brief UI button for making things happen
  */
 #pragma once
-#include "UIImage.hpp"
+#include "UIElement.hpp"
 namespace Sigma {
-  class UIButton : public UIImage {
+  class UIButton : public UIElement {
   public:
-    explicit UIButton(id_t id): UIImage(id) {}
+    explicit UIButton(id_t id): UIElement(id) {}
 
     void Init() override;
 
