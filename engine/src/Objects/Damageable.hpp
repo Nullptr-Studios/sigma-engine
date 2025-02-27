@@ -85,10 +85,7 @@ public:
    *
    * @param health Health to set
    */
-  void SetHealth(const float health) {
-    m_health = health;
-  }
-  
+  void SetHealth(float health) { m_health = std::min(health, m_maxHealth); }
   void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
 
 protected:

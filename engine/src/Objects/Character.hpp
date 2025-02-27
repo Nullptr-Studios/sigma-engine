@@ -124,7 +124,7 @@ public:
 
 #pragma region MovementSystem
   void Move(glm::vec2 direction);
-  void Jump();
+  void Dash();
 
   glm::vec2 velocity = glm::vec2(0.0f); ///< @brief character velocity
 #pragma endregion
@@ -147,10 +147,6 @@ protected:
 
   Collision::OneHitCollider* m_hitCollider = nullptr;
 
-  [[nodiscard]] float GetHealth() const {return m_health;} ///< @brief returns amount of character health
-  [[nodiscard]] bool GetAlive() const {return m_isAlive;} ///< @brief returns whether character is alive or not
-  void SetHealth(const float health) {m_health = health;} ///< @brief sets character health
-  void SetAlive(const bool alive) {m_isAlive = alive;} ///< @brief sets character alive state
   Polygon *m_sceneBoundsPoly = nullptr; ///< @brief Scene bounds polygon
 
 #pragma region MovementSystem
@@ -159,12 +155,18 @@ protected:
 
   float maxSpeed = 400.0f; ///< @brief character max velocity
   float accelerationRate = 0.10f; ///< @brief character acceleration
-  float gravity = -2000.f;
   float friction = 1050.f; ///< @brief character friction
-  float jumpVel = 2.0f; ///< @brief character jump velocity
-  float terminalVel = 700.0f; ///< @brief character terminal velocity
-  float m_movementYFloor = 0.0f; ///< @brief Y position of the floor
-  bool isJumping = false; ///< @brief character jump status
+  float dashVel = 400.0f; ///< @brief character max dash velocity
+  glm::vec2 oldVelocity; ///< @brief character old velocity for dash
+  float dashTime = 0.1f; ///< @brief character dash time
+  float dashCool = 0.5f; ///< @brief character dash cooldown
+  float dashTimer = 0.f; ///< @brief character dash timer
+  bool isDashing = false; ///< @brief checks if character is in dash
+  bool isJumping = false; ///< @brief checks if character is in jump state
+  float gravity = -5000.0f; ///< @brief character gravity
+  float terminalVel = 1000.0f; ///< @brief character terminal velocity
+
+  float m_movementYFloor; ///< @brief Y floor for character jumping
 
   void PrintStatus() {};
 #pragma endregion

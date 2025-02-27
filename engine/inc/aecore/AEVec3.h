@@ -10,6 +10,9 @@
 
 #ifndef AEX_VEC3_H
 #define AEX_VEC3_H
+
+#pragma warning(disable : 4996) // disable deprecated warning
+
 // ---------------------------------------------------------------------------
 
 #pragma warning(disable : 4201) // nameless struct warning

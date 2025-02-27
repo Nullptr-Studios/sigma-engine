@@ -140,7 +140,7 @@ Sigma::Animation::TextureAtlas *Sigma::Animation::AnimationSystem::GetTextureAtl
   return nullptr;
   
 }
-void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, float sX, float sY, float sW, float sH,
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3 *pTexMtx, float sX, float sY, float sW, float sH,
                                                               float taW, float taH) {
   float correctedY = taH - (sY + sH);
   float vTranslateY = correctedY / taH;
@@ -152,16 +152,21 @@ void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *pTexMtx, 
   float uWidth = (sW / taW);
 
   // Reset to identity
-  AEMtx33Identity(pTexMtx);
+  //AEMtx33Identity(pTexMtx);
+  *pTexMtx = glm::mat3(1.0f);
 
   // Scale
-  AEMtx33ScaleApply(pTexMtx, pTexMtx, uWidth, vHeight);
+  //AEMtx33ScaleApply(pTexMtx, pTexMtx, uWidth, vHeight);
+  auto s = glm::scale(*pTexMtx, glm::vec2(uWidth, vHeight));
 
   // Translate
-  AEMtx33TransApply(pTexMtx, pTexMtx, uTranslateX, vTranslateY);
+  //AEMtx33TransApply(pTexMtx, pTexMtx, uTranslateX, vTranslateY);
+  auto t = glm::translate(*pTexMtx, glm::vec2(uTranslateX, vTranslateY));
+
+  *pTexMtx = t * s;
 }
 
-void Sigma::Animation::AnimationSystem::BuildTextureTransform(AEMtx33 *texMtx, const Frame *frame,
+void Sigma::Animation::AnimationSystem::BuildTextureTransform(glm::mat3 *texMtx, const Frame *frame,
                                                               const TextureAtlas *atlas) {
   BuildTextureTransform(texMtx, frame->framePosition.x, frame->framePosition.y, frame->frameSize.x, frame->frameSize.y,
                         atlas->size.x, atlas->size.y);
