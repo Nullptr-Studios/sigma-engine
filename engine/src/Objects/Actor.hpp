@@ -67,10 +67,7 @@ public:
 
   glm::vec4 GetTint() const { return m_tint; }
   unsigned GetTintAEX() const { return AEGfxColor(m_tint.r * 255, m_tint.g * 255, m_tint.b *255, m_tint.a * 255); }
-  inline void SetTint(glm::vec4 color) {
-    if (!m_mesh) CreateMesh();
-    m_tint = color;
-  }
+  void SetTint(glm::vec4 color) { m_tint = color; }
 
   AEGfxTriList* GetMesh() { return m_mesh; }
 
@@ -106,12 +103,8 @@ private:
   const char *m_texturePath = nullptr;
   AEGfxTexture *m_texture = nullptr;
   AEGfxTriList* m_mesh = nullptr;
-  glm::vec4 m_tint;
+  glm::vec4 m_tint = glm::vec4(1.0f);
 
-  unsigned m_color = AE_COLORS_WHITE;
-
-  float m_color4[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-  
 };
 
 } // namespace Sigma

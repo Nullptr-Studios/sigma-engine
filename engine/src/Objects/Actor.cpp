@@ -33,13 +33,7 @@ void Actor::DebugWindow() {
       ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Color modulation")) {
-      if (ImGui::ColorPicker4("Modulation color", m_color4, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaBar)) {
-        m_color = AEGfxColor(m_color4[0], m_color4[1], m_color4[2], m_color4[3]);
-      }
-      ImGui::TreePop();
-    }
-
+    ImGui::ColorEdit4("Modulation color", &m_tint.r);
   }
 
 }
